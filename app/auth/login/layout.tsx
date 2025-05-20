@@ -1,3 +1,3 @@
-import LoginLayout from '@/lib/ui/layouts/Login.layout';
+import LoginLayout from '@/lib/ui/layouts/login.layout';
 
 export default LoginLayout;
