@@ -34,7 +34,8 @@ export default function LoginPage() {
       >
         <Card
           className={clsx(
-            'w-[320px] h-[320px]',
+            'w-full h-full',
+            'lg:w-[320px] lg:h-[320px]',
             theme === 'dark' && 'bg-black/25',
             theme === 'light' && 'bg-white/50'
           )}
