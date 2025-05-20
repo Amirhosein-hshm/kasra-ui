@@ -1,3 +1,3 @@
-import LoginPage from '@/lib/ui/pages/login.page';
+import LoginPage from '@/ui/pages/login.page';
 
 export default LoginPage;
