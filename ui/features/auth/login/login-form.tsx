@@ -5,16 +5,26 @@ import { Button } from '@/ui/components/button';
 import { Card, CardContent, CardHeader } from '@/ui/components/card';
 import { Label } from '@/ui/components/label';
 import { useForm } from 'react-hook-form';
+import clsx from 'clsx';
+import { useTheme } from 'next-themes';
 
 export default function LoginForm() {
   const form = useForm();
+
+  const { theme } = useTheme();
 
   const handleSubmit = form.handleSubmit((data: any) => {
     console.log(data);
   });
 
   return (
-    <Card className="w-[320px] h-[320px]">
+    <Card
+      className={clsx(
+        'w-[320px] h-[320px]',
+        theme === 'dark' && 'bg-black/25',
+        theme === 'light' && 'bg-white/50'
+      )}
+    >
       <CardHeader>
         <h1 className="text-2xl font-bold font-[vazir-bold] text-center">
           سامانه کسری
@@ -48,7 +58,8 @@ export default function LoginForm() {
                 })}
               />
             </div>
-            <Button type="submit" className="font-[vazir-medium]">
+
+            <Button type="submit" className="mt-[22px] font-[vazir-medium]">
               ارسال کد
             </Button>
           </form>

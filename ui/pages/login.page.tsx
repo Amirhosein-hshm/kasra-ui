@@ -7,7 +7,7 @@ export default function LoginPage() {
       <div className="fixed top-4 right-4">
         <ModeToggle />
       </div>
-      <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+      <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] backdrop-blur-[60px]">
         <LoginForm />
       </div>
     </div>
