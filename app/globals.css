@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -41,6 +41,17 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Aurora Background */
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+    to {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
 }
 
 :root {
@@ -113,10 +124,38 @@
 }
 
 @layer base {
+  @font-face {
+    font-family: vazir;
+    src: url('../public/fonts/Vazir-FD-WOL.ttf');
+  }
+  @font-face {
+    font-family: vazir-light;
+    src: url('../public/fonts/Vazir-Light-FD-WOL.ttf');
+  }
+  @font-face {
+    font-family: vazir-thin;
+    src: url('../public/fonts/Vazir-Thin-FD-WOL.ttf');
+  }
+  @font-face {
+    font-family: vazir-medium;
+    src: url('../public/fonts/Vazir-Medium-FD-WOL.ttf');
+  }
+  @font-face {
+    font-family: vazir-bold;
+    src: url('../public/fonts/Vazir-Bold-FD-WOL.ttf');
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: vazir-light, sans-serif;
+  }
+}
+
+@layer component {
+  button:hover {
+    cursor: pointer;
   }
 }
