@@ -36,8 +36,7 @@ export default function LoginPage() {
           className={clsx(
             'w-full h-full',
             'lg:w-[320px] lg:h-[320px]',
-            theme === 'dark' && 'bg-black/25',
-            theme === 'light' && 'bg-white/50'
+            'bg-white/10'
           )}
         >
           <CardHeader className="relative">
