@@ -19,11 +19,14 @@ export default function OtpForm() {
 
   return (
     <form
-      className="h-full flex flex-col justify-between"
+      className="h-full flex flex-wrap items-center gap-[24px]"
       onSubmit={handleSubmit}
     >
-      <div dir="ltr" className="flex flex-col align-center pt-[44px]">
-        <Label className="mb-[12px] flex justify-end">:کد ارسالی</Label>
+      <div
+        dir="ltr"
+        className="w-full h-fit flex flex-col items-end gap-[16px]"
+      >
+        <Label>:کد ارسالی</Label>
 
         <InputOTP maxLength={6}>
           <InputOTPGroup>
@@ -40,7 +43,7 @@ export default function OtpForm() {
         </InputOTP>
       </div>
 
-      <Button type="submit" className="font-[vazir-medium]">
+      <Button type="submit" className="w-full font-[vazir-medium] self-end">
         ورود
       </Button>
     </form>
