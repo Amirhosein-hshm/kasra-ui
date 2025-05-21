@@ -17,8 +17,6 @@ export default function LoginPage() {
     setStep('login');
   };
 
-  const { theme } = useTheme();
-
   return (
     <div>
       <div className="fixed top-4 right-4">
@@ -53,6 +51,12 @@ export default function LoginPage() {
             <h1 className="text-2xl font-bold font-[vazir-bold] text-center">
               سامانه کسری
             </h1>
+
+            {/* Gradients */}
+            <div className="absolute left-[50%] -bottom-[12px] -translate-x-[50%] bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
+            <div className="absolute left-[50%] -bottom-[12px] -translate-x-[50%] bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
+            <div className="absolute left-[50%] -bottom-[12px] -translate-x-[50%] bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-lg" />
+            <div className="absolute left-[50%] -bottom-[12px] -translate-x-[50%] bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
           </CardHeader>
 
           <CardContent className="px-0 w-full h-full flex justify-center items-center overflow-hidden">
