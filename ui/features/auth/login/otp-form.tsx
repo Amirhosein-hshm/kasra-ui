@@ -1,5 +1,6 @@
 'use client';
 
+import { PATHS } from '@/lib/constants/PATHS';
 import { Button } from '@/ui/components/button';
 import {
   InputOTP,
@@ -8,13 +9,16 @@ import {
   InputOTPSlot,
 } from '@/ui/components/input-otp';
 import { Label } from '@/ui/components/label';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export default function OtpForm() {
+  const router = useRouter();
   const form = useForm();
 
   const handleSubmit = form.handleSubmit((data: any) => {
     console.log(data);
+    router.push(PATHS.general.dashboard);
   });
 
   return (
