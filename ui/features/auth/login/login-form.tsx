@@ -24,7 +24,7 @@ export default function LoginForm({ onSetStep }: Props) {
         <Label htmlFor="national-code">کد ملی</Label>
         <Input
           id="national-code"
-          placeholder="کد ملی"
+          placeholder="1234567890"
           {...form.register('national_code', {
             required: true,
             maxLength: 10,
@@ -37,7 +37,7 @@ export default function LoginForm({ onSetStep }: Props) {
         <Label htmlFor="phone">شماره همراه</Label>
         <Input
           id="phone"
-          placeholder="شماره همراه"
+          placeholder="09000000000"
           {...form.register('phone', {
             required: true,
             maxLength: 11,

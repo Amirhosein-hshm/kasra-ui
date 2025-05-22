@@ -15,7 +15,7 @@ export function ModeToggle() {
 
   return (
     <Button variant="outline" size="icon" onClick={toggleTheme}>
-      {theme === 'dark' ? <Sun /> : <Moon />}
+      {theme === 'dark' ? <Sun stroke="white" /> : <Moon />}
     </Button>
   );
 }
