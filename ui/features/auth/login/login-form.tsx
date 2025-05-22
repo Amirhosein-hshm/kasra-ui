@@ -3,19 +3,24 @@
 import { Button } from '@/ui/components/button';
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface Props {
-  onSetStep: Dispatch<SetStateAction<'login' | 'otp'>>;
+  onSuccess: () => void;
 }
 
-export default function LoginForm({ onSetStep }: Props) {
+export default function LoginForm({ onSuccess }: Props) {
+  const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const form = useForm();
 
   const handleSubmit = form.handleSubmit((data: any) => {
     console.log(data);
-    onSetStep('otp');
+    setFormIsSubmitting(true);
+    setTimeout(() => {
+      onSuccess();
+      setFormIsSubmitting(false);
+    }, 2000);
   });
 
   return (
@@ -46,7 +51,11 @@ export default function LoginForm({ onSetStep }: Props) {
         />
       </div>
 
-      <Button type="submit" className="mt-[22px] font-[vazir-medium]">
+      <Button
+        type="submit"
+        className="mt-[22px] font-[vazir-medium]"
+        loading={formIsSubmitting}
+      >
         ارسال کد
       </Button>
     </form>

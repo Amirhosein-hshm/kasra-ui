@@ -2,19 +2,17 @@
 
 import { Button } from '@/ui/components/button';
 import { Card, CardContent, CardHeader } from '@/ui/components/card';
-import LoginForm from '@/ui/features/auth/login/login-form';
-import OtpForm from '@/ui/features/auth/login/otp-form';
 import { ModeToggle } from '@/ui/features/theme/mode-toggler';
 import clsx from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeftIcon } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
+import { AuthStep } from '@/lib/types/ui/AuthStep.enum';
+import AuthForms from '@/ui/features/auth/auth-forms';
 
 export default function LoginPage() {
-  const [step, setStep] = useState<'login' | 'otp'>('login');
+  const [step, setStep] = useState<AuthStep>(AuthStep.Login);
   const handleReset = () => {
-    setStep('login');
+    setStep(AuthStep.Login);
   };
 
   return (
@@ -38,7 +36,7 @@ export default function LoginPage() {
           )}
         >
           <CardHeader className="relative">
-            {step === 'otp' && (
+            {step === AuthStep.Otp && (
               <Button
                 variant="outline"
                 size="icon"
@@ -52,39 +50,11 @@ export default function LoginPage() {
               سامانه کسری
             </h1>
 
-            {/* Gradients */}
-            <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-400 to-transparent h-[2px] w-3/4 blur-sm" />
-            <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-300 to-transparent h-px w-3/4" />
-            <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-400 dark:via-slate-200 to-transparent h-[5px] w-2/4 blur-lg" />
-            <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-500 dark:via-slate-100 to-transparent h-px w-2/4" />
+            <GlowingDivider />
           </CardHeader>
 
           <CardContent className="px-0 w-full h-full flex justify-center items-center overflow-hidden">
-            <AnimatePresence mode="wait">
-              {step === 'login' ? (
-                <motion.div
-                  key="login"
-                  variants={fadeLoginForm}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="mx-6 w-[256px]"
-                >
-                  <LoginForm onSetStep={setStep} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="otp"
-                  variants={fadeOtpForm}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="mx-6 w-[256px] h-full"
-                >
-                  <OtpForm />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <AuthForms step={step} setStep={setStep} />
           </CardContent>
         </Card>
       </div>
@@ -92,32 +62,11 @@ export default function LoginPage() {
   );
 }
 
-const fadeLoginForm = {
-  initial: {
-    opacity: 1,
-    x: 0,
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-  exit: {
-    opacity: 0,
-    x: -10,
-  },
-};
-
-const fadeOtpForm = {
-  initial: {
-    opacity: 0,
-    x: 10,
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-  exit: {
-    opacity: 0,
-    x: 10,
-  },
-};
+const GlowingDivider = () => (
+  <>
+    <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-400 to-transparent h-[2px] w-3/4 blur-sm" />
+    <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-300 to-transparent h-px w-3/4" />
+    <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-400 dark:via-slate-200 to-transparent h-[5px] w-2/4 blur-lg" />
+    <div className="absolute left-[50%] -bottom-[8px] -translate-x-[50%] bg-gradient-to-r from-transparent via-slate-500 dark:via-slate-100 to-transparent h-px w-2/4" />
+  </>
+);
