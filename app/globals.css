@@ -148,9 +148,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    font-family: vazir-light, sans-serif;
+  }
   body {
     @apply bg-background text-foreground;
-    font-family: vazir-light, sans-serif;
+    font-family: inherit;
   }
 }
 
