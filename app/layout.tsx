@@ -1,7 +1,18 @@
 import { Toaster } from '@/ui/components/sonner';
-import ThemeProvider from '@/ui/providers/theme-provider';
 import type { Metadata } from 'next';
 import './globals.css';
+
+const setInitialTheme = `
+(function() {
+  try {
+    const theme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (theme === 'dark' || (!theme && systemDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  } catch (_) {}
+})();
+`;
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,16 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="rtl">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
+      </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster position="top-center" />
-        </ThemeProvider>
+        {children}
+        <Toaster position="top-center" />
       </body>
     </html>
   );

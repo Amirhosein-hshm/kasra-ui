@@ -1,28 +1,23 @@
 'use client';
 
-import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
 
+import { useDarkMode } from '@/lib/hooks/useDarkMode';
 import { Button, ButtonProps } from '@/ui/components/button';
 import clsx from 'clsx';
 
 export function ModeToggle(props: ButtonProps) {
-  const { setTheme, theme } = useTheme();
-
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
+  const { isDark, toggleDarkMode } = useDarkMode();
 
   return (
     <Button
       variant="outline"
       size="icon"
-      onClick={toggleTheme}
+      onClick={toggleDarkMode}
       {...props}
       className={clsx('max-lg:w-[24px] max-lg:h-[24px]', props.className)}
     >
-      {theme === 'dark' ? <Sun stroke="white" /> : <Moon />}
+      {isDark ? <Sun stroke="white" /> : <Moon />}
     </Button>
   );
 }
