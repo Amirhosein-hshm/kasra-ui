@@ -18,7 +18,7 @@ export default function LoginPage() {
   return (
     <div>
       <div className="fixed top-4 right-4">
-        <ModeToggle />
+        <ModeToggle className="fixed top-2 left-2" />
       </div>
 
       <div

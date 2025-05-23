@@ -9,7 +9,7 @@ export type AuthState = {
 
 export type AuthActions = {
   login: () => Promise<void>;
-  logout: () => void;
+  logout: (callback?: () => void) => void;
   clearError: () => void;
 };
 

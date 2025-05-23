@@ -4,7 +4,7 @@ import { persist, PersistStorage, devtools } from 'zustand/middleware';
 import { initialAuthState, type AuthStore } from './types';
 import User from '@/lib/types/models/User';
 
-const storage: PersistStorage<any> = {
+const storage: PersistStorage<unknown> = {
   getItem: (name) => {
     if (typeof window === 'undefined') return null;
     return JSON.parse(localStorage.getItem(name) || 'null');
@@ -33,11 +33,17 @@ export const useAuthStore = create<AuthStore>()(
               phone: '09000000000',
             };
             set({ user, isAuthenticated: true, isLoading: false });
-          } catch (err: any) {
-            set({ error: err.message, isLoading: false });
+          } catch (err: unknown) {
+            set({
+              error: (err as { message: string }).message,
+              isLoading: false,
+            });
           }
         },
-        logout: () => set(initialAuthState),
+        logout: (callback?: () => void) => {
+          set(initialAuthState);
+          callback?.();
+        },
         clearError: () => set({ error: null }),
       }),
       {

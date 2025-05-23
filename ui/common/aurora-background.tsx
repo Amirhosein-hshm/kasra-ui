@@ -1,15 +1,18 @@
 'use client';
 import { cn } from '@/lib/utils';
+import clsx from 'clsx';
 import React, { ReactNode } from 'react';
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
   children: ReactNode;
   showRadialGradient?: boolean;
+  hideAnimation?: boolean;
 }
 
 export default function AuroraBackground({
   className,
   children,
+  hideAnimation,
   showRadialGradient = true,
   ...props
 }: AuroraBackgroundProps) {
@@ -23,7 +26,10 @@ export default function AuroraBackground({
         {...props}
       >
         <div
-          className="absolute inset-0 overflow-hidden"
+          className={clsx(
+            'absolute inset-0 overflow-hidden',
+            hideAnimation && 'hidden'
+          )}
           style={
             {
               '--aurora':
