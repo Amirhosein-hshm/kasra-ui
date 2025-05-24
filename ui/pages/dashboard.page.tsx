@@ -9,12 +9,12 @@ export default function DashboardPage() {
           {
             title: 'پروژه ها',
             src: '/backgrounds/projects.jpg',
-            action: PATHS.general.projects,
+            action: PATHS.general.projects.root,
           },
           {
             title: 'گزارش کار ها',
             src: '/backgrounds/reports.jpg',
-            action: PATHS.general.reports,
+            action: PATHS.general.reports.root,
           },
         ]}
       />

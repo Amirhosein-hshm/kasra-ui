@@ -20,14 +20,14 @@ export default function DashboardDock() {
         {
           icon: <IconUser className={itemIconClassName} />,
           title: 'حساب کاربری',
-          action: PATHS.general.profile,
-          isActive: pathname.includes(PATHS.general.profile),
+          action: PATHS.general.profile.root,
+          isActive: pathname.includes(PATHS.general.profile.root),
         },
         {
           icon: <IconHome className={itemIconClassName} />,
           title: 'داشبورد',
-          action: PATHS.general.dashboard,
-          isActive: pathname.includes(PATHS.general.dashboard),
+          action: PATHS.general.dashboard.root,
+          isActive: pathname.includes(PATHS.general.dashboard.root),
         },
         {
           icon: <IconLogout2 className={itemIconClassName} />,

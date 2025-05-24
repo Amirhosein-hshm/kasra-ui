@@ -3,10 +3,20 @@ export const PATHS = {
     login: '/auth/login',
   },
   general: {
-    dashboard: '/dashboard',
-    profile: '/profile',
-    projects: '/projects',
-    proposals: '/proposals',
-    reports: '/reports',
+    dashboard: {
+      root: '/dashboard',
+    },
+    profile: {
+      root: '/profile',
+    },
+    projects: {
+      root: '/projects',
+    },
+    proposals: {
+      root: '/proposals',
+    },
+    reports: {
+      root: '/reports',
+    },
   },
 };
