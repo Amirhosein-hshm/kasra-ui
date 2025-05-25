@@ -112,8 +112,8 @@ export default function DataTable<TData, TValue>({
         className={clsx('rounded-md border backdrop-blur-lg', styles.table)}
         dir="rtl"
       >
-        <Table className="overflow-y-auto">
-          <TableHeader className="sticky top-0 left-0 z-10">
+        <Table>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
