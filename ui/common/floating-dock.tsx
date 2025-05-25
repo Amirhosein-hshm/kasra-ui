@@ -47,6 +47,7 @@ const FloatingDockMobile = ({
           <motion.div
             layoutId="nav"
             className="absolute inset-x-0 bottom-full mb-2 flex flex-col gap-2"
+            style={{ direction: 'ltr' }}
           >
             {items.map((item, idx) => (
               <motion.div
@@ -74,16 +75,16 @@ const FloatingDockMobile = ({
                   }
                   key={item.title}
                   className={clsx(
-                    'relative flex h-10 w-10 items-center justify-center rounded-full',
+                    'relative flex flex-row-reverse h-10 w-fit items-center justify-center rounded-full gap-1 px-2 backdrop-blur-lg',
                     item.isActive
                       ? 'bg-white/100 dark:bg-black/100'
-                      : 'bg-white/50 dark:bg-black/25'
+                      : 'bg-white/50 dark:bg-black/50'
                   )}
                 >
-                  <div className="h-4 w-4">{item.icon}</div>
-                  <div className="absolute top-[50%] -translate-y-[50%] left-[115%] text-nowrap font-[vazir-bold] text-white">
+                  <div className="text-nowrap font-[vazir-bold] text-neutral-800 dark:text-neutral-100">
                     {item.title}
                   </div>
+                  <div className="h-4 w-4">{item.icon}</div>
                 </a>
               </motion.div>
             ))}
@@ -92,9 +93,9 @@ const FloatingDockMobile = ({
       </AnimatePresence>
       <button
         onClick={() => setOpen(!open)}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-800"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/50 dark:bg-black/50 backdrop-blur-lg"
       >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-800 dark:text-neutral-400" />
       </button>
     </div>
   );
@@ -113,7 +114,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        'mx-auto hidden h-16 items-end gap-4 rounded-2xl bg-gray-50 px-4 pb-3 md:flex dark:bg-neutral-900',
+        'mx-auto hidden h-16 items-end gap-4 rounded-2xl bg-white/5 px-4 pb-3 md:flex dark:bg-black/5 backdrop-blur-lg',
         className
       )}
     >
@@ -179,7 +180,12 @@ function IconContainer({
     <a
       href={typeof action === 'string' ? action : undefined}
       onClick={typeof action === 'string' ? undefined : action}
-      className="cursor-pointer"
+      className={clsx(
+        'cursor-pointer backdrop-blur-xs rounded-[50%]',
+        isActive
+          ? 'bg-white/95 dark:bg-black/75'
+          : 'bg-white/50 dark:bg-black/25'
+      )}
     >
       <motion.div
         ref={ref}
@@ -187,10 +193,7 @@ function IconContainer({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         className={clsx(
-          'relative flex aspect-square items-center justify-center rounded-full',
-          isActive
-            ? 'bg-white/100 dark:bg-black/100'
-            : 'bg-white/50 dark:bg-black/25'
+          'relative flex aspect-square items-center justify-center rounded-full'
         )}
       >
         <AnimatePresence>

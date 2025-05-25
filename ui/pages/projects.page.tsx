@@ -1,0 +1,111 @@
+import ProjectsTable from '@/ui/features/tables/projects';
+
+export default function ProjectsPage() {
+  return (
+    <div>
+      <ProjectsTable
+        data={[
+          {
+            id: 1,
+            info: 'پروژه 1',
+            proposal_id: 1,
+            user_broker_id: 1,
+            user_master_id: 1,
+            user_supervisor_id: 1,
+            user_user_id: 1,
+          },
+          {
+            id: 2,
+            info: 'پروژه 2',
+            proposal_id: 2,
+            user_broker_id: 2,
+            user_master_id: 2,
+            user_supervisor_id: 2,
+            user_user_id: 2,
+          },
+          {
+            id: 3,
+            info: 'پروژه 3',
+            proposal_id: 3,
+            user_broker_id: 3,
+            user_master_id: 3,
+            user_supervisor_id: 3,
+            user_user_id: 3,
+          },
+          {
+            id: 4,
+            info: 'پروژه 4',
+            proposal_id: 4,
+            user_broker_id: 4,
+            user_master_id: 4,
+            user_supervisor_id: 4,
+            user_user_id: 4,
+          },
+          {
+            id: 5,
+            info: 'پروژه 5',
+            proposal_id: 5,
+            user_broker_id: 5,
+            user_master_id: 5,
+            user_supervisor_id: 5,
+            user_user_id: 5,
+          },
+          {
+            id: 6,
+            info: 'پروژه 6',
+            proposal_id: 6,
+            user_broker_id: 6,
+            user_master_id: 6,
+            user_supervisor_id: 6,
+            user_user_id: 6,
+          },
+          {
+            id: 7,
+            info: 'پروژه 7',
+            proposal_id: 7,
+            user_broker_id: 7,
+            user_master_id: 7,
+            user_supervisor_id: 7,
+            user_user_id: 7,
+          },
+          {
+            id: 8,
+            info: 'پروژه 8',
+            proposal_id: 8,
+            user_broker_id: 8,
+            user_master_id: 8,
+            user_supervisor_id: 8,
+            user_user_id: 8,
+          },
+          {
+            id: 9,
+            info: 'پروژه 9',
+            proposal_id: 9,
+            user_broker_id: 9,
+            user_master_id: 9,
+            user_supervisor_id: 9,
+            user_user_id: 9,
+          },
+          {
+            id: 10,
+            info: 'پروژه 10',
+            proposal_id: 10,
+            user_broker_id: 10,
+            user_master_id: 10,
+            user_supervisor_id: 10,
+            user_user_id: 10,
+          },
+          {
+            id: 11,
+            info: 'پروژه 11',
+            proposal_id: 11,
+            user_broker_id: 11,
+            user_master_id: 11,
+            user_supervisor_id: 11,
+            user_user_id: 11,
+          },
+        ]}
+      />
+    </div>
+  );
+}

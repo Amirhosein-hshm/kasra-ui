@@ -7,15 +7,19 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
-        'w-screen h-screen flex justify-center items-center',
-        "bg-[url('/backgrounds/light.jpg')] dark:bg-[url('/backgrounds/dark.jpg')]"
+        'w-screen h-screen p-14 max-lg:p-8',
+        'flex flex-col justify-center items-center',
+        "bg-[url('/backgrounds/light.jpg')] dark:bg-[url('/backgrounds/dark.jpg')]",
+        'bg-no-repeat bg-center bg-cover',
+        'overflow-x-hidden overflow-y-auto'
       )}
     >
-      <div className="w-full h-full flex flex-col border-solid relative max-md:p-10 overflow-x-hidden overflow-y-auto">
-        <ModeToggle className="fixed left-2 top-2" />
+      <ModeToggle className="fixed left-2 top-2" />
+      <div className={clsx('DashboardMain', 'w-full h-full pb-14')}>
         {children}
-        <DashboardDock />
+        <div className="Spacer w-full h-[72px] max-lg:h-8 block" />
       </div>
+      <DashboardDock />
     </div>
   );
 }

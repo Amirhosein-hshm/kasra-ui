@@ -14,20 +14,20 @@ export default function DashboardDock() {
 
   return (
     <FloatingDock
-      desktopClassName="fixed -bottom-1 left-[50%] translate-x-[-50%] rounded-br-none rounded-bl-none !bg-transparent"
+      desktopClassName="fixed -bottom-1 left-[50%] z-20 translate-x-[-50%] rounded-br-none rounded-bl-none"
       mobileClassName="fixed bottom-2 left-2"
       items={[
         {
           icon: <IconUser className={itemIconClassName} />,
           title: 'حساب کاربری',
-          action: PATHS.general.profile,
-          isActive: pathname.includes(PATHS.general.profile),
+          action: PATHS.general.profile.root,
+          isActive: pathname.includes(PATHS.general.profile.root),
         },
         {
           icon: <IconHome className={itemIconClassName} />,
           title: 'داشبورد',
-          action: PATHS.general.dashboard,
-          isActive: pathname.includes(PATHS.general.dashboard),
+          action: PATHS.general.dashboard.root,
+          isActive: pathname.includes(PATHS.general.dashboard.root),
         },
         {
           icon: <IconLogout2 className={itemIconClassName} />,
@@ -41,5 +41,5 @@ export default function DashboardDock() {
 }
 
 const itemIconClassName = clsx(
-  'h-full w-full text-neutral-500 dark:text-neutral-300'
+  'h-full w-full text-neutral-800 dark:text-neutral-300'
 );

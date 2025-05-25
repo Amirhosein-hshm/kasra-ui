@@ -27,7 +27,7 @@ export default function OtpForm() {
     setTimeout(() => {
       login();
       setFormIsSubmitting(false);
-      router.push(PATHS.general.dashboard);
+      router.push(PATHS.general.dashboard.root);
     }, 2000);
   });
 
