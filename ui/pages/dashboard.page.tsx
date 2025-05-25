@@ -3,7 +3,7 @@ import FocusCards from '@/ui/common/fucos-cards';
 
 export default function DashboardPage() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="h-full flex justify-center items-center">
       <FocusCards
         cards={[
           {
