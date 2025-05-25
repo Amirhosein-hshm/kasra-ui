@@ -15,7 +15,7 @@ export function ModeToggle(props: ButtonProps) {
       size="icon"
       onClick={toggleDarkMode}
       {...props}
-      className={clsx('max-lg:w-[24px] max-lg:h-[24px]', props.className)}
+      className={clsx('max-lg:w-[24px] max-lg:h-[24px] z-20', props.className)}
     >
       {isDark ? <Sun stroke="white" /> : <Moon />}
     </Button>
