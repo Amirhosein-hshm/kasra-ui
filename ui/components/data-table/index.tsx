@@ -34,6 +34,9 @@ import {
 import { useState } from 'react';
 import { Button } from '@/ui/components/button';
 
+import styles from './data-table-styles.module.css';
+import clsx from 'clsx';
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -69,7 +72,7 @@ export default function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex justify-between py-4">
+      <div className="flex justify-between py-4 max-lg:flex-col max-lg:gap-2">
         <Input
           placeholder="جستجو در شناسه ها..."
           value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
@@ -105,9 +108,12 @@ export default function DataTable<TData, TValue>({
         </DropdownMenu>
       </div>
 
-      <div className="rounded-md border backdrop-blur-lg" dir="rtl">
-        <Table>
-          <TableHeader>
+      <div
+        className={clsx('rounded-md border backdrop-blur-lg', styles.table)}
+        dir="rtl"
+      >
+        <Table className="overflow-y-auto">
+          <TableHeader className="sticky top-0 left-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

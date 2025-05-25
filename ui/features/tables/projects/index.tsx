@@ -1,4 +1,4 @@
-import DataTable from '@/ui/components/data-table';
+import DataTable from '@/ui/components/data-table/index';
 import { projectsTableColumns } from './columns';
 import Project from '@/lib/types/models/Project';
 
