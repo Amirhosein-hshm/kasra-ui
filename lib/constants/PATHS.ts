@@ -5,12 +5,12 @@ export const PATHS = {
   general: {
     dashboard: {
       root: '/dashboard',
+      projects: {
+        root: '/dashboard/projects',
+      },
     },
     profile: {
       root: '/profile',
-    },
-    projects: {
-      root: '/projects',
     },
     proposals: {
       root: '/proposals',
