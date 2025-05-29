@@ -109,7 +109,7 @@ export const reportsTableColumns: ColumnDef<ReportForTable>[] = [
     header: 'وضعیت',
   },
   {
-    accessorKey: 'precent',
+    accessorKey: 'percent',
     header: 'درصد تایید',
   },
   {

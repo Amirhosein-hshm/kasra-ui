@@ -19,7 +19,7 @@ export default function DashboardPage() {
           {
             title: 'گزارش کار ها',
             src: '/backgrounds/reports.jpg',
-            action: PATHS.general.reports.root,
+            action: PATHS.general.dashboard.reports.root,
           },
         ]}
       />
