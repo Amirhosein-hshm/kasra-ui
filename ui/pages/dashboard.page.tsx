@@ -3,13 +3,18 @@ import FocusCards from '@/ui/common/fucos-cards';
 
 export default function DashboardPage() {
   return (
-    <div className="h-full flex justify-center items-center">
+    <div className="h-full flex justify-center lg:items-center">
       <FocusCards
         cards={[
           {
             title: 'پروژه ها',
             src: '/backgrounds/projects.jpg',
             action: PATHS.general.dashboard.projects.root,
+          },
+          {
+            title: 'پروپوزال ها',
+            src: '/backgrounds/proposals.jpg',
+            action: PATHS.general.dashboard.proposals.root,
           },
           {
             title: 'گزارش کار ها',

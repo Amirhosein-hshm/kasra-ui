@@ -91,12 +91,8 @@ export default function FocusCards({ cards }: { cards: Card[] }) {
 
   return (
     <>
-      <div
-        className={clsx(
-          'lg:hidden',
-          'grid grid-cols-1 gap-10 max-w-5xl mx-auto md:px-8 w-full'
-        )}
-      >
+      {/* Mobile view */}
+      <div className={clsx('lg:hidden', 'grid grid-cols-1 gap-5 w-full')}>
         {cards.map((card, index) => (
           <Card
             key={card.title}
@@ -108,6 +104,8 @@ export default function FocusCards({ cards }: { cards: Card[] }) {
           />
         ))}
       </div>
+
+      {/* Desktop view */}
       <div
         className={clsx(
           'max-lg:hidden',

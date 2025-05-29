@@ -8,12 +8,12 @@ export const PATHS = {
       projects: {
         root: '/dashboard/projects',
       },
+      proposals: {
+        root: '/dashboard/proposals',
+      },
     },
     profile: {
       root: '/profile',
-    },
-    proposals: {
-      root: '/proposals',
     },
     reports: {
       root: '/reports',
