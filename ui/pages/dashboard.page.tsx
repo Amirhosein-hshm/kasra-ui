@@ -14,7 +14,7 @@ export default function DashboardPage() {
           {
             title: 'پروپوزال ها',
             src: '/backgrounds/proposals.jpg',
-            action: PATHS.general.proposals.root,
+            action: PATHS.general.dashboard.proposals.root,
           },
           {
             title: 'گزارش کار ها',
