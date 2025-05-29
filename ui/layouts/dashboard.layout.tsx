@@ -1,7 +1,8 @@
-import { PropsWithChildren } from 'react';
 import DashboardDock from '@/ui/features/dashboard/dashboard-dock';
 import { ModeToggle } from '@/ui/features/theme/mode-toggler';
 import clsx from 'clsx';
+import { PropsWithChildren } from 'react';
+import Breadcrumbs from '@/ui/features/accessibility/breadcrumbs';
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
@@ -16,6 +17,8 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     >
       <ModeToggle className="fixed left-2 top-2" />
       <div className={clsx('DashboardMain', 'w-full h-full pb-14')}>
+        <Breadcrumbs />
+
         {children}
         <div className="Spacer w-full h-[72px] max-lg:h-8 block" />
       </div>
