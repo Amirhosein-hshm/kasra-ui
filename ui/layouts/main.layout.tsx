@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 import Breadcrumbs from '@/ui/features/accessibility/breadcrumbs';
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export default function MainLayout({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
