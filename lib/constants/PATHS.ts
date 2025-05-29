@@ -11,12 +11,12 @@ export const PATHS = {
       proposals: {
         root: '/dashboard/proposals',
       },
+      reports: {
+        root: '/dashboard/reports',
+      },
     },
     profile: {
       root: '/profile',
-    },
-    reports: {
-      root: '/reports',
     },
   },
 };
