@@ -18,10 +18,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
       <div className={clsx('DashboardMain', 'w-full h-full pb-14')}>
         <Breadcrumbs />
 
-        <div className={'MobileSpacer max-lg:mb-4'} />
-
         {children}
-        <div className="Spacer w-full h-[72px] max-lg:h-8 block" />
       </div>
       <DashboardDock />
     </div>
