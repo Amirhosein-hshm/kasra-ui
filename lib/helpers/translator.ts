@@ -11,5 +11,11 @@ const dictionary = {
     projects: 'پروژه ها',
     proposals: 'پروپوزال ها',
     reports: 'گزارش ها',
+    rfps: 'RFP ها',
+    settings: 'تنظیمات',
+    profile: 'حساب کاربری',
+    create: 'افزودن',
+    update: 'بروزرسانی',
+    upload: 'بارگذاری',
   },
 };

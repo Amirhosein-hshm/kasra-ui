@@ -1,3 +1,3 @@
-import ProjectsPage from '@/ui/pages/projects.page';
+import ProjectsPage from '@/ui/pages/projects/projects.page';
 
 export default ProjectsPage;
