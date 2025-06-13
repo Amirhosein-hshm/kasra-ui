@@ -1,3 +1,3 @@
-import UpdateRfpPage from '@/ui/pages/rfp/update-rfp.page';
+import UpdateRfpPage from '@/ui/pages/rfps/update-rfp.page';
 
 export default UpdateRfpPage;

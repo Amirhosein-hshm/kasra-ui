@@ -1,3 +1,3 @@
-import CreateRfpPage from '@/ui/pages/rfp/create-rfp.page';
+import CreateRfpPage from '@/ui/pages/rfps/create-rfp.page';
 
 export default CreateRfpPage;

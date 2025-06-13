@@ -4,3 +4,5 @@ export default interface RFP {
   file_id: number;
   info: string;
 }
+
+export type RFPForTable = Pick<RFP, 'id' | 'info'>;

@@ -1,3 +1,3 @@
-import RfpsPage from '@/ui/pages/rfp/rfp.page';
+import RfpsPage from '@/ui/pages/rfps/rfps.page';
 
 export default RfpsPage;
