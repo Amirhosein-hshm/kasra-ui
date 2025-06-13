@@ -1,3 +1,5 @@
+import RFPForm from '@/ui/forms/rfp.form';
+
 export default function CreateRfpPage() {
-  return <h1>Create RFP</h1>;
+  return <RFPForm />;
 }
