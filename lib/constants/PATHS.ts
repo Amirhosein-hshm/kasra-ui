@@ -14,6 +14,9 @@ export const PATHS = {
       reports: {
         root: '/dashboard/reports',
       },
+      rfps: {
+        root: '/dashboard/rfps',
+      },
     },
     profile: {
       root: '/profile',

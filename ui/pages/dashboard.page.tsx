@@ -21,6 +21,11 @@ export default function DashboardPage() {
             src: '/backgrounds/reports.jpg',
             action: PATHS.general.dashboard.reports.root,
           },
+          {
+            title: 'RFP ها',
+            src: '/backgrounds/rfps.jpg',
+            action: PATHS.general.dashboard.rfps.root,
+          },
         ]}
       />
     </div>
