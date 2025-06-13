@@ -31,7 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/ui/components/table';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Button } from '@/ui/components/button';
 
 import styles from './data-table-styles.module.css';
@@ -40,11 +40,13 @@ import clsx from 'clsx';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  headerAppendix?: ReactNode;
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
+  headerAppendix,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -73,14 +75,18 @@ export default function DataTable<TData, TValue>({
   return (
     <>
       <div className="flex justify-between py-4 max-lg:flex-col max-lg:gap-2">
-        <Input
-          placeholder="جستجو در شناسه ها..."
-          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('id')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="w-full flex gap-2">
+          <Input
+            placeholder="جستجو در شناسه ها..."
+            value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('id')?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+
+          {headerAppendix}
+        </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

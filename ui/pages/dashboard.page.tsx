@@ -9,22 +9,22 @@ export default function DashboardPage() {
           {
             title: 'پروژه ها',
             src: '/backgrounds/projects.jpg',
-            action: PATHS.general.dashboard.projects.root,
+            action: PATHS.dashboard.projects.root,
           },
           {
             title: 'پروپوزال ها',
             src: '/backgrounds/proposals.jpg',
-            action: PATHS.general.dashboard.proposals.root,
+            action: PATHS.dashboard.proposals.root,
           },
           {
             title: 'گزارش کار ها',
             src: '/backgrounds/reports.jpg',
-            action: PATHS.general.dashboard.reports.root,
+            action: PATHS.dashboard.reports.root,
           },
           {
             title: 'RFP ها',
             src: '/backgrounds/rfps.jpg',
-            action: PATHS.general.dashboard.rfps.root,
+            action: PATHS.dashboard.rfps.root,
           },
         ]}
       />
