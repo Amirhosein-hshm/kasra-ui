@@ -15,9 +15,10 @@ export default function MainLayout({ children }: PropsWithChildren) {
         'overflow-x-hidden overflow-y-auto'
       )}
     >
-      <ModeToggle className="fixed left-2 top-2" />
       <div className={clsx('DashboardMain', 'w-full h-full pb-14')}>
         <Breadcrumbs />
+
+        <div className={'MobileSpacer max-lg:mb-4'} />
 
         {children}
         <div className="Spacer w-full h-[72px] max-lg:h-8 block" />
