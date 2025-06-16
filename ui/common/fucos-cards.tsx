@@ -93,16 +93,31 @@ export default function FocusCards({ cards }: { cards: Card[] }) {
     <>
       {/* Mobile view */}
       <div className={clsx('lg:hidden', 'grid grid-cols-1 gap-5 w-full')}>
-        {cards.map((card, index) => (
-          <Card
-            key={card.title}
-            card={card}
-            index={index}
-            action={card.action}
-            hovered={hovered}
-            setHovered={setHovered}
-          />
-        ))}
+        {cards.map((card, index, array) =>
+          // padded last item
+          index === array.length - 1 ? (
+            <>
+              <Card
+                key={card.title}
+                card={card}
+                index={index}
+                action={card.action}
+                hovered={hovered}
+                setHovered={setHovered}
+              />
+              <div className="Blank h-3" />
+            </>
+          ) : (
+            <Card
+              key={card.title}
+              card={card}
+              index={index}
+              action={card.action}
+              hovered={hovered}
+              setHovered={setHovered}
+            />
+          )
+        )}
       </div>
 
       {/* Desktop view */}

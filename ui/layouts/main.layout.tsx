@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 import Breadcrumbs from '@/ui/features/accessibility/breadcrumbs';
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export default function MainLayout({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
@@ -15,12 +15,10 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
         'overflow-x-hidden overflow-y-auto'
       )}
     >
-      <ModeToggle className="fixed left-2 top-2" />
       <div className={clsx('DashboardMain', 'w-full h-full pb-14')}>
         <Breadcrumbs />
 
         {children}
-        <div className="Spacer w-full h-[72px] max-lg:h-8 block" />
       </div>
       <DashboardDock />
     </div>

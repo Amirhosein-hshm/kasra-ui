@@ -34,7 +34,12 @@ export default function Breadcrumbs() {
 
           return (
             <>
-              <BreadcrumbItem className={clsx(isLast && 'text-white')}>
+              <BreadcrumbItem
+                className={clsx(
+                  'font-bold text-lg',
+                  isLast && 'text-black dark:text-white'
+                )}
+              >
                 <BreadcrumbLink href={`/${href}`}>{path.label}</BreadcrumbLink>
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
