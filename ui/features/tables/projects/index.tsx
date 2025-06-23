@@ -1,6 +1,8 @@
+'use client';
+
+import Project from '@/lib/types/models/Project';
 import DataTable from '@/ui/components/data-table/index';
 import { projectsTableColumns } from './columns';
-import Project from '@/lib/types/models/Project';
 
 interface Props {
   data: Project[];
