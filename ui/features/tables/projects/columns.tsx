@@ -1,11 +1,12 @@
 'use client';
 
 import Project from '@/lib/types/models/Project';
-import { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@/ui/components/checkbox';
+import { ColumnDef } from '@tanstack/react-table';
 
-import { MoreHorizontal, Trash, Edit, Eye, ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, Eye, MoreHorizontal } from 'lucide-react';
 
+import { PATHS } from '@/lib/constants/PATHS';
 import { Button } from '@/ui/components/button';
 import {
   DropdownMenu,
@@ -15,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
+import Link from 'next/link';
 
 export const projectsTableColumns: ColumnDef<Project>[] = [
   {
@@ -61,30 +63,22 @@ export const projectsTableColumns: ColumnDef<Project>[] = [
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(project.id.toString())
-              }
-              className={dropdownMenuItemClassname}
-            >
-              مشاهده <Eye color="var(--color-stone-primary)" />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(project.id.toString())
-              }
-              className={dropdownMenuItemClassname}
-            >
-              حذف <Trash color="var(--color-red-primary)" />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(project.id.toString())
-              }
-              className={dropdownMenuItemClassname}
-            >
-              ویرایش <Edit color="var(--color-blue-primary)" />
-            </DropdownMenuItem>
+            <Link href={PATHS.dashboard.projects.single(project.id)}>
+              <DropdownMenuItem className={dropdownMenuItemClassname}>
+                مشاهده <Eye color="var(--color-stone-primary)" />
+              </DropdownMenuItem>
+            </Link>
+            {/* NOTE: not required for now */}
+            {/* <Link href={}>
+              <DropdownMenuItem className={dropdownMenuItemClassname}>
+                ویرایش <Edit color="var(--color-blue-primary)" />
+              </DropdownMenuItem>
+            </Link>
+            <Link href={}>
+              <DropdownMenuItem className={dropdownMenuItemClassname}>
+                حذف <Trash color="var(--color-red-primary)" />
+              </DropdownMenuItem>
+            </Link> */}
           </DropdownMenuContent>
         </DropdownMenu>
       );
