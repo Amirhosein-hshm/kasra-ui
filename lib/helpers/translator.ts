@@ -2,7 +2,7 @@ export default function translator(
   key: string,
   section?: keyof typeof dictionary
 ) {
-  return dictionary[section ?? 'general'][key];
+  return dictionary[section ?? 'general'][key] ?? key;
 }
 
 const dictionary = {
