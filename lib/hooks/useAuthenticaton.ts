@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getAuthenticaton } from 'lib/services/authenticaton/authenticaton';
+import { getAuthentication } from '@services';
 import { BodyLoginTokenPost } from 'lib/types/bodyLoginTokenPost';
 import { Token } from 'lib/types/token';
 import { RefreshTokenRefreshTokenPostParams } from 'lib/types/refreshTokenRefreshTokenPostParams';
@@ -15,7 +15,7 @@ export function useLogin(
 ) {
   return useMutation({
     mutationFn: (data) =>
-      getAuthenticaton()
+      getAuthentication()
         .loginTokenPost(data)
         .then((res) => res.data),
     ...options,
@@ -27,7 +27,7 @@ export function useRefreshToken(
 ) {
   return useMutation({
     mutationFn: (params) =>
-      getAuthenticaton()
+      getAuthentication()
         .refreshTokenRefreshTokenPost(params)
         .then((res) => res.data),
     ...options,
@@ -38,7 +38,7 @@ export function useUserMe(options?: UseQueryOptions<UserInfoResponse, Error>) {
   return useQuery({
     queryKey: ['userMe'],
     queryFn: () =>
-      getAuthenticaton()
+      getAuthentication()
         .readUsersMeUsersMeGet()
         .then((res) => res.data),
     ...options,

@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getBroker } from 'lib/services/broker/broker';
+import { getBroker } from '@services';
 import { ReadProposalsBrokerProposalsGetParams } from 'lib/types/readProposalsBrokerProposalsGetParams';
 import { ProposalResponse } from 'lib/types/proposalResponse';
 import { ReadProposalsBrokerProposalsLikeGetParams } from 'lib/types/readProposalsBrokerProposalsLikeGetParams';

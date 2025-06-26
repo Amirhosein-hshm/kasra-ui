@@ -1,9 +1,5 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import {
-  signup,
-  SignupPayload,
-  AuthTokensWithExpiry,
-} from '../../services/auth.service';
+import { AuthTokensWithExpiry } from '../../services/auth.service';
 import { setTokens } from '../../axios/tokenStore';
 // TODO: Import your toast system
 

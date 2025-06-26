@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getSupervisor } from 'lib/services/supervisor/supervisor';
+import { getSupervisor } from '@services';
 import { ReadProjectsSupervisorProjectsGetParams } from 'lib/types/readProjectsSupervisorProjectsGetParams';
 import { ProjectResponse } from 'lib/types/projectResponse';
 import { ProposalResponse } from 'lib/types/proposalResponse';

@@ -23,7 +23,9 @@
       "@/*": ["./*"],
       "lib/*": ["lib/*"],
       "ui/*": ["ui/*"],
-      "app/*": ["app/*"]
+      "app/*": ["app/*"],
+      "@services": ["lib/services/index.ts"],
+      "@services/*": ["lib/services/*"]
     },
     "baseUrl": "."
   },

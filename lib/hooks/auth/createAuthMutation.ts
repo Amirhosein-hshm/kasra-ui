@@ -4,17 +4,13 @@ import {
   UseMutationResult,
 } from '@tanstack/react-query';
 import { setTokens } from '../../axios/tokenStore';
-import { AuthTokensWithExpiry } from '../../services/auth.service';
 
 // Helper to create auth mutations that set tokens on success
-type MutationFn<TVariables, TData = AuthTokensWithExpiry> = (
+type MutationFn<TVariables, TData = void> = (
   variables: TVariables
 ) => Promise<TData>;
 
-export function createAuthMutation<
-  TVariables = void,
-  TData = AuthTokensWithExpiry
->(
+export function createAuthMutation<TVariables = void, TData = void>(
   mutationFn: MutationFn<TVariables, TData>,
   options?: UseMutationOptions<TData, Error, TVariables>
 ): UseMutationResult<TData, Error, TVariables> {

@@ -1,12 +1,10 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { logout } from '../../services/auth.service';
 import { clearTokens } from '../../axios/tokenStore';
 
 export function useLogout(): UseMutationResult<void, Error, void> {
   return useMutation<void, Error, void>({
-    mutationFn: logout,
+    mutationFn: clearTokens,
     onSuccess: () => {
-      clearTokens();
       // TODO: Redirect to login page
     },
     onError: (error) => {

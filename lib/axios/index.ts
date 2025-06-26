@@ -15,7 +15,7 @@ import {
   AuthTokens,
 } from './tokenStore';
 
-import { getAuthentication } from '../services/authentication/authentication';
+import { getAuthentication } from '@services';
 
 import type { Token } from '../types/token';
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
@@ -109,7 +109,7 @@ api.interceptors.response.use(
 
         try {
           const newTokens = await refreshPromise;
-          processQueue(null, newTokens.accessToken);
+          processQueue(null, newTokens?.accessToken);
           return api(originalRequest);
         } catch (refreshError) {
           processQueue(refreshError, undefined);
