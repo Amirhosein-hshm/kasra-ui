@@ -6,7 +6,8 @@
     "dev": "next dev -p 3001 --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "orval": "orval && tsx scripts/camel-case-fix.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
@@ -20,6 +21,8 @@
     "@tabler/icons-react": "^3.33.0",
     "@tanstack/react-query": "^5.80.7",
     "@tanstack/react-table": "^8.21.3",
+    "axios": "^1.10.0",
+    "camelcase-keys": "^9.1.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.12.1",
@@ -31,6 +34,7 @@
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.56.4",
+    "snakecase-keys": "^8.0.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
     "zustand": "^5.0.5"
@@ -47,8 +51,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "change-case": "^5.4.4",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "orval": "^7.10.0",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.8",
     "typescript": "^5"
