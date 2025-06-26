@@ -35,6 +35,7 @@ export default function Breadcrumbs() {
           return (
             <>
               <BreadcrumbItem
+                key={href}
                 className={clsx(
                   'font-bold text-lg',
                   isLast && 'text-black dark:text-white'
