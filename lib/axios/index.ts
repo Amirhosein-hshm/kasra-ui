@@ -15,7 +15,6 @@ import {
 
 import { getAuthentication } from '@services';
 
-import type { Token } from '../types/token';
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
 
 const baseURL = 'http://localhost:8000/';
@@ -96,6 +95,7 @@ api.interceptors.response.use(
         isRefreshing = true;
 
         const tokens = getAuthTokens();
+
         if (!tokens?.refreshToken) {
           refreshPromise = Promise.reject('No refresh token available');
         } else {

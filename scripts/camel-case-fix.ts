@@ -19,5 +19,3 @@ fs.readdirSync(dir).forEach((file) => {
 
   fs.writeFileSync(fullPath, transformed, 'utf8');
 });
-
-console.log('✅ All types camelCased!');

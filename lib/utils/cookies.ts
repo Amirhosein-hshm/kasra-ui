@@ -52,8 +52,9 @@ export function getAuthTokens(): AuthTokens | null {
   const accessToken = getCookie('access_token');
   const refreshToken = getCookie('refresh_token');
 
-  if (!accessToken || !refreshToken) return null;
+  if (!accessToken && !refreshToken) return null;
 
+  // @ts-ignore
   return { accessToken, refreshToken };
 }
 
