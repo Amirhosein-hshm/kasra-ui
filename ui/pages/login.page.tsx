@@ -1,20 +1,11 @@
 'use client';
 
-import { Button } from '@/ui/components/button';
 import { Card, CardContent, CardHeader } from '@/ui/components/card';
 import { ModeToggle } from '@/ui/features/theme/mode-toggler';
 import clsx from 'clsx';
-import { ChevronLeftIcon } from 'lucide-react';
-import { SetStateAction, useState } from 'react';
-import { AuthStep } from '@/lib/types/ui/AuthStep.enum';
 import AuthForms from '@/ui/features/auth/auth-forms';
 
 export default function LoginPage() {
-  const [step, setStep] = useState<AuthStep>(AuthStep.Login);
-  const handleReset = () => {
-    setStep(AuthStep.Login);
-  };
-
   return (
     <div>
       <div className="fixed top-4 right-4">
@@ -36,16 +27,6 @@ export default function LoginPage() {
           )}
         >
           <CardHeader className="relative">
-            {step === AuthStep.Otp && (
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleReset}
-                className="absolute top-0 left-[30px]"
-              >
-                <ChevronLeftIcon />
-              </Button>
-            )}
             <h1 className="text-2xl font-bold font-[vazir-bold] text-center">
               سامانه کسری
             </h1>
@@ -54,7 +35,7 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent className="px-0 w-full h-full flex justify-center items-center overflow-hidden">
-            <AuthForms step={step} setStep={setStep} />
+            <AuthForms />
           </CardContent>
         </Card>
       </div>

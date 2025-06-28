@@ -1,9 +1,15 @@
+'use client';
+
 import { PATHS } from '@/lib/constants/PATHS';
+import { useUserMe } from '@/lib/hooks';
 import FocusCards from '@/ui/common/fucos-cards';
 
 export default function DashboardPage() {
+  const { data } = useUserMe();
   return (
     <div className="h-full flex justify-center lg:items-center">
+      <div>{data?.fname}</div>
+      <div>{data?.id}</div>
       <FocusCards
         cards={[
           {

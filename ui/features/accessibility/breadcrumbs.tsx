@@ -33,7 +33,7 @@ export default function Breadcrumbs() {
             .join('/');
 
           return (
-            <>
+            <div key={href}>
               <BreadcrumbItem
                 key={href}
                 className={clsx(
@@ -44,7 +44,7 @@ export default function Breadcrumbs() {
                 <BreadcrumbLink href={`/${href}`}>{path.label}</BreadcrumbLink>
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
-            </>
+            </div>
           );
         })}
       </BreadcrumbList>

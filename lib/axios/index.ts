@@ -8,20 +8,17 @@ import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
 
 import {
-  getTokens,
-  setTokens,
-  clearTokens,
-  onAuthChange,
-  AuthTokens,
-} from './tokenStore';
+  getAuthTokens,
+  setAuthTokens,
+  clearAuthTokens,
+} from '../utils/cookies';
 
 import { getAuthentication } from '@services';
 
 import type { Token } from '../types/token';
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
 
-const baseURL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
+const baseURL = 'http://localhost:8000/';
 
 const api: AxiosInstance = axios.create({
   baseURL,
@@ -31,7 +28,7 @@ const api: AxiosInstance = axios.create({
 });
 
 let isRefreshing = false;
-let refreshPromise: Promise<AuthTokens> | null = null;
+let refreshPromise: Promise<any> | null = null;
 let failedQueue: {
   resolve: (value?: AxiosResponse) => void;
   reject: (error: any) => void;
@@ -53,16 +50,20 @@ function processQueue(error: any, token?: string) {
 
 // ✅ Attach token + snake_case conversion
 api.interceptors.request.use((config) => {
-  const tokens = getTokens();
+  const tokens = getAuthTokens();
   if (tokens && config.headers) {
     config.headers['Authorization'] = `Bearer ${tokens.accessToken}`;
   }
 
-  if (config.data) {
+  if (
+    config.data &&
+    typeof config.data === 'object' &&
+    !(config.data instanceof URLSearchParams)
+  ) {
     config.data = snakecaseKeys(config.data, { deep: true });
   }
 
-  if (config.params) {
+  if (config.params && typeof config.params === 'object') {
     config.params = snakecaseKeys(config.params, { deep: true });
   }
 
@@ -72,7 +73,11 @@ api.interceptors.request.use((config) => {
 // ✅ camelCase response + refresh token handling
 api.interceptors.response.use(
   (response) => {
-    if (response?.data && typeof response.data === 'object') {
+    if (
+      response?.data &&
+      typeof response.data === 'object' &&
+      response.data !== null
+    ) {
       response.data = camelcaseKeys(response.data, { deep: true });
     }
     return response;
@@ -90,8 +95,7 @@ api.interceptors.response.use(
       if (!isRefreshing) {
         isRefreshing = true;
 
-        // TODO: Add your real refreshToken() logic here
-        const tokens = getTokens();
+        const tokens = getAuthTokens();
         if (!tokens?.refreshToken) {
           refreshPromise = Promise.reject('No refresh token available');
         } else {
@@ -102,7 +106,7 @@ api.interceptors.response.use(
             .then((res) => {
               // The service returns an AxiosResponse<Token>
               const newTokens = res.data;
-              setTokens(newTokens);
+              setAuthTokens(newTokens);
               return newTokens;
             });
         }
@@ -113,7 +117,7 @@ api.interceptors.response.use(
           return api(originalRequest);
         } catch (refreshError) {
           processQueue(refreshError, undefined);
-          clearTokens();
+          clearAuthTokens();
           return Promise.reject(refreshError);
         } finally {
           isRefreshing = false;
@@ -131,11 +135,11 @@ api.interceptors.response.use(
 );
 
 export function setAccessToken(token: string) {
-  const tokens = getTokens();
+  const tokens = getAuthTokens();
   if (tokens) {
-    setTokens({ ...tokens, accessToken: token });
+    setAuthTokens({ ...tokens, accessToken: token });
   }
 }
 
-export { clearTokens, onAuthChange };
+export { clearAuthTokens };
 export { api };

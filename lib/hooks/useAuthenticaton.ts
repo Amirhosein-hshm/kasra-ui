@@ -5,6 +5,7 @@ import {
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { getAuthentication } from '@services';
+import { setAuthTokens, clearAuthTokens } from '../utils/cookies';
 import { BodyLoginTokenPost } from 'lib/types/bodyLoginTokenPost';
 import { Token } from 'lib/types/token';
 import { RefreshTokenRefreshTokenPostParams } from 'lib/types/refreshTokenRefreshTokenPostParams';
@@ -18,6 +19,12 @@ export function useLogin(
       getAuthentication()
         .loginTokenPost(data)
         .then((res) => res.data),
+    onSuccess: (data) => {
+      setAuthTokens({
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+      });
+    },
     ...options,
   });
 }
@@ -30,6 +37,12 @@ export function useRefreshToken(
       getAuthentication()
         .refreshTokenRefreshTokenPost(params)
         .then((res) => res.data),
+    onSuccess: (data) => {
+      setAuthTokens({
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+      });
+    },
     ...options,
   });
 }
@@ -43,4 +56,19 @@ export function useUserMe(options?: UseQueryOptions<UserInfoResponse, Error>) {
         .then((res) => res.data),
     ...options,
   });
+}
+
+export function logout() {
+  clearAuthTokens();
+}
+
+export function useLogout() {
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      clearAuthTokens();
+      return true;
+    },
+  });
+
+  return logoutMutation;
 }

@@ -1,18 +1,7 @@
 import { Toaster } from '@/ui/components/sonner';
+import QueryProvider from '@/lib/providers/query-provider';
 import type { Metadata } from 'next';
 import './globals.css';
-
-const setInitialTheme = `
-(function() {
-  try {
-    const theme = localStorage.getItem('theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (theme === 'dark' || (!theme && systemDark)) {
-      document.documentElement.classList.add('dark');
-    }
-  } catch (_) {}
-})();
-`;
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -25,13 +14,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="rtl">
+    <html lang="en" dir="rtl" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (theme === 'dark' || (!theme && systemDark)) {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (_) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
-        {children}
-        <Toaster position="top-center" />
+        <QueryProvider>
+          {children}
+          <Toaster position="top-center" />
+        </QueryProvider>
       </body>
     </html>
   );

@@ -96,7 +96,7 @@ export default function FocusCards({ cards }: { cards: Card[] }) {
         {cards.map((card, index, array) =>
           // padded last item
           index === array.length - 1 ? (
-            <>
+            <div key={card.title}>
               <Card
                 key={card.title}
                 card={card}
@@ -106,7 +106,7 @@ export default function FocusCards({ cards }: { cards: Card[] }) {
                 setHovered={setHovered}
               />
               <div className="Blank h-3" />
-            </>
+            </div>
           ) : (
             <Card
               key={card.title}

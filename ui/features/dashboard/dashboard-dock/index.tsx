@@ -1,7 +1,7 @@
 'use client';
 
 import { PATHS } from '@/lib/constants/PATHS';
-import { useAuthStore } from '@/lib/stores/auth-store';
+import { useLogout } from '@/lib/hooks';
 import FloatingDock from '@/ui/common/floating-dock';
 import { IconHome, IconLogout2, IconUser } from '@tabler/icons-react';
 import clsx from 'clsx';
@@ -10,7 +10,13 @@ import { usePathname, useRouter } from 'next/navigation';
 export default function DashboardDock() {
   const router = useRouter();
   const pathname = usePathname();
-  const { logout } = useAuthStore();
+
+  const { mutateAsync } = useLogout();
+
+  const logout = async () => {
+    await mutateAsync();
+    router.push('/auth/login');
+  };
 
   return (
     <FloatingDock
@@ -32,7 +38,7 @@ export default function DashboardDock() {
         {
           icon: <IconLogout2 className={itemIconClassName} />,
           title: 'خروج',
-          action: () => logout(() => router.replace(PATHS.auth.login)),
+          action: () => logout(),
           isActive: false,
         },
       ]}
