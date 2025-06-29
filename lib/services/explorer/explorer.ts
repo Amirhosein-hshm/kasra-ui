@@ -8,67 +8,81 @@ import type {
   RFPRequest,
   RFPResponse,
   ReadRfpsExplorerRfpsGetParams,
-  SearchRfpsEndpointExplorerRfpsSearchGetParams
+  SearchRfpsEndpointExplorerRfpsSearchGetParams,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-
-
-  export const getExplorer = () => {
-/**
- * @summary Read Rfps
- */
-const readRfpsExplorerRfpsGet = (
-    params?: ReadRfpsExplorerRfpsGetParams,
- ) => {
-      return api<RFPResponse[]>(
-      {url: `/explorer/rfps/`, method: 'GET',
-        params
-    },
-      );
-    }
+export const getExplorer = () => {
   /**
- * @summary Add Rfp
- */
-const addRfpExplorerRfpsPost = (
-    rFPRequest: RFPRequest,
- ) => {
-      return api<RFPResponse>(
-      {url: `/explorer/rfps/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: rFPRequest
-    },
-      );
-    }
+   * @summary Read Rfps
+   */
+  const readRfpsExplorerRfpsGet = (params?: ReadRfpsExplorerRfpsGetParams) => {
+    return api<RFPResponse[]>({
+      url: `/explorer/rfps/`,
+      method: 'GET',
+      params,
+    });
+  };
   /**
- * @summary Search Rfps Endpoint
- */
-const searchRfpsEndpointExplorerRfpsSearchGet = (
-    params: SearchRfpsEndpointExplorerRfpsSearchGetParams,
- ) => {
-      return api<RFPResponse[]>(
-      {url: `/explorer/rfps/search/`, method: 'GET',
-        params
-    },
-      );
-    }
+   * @summary Add Rfp
+   */
+  const addRfpExplorerRfpsPost = (rFPRequest: RFPRequest) => {
+    return api<RFPResponse>({
+      url: `/explorer/rfps/`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: rFPRequest,
+    });
+  };
   /**
- * @summary Edit Rfp
- */
-const editRfpExplorerRfpsRfpIdPut = (
+   * @summary Search Rfps Endpoint
+   */
+  const searchRfpsEndpointExplorerRfpsSearchGet = (
+    params: SearchRfpsEndpointExplorerRfpsSearchGetParams
+  ) => {
+    return api<RFPResponse[]>({
+      url: `/explorer/rfps/search/`,
+      method: 'GET',
+      params,
+    });
+  };
+  /**
+   * @summary Edit Rfp
+   */
+  const editRfpExplorerRfpsRfpIdPut = (
     rfpId: number,
-    rFPRequest: RFPRequest,
- ) => {
-      return api<RFPResponse>(
-      {url: `/explorer/rfps/${rfpId}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: rFPRequest
-    },
-      );
-    }
-  return {readRfpsExplorerRfpsGet,addRfpExplorerRfpsPost,searchRfpsEndpointExplorerRfpsSearchGet,editRfpExplorerRfpsRfpIdPut}};
-export type ReadRfpsExplorerRfpsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['readRfpsExplorerRfpsGet']>>>
-export type AddRfpExplorerRfpsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>>
-export type SearchRfpsEndpointExplorerRfpsSearchGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['searchRfpsEndpointExplorerRfpsSearchGet']>>>
-export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['editRfpExplorerRfpsRfpIdPut']>>>
+    rFPRequest: RFPRequest
+  ) => {
+    return api<RFPResponse>({
+      url: `/explorer/rfps/${rfpId}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: rFPRequest,
+    });
+  };
+  return {
+    readRfpsExplorerRfpsGet,
+    addRfpExplorerRfpsPost,
+    searchRfpsEndpointExplorerRfpsSearchGet,
+    editRfpExplorerRfpsRfpIdPut,
+  };
+};
+export type ReadRfpsExplorerRfpsGetResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getExplorer>['readRfpsExplorerRfpsGet']>>
+>;
+export type AddRfpExplorerRfpsPostResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>
+>;
+export type SearchRfpsEndpointExplorerRfpsSearchGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getExplorer>['searchRfpsEndpointExplorerRfpsSearchGet']
+    >
+  >
+>;
+export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getExplorer>['editRfpExplorerRfpsRfpIdPut']>
+  >
+>;

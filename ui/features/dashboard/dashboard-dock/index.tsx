@@ -2,8 +2,10 @@
 
 import { PATHS } from '@/lib/constants/PATHS';
 import { useLogout } from '@/lib/hooks';
+import { useMeStore } from '@/lib/stores/me.stores';
 import FloatingDock from '@/ui/common/floating-dock';
 import { IconHome, IconLogout2, IconUser } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -11,11 +13,17 @@ export default function DashboardDock() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const queryClient = useQueryClient();
+
+  const clearUser = useMeStore((s) => s.clearUser);
+
   const { mutateAsync } = useLogout();
 
   const logout = async () => {
     await mutateAsync();
     router.push('/auth/login');
+    clearUser();
+    queryClient.clear();
   };
 
   return (
