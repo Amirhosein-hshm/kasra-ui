@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Define protected routes that require authentication
 const protectedRoutes = [
   '/dashboard',
   '/profile',
@@ -12,7 +11,6 @@ const protectedRoutes = [
   '/rfps',
 ];
 
-// Define public routes that don't require authentication
 const publicRoutes = [
   '/login',
   '/auth/login',
@@ -21,35 +19,51 @@ const publicRoutes = [
   '/api',
 ];
 
+export const ROLE_ACCESS: Record<RoleId, string[]> = {
+  1: ['/dashboard/proposals', '/profile'],
+  2: ['/dashboard/rfps', '/profile'],
+  3: ['/dashboard', '/profile', '/settings', '/projects'],
+  4: ['/dashboard', '/profile'],
+  5: ['/dashboard', '/profile'],
+};
+
+export type RoleId = 1 | 2 | 3 | 4 | 5;
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if the path is a public route
   const isPublicRoute = publicRoutes.some((route) =>
     pathname.startsWith(route)
   );
 
-  // Check if the path is a protected route
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
 
-  // Get the access token from cookies
   const accessToken = request.cookies.get('access_token')?.value;
 
-  // If accessing a protected route without a token, redirect to login
+  const roleId = request.cookies.get('user_role_id')?.value;
+
   if (isProtectedRoute && !accessToken) {
     const loginUrl = new URL('/auth/login', request.url);
     return NextResponse.redirect(loginUrl);
   }
 
-  // If accessing login page with a token, redirect to dashboard
+  if (isProtectedRoute && accessToken && roleId) {
+    const roleAccess = ROLE_ACCESS[parseInt(roleId, 10) as RoleId] || [];
+    const hasAccess = roleAccess.some((route) => pathname.startsWith(route));
+
+    if (!hasAccess) {
+      const unauthorizedUrl = new URL('/auth/forbidden', request.url);
+      return NextResponse.redirect(unauthorizedUrl);
+    }
+  }
+
   if ((pathname === '/login' || pathname === '/auth/login') && accessToken) {
     const dashboardUrl = new URL('/dashboard', request.url);
     return NextResponse.redirect(dashboardUrl);
   }
 
-  // Allow all other requests to proceed
   return NextResponse.next();
 }
 

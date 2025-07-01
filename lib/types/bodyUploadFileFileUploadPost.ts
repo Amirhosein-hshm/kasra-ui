@@ -5,9 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface Token {
-  accessToken: string;
-  tokenType: string;
-  refreshToken: string;
-  roleId: number;
+export interface BodyUploadFileFileUploadPost {
+  file: Blob;
 }

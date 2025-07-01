@@ -1,21 +1,16 @@
 {
   "openapi": "3.1.0",
-  "info": {
-    "title": "FastAPI",
-    "version": "0.1.0"
-  },
+  "info": { "title": "FastAPI", "version": "0.1.0" },
   "paths": {
     "/token": {
       "post": {
-        "tags": ["authenticaton"],
+        "tags": ["authentication"],
         "summary": "Login",
         "operationId": "login_token_post",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Body_login_token_post"
-              }
+              "schema": { "$ref": "#/components/schemas/Body_login_token_post" }
             }
           },
           "required": true
@@ -25,9 +20,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Token"
-                }
+                "schema": { "$ref": "#/components/schemas/Token" }
               }
             }
           },
@@ -35,9 +28,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -46,7 +37,7 @@
     },
     "/refresh-token": {
       "post": {
-        "tags": ["authenticaton"],
+        "tags": ["authentication"],
         "summary": "Refresh Token",
         "operationId": "refresh_token_refresh_token_post",
         "parameters": [
@@ -54,10 +45,7 @@
             "name": "refresh_token",
             "in": "query",
             "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Refresh Token"
-            }
+            "schema": { "type": "string", "title": "Refresh Token" }
           }
         ],
         "responses": {
@@ -65,9 +53,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Token"
-                }
+                "schema": { "$ref": "#/components/schemas/Token" }
               }
             }
           },
@@ -75,9 +61,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -86,7 +70,7 @@
     },
     "/users/me": {
       "get": {
-        "tags": ["authenticaton"],
+        "tags": ["authentication"],
         "summary": "Read Users Me",
         "operationId": "read_users_me_users_me_get",
         "responses": {
@@ -94,18 +78,25 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserInfoResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/UserInfoResponse" }
               }
             }
           }
         },
-        "security": [
-          {
-            "OAuth2PasswordBearer": []
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/seed/seed/": {
+      "get": {
+        "tags": ["seed"],
+        "summary": "Add Proposal",
+        "operationId": "add_proposal_seed_seed__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
           }
-        ]
+        }
       }
     },
     "/broker/proposals/": {
@@ -118,21 +109,13 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -142,9 +125,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProposalResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProposalResponse" },
                   "title": "Response Read Proposals Broker Proposals  Get"
                 }
               }
@@ -154,9 +135,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -173,30 +152,19 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           },
           {
             "name": "info",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "string",
-              "title": "Info"
-            }
+            "schema": { "type": "string", "title": "Info" }
           }
         ],
         "responses": {
@@ -206,9 +174,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProposalResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProposalResponse" },
                   "title": "Response Read Proposals Broker Proposals Like  Get"
                 }
               }
@@ -218,9 +184,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -237,10 +201,7 @@
             "name": "proposal_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Proposal Id"
-            }
+            "schema": { "type": "integer", "title": "Proposal Id" }
           }
         ],
         "responses": {
@@ -248,9 +209,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
               }
             }
           },
@@ -258,9 +217,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -275,9 +232,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CommissionRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/CommissionRequest" }
             }
           },
           "required": true
@@ -287,9 +242,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommissionResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/CommissionResponse" }
               }
             }
           },
@@ -297,9 +250,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -314,9 +265,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProposalRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/ProposalRequest" }
             }
           },
           "required": true
@@ -326,9 +275,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
               }
             }
           },
@@ -336,9 +283,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -355,10 +300,7 @@
             "name": "proposal_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Proposal Id"
-            }
+            "schema": { "type": "integer", "title": "Proposal Id" }
           }
         ],
         "responses": {
@@ -366,9 +308,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
               }
             }
           },
@@ -376,9 +316,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -390,26 +328,19 @@
         "tags": ["user"],
         "summary": "Read Projects",
         "operationId": "read_projects_users_projects__get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
         "parameters": [
           {
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -419,9 +350,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
                   "title": "Response Read Projects Users Projects  Get"
                 }
               }
@@ -431,9 +360,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -450,10 +377,7 @@
             "name": "project_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Project Id"
-            }
+            "schema": { "type": "integer", "title": "Project Id" }
           }
         ],
         "responses": {
@@ -463,9 +387,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ReportResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ReportResponse" },
                   "title": "Response Read Reports Users Reports By Project  Project Id  Get"
                 }
               }
@@ -475,9 +397,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -492,9 +412,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ReportRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/ReportRequest" }
             }
           },
           "required": true
@@ -504,9 +422,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReportResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ReportResponse" }
               }
             }
           },
@@ -514,9 +430,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -533,10 +447,7 @@
             "name": "report_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Report Id"
-            }
+            "schema": { "type": "integer", "title": "Report Id" }
           }
         ],
         "responses": {
@@ -544,9 +455,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReportResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ReportResponse" }
               }
             }
           },
@@ -554,9 +463,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -573,21 +480,13 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -597,9 +496,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RFPResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/RFPResponse" },
                   "title": "Response Read Rfps Explorer Rfps  Get"
                 }
               }
@@ -609,9 +506,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -625,9 +520,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RFPRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/RFPRequest" }
             }
           }
         },
@@ -636,8 +529,49 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
+                "schema": { "$ref": "#/components/schemas/RFPResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/explorer/rfp-fields/": {
+      "get": {
+        "tags": ["explorer"],
+        "summary": "Read Rfp Fields",
+        "operationId": "read_rfp_fields_explorer_rfp_fields__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RFPResponse"
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/RFPFieldResponse" },
+                  "title": "Response Read Rfp Fields Explorer Rfp Fields  Get"
                 }
               }
             }
@@ -646,9 +580,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -665,30 +597,19 @@
             "name": "query",
             "in": "query",
             "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Query"
-            }
+            "schema": { "type": "string", "title": "Query" }
           },
           {
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -698,9 +619,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RFPResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/RFPResponse" },
                   "title": "Response Search Rfps Endpoint Explorer Rfps Search  Get"
                 }
               }
@@ -710,9 +629,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -729,19 +646,14 @@
             "name": "rfp_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Rfp Id"
-            }
+            "schema": { "type": "integer", "title": "Rfp Id" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RFPRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/RFPRequest" }
             }
           }
         },
@@ -750,9 +662,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RFPResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/RFPResponse" }
               }
             }
           },
@@ -760,11 +670,83 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
+          }
+        }
+      }
+    },
+    "/file/upload/": {
+      "post": {
+        "tags": ["file"],
+        "summary": "Upload File",
+        "operationId": "upload_file_file_upload__post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_file_file_upload__post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/file/download/{file_id}": {
+      "get": {
+        "tags": ["file"],
+        "summary": "Download File",
+        "operationId": "download_file_file_download__file_id__get",
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "File Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/file/files": {
+      "get": {
+        "tags": ["file"],
+        "summary": "Get File Ids",
+        "operationId": "get_file_ids_file_files_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -779,21 +761,13 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -803,9 +777,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProposalResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProposalResponse" },
                   "title": "Response Read Proposals Supervisor Proposals  Get"
                 }
               }
@@ -815,9 +787,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -834,30 +804,19 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           },
           {
             "name": "info",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "string",
-              "title": "Info"
-            }
+            "schema": { "type": "string", "title": "Info" }
           }
         ],
         "responses": {
@@ -867,9 +826,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProposalResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProposalResponse" },
                   "title": "Response Read Proposals Supervisor Proposals Like  Get"
                 }
               }
@@ -879,9 +836,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -898,10 +853,7 @@
             "name": "proposal_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Proposal Id"
-            }
+            "schema": { "type": "integer", "title": "Proposal Id" }
           }
         ],
         "responses": {
@@ -909,9 +861,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
               }
             }
           },
@@ -919,9 +869,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -936,19 +884,14 @@
             "name": "proposal_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Proposal Id"
-            }
+            "schema": { "type": "integer", "title": "Proposal Id" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProposalUpdate"
-              }
+              "schema": { "$ref": "#/components/schemas/ProposalUpdate" }
             }
           }
         },
@@ -957,9 +900,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProposalResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
               }
             }
           },
@@ -967,9 +908,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -986,21 +925,13 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -1010,9 +941,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ReportResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ReportResponse" },
                   "title": "Response Read Reports Supervisor Reports  Get"
                 }
               }
@@ -1022,9 +951,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -1041,10 +968,7 @@
             "name": "report_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Report Id"
-            }
+            "schema": { "type": "integer", "title": "Report Id" }
           }
         ],
         "responses": {
@@ -1052,9 +976,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReportResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ReportResponse" }
               }
             }
           },
@@ -1062,9 +984,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -1079,19 +999,14 @@
             "name": "report_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "title": "Report Id"
-            }
+            "schema": { "type": "integer", "title": "Report Id" }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ReportUpdate"
-              }
+              "schema": { "$ref": "#/components/schemas/ReportUpdate" }
             }
           }
         },
@@ -1100,9 +1015,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ReportResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ReportResponse" }
               }
             }
           },
@@ -1110,9 +1023,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -1129,21 +1040,13 @@
             "name": "skip",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 0,
-              "title": "Skip"
-            }
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "title": "Limit"
-            }
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           }
         ],
         "responses": {
@@ -1153,9 +1056,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectResponse"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
                   "title": "Response Read Projects Supervisor Projects  Get"
                 }
               }
@@ -1165,9 +1066,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
               }
             }
           }
@@ -1181,49 +1080,25 @@
         "properties": {
           "grant_type": {
             "anyOf": [
-              {
-                "type": "string",
-                "pattern": "^password$"
-              },
-              {
-                "type": "null"
-              }
+              { "type": "string", "pattern": "^password$" },
+              { "type": "null" }
             ],
             "title": "Grant Type"
           },
-          "username": {
-            "type": "string",
-            "title": "Username"
-          },
+          "username": { "type": "string", "title": "Username" },
           "password": {
             "type": "string",
+            "format": "password",
             "title": "Password"
           },
-          "scope": {
-            "type": "string",
-            "title": "Scope",
-            "default": ""
-          },
+          "scope": { "type": "string", "title": "Scope", "default": "" },
           "client_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Client Id"
           },
           "client_secret": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "format": "password",
             "title": "Client Secret"
           }
         },
@@ -1231,24 +1106,20 @@
         "required": ["username", "password"],
         "title": "Body_login_token_post"
       },
+      "Body_upload_file_file_upload__post": {
+        "properties": {
+          "file": { "type": "string", "format": "binary", "title": "File" }
+        },
+        "type": "object",
+        "required": ["file"],
+        "title": "Body_upload_file_file_upload__post"
+      },
       "CommissionRequest": {
         "properties": {
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "state": {
-            "type": "integer",
-            "title": "State"
-          },
-          "proposal_id": {
-            "type": "integer",
-            "title": "Proposal Id"
-          },
+          "title": { "type": "string", "title": "Title" },
+          "comment": { "type": "string", "title": "Comment" },
+          "state": { "type": "integer", "title": "State" },
+          "proposal_id": { "type": "integer", "title": "Proposal Id" },
           "user_supervisor_id": {
             "type": "integer",
             "title": "User Supervisor Id"
@@ -1258,14 +1129,7 @@
             "title": "User Discoverer Id"
           },
           "file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "File Id"
           }
         },
@@ -1282,26 +1146,11 @@
       },
       "CommissionResponse": {
         "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "state": {
-            "type": "integer",
-            "title": "State"
-          },
-          "proposal_id": {
-            "type": "integer",
-            "title": "Proposal Id"
-          },
+          "id": { "type": "integer", "title": "Id" },
+          "title": { "type": "string", "title": "Title" },
+          "comment": { "type": "string", "title": "Comment" },
+          "state": { "type": "integer", "title": "State" },
+          "proposal_id": { "type": "integer", "title": "Proposal Id" },
           "user_supervisor_id": {
             "type": "integer",
             "title": "User Supervisor Id"
@@ -1311,14 +1160,7 @@
             "title": "User Discoverer Id"
           },
           "file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "File Id"
           }
         },
@@ -1337,9 +1179,7 @@
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
+            "items": { "$ref": "#/components/schemas/ValidationError" },
             "type": "array",
             "title": "Detail"
           }
@@ -1349,18 +1189,9 @@
       },
       "ProjectResponse": {
         "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "proposal_id": {
-            "type": "integer",
-            "title": "Proposal Id"
-          },
+          "id": { "type": "integer", "title": "Id" },
+          "title": { "type": "string", "title": "Title" },
+          "proposal_id": { "type": "integer", "title": "Proposal Id" },
           "user_supervisor_id": {
             "type": "integer",
             "title": "User Supervisor Id"
@@ -1369,18 +1200,9 @@
             "type": "integer",
             "title": "User Discoverer Id"
           },
-          "user_master_id": {
-            "type": "integer",
-            "title": "User Master Id"
-          },
-          "user_broker_id": {
-            "type": "integer",
-            "title": "User Broker Id"
-          },
-          "user_user_id": {
-            "type": "integer",
-            "title": "User User Id"
-          }
+          "user_master_id": { "type": "integer", "title": "User Master Id" },
+          "user_broker_id": { "type": "integer", "title": "User Broker Id" },
+          "user_user_id": { "type": "integer", "title": "User User Id" }
         },
         "type": "object",
         "required": [
@@ -1397,35 +1219,13 @@
       },
       "ProposalRequest": {
         "properties": {
-          "info": {
-            "type": "string",
-            "title": "Info"
-          },
-          "RFP_id": {
-            "type": "integer",
-            "title": "Rfp Id"
-          },
-          "user_id": {
-            "type": "integer",
-            "title": "User Id"
-          },
-          "state": {
-            "type": "integer",
-            "title": "State"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
+          "info": { "type": "string", "title": "Info" },
+          "RFP_id": { "type": "integer", "title": "Rfp Id" },
+          "user_id": { "type": "integer", "title": "User Id" },
+          "state": { "type": "integer", "title": "State" },
+          "comment": { "type": "string", "title": "Comment" },
           "file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "File Id"
           }
         },
@@ -1435,39 +1235,14 @@
       },
       "ProposalResponse": {
         "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "info": {
-            "type": "string",
-            "title": "Info"
-          },
-          "RFP_id": {
-            "type": "integer",
-            "title": "Rfp Id"
-          },
-          "user_id": {
-            "type": "integer",
-            "title": "User Id"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "state": {
-            "type": "integer",
-            "title": "State"
-          },
+          "id": { "type": "integer", "title": "Id" },
+          "info": { "type": "string", "title": "Info" },
+          "RFP_id": { "type": "integer", "title": "Rfp Id" },
+          "user_id": { "type": "integer", "title": "User Id" },
+          "comment": { "type": "string", "title": "Comment" },
+          "state": { "type": "integer", "title": "State" },
           "file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "File Id"
           }
         },
@@ -1477,85 +1252,55 @@
       },
       "ProposalUpdate": {
         "properties": {
-          "state": {
-            "type": "integer",
-            "title": "State"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          }
+          "state": { "type": "integer", "title": "State" },
+          "comment": { "type": "string", "title": "Comment" }
         },
         "type": "object",
         "required": ["state", "comment"],
         "title": "ProposalUpdate"
       },
+      "RFPFieldResponse": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "title": { "type": "string", "title": "Title" }
+        },
+        "type": "object",
+        "required": ["id", "title"],
+        "title": "RFPFieldResponse"
+      },
       "RFPRequest": {
         "properties": {
-          "info": {
-            "type": "string",
-            "title": "Info"
-          },
+          "info": { "type": "string", "title": "Info" },
+          "RFP_field_id": { "type": "integer", "title": "Rfp Field Id" },
           "file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "File Id"
           }
         },
         "type": "object",
-        "required": ["info"],
+        "required": ["info", "RFP_field_id"],
         "title": "RFPRequest"
       },
       "RFPResponse": {
         "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "info": {
-            "type": "string",
-            "title": "Info"
-          },
+          "id": { "type": "integer", "title": "Id" },
+          "info": { "type": "string", "title": "Info" },
+          "RFP_field_id": { "type": "integer", "title": "Rfp Field Id" },
           "file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "File Id"
           }
         },
         "type": "object",
-        "required": ["id", "info"],
+        "required": ["id", "info", "RFP_field_id"],
         "title": "RFPResponse"
       },
       "ReportRequest": {
         "properties": {
-          "info": {
-            "type": "string",
-            "title": "Info"
-          },
-          "project_id": {
-            "type": "integer",
-            "title": "Project Id"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "state": {
-            "type": "integer",
-            "title": "State"
-          }
+          "info": { "type": "string", "title": "Info" },
+          "project_id": { "type": "integer", "title": "Project Id" },
+          "comment": { "type": "string", "title": "Comment" },
+          "state": { "type": "integer", "title": "State" }
         },
         "type": "object",
         "required": ["info", "project_id", "comment", "state"],
@@ -1563,26 +1308,11 @@
       },
       "ReportResponse": {
         "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "info": {
-            "type": "string",
-            "title": "Info"
-          },
-          "project_id": {
-            "type": "integer",
-            "title": "Project Id"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          },
-          "state": {
-            "type": "integer",
-            "title": "State"
-          }
+          "id": { "type": "integer", "title": "Id" },
+          "info": { "type": "string", "title": "Info" },
+          "project_id": { "type": "integer", "title": "Project Id" },
+          "comment": { "type": "string", "title": "Comment" },
+          "state": { "type": "integer", "title": "State" }
         },
         "type": "object",
         "required": ["id", "info", "project_id", "comment", "state"],
@@ -1590,14 +1320,8 @@
       },
       "ReportUpdate": {
         "properties": {
-          "state": {
-            "type": "integer",
-            "title": "State"
-          },
-          "comment": {
-            "type": "string",
-            "title": "Comment"
-          }
+          "state": { "type": "integer", "title": "State" },
+          "comment": { "type": "string", "title": "Comment" }
         },
         "type": "object",
         "required": ["state", "comment"],
@@ -1605,90 +1329,37 @@
       },
       "Token": {
         "properties": {
-          "access_token": {
-            "type": "string",
-            "title": "Access Token"
-          },
-          "token_type": {
-            "type": "string",
-            "title": "Token Type"
-          },
-          "refresh_token": {
-            "type": "string",
-            "title": "Refresh Token"
-          }
+          "access_token": { "type": "string", "title": "Access Token" },
+          "token_type": { "type": "string", "title": "Token Type" },
+          "refresh_token": { "type": "string", "title": "Refresh Token" },
+          "role_id": { "type": "integer", "title": "Role Id" }
         },
         "type": "object",
-        "required": ["access_token", "token_type", "refresh_token"],
+        "required": ["access_token", "token_type", "refresh_token", "role_id"],
         "title": "Token"
       },
       "UserInfoResponse": {
         "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "username": {
-            "type": "string",
-            "title": "Username"
-          },
-          "fname": {
-            "type": "string",
-            "title": "Fname"
-          },
-          "lname": {
-            "type": "string",
-            "title": "Lname"
-          },
-          "father_name": {
-            "type": "string",
-            "title": "Father Name"
-          },
-          "birth": {
-            "type": "string",
-            "format": "date",
-            "title": "Birth"
-          },
+          "id": { "type": "integer", "title": "Id" },
+          "username": { "type": "string", "title": "Username" },
+          "fname": { "type": "string", "title": "Fname" },
+          "lname": { "type": "string", "title": "Lname" },
+          "father_name": { "type": "string", "title": "Father Name" },
+          "birth": { "type": "string", "format": "date", "title": "Birth" },
           "resume_file_id": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
             "title": "Resume File Id"
           },
           "address": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Address"
           },
           "phone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
             "title": "Phone"
           },
-          "active": {
-            "type": "boolean",
-            "title": "Active"
-          },
-          "user_type": {
-            "$ref": "#/components/schemas/UserTypeInfo"
-          }
+          "active": { "type": "boolean", "title": "Active" },
+          "user_type_id": { "type": "integer", "title": "User Type Id" }
         },
         "type": "object",
         "required": [
@@ -1699,49 +1370,19 @@
           "father_name",
           "birth",
           "active",
-          "user_type"
+          "user_type_id"
         ],
         "title": "UserInfoResponse"
-      },
-      "UserTypeInfo": {
-        "properties": {
-          "id": {
-            "type": "integer",
-            "title": "Id"
-          },
-          "info": {
-            "type": "string",
-            "title": "Info"
-          }
-        },
-        "type": "object",
-        "required": ["id", "info"],
-        "title": "UserTypeInfo"
       },
       "ValidationError": {
         "properties": {
           "loc": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            },
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
             "type": "array",
             "title": "Location"
           },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
-          }
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
         },
         "type": "object",
         "required": ["loc", "msg", "type"],
@@ -1751,12 +1392,7 @@
     "securitySchemes": {
       "OAuth2PasswordBearer": {
         "type": "oauth2",
-        "flows": {
-          "password": {
-            "scopes": {},
-            "tokenUrl": "token"
-          }
-        }
+        "flows": { "password": { "scopes": {}, "tokenUrl": "token" } }
       }
     }
   }

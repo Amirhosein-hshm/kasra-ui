@@ -7,7 +7,6 @@
 import type { UserInfoResponseResumeFileId } from './userInfoResponseResumeFileId';
 import type { UserInfoResponseAddress } from './userInfoResponseAddress';
 import type { UserInfoResponsePhone } from './userInfoResponsePhone';
-import type { UserTypeInfo } from './userTypeInfo';
 
 export interface UserInfoResponse {
   id: number;
@@ -20,5 +19,5 @@ export interface UserInfoResponse {
   address?: UserInfoResponseAddress;
   phone?: UserInfoResponsePhone;
   active: boolean;
-  userType: UserTypeInfo;
+  userTypeId: number;
 }

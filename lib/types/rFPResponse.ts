@@ -9,5 +9,6 @@ import type { RFPResponseFileId } from './rFPResponseFileId';
 export interface RFPResponse {
   id: number;
   info: string;
+  RFP_field_id: number;
   fileId?: RFPResponseFileId;
 }

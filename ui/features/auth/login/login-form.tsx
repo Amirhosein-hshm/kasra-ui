@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { BodyLoginTokenPost } from '@/lib/types';
 
 interface Props {
-  onSuccess: () => void;
+  onSuccess: (roleId: number | string) => void;
 }
 
 export default function LoginForm({ onSuccess }: Props) {
@@ -22,12 +22,12 @@ export default function LoginForm({ onSuccess }: Props) {
 
   const handleSubmit = form.handleSubmit(async (data: BodyLoginTokenPost) => {
     try {
-      await mutateAsync({
+      const login = await mutateAsync({
         username: data.username,
         password: data.password,
         grantType: 'password',
       });
-      onSuccess();
+      onSuccess(login.roleId);
     } catch (error) {
       console.error('Login failed:', error);
     } finally {

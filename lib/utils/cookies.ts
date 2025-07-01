@@ -1,7 +1,7 @@
-// types
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
+  userRoleId?: number;
 }
 
 // Set a cookie with optional expiration (default: 7 days)
@@ -39,27 +39,39 @@ function deleteCookie(name: string): void {
   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
 }
 
-// Set both access and refresh tokens
-export function setAuthTokens({ accessToken, refreshToken }: AuthTokens): void {
+// Set access, refresh tokens and optional role
+export function setAuthTokens({
+  accessToken,
+  refreshToken,
+  userRoleId,
+}: AuthTokens): void {
   if (!accessToken || !refreshToken) return;
 
   setCookie('access_token', accessToken, 1); // 1 day for access token
   setCookie('refresh_token', refreshToken, 7); // 7 days for refresh token
+
+  if (userRoleId !== undefined) {
+    setCookie('user_role_id', userRoleId.toString(), 1); // 1 day or as needed
+  }
 }
 
-// Get both tokens from cookies
+// Get tokens and userRoleId from cookies
 export function getAuthTokens(): AuthTokens | null {
   const accessToken = getCookie('access_token');
   const refreshToken = getCookie('refresh_token');
+  const userRoleIdRaw = getCookie('user_role_id');
 
-  if (!accessToken && !refreshToken) return null;
+  if (!refreshToken) return null;
+
+  const userRoleId = userRoleIdRaw ? parseInt(userRoleIdRaw, 10) : undefined;
 
   // @ts-ignore
-  return { accessToken, refreshToken };
+  return { accessToken, refreshToken, userRoleId };
 }
 
-// Clear both tokens
+// Clear all auth-related cookies
 export function clearAuthTokens(): void {
   deleteCookie('access_token');
   deleteCookie('refresh_token');
+  deleteCookie('user_role_id');
 }

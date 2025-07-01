@@ -104,7 +104,6 @@ api.interceptors.response.use(
               refreshToken: tokens.refreshToken,
             } as RefreshTokenRefreshTokenPostParams)
             .then((res) => {
-              // The service returns an AxiosResponse<Token>
               const newTokens = res.data;
               setAuthTokens(newTokens);
               return newTokens;

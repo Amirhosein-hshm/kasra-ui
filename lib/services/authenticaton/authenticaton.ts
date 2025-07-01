@@ -56,6 +56,7 @@ export const getAuthenticaton = () => {
   const refreshTokenRefreshTokenPost = (
     params: RefreshTokenRefreshTokenPostParams
   ) => {
+    console.log('hi');
     return api<Token>({ url: `/refresh-token`, method: 'POST', params });
   };
   /**

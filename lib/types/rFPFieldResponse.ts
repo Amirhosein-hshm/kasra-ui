@@ -5,7 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface UserTypeInfo {
+export interface RFPFieldResponse {
   id: number;
-  info: string;
+  title: string;
 }

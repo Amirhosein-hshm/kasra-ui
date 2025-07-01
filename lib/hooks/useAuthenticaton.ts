@@ -21,6 +21,7 @@ export function useLogin(
         .then((res) => res.data),
     onSuccess: (data) => {
       setAuthTokens({
+        userRoleId: data.roleId,
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,
       });

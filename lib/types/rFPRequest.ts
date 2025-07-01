@@ -8,5 +8,6 @@ import type { RFPRequestFileId } from './rFPRequestFileId';
 
 export interface RFPRequest {
   info: string;
+  RFP_field_id: number;
   fileId?: RFPRequestFileId;
 }

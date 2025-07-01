@@ -6,9 +6,13 @@ import { toast } from 'sonner';
 export default function AuthForms() {
   const router = useRouter();
 
-  function handleLoginSuccess() {
+  function handleLoginSuccess(roleId: number | string) {
     toast.success('ورود موفقیت‌آمیز بود');
-    router.push('/dashboard');
+    roleId === 1
+      ? router.push('/dashboard/proposals')
+      : roleId === 2
+      ? router.push('/dashboard/rfps')
+      : router.push('/dashboard');
   }
 
   return (

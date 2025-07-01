@@ -5,84 +5,85 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
+  RFPFieldResponse,
   RFPRequest,
   RFPResponse,
+  ReadRfpFieldsExplorerRfpFieldsGetParams,
   ReadRfpsExplorerRfpsGetParams,
-  SearchRfpsEndpointExplorerRfpsSearchGetParams,
+  SearchRfpsEndpointExplorerRfpsSearchGetParams
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-export const getExplorer = () => {
+
+
+  export const getExplorer = () => {
+/**
+ * @summary Read Rfps
+ */
+const readRfpsExplorerRfpsGet = (
+    params?: ReadRfpsExplorerRfpsGetParams,
+ ) => {
+      return api<RFPResponse[]>(
+      {url: `/explorer/rfps/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Read Rfps
-   */
-  const readRfpsExplorerRfpsGet = (params?: ReadRfpsExplorerRfpsGetParams) => {
-    return api<RFPResponse[]>({
-      url: `/explorer/rfps/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Add Rfp
+ */
+const addRfpExplorerRfpsPost = (
+    rFPRequest: RFPRequest,
+ ) => {
+      return api<RFPResponse>(
+      {url: `/explorer/rfps/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: rFPRequest
+    },
+      );
+    }
   /**
-   * @summary Add Rfp
-   */
-  const addRfpExplorerRfpsPost = (rFPRequest: RFPRequest) => {
-    return api<RFPResponse>({
-      url: `/explorer/rfps/`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: rFPRequest,
-    });
-  };
+ * @summary Read Rfp Fields
+ */
+const readRfpFieldsExplorerRfpFieldsGet = (
+    params?: ReadRfpFieldsExplorerRfpFieldsGetParams,
+ ) => {
+      return api<RFPFieldResponse[]>(
+      {url: `/explorer/rfp-fields/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Search Rfps Endpoint
-   */
-  const searchRfpsEndpointExplorerRfpsSearchGet = (
-    params: SearchRfpsEndpointExplorerRfpsSearchGetParams
-  ) => {
-    return api<RFPResponse[]>({
-      url: `/explorer/rfps/search/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Search Rfps Endpoint
+ */
+const searchRfpsEndpointExplorerRfpsSearchGet = (
+    params: SearchRfpsEndpointExplorerRfpsSearchGetParams,
+ ) => {
+      return api<RFPResponse[]>(
+      {url: `/explorer/rfps/search/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Edit Rfp
-   */
-  const editRfpExplorerRfpsRfpIdPut = (
+ * @summary Edit Rfp
+ */
+const editRfpExplorerRfpsRfpIdPut = (
     rfpId: number,
-    rFPRequest: RFPRequest
-  ) => {
-    return api<RFPResponse>({
-      url: `/explorer/rfps/${rfpId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: rFPRequest,
-    });
-  };
-  return {
-    readRfpsExplorerRfpsGet,
-    addRfpExplorerRfpsPost,
-    searchRfpsEndpointExplorerRfpsSearchGet,
-    editRfpExplorerRfpsRfpIdPut,
-  };
-};
-export type ReadRfpsExplorerRfpsGetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getExplorer>['readRfpsExplorerRfpsGet']>>
->;
-export type AddRfpExplorerRfpsPostResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>
->;
-export type SearchRfpsEndpointExplorerRfpsSearchGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getExplorer>['searchRfpsEndpointExplorerRfpsSearchGet']
-    >
-  >
->;
-export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getExplorer>['editRfpExplorerRfpsRfpIdPut']>
-  >
->;
+    rFPRequest: RFPRequest,
+ ) => {
+      return api<RFPResponse>(
+      {url: `/explorer/rfps/${rfpId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: rFPRequest
+    },
+      );
+    }
+  return {readRfpsExplorerRfpsGet,addRfpExplorerRfpsPost,readRfpFieldsExplorerRfpFieldsGet,searchRfpsEndpointExplorerRfpsSearchGet,editRfpExplorerRfpsRfpIdPut}};
+export type ReadRfpsExplorerRfpsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['readRfpsExplorerRfpsGet']>>>
+export type AddRfpExplorerRfpsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>>
+export type ReadRfpFieldsExplorerRfpFieldsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['readRfpFieldsExplorerRfpFieldsGet']>>>
+export type SearchRfpsEndpointExplorerRfpsSearchGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['searchRfpsEndpointExplorerRfpsSearchGet']>>>
+export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['editRfpExplorerRfpsRfpIdPut']>>>
