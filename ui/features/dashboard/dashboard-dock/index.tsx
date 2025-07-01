@@ -15,10 +15,7 @@ export default function DashboardDock() {
 
   const queryClient = useQueryClient();
 
-  const { clearUser, userTypeId } = useMeStore((s) => ({
-    clearUser: s.clearUser,
-    userTypeId: s.user?.userTypeId,
-  }));
+  const clearUser = useMeStore((s) => s.clearUser);
 
   const { mutateAsync } = useLogout();
 
