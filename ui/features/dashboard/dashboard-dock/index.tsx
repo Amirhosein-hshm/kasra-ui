@@ -42,6 +42,7 @@ export default function DashboardDock() {
           title: 'داشبورد',
           action: PATHS.dashboard.root,
           isActive: pathname.includes(PATHS.dashboard.root),
+          permissions: [3, 4, 5],
         },
         {
           icon: <IconLogout2 className={itemIconClassName} />,

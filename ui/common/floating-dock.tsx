@@ -1,6 +1,7 @@
 'use client';
 
-import FloatingDockItem from '@/lib/types/ui/FloatingDockItem.interface';
+import { useMeStore } from '@/lib/stores/me.stores';
+import { FloatingDockItem } from '../../lib/ui-types';
 import { cn } from '@/lib/utils';
 import { IconLayoutNavbarCollapse } from '@tabler/icons-react';
 import clsx from 'clsx';
@@ -24,10 +25,17 @@ const FloatingDock = ({
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
+  const calculateItems = items.filter((item) =>
+    !item.permissions ? true : item.permissions.includes(userTypeId || 0)
+  );
   return (
     <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
+      <FloatingDockDesktop
+        items={calculateItems}
+        className={desktopClassName}
+      />
+      <FloatingDockMobile items={calculateItems} className={mobileClassName} />
     </>
   );
 };
@@ -109,6 +117,10 @@ const FloatingDockDesktop = ({
   className?: string;
 }) => {
   let mouseX = useMotionValue(Infinity);
+
+  const IconsContainer = items.map((item) => (
+    <IconContainer mouseX={mouseX} key={item.title} {...item} />
+  ));
   return (
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
@@ -118,9 +130,7 @@ const FloatingDockDesktop = ({
         className
       )}
     >
-      {items.map((item) => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
-      ))}
+      {IconsContainer}
     </motion.div>
   );
 };
