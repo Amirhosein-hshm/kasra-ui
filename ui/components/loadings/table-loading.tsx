@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/ui/components/table';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/ui/components/skeleton';
 
 export function TableSkeleton() {
   return (

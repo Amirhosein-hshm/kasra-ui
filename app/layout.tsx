@@ -1,6 +1,7 @@
 'use client';
 import { Toaster } from '@/ui/components/sonner';
 import QueryProvider from '@/lib/providers/query-provider';
+import { DirectionProvider } from '@radix-ui/react-direction';
 import './globals.css';
 
 export default function RootLayout({
@@ -29,7 +30,7 @@ export default function RootLayout({
       </head>
       <body>
         <QueryProvider>
-          {children}
+          <DirectionProvider dir="rtl">{children}</DirectionProvider>
           <Toaster position="top-center" />
         </QueryProvider>
       </body>

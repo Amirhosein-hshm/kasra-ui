@@ -12,12 +12,23 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 import { Button } from '@/ui/components/button';
-import { ArrowUpDown, Edit, Eye, MoreHorizontal, Trash } from 'lucide-react';
+import {
+  ArrowUpDown,
+  Edit,
+  Eye,
+  MoreHorizontal,
+  Trash,
+  FileText,
+} from 'lucide-react';
 
+interface ColumnOptions {
+  onView?: (proposal: ProposalResponse) => void;
+}
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
 export function getProposalsTableColumns(
-  userRoleId: number
+  userRoleId: number,
+  options?: ColumnOptions
 ): ColumnDef<ProposalResponse>[] {
   return [
     {
@@ -71,6 +82,15 @@ export function getProposalsTableColumns(
               >
                 مشاهده <Eye color="var(--color-stone-primary)" />
               </DropdownMenuItem>
+
+              {userRoleId === 1 && (
+                <DropdownMenuItem
+                  onClick={() => options?.onView?.(proposal)}
+                  className={dropdownMenuItemClassname}
+                >
+                  کمیسیون <FileText color="var(--color-stone-primary)" />
+                </DropdownMenuItem>
+              )}
 
               {userRoleId === 4 && (
                 <DropdownMenuItem

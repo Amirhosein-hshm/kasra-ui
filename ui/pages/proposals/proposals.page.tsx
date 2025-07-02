@@ -7,5 +7,9 @@ export default function ProposalsPage() {
   if (isLoading || !data) {
     return <TableSkeleton />;
   }
-  return <ProposalsTable data={data} />;
+  return (
+    <>
+      <ProposalsTable data={data} />
+    </>
+  );
 }
