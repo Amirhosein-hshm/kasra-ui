@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
 import { FileUpload } from '@/ui/components/file-upload';
+import { Button } from '@/ui/components/button';
 import {
   Select,
   SelectContent,
@@ -14,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/ui/components/select';
+import { useAddExplorerRfp } from '@/lib/hooks';
 
 interface Props {
   rfpToUpdate?: RFP;
@@ -24,8 +26,10 @@ export default function RFPForm({ rfpToUpdate }: Props) {
     defaultValues: rfpToUpdate,
   });
 
+  const { mutateAsync } = useAddExplorerRfp();
+
   const handleSubmit = form.handleSubmit((data: RFP) => {
-    console.log(data);
+    // mutateAsync({info: data.info, })
   });
 
   return (
@@ -47,8 +51,8 @@ export default function RFPForm({ rfpToUpdate }: Props) {
         <Label htmlFor="title">دسته‌بندی</Label>
         <SelectCategory />
       </div>
-
       <FileUpload title="بارگذاری فایل RFP" />
+      <Button loading={false}>ثبت</Button>
     </form>
   );
 }

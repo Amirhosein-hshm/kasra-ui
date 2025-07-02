@@ -1,6 +1,6 @@
 'use client';
 
-import Project from '@/lib/types/models/Project';
+import { ProjectResponse } from '@/lib/types';
 import { Checkbox } from '@/ui/components/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -18,7 +18,7 @@ import {
 } from '@/ui/components/dropdown-menu';
 import Link from 'next/link';
 
-export const projectsTableColumns: ColumnDef<Project>[] = [
+export const projectsTableColumns: ColumnDef<ProjectResponse>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -99,23 +99,32 @@ export const projectsTableColumns: ColumnDef<Project>[] = [
     },
   },
   {
-    accessorKey: 'info',
+    accessorKey: 'title',
     header: 'اطلاعات پروژه',
   },
+
   {
-    accessorKey: 'user_supervisor_id',
+    accessorKey: 'proposalId',
+    header: 'شناسه پروپوزال',
+  },
+  {
+    accessorKey: 'userSupervisorId',
     header: 'شناسه سرپرست',
   },
   {
-    accessorKey: 'user_master_id',
+    accessorKey: 'userMasterId',
     header: 'شناسه استاد راهنما',
   },
   {
-    accessorKey: 'user_broker_id',
+    accessorKey: 'userDiscovererId',
+    header: 'شناسه کاشف',
+  },
+  {
+    accessorKey: 'userBrokerId',
     header: 'شناسه کارگزار',
   },
   {
-    accessorKey: 'user_user_id',
+    accessorKey: 'userUserId',
     header: 'شناسه مجری',
   },
 ];

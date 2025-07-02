@@ -1,6 +1,6 @@
 'use client';
 
-import { ProposalForTable } from '@/lib/types/models/Proposal';
+import { ProposalResponse } from 'lib/types/proposalResponse';
 import { Checkbox } from '@/ui/components/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 
-export const proposalsTableColumns: ColumnDef<ProposalForTable>[] = [
+export const proposalsTableColumns: ColumnDef<ProposalResponse>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -105,16 +105,24 @@ export const proposalsTableColumns: ColumnDef<ProposalForTable>[] = [
     },
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'info',
     header: 'عنوان',
+  },
+  {
+    accessorKey: 'rfpId',
+    header: 'شناسه RFP',
+  },
+  {
+    accessorKey: 'userId',
+    header: 'شناسه کاربر',
+  },
+  {
+    accessorKey: 'comment',
+    header: 'توضیحات',
   },
   {
     accessorKey: 'state',
     header: 'وضعیت',
-  },
-  {
-    accessorKey: 'user_id',
-    header: 'شناسه کاربر',
   },
 ];
 

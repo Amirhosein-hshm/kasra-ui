@@ -129,7 +129,6 @@ export function useEditSupervisorReport(
   });
 }
 
-// لیست پروژه‌ها
 export function useSupervisorProjects(
   params?: ReadProjectsSupervisorProjectsGetParams,
   options?: UseQueryOptions<ProjectResponse[], Error>

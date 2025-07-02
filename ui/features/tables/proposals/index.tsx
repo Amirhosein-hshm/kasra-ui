@@ -1,9 +1,9 @@
-import { ProposalForTable } from '@/lib/types/models/Proposal';
+import { ProposalResponse } from 'lib/types/proposalResponse';
 import DataTable from '@/ui/components/data-table/index';
 import { proposalsTableColumns } from './columns';
 
 interface Props {
-  data: ProposalForTable[];
+  data: ProposalResponse[];
 }
 
 export default function ProposalsTable({ data }: Props) {
