@@ -9,64 +9,123 @@ import type {
   CommissionResponse,
   ProposalResponse,
   ReadProposalsBrokerProposalsGetParams,
-  ReadProposalsBrokerProposalsLikeGetParams
+  UserInfoResponse,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-
-
-  export const getBroker = () => {
-/**
- * @summary Read Proposals
- */
-const readProposalsBrokerProposalsGet = (
-    params?: ReadProposalsBrokerProposalsGetParams,
- ) => {
-      return api<ProposalResponse[]>(
-      {url: `/broker/proposals/`, method: 'GET',
-        params
-    },
-      );
-    }
+export const getBroker = () => {
   /**
- * @summary Read Proposals
- */
-const readProposalsBrokerProposalsLikeGet = (
-    params?: ReadProposalsBrokerProposalsLikeGetParams,
- ) => {
-      return api<ProposalResponse[]>(
-      {url: `/broker/proposals-like/`, method: 'GET',
-        params
-    },
-      );
-    }
+   * @summary Read Proposals
+   */
+  const readProposalsBrokerProposalsGet = (
+    params?: ReadProposalsBrokerProposalsGetParams
+  ) => {
+    return api<ProposalResponse[]>({
+      url: `/broker/proposals/`,
+      method: 'GET',
+      params,
+    });
+  };
   /**
- * @summary Read Proposal
- */
-const readProposalBrokerProposalsProposalIdGet = (
-    proposalId: number,
- ) => {
-      return api<ProposalResponse>(
-      {url: `/broker/proposals/${proposalId}`, method: 'GET'
-    },
-      );
-    }
+   * @summary Read Proposal
+   */
+  const readProposalBrokerProposalsProposalIdGet = (proposalId: number) => {
+    return api<ProposalResponse>({
+      url: `/broker/proposals/${proposalId}`,
+      method: 'GET',
+    });
+  };
   /**
- * @summary Add Commission
- */
-const addCommissionBrokerCommissionsPost = (
-    commissionRequest: CommissionRequest,
- ) => {
-      return api<CommissionResponse>(
-      {url: `/broker/commissions/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: commissionRequest
-    },
-      );
-    }
-  return {readProposalsBrokerProposalsGet,readProposalsBrokerProposalsLikeGet,readProposalBrokerProposalsProposalIdGet,addCommissionBrokerCommissionsPost}};
-export type ReadProposalsBrokerProposalsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['readProposalsBrokerProposalsGet']>>>
-export type ReadProposalsBrokerProposalsLikeGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['readProposalsBrokerProposalsLikeGet']>>>
-export type ReadProposalBrokerProposalsProposalIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['readProposalBrokerProposalsProposalIdGet']>>>
-export type AddCommissionBrokerCommissionsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['addCommissionBrokerCommissionsPost']>>>
+   * @summary Add Commission
+   */
+  const addCommissionBrokerCommissionsPost = (
+    commissionRequest: CommissionRequest
+  ) => {
+    return api<CommissionResponse>({
+      url: `/broker/commissions/`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: commissionRequest,
+    });
+  };
+  /**
+   * @summary Read Users Master
+   */
+  const readUsersMasterBrokerUsersMasterGet = () => {
+    return api<UserInfoResponse[]>({
+      url: `/broker/users-master/`,
+      method: 'GET',
+    });
+  };
+  /**
+   * @summary Read Users Discoverer
+   */
+  const readUsersDiscovererBrokerUsersDiscovererGet = () => {
+    return api<UserInfoResponse[]>({
+      url: `/broker/users-discoverer/`,
+      method: 'GET',
+    });
+  };
+  /**
+   * @summary Read Users Supervisor
+   */
+  const readUsersSupervisorBrokerUsersSupervisorGet = () => {
+    return api<UserInfoResponse[]>({
+      url: `/broker/users-supervisor/`,
+      method: 'GET',
+    });
+  };
+  return {
+    readProposalsBrokerProposalsGet,
+    readProposalBrokerProposalsProposalIdGet,
+    addCommissionBrokerCommissionsPost,
+    readUsersMasterBrokerUsersMasterGet,
+    readUsersDiscovererBrokerUsersDiscovererGet,
+    readUsersSupervisorBrokerUsersSupervisorGet,
+  };
+};
+export type ReadProposalsBrokerProposalsGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getBroker>['readProposalsBrokerProposalsGet']>
+  >
+>;
+export type ReadProposalBrokerProposalsProposalIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getBroker>['readProposalBrokerProposalsProposalIdGet']
+    >
+  >
+>;
+export type AddCommissionBrokerCommissionsPostResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getBroker>['addCommissionBrokerCommissionsPost']
+    >
+  >
+>;
+export type ReadUsersMasterBrokerUsersMasterGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getBroker>['readUsersMasterBrokerUsersMasterGet']
+    >
+  >
+>;
+export type ReadUsersDiscovererBrokerUsersDiscovererGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<
+        typeof getBroker
+      >['readUsersDiscovererBrokerUsersDiscovererGet']
+    >
+  >
+>;
+export type ReadUsersSupervisorBrokerUsersSupervisorGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<
+        typeof getBroker
+      >['readUsersSupervisorBrokerUsersSupervisorGet']
+    >
+  >
+>;

@@ -116,49 +116,6 @@
             "in": "query",
             "required": false,
             "schema": { "type": "integer", "default": 10, "title": "Limit" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/ProposalResponse" },
-                  "title": "Response Read Proposals Broker Proposals  Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/broker/proposals-like/": {
-      "get": {
-        "tags": ["broker"],
-        "summary": "Read Proposals",
-        "operationId": "read_proposals_broker_proposals_like__get",
-        "parameters": [
-          {
-            "name": "skip",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "integer", "default": 0, "title": "Skip" }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": { "type": "integer", "default": 10, "title": "Limit" }
           },
           {
             "name": "info",
@@ -175,7 +132,7 @@
                 "schema": {
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/ProposalResponse" },
-                  "title": "Response Read Proposals Broker Proposals Like  Get"
+                  "title": "Response Read Proposals Broker Proposals  Get"
                 }
               }
             }
@@ -251,6 +208,69 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/broker/users-master/": {
+      "get": {
+        "tags": ["broker"],
+        "summary": "Read Users Master",
+        "operationId": "read_users_master_broker_users_master__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/UserInfoResponse" },
+                  "type": "array",
+                  "title": "Response Read Users Master Broker Users Master  Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/broker/users-discoverer/": {
+      "get": {
+        "tags": ["broker"],
+        "summary": "Read Users Discoverer",
+        "operationId": "read_users_discoverer_broker_users_discoverer__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/UserInfoResponse" },
+                  "type": "array",
+                  "title": "Response Read Users Discoverer Broker Users Discoverer  Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/broker/users-supervisor/": {
+      "get": {
+        "tags": ["broker"],
+        "summary": "Read Users Supervisor",
+        "operationId": "read_users_supervisor_broker_users_supervisor__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/UserInfoResponse" },
+                  "type": "array",
+                  "title": "Response Read Users Supervisor Broker Users Supervisor  Get"
+                }
               }
             }
           }
@@ -1128,10 +1148,7 @@
             "type": "integer",
             "title": "User Discoverer Id"
           },
-          "file_id": {
-            "anyOf": [{ "type": "integer" }, { "type": "null" }],
-            "title": "File Id"
-          }
+          "user_master_id": { "type": "integer", "title": "User Master Id" }
         },
         "type": "object",
         "required": [
@@ -1140,7 +1157,8 @@
           "state",
           "proposal_id",
           "user_supervisor_id",
-          "user_discoverer_id"
+          "user_discoverer_id",
+          "user_master_id"
         ],
         "title": "CommissionRequest"
       },
@@ -1159,10 +1177,7 @@
             "type": "integer",
             "title": "User Discoverer Id"
           },
-          "file_id": {
-            "anyOf": [{ "type": "integer" }, { "type": "null" }],
-            "title": "File Id"
-          }
+          "user_master_id": { "type": "integer", "title": "User Master Id" }
         },
         "type": "object",
         "required": [
@@ -1172,7 +1187,8 @@
           "state",
           "proposal_id",
           "user_supervisor_id",
-          "user_discoverer_id"
+          "user_discoverer_id",
+          "user_master_id"
         ],
         "title": "CommissionResponse"
       },

@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getUser } from '@services';
+import { getUser } from '@/lib/services';
 import { ReadProjectsUsersProjectsGetParams } from 'lib/types/readProjectsUsersProjectsGetParams';
 import { ProjectResponse } from 'lib/types/projectResponse';
 import { ProposalRequest } from 'lib/types/proposalRequest';

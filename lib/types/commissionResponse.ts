@@ -4,7 +4,6 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { CommissionResponseFileId } from './commissionResponseFileId';
 
 export interface CommissionResponse {
   id: number;
@@ -14,5 +13,5 @@ export interface CommissionResponse {
   proposalId: number;
   userSupervisorId: number;
   userDiscovererId: number;
-  fileId?: CommissionResponseFileId;
+  userMasterId: number;
 }

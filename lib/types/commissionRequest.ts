@@ -4,7 +4,6 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { CommissionRequestFileId } from './commissionRequestFileId';
 
 export interface CommissionRequest {
   title: string;
@@ -13,5 +12,5 @@ export interface CommissionRequest {
   proposalId: number;
   userSupervisorId: number;
   userDiscovererId: number;
-  fileId?: CommissionRequestFileId;
+  userMasterId: number;
 }

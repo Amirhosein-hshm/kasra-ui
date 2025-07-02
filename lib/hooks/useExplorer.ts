@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getExplorer } from '@services';
+import { getExplorer } from '@/lib/services';
 import { ReadRfpsExplorerRfpsGetParams } from 'lib/types/readRfpsExplorerRfpsGetParams';
 import { RFPResponse } from 'lib/types/rFPResponse';
 import { RFPRequest } from 'lib/types/rFPRequest';

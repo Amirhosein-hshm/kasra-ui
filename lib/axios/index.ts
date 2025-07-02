@@ -13,7 +13,7 @@ import {
   clearAuthTokens,
 } from '../utils/cookies';
 
-import { getAuthentication } from '@services';
+import { getAuthentication } from '@/lib/services';
 
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
 

@@ -4,7 +4,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getAuthentication } from '@services';
+import { getAuthentication } from '@/lib/services';
 import { setAuthTokens, clearAuthTokens } from '../utils/cookies';
 import { BodyLoginTokenPost } from 'lib/types/bodyLoginTokenPost';
 import { Token } from 'lib/types/token';

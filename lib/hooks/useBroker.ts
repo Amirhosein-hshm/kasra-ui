@@ -4,12 +4,14 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
-import { getBroker } from '@services';
-import { ReadProposalsBrokerProposalsGetParams } from 'lib/types/readProposalsBrokerProposalsGetParams';
-import { ProposalResponse } from 'lib/types/proposalResponse';
-import { ReadProposalsBrokerProposalsLikeGetParams } from 'lib/types/readProposalsBrokerProposalsLikeGetParams';
-import { CommissionRequest } from 'lib/types/commissionRequest';
-import { CommissionResponse } from 'lib/types/commissionResponse';
+import { getBroker } from '@/lib/services';
+import {
+  CommissionRequest,
+  CommissionResponse,
+  ProposalResponse,
+  ReadProposalsBrokerProposalsGetParams,
+  UserInfoResponse,
+} from 'lib/types';
 
 // لیست پروپوزال‌ها
 export function useBrokerProposals(
@@ -21,21 +23,6 @@ export function useBrokerProposals(
     queryFn: () =>
       getBroker()
         .readProposalsBrokerProposalsGet(params)
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-// لیست پروپوزال‌های مشابه
-export function useBrokerProposalsLike(
-  params?: ReadProposalsBrokerProposalsLikeGetParams,
-  options?: UseQueryOptions<ProposalResponse[], Error>
-) {
-  return useQuery({
-    queryKey: ['brokerProposalsLike', params],
-    queryFn: () =>
-      getBroker()
-        .readProposalsBrokerProposalsLikeGet(params)
         .then((res) => res.data),
     ...options,
   });
@@ -65,6 +52,48 @@ export function useAddBrokerCommission(
     mutationFn: (data) =>
       getBroker()
         .addCommissionBrokerCommissionsPost(data)
+        .then((res) => res.data),
+    ...options,
+  });
+}
+
+// لیست کاربران Master
+export function useBrokerUsersMaster(
+  options?: UseQueryOptions<UserInfoResponse[], Error>
+) {
+  return useQuery({
+    queryKey: ['brokerUsersMaster'],
+    queryFn: () =>
+      getBroker()
+        .readUsersMasterBrokerUsersMasterGet()
+        .then((res) => res.data),
+    ...options,
+  });
+}
+
+// لیست کاربران Discoverer
+export function useBrokerUsersDiscoverer(
+  options?: UseQueryOptions<UserInfoResponse[], Error>
+) {
+  return useQuery({
+    queryKey: ['brokerUsersDiscoverer'],
+    queryFn: () =>
+      getBroker()
+        .readUsersDiscovererBrokerUsersDiscovererGet()
+        .then((res) => res.data),
+    ...options,
+  });
+}
+
+// لیست کاربران Supervisor
+export function useBrokerUsersSupervisor(
+  options?: UseQueryOptions<UserInfoResponse[], Error>
+) {
+  return useQuery({
+    queryKey: ['brokerUsersSupervisor'],
+    queryFn: () =>
+      getBroker()
+        .readUsersSupervisorBrokerUsersSupervisorGet()
         .then((res) => res.data),
     ...options,
   });

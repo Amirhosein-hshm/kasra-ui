@@ -8,4 +8,5 @@
 export type ReadProposalsBrokerProposalsGetParams = {
 skip?: number;
 limit?: number;
+info?: string;
 };
