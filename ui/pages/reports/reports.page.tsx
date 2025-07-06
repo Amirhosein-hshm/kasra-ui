@@ -1,81 +1,71 @@
-import { ReportForTable } from '@/lib/types/models/Report';
+'use client';
+
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { useSupervisorReports } from '@/lib/hooks';
+import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ReportsTable from '@/ui/features/tables/report';
+import { useMeStore } from '@/lib/stores/me.stores';
 
 export default function ReportsPage() {
-  return <ReportsTable data={MOCK_REPORTS} />;
-}
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
-const MOCK_REPORTS: ReportForTable[] = [
-  {
-    id: 1,
-    status: 1,
-    percent: 0,
-    project_id: 1,
-  },
-  {
-    id: 2,
-    status: 2,
-    percent: 0,
-    project_id: 2,
-  },
-  {
-    id: 3,
-    status: 3,
-    percent: 0,
-    project_id: 3,
-  },
-  {
-    id: 4,
-    status: 4,
-    percent: 0,
-    project_id: 4,
-  },
-  {
-    id: 5,
-    status: 5,
-    percent: 0,
-    project_id: 5,
-  },
-  {
-    id: 6,
-    status: 6,
-    percent: 0,
-    project_id: 6,
-  },
-  {
-    id: 7,
-    status: 7,
-    percent: 0,
-    project_id: 7,
-  },
-  {
-    id: 8,
-    status: 8,
-    percent: 0,
-    project_id: 8,
-  },
-  {
-    id: 9,
-    status: 9,
-    percent: 0,
-    project_id: 9,
-  },
-  {
-    id: 10,
-    status: 10,
-    percent: 0,
-    project_id: 10,
-  },
-  {
-    id: 11,
-    status: 11,
-    percent: 0,
-    project_id: 11,
-  },
-  {
-    id: 12,
-    status: 12,
-    percent: 0,
-    project_id: 12,
-  },
-];
+  const pageFromUrl = useMemo(() => {
+    const raw = searchParams.get('page');
+    const page = raw ? parseInt(raw, 10) : 1;
+    return isNaN(page) || page < 1 ? 1 : page;
+  }, [searchParams]);
+
+  const infoFromUrl = useMemo(() => {
+    return searchParams.get('info') || '';
+  }, [searchParams]);
+
+  const pageSize = 10;
+  const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
+  const [info, setInfo] = useState(infoFromUrl);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', (pageIndex + 1).toString());
+    if (info) {
+      params.set('info', info);
+    } else {
+      params.delete('info');
+    }
+    router.replace(`?${params.toString()}`);
+  }, [pageIndex, info]);
+
+  const queryParams = useMemo(
+    () => ({
+      skip: pageIndex * pageSize,
+      limit: pageSize,
+      info: info || undefined,
+    }),
+    [pageIndex, pageSize, info]
+  );
+
+  const supervisorQ = useSupervisorReports(queryParams, {
+    enabled: true,
+    queryKey: ['supervisorReports', queryParams],
+  });
+  const data = supervisorQ.data;
+  const isLoading = supervisorQ.isLoading;
+  const total = 30;
+
+  if (isLoading || !data) return <TableSkeleton />;
+
+  return (
+    <ReportsTable
+      data={data}
+      pageIndex={pageIndex}
+      pageSize={pageSize}
+      pageCount={Math.ceil(total / pageSize)}
+      setPageIndex={setPageIndex}
+      setPageSize={() => {}}
+      search={info}
+      setSearch={setInfo}
+    />
+  );
+}

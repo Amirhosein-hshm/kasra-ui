@@ -1,19 +1,58 @@
-import { ReportForTable } from '@/lib/types/models/Report';
+'use client';
+
 import DataTable from '@/ui/components/data-table/index';
-import { reportsTableColumns } from './columns';
-import { ReactNode } from 'react';
+import { getReportsTableColumns } from './columns';
+import { ReportResponse } from '@/lib/types';
+import { useState } from 'react';
 
 interface Props {
-  data: ReportForTable[];
-  headerAppendix?: ReactNode;
+  data: ReportResponse[];
+  pageIndex: number;
+  pageSize: number;
+  pageCount: number;
+  setPageIndex: (index: number) => void;
+  setPageSize: (size: number) => void;
+  search: string;
+  setSearch: (v: string) => void;
 }
 
-export default function ReportsTable({ data, headerAppendix }: Props) {
+export default function ReportsTable({
+  data,
+  pageIndex,
+  pageSize,
+  pageCount,
+  setPageIndex,
+  setPageSize,
+  search,
+  setSearch,
+}: Props) {
+  const [openReportDetail, setOpenReportDetail] = useState(false);
+  const [selected, setSelected] = useState<ReportResponse | null>(null);
+
+  const reportsTableColumns = getReportsTableColumns({
+    onView: (item) => {
+      setSelected(item);
+      setOpenReportDetail(true);
+    },
+    onOpenReportDetail: (item) => {
+      setSelected(item);
+      setOpenReportDetail(true);
+    },
+  });
+
   return (
     <DataTable
       columns={reportsTableColumns}
       data={data}
-      headerAppendix={headerAppendix}
+      externalPagination={{
+        pageIndex,
+        pageSize,
+        pageCount,
+        setPageIndex,
+        setPageSize,
+      }}
+      search={search}
+      setSearch={setSearch}
     />
   );
 }
