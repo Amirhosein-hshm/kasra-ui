@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { UserInfoResponse } from '@/lib/types';
+import { UserMeInfoResponse } from '@/lib/types';
 
 interface MeState {
-  user: UserInfoResponse | null;
+  user: UserMeInfoResponse | null;
   initialized: boolean;
-  setUser: (user: UserInfoResponse) => void;
+  setUser: (user: UserMeInfoResponse) => void;
   clearUser: () => void;
 }
 

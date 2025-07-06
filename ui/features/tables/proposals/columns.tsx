@@ -23,6 +23,7 @@ import {
 
 interface ColumnOptions {
   onView?: (proposal: ProposalResponse) => void;
+  onOpenProposalDetail?: (proposal: ProposalResponse) => void;
 }
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
@@ -75,9 +76,7 @@ export function getProposalsTableColumns(
               <DropdownMenuSeparator />
 
               <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(proposal.id.toString())
-                }
+                onClick={() => options?.onOpenProposalDetail?.(proposal)}
                 className={dropdownMenuItemClassname}
               >
                 مشاهده <Eye color="var(--color-stone-primary)" />

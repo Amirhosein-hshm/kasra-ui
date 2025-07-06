@@ -28,6 +28,7 @@ interface SidebarProps {
   showDefaultFooter?: boolean; // کنترل نمایش فوتر پیش‌فرض
   className?: string;
   side?: 'left' | 'right' | 'bottom' | 'top';
+  isLoading?: boolean;
 }
 
 export function Sidebar({
@@ -41,6 +42,7 @@ export function Sidebar({
   onSubmit,
   showDefaultFooter = true,
   className,
+  isLoading = false,
   side = 'left',
 }: SidebarProps) {
   return (
@@ -76,10 +78,10 @@ export function Sidebar({
                   </Button>
                 </DrawerClose>
                 <Button
+                  loading={isLoading}
                   className="w-full sm:w-auto flex-1"
                   onClick={() => {
                     onSubmit?.();
-                    onOpenChange(false);
                   }}
                 >
                   ثبت

@@ -4,53 +4,53 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type {
-  BodyUploadFileFileUploadPost
-} from '../../types';
+import type { BodyUploadFileFileUploadPost } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-
-
-  export const getFile = () => {
-/**
- * @summary Upload File
- */
-const uploadFileFileUploadPost = (
-    bodyUploadFileFileUploadPost: BodyUploadFileFileUploadPost,
- ) => {const formData = new FormData();
-formData.append(`file`, bodyUploadFileFileUploadPost.file)
-
-      return api<unknown>(
-      {url: `/file/upload/`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData
-    },
-      );
-    }
+export const getFile = () => {
   /**
- * @summary Download File
- */
-const downloadFileFileDownloadFileIdGet = (
-    fileId: number,
- ) => {
-      return api<unknown>(
-      {url: `/file/download/${fileId}`, method: 'GET'
-    },
-      );
-    }
+   * @summary Upload File
+   */
+  const uploadFileFileUploadPost = (
+    bodyUploadFileFileUploadPost: BodyUploadFileFileUploadPost
+  ) => {
+    const formData = new FormData();
+    formData.append(`file`, bodyUploadFileFileUploadPost.file);
+
+    return api<unknown>({
+      url: `/file/upload/`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+    });
+  };
   /**
- * @summary Get File Ids
- */
-const getFileIdsFileFilesGet = (
-    
- ) => {
-      return api<unknown>(
-      {url: `/file/files`, method: 'GET'
-    },
-      );
-    }
-  return {uploadFileFileUploadPost,downloadFileFileDownloadFileIdGet,getFileIdsFileFilesGet}};
-export type UploadFileFileUploadPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getFile>['uploadFileFileUploadPost']>>>
-export type DownloadFileFileDownloadFileIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getFile>['downloadFileFileDownloadFileIdGet']>>>
-export type GetFileIdsFileFilesGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getFile>['getFileIdsFileFilesGet']>>>
+   * @summary Download File
+   */
+  const downloadFileFileDownloadFileIdGet = (fileId: number) => {
+    return api<unknown>({ url: `/file/download/${fileId}`, method: 'GET' });
+  };
+  /**
+   * @summary Get File Ids
+   */
+  const getFileIdsFileFilesGet = () => {
+    return api<unknown>({ url: `/file/files`, method: 'GET' });
+  };
+  return {
+    uploadFileFileUploadPost,
+    downloadFileFileDownloadFileIdGet,
+    getFileIdsFileFilesGet,
+  };
+};
+export type UploadFileFileUploadPostResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getFile>['uploadFileFileUploadPost']>>
+>;
+export type DownloadFileFileDownloadFileIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getFile>['downloadFileFileDownloadFileIdGet']>
+  >
+>;
+export type GetFileIdsFileFilesGetResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getFile>['getFileIdsFileFilesGet']>>
+>;

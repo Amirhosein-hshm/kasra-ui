@@ -78,7 +78,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/UserInfoResponse" }
+                "schema": { "$ref": "#/components/schemas/UserMeInfoResponse" }
               }
             }
           }
@@ -187,13 +187,44 @@
         "summary": "Add Commission",
         "operationId": "add_commission_broker_commissions__post",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/CommissionRequest" }
             }
-          },
-          "required": true
+          }
         },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CommissionResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["broker"],
+        "summary": "Add Commission",
+        "operationId": "add_commission_broker_commissions__get",
+        "parameters": [
+          {
+            "name": "proposal_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "title": "Proposal Id" }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -683,6 +714,50 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/RFPResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mentor/projects/": {
+      "get": {
+        "tags": ["mentor"],
+        "summary": "Get Project",
+        "operationId": "get_project_mentor_projects__get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
+                  "title": "Response Get Project Mentor Projects  Get"
+                }
               }
             }
           },
@@ -1389,6 +1464,48 @@
           "user_type_id"
         ],
         "title": "UserInfoResponse"
+      },
+      "UserMeInfoResponse": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "username": { "type": "string", "title": "Username" },
+          "fname": { "type": "string", "title": "Fname" },
+          "lname": { "type": "string", "title": "Lname" },
+          "father_name": { "type": "string", "title": "Father Name" },
+          "birth": { "type": "string", "format": "date", "title": "Birth" },
+          "resume_file_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Resume File Id"
+          },
+          "address": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Address"
+          },
+          "phone": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Phone"
+          },
+          "active": { "type": "boolean", "title": "Active" },
+          "user_type_id": { "type": "integer", "title": "User Type Id" },
+          "STATE": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "username",
+          "fname",
+          "lname",
+          "father_name",
+          "birth",
+          "active",
+          "user_type_id",
+          "STATE"
+        ],
+        "title": "UserMeInfoResponse"
       },
       "ValidationError": {
         "properties": {

@@ -11,10 +11,10 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   VisibilityState,
+  PaginationState,
 } from '@tanstack/react-table';
 
 import { Input } from '@/ui/components/input';
-
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -41,35 +41,79 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   headerAppendix?: ReactNode;
+
+  externalPagination?: {
+    pageIndex: number;
+    pageSize: number;
+    pageCount: number;
+    setPageIndex: (index: number) => void;
+    setPageSize: (size: number) => void;
+  };
+
+  search?: string;
+  setSearch?: (val: string) => void;
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
   headerAppendix,
+  externalPagination,
+  search,
+  setSearch,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
+  // برای حالت local fallback در صورت نبود external
+  const [internalPagination, setInternalPagination] = useState<PaginationState>(
+    {
+      pageIndex: 0,
+      pageSize: 10,
+    }
+  );
+
+  const paginationState = externalPagination
+    ? {
+        pageIndex: externalPagination.pageIndex,
+        pageSize: externalPagination.pageSize,
+      }
+    : internalPagination;
+
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination: paginationState,
     },
+    pageCount: externalPagination?.pageCount,
+    manualPagination: !!externalPagination,
+    onPaginationChange: externalPagination
+      ? (updater) => {
+          const next =
+            typeof updater === 'function' ? updater(paginationState) : updater;
+          externalPagination.setPageIndex(next.pageIndex);
+          externalPagination.setPageSize(next.pageSize);
+        }
+      : setInternalPagination,
+
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
   });
 
   return (
@@ -77,11 +121,9 @@ export default function DataTable<TData, TValue>({
       <div className="flex justify-between py-4 max-lg:flex-col max-lg:gap-2">
         <div className="w-full flex gap-2">
           <Input
-            placeholder="جستجو در شناسه ها..."
-            value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn('id')?.setFilterValue(event.target.value)
-            }
+            placeholder="جستجو در نام‌ها..."
+            value={search ?? ''}
+            onChange={(event) => setSearch?.(event.target.value)}
             className="max-w-sm"
           />
 
@@ -90,7 +132,7 @@ export default function DataTable<TData, TValue>({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">ستون های قابل مشاهده</Button>
+            <Button variant="outline">ستون‌های قابل مشاهده</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {table
@@ -122,26 +164,24 @@ export default function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      className="text-right bg-dark/5 dark:bg-white/5"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="text-right bg-dark/5 dark:bg-white/5"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -163,7 +203,7 @@ export default function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  نتیجه‌ای یافت نشد.
                 </TableCell>
               </TableRow>
             )}

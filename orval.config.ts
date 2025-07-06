@@ -16,4 +16,13 @@ export default defineConfig({
       },
     },
   },
+  // kasraZod: {
+  //   input: './docs/openapi.json',
+  //   output: {
+  //     target: './lib/validation1/kasra-zod.ts',
+  //     client: 'zod',
+  //     mode: 'tags-split',
+  //     override: {},
+  //   },
+  // },
 });

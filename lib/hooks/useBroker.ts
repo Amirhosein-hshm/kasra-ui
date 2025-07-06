@@ -13,7 +13,6 @@ import {
   UserInfoResponse,
 } from 'lib/types';
 
-// لیست پروپوزال‌ها
 export function useBrokerProposals(
   params?: ReadProposalsBrokerProposalsGetParams,
   options?: UseQueryOptions<ProposalResponse[], Error>
@@ -28,7 +27,6 @@ export function useBrokerProposals(
   });
 }
 
-// دریافت یک پروپوزال خاص
 export function useBrokerProposal(
   proposalId: number,
   options?: UseQueryOptions<ProposalResponse, Error>
