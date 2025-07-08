@@ -5,4 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type CommissionResponseFileId = number | null;
+export interface UserInfoLimitedResponse {
+  id: number;
+  fname: string;
+  lname: string;
+}

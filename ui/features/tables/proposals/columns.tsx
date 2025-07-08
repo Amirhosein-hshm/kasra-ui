@@ -129,6 +129,12 @@ export function getProposalsTableColumns(
         </Button>
       ),
     },
+    ...getProposalTableFiles(userRoleId),
+  ];
+}
+
+const getProposalTableFiles = (userRoleId: number) => {
+  const proposalsTableFields = [
     {
       accessorKey: 'info',
       header: 'عنوان',
@@ -136,10 +142,6 @@ export function getProposalsTableColumns(
     {
       accessorKey: 'rfpId',
       header: 'شناسه RFP',
-    },
-    {
-      accessorKey: 'userId',
-      header: 'شناسه کاربر',
     },
     {
       accessorKey: 'comment',
@@ -150,4 +152,18 @@ export function getProposalsTableColumns(
       header: 'وضعیت',
     },
   ];
-}
+  if (userRoleId === 1) {
+    const fields = ['info'];
+    return proposalsTableFields.filter((field) =>
+      fields.includes(field.accessorKey)
+    );
+  }
+  if (userRoleId === 4) {
+    return proposalsTableFields;
+  }
+  if (userRoleId === 3) {
+    return proposalsTableFields;
+  }
+
+  return proposalsTableFields;
+};

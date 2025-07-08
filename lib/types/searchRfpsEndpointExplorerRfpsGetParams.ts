@@ -5,8 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ReadProposalsBrokerProposalsLikeGetParams = {
+export type SearchRfpsEndpointExplorerRfpsGetParams = {
+query?: string;
 skip?: number;
 limit?: number;
-info?: string;
 };

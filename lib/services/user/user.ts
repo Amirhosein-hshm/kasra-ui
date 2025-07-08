@@ -10,89 +10,111 @@ import type {
   ProposalResponse,
   ReadProjectsUsersProjectsGetParams,
   ReportRequest,
-  ReportResponse
+  ReportResponse,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-
-
-  export const getUser = () => {
-/**
- * @summary Add Proposal
- */
-const addProposalUsersProposalsPost = (
-    proposalRequest: ProposalRequest,
- ) => {
-      return api<ProposalResponse>(
-      {url: `/users/proposals/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: proposalRequest
-    },
-      );
-    }
+export const getUser = () => {
   /**
- * @summary Read Proposal
- */
-const readProposalUsersProposalsProposalIdGet = (
-    proposalId: number,
- ) => {
-      return api<ProposalResponse>(
-      {url: `/users/proposals/${proposalId}`, method: 'GET'
-    },
-      );
-    }
+   * @summary Add Proposal
+   */
+  const addProposalUsersProposalsPost = (proposalRequest: ProposalRequest) => {
+    return api<ProposalResponse>({
+      url: `/users/proposals/`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: proposalRequest,
+    });
+  };
   /**
- * @summary Read Projects
- */
-const readProjectsUsersProjectsGet = (
-    params?: ReadProjectsUsersProjectsGetParams,
- ) => {
-      return api<ProjectResponse[]>(
-      {url: `/users/projects/`, method: 'GET',
-        params
-    },
-      );
-    }
+   * @summary Read Proposal
+   */
+  const readProposalUsersProposalsProposalIdGet = (proposalId: number) => {
+    return api<ProposalResponse>({
+      url: `/users/proposals/${proposalId}`,
+      method: 'GET',
+    });
+  };
   /**
- * @summary Read Reports
- */
-const readReportsUsersReportsByProjectProjectIdGet = (
-    projectId: number,
- ) => {
-      return api<ReportResponse[]>(
-      {url: `/users/reports-by-project/${projectId}`, method: 'GET'
-    },
-      );
-    }
+   * @summary Read Projects
+   */
+  const readProjectsUsersProjectsGet = (
+    params?: ReadProjectsUsersProjectsGetParams
+  ) => {
+    return api<ProjectResponse[]>({
+      url: `/users/projects/`,
+      method: 'GET',
+      params,
+    });
+  };
   /**
- * @summary Add Report
- */
-const addReportUsersReportsPost = (
-    reportRequest: ReportRequest,
- ) => {
-      return api<ReportResponse>(
-      {url: `/users/reports/`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: reportRequest
-    },
-      );
-    }
+   * @summary Read Reports
+   */
+  const readReportsUsersReportsByProjectProjectIdGet = (projectId: number) => {
+    return api<ReportResponse[]>({
+      url: `/users/reports-by-project/${projectId}`,
+      method: 'GET',
+    });
+  };
   /**
- * @summary Read Report
- */
-const readReportUsersReportsReportIdGet = (
-    reportId: number,
- ) => {
-      return api<ReportResponse>(
-      {url: `/users/reports/${reportId}`, method: 'GET'
-    },
-      );
-    }
-  return {addProposalUsersProposalsPost,readProposalUsersProposalsProposalIdGet,readProjectsUsersProjectsGet,readReportsUsersReportsByProjectProjectIdGet,addReportUsersReportsPost,readReportUsersReportsReportIdGet}};
-export type AddProposalUsersProposalsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['addProposalUsersProposalsPost']>>>
-export type ReadProposalUsersProposalsProposalIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readProposalUsersProposalsProposalIdGet']>>>
-export type ReadProjectsUsersProjectsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readProjectsUsersProjectsGet']>>>
-export type ReadReportsUsersReportsByProjectProjectIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readReportsUsersReportsByProjectProjectIdGet']>>>
-export type AddReportUsersReportsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['addReportUsersReportsPost']>>>
-export type ReadReportUsersReportsReportIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readReportUsersReportsReportIdGet']>>>
+   * @summary Add Report
+   */
+  const addReportUsersReportsPost = (reportRequest: ReportRequest) => {
+    return api<ReportResponse>({
+      url: `/users/reports/`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: reportRequest,
+    });
+  };
+  /**
+   * @summary Read Report
+   */
+  const readReportUsersReportsReportIdGet = (reportId: number) => {
+    return api<ReportResponse>({
+      url: `/users/reports/${reportId}`,
+      method: 'GET',
+    });
+  };
+  return {
+    addProposalUsersProposalsPost,
+    readProposalUsersProposalsProposalIdGet,
+    readProjectsUsersProjectsGet,
+    readReportsUsersReportsByProjectProjectIdGet,
+    addReportUsersReportsPost,
+    readReportUsersReportsReportIdGet,
+  };
+};
+export type AddProposalUsersProposalsPostResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getUser>['addProposalUsersProposalsPost']>
+  >
+>;
+export type ReadProposalUsersProposalsProposalIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getUser>['readProposalUsersProposalsProposalIdGet']
+    >
+  >
+>;
+export type ReadProjectsUsersProjectsGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getUser>['readProjectsUsersProjectsGet']>
+  >
+>;
+export type ReadReportsUsersReportsByProjectProjectIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getUser>['readReportsUsersReportsByProjectProjectIdGet']
+    >
+  >
+>;
+export type AddReportUsersReportsPostResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getUser>['addReportUsersReportsPost']>>
+>;
+export type ReadReportUsersReportsReportIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getUser>['readReportUsersReportsReportIdGet']>
+  >
+>;

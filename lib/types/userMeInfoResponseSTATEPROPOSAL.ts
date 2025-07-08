@@ -5,7 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ReadRfpsExplorerRfpsGetParams = {
-skip?: number;
-limit?: number;
-};
+export type UserMeInfoResponseSTATEPROPOSAL = { [key: string]: unknown };

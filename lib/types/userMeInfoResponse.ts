@@ -7,7 +7,8 @@
 import type { UserMeInfoResponseResumeFileId } from './userMeInfoResponseResumeFileId';
 import type { UserMeInfoResponseAddress } from './userMeInfoResponseAddress';
 import type { UserMeInfoResponsePhone } from './userMeInfoResponsePhone';
-import type { UserMeInfoResponseSTATE } from './userMeInfoResponseSTATE';
+import type { UserMeInfoResponseSTATECOMMISION } from './userMeInfoResponseSTATECOMMISION';
+import type { UserMeInfoResponseSTATEPROPOSAL } from './userMeInfoResponseSTATEPROPOSAL';
 
 export interface UserMeInfoResponse {
   id: number;
@@ -21,5 +22,6 @@ export interface UserMeInfoResponse {
   phone?: UserMeInfoResponsePhone;
   active: boolean;
   userTypeId: number;
-  state: UserMeInfoResponseSTATE;
+  STATE_COMMISION: UserMeInfoResponseSTATECOMMISION;
+  STATE_PROPOSAL: UserMeInfoResponseSTATEPROPOSAL;
 }

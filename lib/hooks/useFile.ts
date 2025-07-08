@@ -1,12 +1,11 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { getFile } from '@/lib/services/file'; // مسیر دقیق را با پروژه خود تنظیم کن
+import { getFile } from '@/lib/services/file';
 
 import type {
   DownloadFileFileDownloadFileIdGetResult,
   GetFileIdsFileFilesGetResult,
-} from '@/lib/services/file/file'; // مسیر درست فایل orval-generated
+} from '@/lib/services/file/file';
 
-// دانلود فایل
 export function useDownloadFile(
   fileId: number,
   options?: UseQueryOptions<DownloadFileFileDownloadFileIdGetResult, Error>
@@ -22,7 +21,6 @@ export function useDownloadFile(
   });
 }
 
-// دریافت لیست فایل‌ها
 export function useFileIds(
   options?: UseQueryOptions<GetFileIdsFileFilesGetResult, Error>
 ) {

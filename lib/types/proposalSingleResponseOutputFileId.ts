@@ -5,8 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type ReadProposalsSupervisorProposalsLikeGetParams = {
-skip?: number;
-limit?: number;
-info?: string;
-};
+export type ProposalSingleResponseOutputFileId = number | null;

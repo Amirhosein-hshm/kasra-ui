@@ -67,7 +67,6 @@ export default function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  // برای حالت local fallback در صورت نبود external
   const [internalPagination, setInternalPagination] = useState<PaginationState>(
     {
       pageIndex: 0,

@@ -42,7 +42,6 @@ export function useBrokerProposal(
   });
 }
 
-// افزودن کمیسیون
 export function useAddBrokerCommission(
   options?: UseMutationOptions<CommissionResponse, Error, CommissionRequest>
 ) {
@@ -55,7 +54,6 @@ export function useAddBrokerCommission(
   });
 }
 
-// لیست کاربران Master
 export function useBrokerUsersMaster(
   options?: UseQueryOptions<UserInfoResponse[], Error>
 ) {
@@ -69,7 +67,6 @@ export function useBrokerUsersMaster(
   });
 }
 
-// لیست کاربران Discoverer
 export function useBrokerUsersDiscoverer(
   options?: UseQueryOptions<UserInfoResponse[], Error>
 ) {
@@ -83,7 +80,6 @@ export function useBrokerUsersDiscoverer(
   });
 }
 
-// لیست کاربران Supervisor
 export function useBrokerUsersSupervisor(
   options?: UseQueryOptions<UserInfoResponse[], Error>
 ) {

@@ -8,7 +8,9 @@ import type {
   AddCommissionBrokerCommissionsGetParams,
   CommissionRequest,
   CommissionResponse,
+  ProposalAllResponse,
   ProposalResponse,
+  ProposalSingleResponseOutput,
   ReadProposalsBrokerProposalsGetParams,
   UserInfoResponse,
 } from '../../types';
@@ -22,7 +24,7 @@ export const getBroker = () => {
   const readProposalsBrokerProposalsGet = (
     params?: ReadProposalsBrokerProposalsGetParams
   ) => {
-    return api<ProposalResponse[]>({
+    return api<ProposalAllResponse[]>({
       url: `/broker/proposals/`,
       method: 'GET',
       params,
@@ -32,7 +34,7 @@ export const getBroker = () => {
    * @summary Read Proposal
    */
   const readProposalBrokerProposalsProposalIdGet = (proposalId: number) => {
-    return api<ProposalResponse>({
+    return api<ProposalSingleResponseOutput>({
       url: `/broker/proposals/${proposalId}`,
       method: 'GET',
     });
@@ -43,7 +45,7 @@ export const getBroker = () => {
   const addCommissionBrokerCommissionsPost = (
     commissionRequest: CommissionRequest
   ) => {
-    return api<CommissionResponse>({
+    return api<ProposalResponse>({
       url: `/broker/commissions/`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

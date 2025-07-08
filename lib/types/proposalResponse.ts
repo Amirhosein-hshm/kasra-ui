@@ -4,13 +4,15 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { RFPResponse } from './rFPResponse';
+import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { ProposalResponseFileId } from './proposalResponseFileId';
 
 export interface ProposalResponse {
   id: number;
   info: string;
-  RFP_id: number;
-  userId: number;
+  rfp: RFPResponse;
+  user: UserInfoLimitedResponse;
   comment: string;
   state: number;
   fileId?: ProposalResponseFileId;

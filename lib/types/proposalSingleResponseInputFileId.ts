@@ -5,8 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type SearchRfpsEndpointExplorerRfpsSearchGetParams = {
-query: string;
-skip?: number;
-limit?: number;
-};
+export type ProposalSingleResponseInputFileId = number | null;

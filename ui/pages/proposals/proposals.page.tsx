@@ -6,6 +6,7 @@ import { useBrokerProposals, useSupervisorProposals } from '@/lib/hooks';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProposalsTable from '@/ui/features/tables/proposals';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { useDebounce } from '@/lib/utils/hooks/useDebounce';
 
 export default function ProposalsPage() {
   const searchParams = useSearchParams();
@@ -26,24 +27,26 @@ export default function ProposalsPage() {
   const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
   const [info, setInfo] = useState(infoFromUrl);
 
+  const infoDebounce = useDebounce(info, 500);
+
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', (pageIndex + 1).toString());
-    if (info) {
-      params.set('info', info);
+    if (infoDebounce) {
+      params.set('info', infoDebounce);
     } else {
       params.delete('info');
     }
     router.replace(`?${params.toString()}`);
-  }, [pageIndex, info]);
+  }, [pageIndex, infoDebounce]);
 
   const queryParams = useMemo(
     () => ({
       skip: pageIndex * pageSize,
       limit: pageSize,
-      info: info || undefined,
+      info: infoDebounce || undefined,
     }),
-    [pageIndex, pageSize, info]
+    [pageIndex, pageSize, infoDebounce]
   );
 
   const brokerQ = useBrokerProposals(queryParams, {

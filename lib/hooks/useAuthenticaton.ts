@@ -6,10 +6,12 @@ import {
 } from '@tanstack/react-query';
 import { getAuthentication } from '@/lib/services';
 import { setAuthTokens, clearAuthTokens } from '../utils/cookies';
-import { BodyLoginTokenPost } from 'lib/types/bodyLoginTokenPost';
-import { Token } from 'lib/types/token';
-import { RefreshTokenRefreshTokenPostParams } from 'lib/types/refreshTokenRefreshTokenPostParams';
-import { UserInfoResponse } from 'lib/types/userInfoResponse';
+import {
+  BodyLoginTokenPost,
+  Token,
+  RefreshTokenRefreshTokenPostParams,
+  UserInfoResponse,
+} from 'lib/types';
 
 export function useLogin(
   options?: UseMutationOptions<Token, Error, BodyLoginTokenPost>

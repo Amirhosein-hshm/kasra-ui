@@ -5,17 +5,17 @@ import {
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { getSupervisor } from '@/lib/services';
-import { ReadProjectsSupervisorProjectsGetParams } from 'lib/types/readProjectsSupervisorProjectsGetParams';
-import { ProjectResponse } from 'lib/types/projectResponse';
-import { ProposalResponse } from 'lib/types/proposalResponse';
-import { ProposalUpdate } from 'lib/types/proposalUpdate';
-import { ReadProposalsSupervisorProposalsGetParams } from 'lib/types/readProposalsSupervisorProposalsGetParams';
-import { ReadProposalsSupervisorProposalsLikeGetParams } from 'lib/types/readProposalsSupervisorProposalsLikeGetParams';
-import { ReadReportsSupervisorReportsGetParams } from 'lib/types/readReportsSupervisorReportsGetParams';
-import { ReportResponse } from 'lib/types/reportResponse';
-import { ReportUpdate } from 'lib/types/reportUpdate';
+import {
+  ReadProjectsSupervisorProjectsGetParams,
+  ProjectResponseOutput,
+  ProposalResponse,
+  ProposalUpdate,
+  ReadProposalsSupervisorProposalsGetParams,
+  ReadReportsSupervisorReportsGetParams,
+  ReportResponse,
+  ReportUpdate,
+} from 'lib/types';
 
-// لیست پروپوزال‌ها
 export function useSupervisorProposals(
   params?: ReadProposalsSupervisorProposalsGetParams,
   options?: UseQueryOptions<ProposalResponse[], Error>
@@ -30,22 +30,6 @@ export function useSupervisorProposals(
   });
 }
 
-// لیست پروپوزال‌های مشابه
-export function useSupervisorProposalsLike(
-  params?: ReadProposalsSupervisorProposalsLikeGetParams,
-  options?: UseQueryOptions<ProposalResponse[], Error>
-) {
-  return useQuery({
-    queryKey: ['supervisorProposalsLike', params],
-    queryFn: () =>
-      getSupervisor()
-        .readProposalsSupervisorProposalsLikeGet(params)
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-// دریافت یک پروپوزال خاص
 export function useSupervisorProposal(
   proposalId: number,
   options?: UseQueryOptions<ProposalResponse, Error>
@@ -61,7 +45,6 @@ export function useSupervisorProposal(
   });
 }
 
-// ویرایش پروپوزال
 export function useEditSupervisorProposal(
   options?: UseMutationOptions<
     ProposalResponse,
@@ -81,7 +64,6 @@ export function useEditSupervisorProposal(
   });
 }
 
-// لیست گزارش‌ها
 export function useSupervisorReports(
   params?: ReadReportsSupervisorReportsGetParams,
   options?: UseQueryOptions<ReportResponse[], Error>
@@ -96,7 +78,6 @@ export function useSupervisorReports(
   });
 }
 
-// دریافت یک گزارش خاص
 export function useSupervisorReport(
   reportId: number,
   options?: UseQueryOptions<ReportResponse, Error>
@@ -112,7 +93,6 @@ export function useSupervisorReport(
   });
 }
 
-// ویرایش گزارش
 export function useEditSupervisorReport(
   options?: UseMutationOptions<
     ReportResponse,
@@ -131,7 +111,7 @@ export function useEditSupervisorReport(
 
 export function useSupervisorProjects(
   params?: ReadProjectsSupervisorProjectsGetParams,
-  options?: UseQueryOptions<ProjectResponse[], Error>
+  options?: UseQueryOptions<ProjectResponseOutput[], Error>
 ) {
   return useQuery({
     queryKey: ['supervisorProjects', params],

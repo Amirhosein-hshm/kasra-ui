@@ -5,4 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type UserMeInfoResponseSTATE = { [key: string]: unknown };
+export type GetReportsMentorReportsProjectIdGetParams = {
+skip?: number;
+limit?: number;
+};

@@ -5,14 +5,14 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ProposalSingleResponseOutput } from './proposalSingleResponseOutput';
+import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 
-export interface CommissionResponse {
+export interface ProjectResponseOutput {
   id: number;
   title: string;
-  comment: string;
-  state: number;
   proposal: ProposalSingleResponseOutput;
-  userSupervisorId: ProposalSingleResponseOutput;
-  userDiscovererId: ProposalSingleResponseOutput;
-  userMasterId: ProposalSingleResponseOutput;
+  supervisor: UserInfoLimitedResponse;
+  discoverer: UserInfoLimitedResponse;
+  master: UserInfoLimitedResponse;
+  broker: UserInfoLimitedResponse;
 }

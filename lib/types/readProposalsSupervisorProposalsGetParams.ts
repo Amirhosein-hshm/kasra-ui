@@ -8,4 +8,5 @@
 export type ReadProposalsSupervisorProposalsGetParams = {
 skip?: number;
 limit?: number;
+info?: string;
 };

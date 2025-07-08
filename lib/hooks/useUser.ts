@@ -5,17 +5,18 @@ import {
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { getUser } from '@/lib/services';
-import { ReadProjectsUsersProjectsGetParams } from 'lib/types/readProjectsUsersProjectsGetParams';
-import { ProjectResponse } from 'lib/types/projectResponse';
-import { ProposalRequest } from 'lib/types/proposalRequest';
-import { ProposalResponse } from 'lib/types/proposalResponse';
-import { ReportRequest } from 'lib/types/reportRequest';
-import { ReportResponse } from 'lib/types/reportResponse';
+import {
+  ProjectResponseOutput,
+  ReadProjectsUsersProjectsGetParams,
+  ProposalRequest,
+  ProposalResponse,
+  ReportRequest,
+  ReportResponse,
+} from 'lib/types/';
 
-// لیست پروژه‌های کاربر
 export function useUserProjects(
   params?: ReadProjectsUsersProjectsGetParams,
-  options?: UseQueryOptions<ProjectResponse[], Error>
+  options?: UseQueryOptions<ProjectResponseOutput[], Error>
 ) {
   return useQuery({
     queryKey: ['userProjects', params],
@@ -27,7 +28,6 @@ export function useUserProjects(
   });
 }
 
-// افزودن پروپوزال
 export function useAddUserProposal(
   options?: UseMutationOptions<ProposalResponse, Error, ProposalRequest>
 ) {
@@ -40,7 +40,6 @@ export function useAddUserProposal(
   });
 }
 
-// دریافت یک پروپوزال خاص
 export function useUserProposal(
   proposalId: number,
   options?: UseQueryOptions<ProposalResponse, Error>
@@ -56,7 +55,6 @@ export function useUserProposal(
   });
 }
 
-// لیست گزارش‌های یک پروژه
 export function useUserReportsByProject(
   projectId: number,
   options?: UseQueryOptions<ReportResponse[], Error>
@@ -72,7 +70,6 @@ export function useUserReportsByProject(
   });
 }
 
-// افزودن گزارش
 export function useAddUserReport(
   options?: UseMutationOptions<ReportResponse, Error, ReportRequest>
 ) {
@@ -85,7 +82,6 @@ export function useAddUserReport(
   });
 }
 
-// دریافت یک گزارش خاص
 export function useUserReport(
   reportId: number,
   options?: UseQueryOptions<ReportResponse, Error>

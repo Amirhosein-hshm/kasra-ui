@@ -5,27 +5,42 @@ import {
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { getExplorer } from '@/lib/services';
-import { ReadRfpsExplorerRfpsGetParams } from 'lib/types/readRfpsExplorerRfpsGetParams';
-import { RFPResponse } from 'lib/types/rFPResponse';
-import { RFPRequest } from 'lib/types/rFPRequest';
-import { SearchRfpsEndpointExplorerRfpsSearchGetParams } from 'lib/types/searchRfpsEndpointExplorerRfpsSearchGetParams';
-
-// لیست RFPها
-export function useExplorerRfps(
-  params?: ReadRfpsExplorerRfpsGetParams,
-  options?: UseQueryOptions<RFPResponse[], Error>
+import {
+  RFPFieldResponse,
+  RFPRequest,
+  RFPResponse,
+  ReadRfpFieldsExplorerRfpFieldsGetParams,
+  SearchRfpsEndpointExplorerRfpsGetParams,
+} from 'lib/types';
+export function useExplorerRfpFields(
+  params?: ReadRfpFieldsExplorerRfpFieldsGetParams,
+  options?: UseQueryOptions<RFPFieldResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['explorerRfps', params],
+    queryKey: ['explorerRfpFields', params],
     queryFn: () =>
       getExplorer()
-        .readRfpsExplorerRfpsGet(params)
+        .readRfpFieldsExplorerRfpFieldsGet(params)
         .then((res) => res.data),
     ...options,
   });
 }
 
-// افزودن RFP
+export function useSearchExplorerRfps(
+  params: SearchRfpsEndpointExplorerRfpsGetParams,
+  options?: UseQueryOptions<RFPResponse[], Error>
+) {
+  return useQuery({
+    queryKey: ['explorerRfpsSearch', params],
+    queryFn: () =>
+      getExplorer()
+        .searchRfpsEndpointExplorerRfpsGet(params)
+        .then((res) => res.data),
+    enabled: !!params,
+    ...options,
+  });
+}
+
 export function useAddExplorerRfp(
   options?: UseMutationOptions<RFPResponse, Error, RFPRequest>
 ) {
@@ -38,23 +53,6 @@ export function useAddExplorerRfp(
   });
 }
 
-// جستجوی RFP
-export function useSearchExplorerRfps(
-  params: SearchRfpsEndpointExplorerRfpsSearchGetParams,
-  options?: UseQueryOptions<RFPResponse[], Error>
-) {
-  return useQuery({
-    queryKey: ['explorerRfpsSearch', params],
-    queryFn: () =>
-      getExplorer()
-        .searchRfpsEndpointExplorerRfpsSearchGet(params)
-        .then((res) => res.data),
-    enabled: !!params,
-    ...options,
-  });
-}
-
-// ویرایش RFP
 export function useEditExplorerRfp(
   options?: UseMutationOptions<
     RFPResponse,
