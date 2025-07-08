@@ -9,13 +9,13 @@ import { ProposalResponse } from 'lib/types/proposalResponse';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormSelect } from '@/ui/components/select/select';
 import { FormInput } from '@/ui/components/input/input';
-import { useMeStore } from '@/lib/stores/me.stores';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   commissionSchema,
   CommissionFormValues,
 } from './commission-validation';
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -51,20 +51,19 @@ export function CommissionSideBar({
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: CommissionFormValues) => {
+  const onSubmit = async (data: CommissionFormValues) => {
     try {
-      mutateAsync({ ...data, proposalId: selected?.id ?? 0 });
+      await mutateAsync({ ...data, proposalId: selected?.id ?? 0 });
       onOpenChange(false);
       queryClient.invalidateQueries({
         queryKey: ['brokerProposals'],
       });
+      form.reset();
+      toast.success('کومیسیون با موفقیت ایجاد شد');
     } catch (e) {
-      console.log(e);
-      //
+      toast.error('خطا در ایجاد کومیسیون');
     }
   };
-
-  const state = useMeStore((s) => s.user?.state);
 
   return (
     <FormProvider {...form}>
@@ -81,7 +80,7 @@ export function CommissionSideBar({
             name="state"
             placeholder="وضعیت را انتخاب کنید"
             label="وضعیت"
-            enumKey="state"
+            enumKey="stateCommission"
           />
           <FormInput
             name="title"

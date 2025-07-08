@@ -169,7 +169,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProposalSingleResponse-Output"
+                  "$ref": "#/components/schemas/ProposalSingleResponse"
                 }
               }
             }
@@ -190,23 +190,18 @@
         "tags": ["broker"],
         "summary": "Add Commission",
         "operationId": "add_commission_broker_commissions__post",
-        "security": [{ "OAuth2PasswordBearer": [] }],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/CommissionRequest" }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
             "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           },
           "422": {
             "description": "Validation Error",
@@ -216,16 +211,19 @@
               }
             }
           }
-        }
-      },
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/broker/commissions/{proposal_id}": {
       "get": {
         "tags": ["broker"],
         "summary": "Add Commission",
-        "operationId": "add_commission_broker_commissions__get",
+        "operationId": "add_commission_broker_commissions__proposal_id__get",
         "parameters": [
           {
             "name": "proposal_id",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": { "type": "integer", "title": "Proposal Id" }
           }
@@ -406,9 +404,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectResponse-Output"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
                   "title": "Response Read Projects Users Projects  Get"
                 }
               }
@@ -578,10 +574,10 @@
         "operationId": "search_rfps_endpoint_explorer_rfps__get",
         "parameters": [
           {
-            "name": "query",
+            "name": "info",
             "in": "query",
             "required": false,
-            "schema": { "type": "string", "title": "Query" }
+            "schema": { "type": "string", "title": "Info" }
           },
           {
             "name": "skip",
@@ -651,11 +647,11 @@
         }
       }
     },
-    "/explorer/rfps/{rfp_id}": {
+    "/explorer/single-rfp/{rfp_id}": {
       "get": {
         "tags": ["explorer"],
         "summary": "Search Rfps",
-        "operationId": "search_rfps_explorer_rfps__rfp_id__get",
+        "operationId": "search_rfps_explorer_single_rfp__rfp_id__get",
         "parameters": [
           {
             "name": "rfp_id",
@@ -682,7 +678,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/explorer/rfps/{rfp_id}": {
       "put": {
         "tags": ["explorer"],
         "summary": "Edit Rfp",
@@ -750,9 +748,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectResponse-Output"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
                   "title": "Response Get Project Mentor Projects  Get"
                 }
               }
@@ -1049,11 +1045,11 @@
         }
       }
     },
-    "/supervisor/reports/{report_id}": {
+    "/supervisor/report-files/{report_id}": {
       "get": {
         "tags": ["supervisor"],
         "summary": "Read Report",
-        "operationId": "read_report_supervisor_reports__report_id__get",
+        "operationId": "read_report_supervisor_report_files__report_id__get",
         "parameters": [
           {
             "name": "report_id",
@@ -1067,7 +1063,13 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ReportResponse" }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportFileResponse"
+                  },
+                  "title": "Response Read Report Supervisor Report Files  Report Id  Get"
+                }
               }
             }
           },
@@ -1080,7 +1082,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/supervisor/reports/{report_id}": {
       "put": {
         "tags": ["supervisor"],
         "summary": "Edit Report",
@@ -1138,6 +1142,12 @@
             "in": "query",
             "required": false,
             "schema": { "type": "integer", "default": 10, "title": "Limit" }
+          },
+          {
+            "name": "info",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "title": "Info" }
           }
         ],
         "responses": {
@@ -1147,9 +1157,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectResponse-Output"
-                  },
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
                   "title": "Response Read Projects Supervisor Projects  Get"
                 }
               }
@@ -1241,18 +1249,14 @@
           "title": { "type": "string", "title": "Title" },
           "comment": { "type": "string", "title": "Comment" },
           "state": { "type": "integer", "title": "State" },
-          "proposal": {
-            "$ref": "#/components/schemas/ProposalSingleResponse-Output"
+          "proposal": { "$ref": "#/components/schemas/ProposalSingleResponse" },
+          "supervisor": {
+            "$ref": "#/components/schemas/UserInfoLimitedResponse"
           },
-          "user_supervisor_id": {
-            "$ref": "#/components/schemas/ProposalSingleResponse-Output"
+          "discoverer": {
+            "$ref": "#/components/schemas/UserInfoLimitedResponse"
           },
-          "user_discoverer_id": {
-            "$ref": "#/components/schemas/ProposalSingleResponse-Output"
-          },
-          "user_master_id": {
-            "$ref": "#/components/schemas/ProposalSingleResponse-Output"
-          }
+          "master": { "$ref": "#/components/schemas/UserInfoLimitedResponse" }
         },
         "type": "object",
         "required": [
@@ -1261,9 +1265,9 @@
           "comment",
           "state",
           "proposal",
-          "user_supervisor_id",
-          "user_discoverer_id",
-          "user_master_id"
+          "supervisor",
+          "discoverer",
+          "master"
         ],
         "title": "CommissionResponse"
       },
@@ -1278,41 +1282,11 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
-      "ProjectResponse-Input": {
+      "ProjectResponse": {
         "properties": {
           "id": { "type": "integer", "title": "Id" },
           "title": { "type": "string", "title": "Title" },
-          "proposal": {
-            "$ref": "#/components/schemas/ProposalSingleResponse-Input"
-          },
-          "supervisor": {
-            "$ref": "#/components/schemas/UserInfoLimitedResponse"
-          },
-          "discoverer": {
-            "$ref": "#/components/schemas/UserInfoLimitedResponse"
-          },
-          "master": { "$ref": "#/components/schemas/UserInfoLimitedResponse" },
-          "broker": { "$ref": "#/components/schemas/UserInfoLimitedResponse" }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "title",
-          "proposal",
-          "supervisor",
-          "discoverer",
-          "master",
-          "broker"
-        ],
-        "title": "ProjectResponse"
-      },
-      "ProjectResponse-Output": {
-        "properties": {
-          "id": { "type": "integer", "title": "Id" },
-          "title": { "type": "string", "title": "Title" },
-          "proposal": {
-            "$ref": "#/components/schemas/ProposalSingleResponse-Output"
-          },
+          "proposal": { "$ref": "#/components/schemas/ProposalSingleResponse" },
           "supervisor": {
             "$ref": "#/components/schemas/UserInfoLimitedResponse"
           },
@@ -1377,21 +1351,7 @@
         "required": ["id", "info", "rfp", "user", "comment", "state"],
         "title": "ProposalResponse"
       },
-      "ProposalSingleResponse-Input": {
-        "properties": {
-          "info": { "type": "string", "title": "Info" },
-          "rfp": { "$ref": "#/components/schemas/RFPResponse" },
-          "comment": { "type": "string", "title": "Comment" },
-          "file_id": {
-            "anyOf": [{ "type": "integer" }, { "type": "null" }],
-            "title": "File Id"
-          }
-        },
-        "type": "object",
-        "required": ["info", "rfp", "comment"],
-        "title": "ProposalSingleResponse"
-      },
-      "ProposalSingleResponse-Output": {
+      "ProposalSingleResponse": {
         "properties": {
           "info": { "type": "string", "title": "Info" },
           "rfp": { "$ref": "#/components/schemas/RFPResponse" },
@@ -1450,27 +1410,38 @@
         "required": ["id", "info", "RFP_field"],
         "title": "RFPResponse"
       },
-      "ReportRequest": {
-        "properties": {
-          "info": { "type": "string", "title": "Info" },
-          "project": { "$ref": "#/components/schemas/ProjectResponse-Input" },
-          "comment": { "type": "string", "title": "Comment" },
-          "state": { "type": "integer", "title": "State" }
-        },
-        "type": "object",
-        "required": ["info", "project", "comment", "state"],
-        "title": "ReportRequest"
-      },
-      "ReportResponse": {
+      "ReportFileResponse": {
         "properties": {
           "id": { "type": "integer", "title": "Id" },
+          "info": { "type": "string", "title": "Info" },
+          "report": { "$ref": "#/components/schemas/ReportResponse" },
+          "file_id": { "type": "integer", "title": "File Id" }
+        },
+        "type": "object",
+        "required": ["id", "info", "report", "file_id"],
+        "title": "ReportFileResponse"
+      },
+      "ReportRequest": {
+        "properties": {
           "info": { "type": "string", "title": "Info" },
           "project_id": { "type": "integer", "title": "Project Id" },
           "comment": { "type": "string", "title": "Comment" },
           "state": { "type": "integer", "title": "State" }
         },
         "type": "object",
-        "required": ["id", "info", "project_id", "comment", "state"],
+        "required": ["info", "project_id", "comment", "state"],
+        "title": "ReportRequest"
+      },
+      "ReportResponse": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "info": { "type": "string", "title": "Info" },
+          "project": { "$ref": "#/components/schemas/ProjectResponse" },
+          "comment": { "type": "string", "title": "Comment" },
+          "state": { "type": "integer", "title": "State" }
+        },
+        "type": "object",
+        "required": ["id", "info", "project", "comment", "state"],
         "title": "ReportResponse"
       },
       "ReportUpdate": {
@@ -1561,10 +1532,10 @@
           },
           "active": { "type": "boolean", "title": "Active" },
           "user_type_id": { "type": "integer", "title": "User Type Id" },
-          "STATE_COMMISION": {
+          "STATE_COMMISSION": {
             "additionalProperties": true,
             "type": "object",
-            "title": "State Commision"
+            "title": "State Commission"
           },
           "STATE_PROPOSAL": {
             "additionalProperties": true,
@@ -1582,7 +1553,7 @@
           "birth",
           "active",
           "user_type_id",
-          "STATE_COMMISION",
+          "STATE_COMMISSION",
           "STATE_PROPOSAL"
         ],
         "title": "UserMeInfoResponse"

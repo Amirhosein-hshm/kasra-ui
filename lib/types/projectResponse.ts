@@ -7,13 +7,12 @@
 import type { ProposalSingleResponse } from './proposalSingleResponse';
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 
-export interface CommissionResponse {
+export interface ProjectResponse {
   id: number;
   title: string;
-  comment: string;
-  state: number;
   proposal: ProposalSingleResponse;
   supervisor: UserInfoLimitedResponse;
   discoverer: UserInfoLimitedResponse;
   master: UserInfoLimitedResponse;
+  broker: UserInfoLimitedResponse;
 }

@@ -31,7 +31,7 @@ export const getExplorer = () => {
    * @summary Search Rfps Endpoint
    */
   const searchRfpsEndpointExplorerRfpsGet = (
-    params: SearchRfpsEndpointExplorerRfpsGetParams
+    params?: SearchRfpsEndpointExplorerRfpsGetParams
   ) => {
     return api<RFPResponse[]>({
       url: `/explorer/rfps/`,
@@ -48,6 +48,15 @@ export const getExplorer = () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: rFPRequest,
+    });
+  };
+  /**
+   * @summary Search Rfps
+   */
+  const searchRfpsExplorerSingleRfpRfpIdGet = (rfpId: number) => {
+    return api<RFPResponse>({
+      url: `/explorer/single-rfp/${rfpId}`,
+      method: 'GET',
     });
   };
   /**
@@ -68,6 +77,7 @@ export const getExplorer = () => {
     readRfpFieldsExplorerRfpFieldsGet,
     searchRfpsEndpointExplorerRfpsGet,
     addRfpExplorerRfpsPost,
+    searchRfpsExplorerSingleRfpRfpIdGet,
     editRfpExplorerRfpsRfpIdPut,
   };
 };
@@ -87,6 +97,13 @@ export type SearchRfpsEndpointExplorerRfpsGetResult = NonNullable<
 >;
 export type AddRfpExplorerRfpsPostResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>
+>;
+export type SearchRfpsExplorerSingleRfpRfpIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getExplorer>['searchRfpsExplorerSingleRfpRfpIdGet']
+    >
+  >
 >;
 export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<
   Awaited<

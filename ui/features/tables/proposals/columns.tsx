@@ -151,9 +151,18 @@ const getProposalTableFiles = (userRoleId: number) => {
       accessorKey: 'state',
       header: 'وضعیت',
     },
+
+    {
+      accessorKey: 'rfp.info',
+      header: 'عنوان RFP',
+    },
+    {
+      accessorKey: 'rfp.rfpField.title',
+      header: 'دسته بندی',
+    },
   ];
   if (userRoleId === 1) {
-    const fields = ['info'];
+    const fields = ['info', 'rfp.info', 'rfp.rfpField.title'];
     return proposalsTableFields.filter((field) =>
       fields.includes(field.accessorKey)
     );

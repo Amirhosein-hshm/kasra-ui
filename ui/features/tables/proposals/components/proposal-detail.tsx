@@ -2,21 +2,13 @@ import { useBrokerProposal } from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import { ProposalResponse } from 'lib/types/proposalResponse';
 import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
+import { json } from 'stream/consumers';
 
 interface ProposalSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selected?: ProposalResponse | null;
 }
-
-const keyLabels: Partial<Record<keyof ProposalResponse, string>> = {
-  id: 'شناسه پروپوزال',
-  info: 'اطلاعات',
-  RFP_id: 'شناسه RFP',
-  userId: 'شناسه کاربر',
-  comment: 'توضیحات',
-  state: 'وضعیت',
-};
 
 export function ProposalDetailSideBar({
   open,
@@ -38,23 +30,23 @@ export function ProposalDetailSideBar({
       {!isLoading && data ? (
         <div className="space-y-3 text-sm text-gray-800 dark:text-gray-100">
           <div className="rounded-lg border p-4 space-y-2">
-            {(Object.entries(data) as [keyof ProposalResponse, any][]).map(
-              ([key, value]) => {
-                if (key === 'fileId') return null;
-                return (
-                  <div key={key} className="flex justify-between items-center">
-                    <span className="font-medium">
-                      {keyLabels[key] ?? key}:
-                    </span>
-                    <span className="text-right break-all">
-                      {value?.toString()}
-                    </span>
-                  </div>
-                );
-              }
+            <div className="flex justify-between items-center">
+              <span className="font-medium">عنوان</span>
+              <span className="text-right break-all">{selected?.info}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="font-medium">عنوان RFP</span>
+              <span className="text-right break-all">{selected?.rfp.info}</span>
+            </div>
+            {selected?.rfp.RFP_field?.title && (
+              <div className="flex justify-between items-center">
+                <span className="font-medium">دسته بندی</span>
+                <span className="text-right break-all">
+                  {selected?.rfp.RFP_field?.title}
+                </span>
+              </div>
             )}
           </div>
-
           {data.fileId && (
             <a
               href={`http://localhost:8000/file/download/${data.fileId}`}

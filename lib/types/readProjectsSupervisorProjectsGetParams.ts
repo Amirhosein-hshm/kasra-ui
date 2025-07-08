@@ -8,4 +8,5 @@
 export type ReadProjectsSupervisorProjectsGetParams = {
 skip?: number;
 limit?: number;
+info?: string;
 };

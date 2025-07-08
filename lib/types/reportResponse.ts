@@ -4,11 +4,12 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { ProjectResponse } from './projectResponse';
 
 export interface ReportResponse {
   id: number;
   info: string;
-  projectId: number;
+  project: ProjectResponse;
   comment: string;
   state: number;
 }

@@ -5,8 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type SearchRfpsEndpointExplorerRfpsGetParams = {
-info?: string;
-skip?: number;
-limit?: number;
-};
+export type UserMeInfoResponseSTATECOMMISSION = { [key: string]: unknown };

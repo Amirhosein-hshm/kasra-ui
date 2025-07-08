@@ -4,7 +4,9 @@ import {
   UseQueryOptions,
   UseMutationOptions,
 } from '@tanstack/react-query';
+
 import { getExplorer } from '@/lib/services';
+
 import {
   RFPFieldResponse,
   RFPRequest,
@@ -12,6 +14,7 @@ import {
   ReadRfpFieldsExplorerRfpFieldsGetParams,
   SearchRfpsEndpointExplorerRfpsGetParams,
 } from 'lib/types';
+
 export function useExplorerRfpFields(
   params?: ReadRfpFieldsExplorerRfpFieldsGetParams,
   options?: UseQueryOptions<RFPFieldResponse[], Error>
@@ -65,6 +68,21 @@ export function useEditExplorerRfp(
       getExplorer()
         .editRfpExplorerRfpsRfpIdPut(rfpId, rFPRequest)
         .then((res) => res.data),
+    ...options,
+  });
+}
+
+export function useGetExplorerRfpById(
+  rfpId: number,
+  options?: UseQueryOptions<RFPResponse, Error>
+) {
+  return useQuery({
+    queryKey: ['explorerRfpById', rfpId],
+    queryFn: () =>
+      getExplorer()
+        .searchRfpsExplorerSingleRfpRfpIdGet(rfpId)
+        .then((res) => res.data),
+    enabled: !!rfpId,
     ...options,
   });
 }

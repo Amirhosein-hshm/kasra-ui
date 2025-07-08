@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { getMentor } from '@/lib/services1/mentor/mentor';
+import { getMentor } from '@/lib/services/mentor/mentor';
 import {
   ProjectResponseOutput,
   GetProjectMentorProjectsGetParams,
