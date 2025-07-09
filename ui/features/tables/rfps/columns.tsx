@@ -20,7 +20,7 @@ const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
 interface ColumnOptions {
   onView?: (rfp: RFPResponse) => void;
-  onOpenRfpDetail?: (rfp: RFPResponse) => void;
+  onOpenRfpEdit?: (rfp: RFPResponse) => void;
 }
 
 export function getRfpsTableColumns(
@@ -69,30 +69,10 @@ export function getRfpsTableColumns(
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => options?.onView?.(rfp)}
+                onClick={() => options?.onOpenRfpEdit?.(rfp)}
                 className={dropdownMenuItemClassname}
               >
-                مشاهده <Eye color="var(--color-stone-primary)" />
-              </DropdownMenuItem>
-              {options?.onOpenRfpDetail && (
-                <DropdownMenuItem
-                  onClick={() => options.onOpenRfpDetail?.(rfp)}
-                  className={dropdownMenuItemClassname}
-                >
-                  جزئیات
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(rfp.id.toString())}
-                className={dropdownMenuItemClassname}
-              >
-                حذف <Trash color="var(--color-red-primary)" />
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(rfp.id.toString())}
-                className={dropdownMenuItemClassname}
-              >
-                ویرایش <Edit color="var(--color-blue-primary)" />
+                مشاهده و ویرایش <Edit color="var(--color-blue-primary)" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -116,6 +96,10 @@ export function getRfpsTableColumns(
     {
       accessorKey: 'info',
       header: 'اطلاعات پروژه',
+    },
+    {
+      accessorKey: 'rfpField.title',
+      header: 'دسته بندی',
     },
   ];
 }

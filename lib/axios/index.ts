@@ -19,6 +19,8 @@ import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRe
 
 const baseURL = 'http://localhost:8000/';
 
+const SNAKE_EXCLUDE = [/^RFP_field_id$/];
+
 const api: AxiosInstance = axios.create({
   baseURL,
   headers: {
@@ -57,13 +59,20 @@ api.interceptors.request.use((config) => {
   if (
     config.data &&
     typeof config.data === 'object' &&
-    !(config.data instanceof URLSearchParams)
+    !(config.data instanceof URLSearchParams) &&
+    !(config.data instanceof FormData)
   ) {
-    config.data = snakecaseKeys(config.data, { deep: true });
+    config.data = snakecaseKeys(config.data, {
+      deep: true,
+      exclude: SNAKE_EXCLUDE,
+    });
   }
 
   if (config.params && typeof config.params === 'object') {
-    config.params = snakecaseKeys(config.params, { deep: true });
+    config.params = snakecaseKeys(config.params, {
+      deep: true,
+      exclude: SNAKE_EXCLUDE,
+    });
   }
 
   return config;
