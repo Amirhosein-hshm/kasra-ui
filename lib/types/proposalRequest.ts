@@ -9,8 +9,6 @@ import type { ProposalRequestFileId } from './proposalRequestFileId';
 export interface ProposalRequest {
   info: string;
   RFP_id: number;
-  userId: number;
-  state: number;
   comment: string;
   fileId?: ProposalRequestFileId;
 }

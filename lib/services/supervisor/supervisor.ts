@@ -11,6 +11,7 @@ import type {
   ReadProjectsSupervisorProjectsGetParams,
   ReadProposalsSupervisorProposalsGetParams,
   ReadReportsSupervisorReportsGetParams,
+  ReportFileResponse,
   ReportResponse,
   ReportUpdate,
 } from '../../types';
@@ -68,9 +69,9 @@ export const getSupervisor = () => {
   /**
    * @summary Read Report
    */
-  const readReportSupervisorReportsReportIdGet = (reportId: number) => {
-    return api<ReportResponse>({
-      url: `/supervisor/reports/${reportId}`,
+  const readReportSupervisorReportFilesReportIdGet = (reportId: number) => {
+    return api<ReportFileResponse[]>({
+      url: `/supervisor/report-files/${reportId}`,
       method: 'GET',
     });
   };
@@ -105,7 +106,7 @@ export const getSupervisor = () => {
     readProposalSupervisorProposalsProposalIdGet,
     editProposalSupervisorProposalsProposalIdPut,
     readReportsSupervisorReportsGet,
-    readReportSupervisorReportsReportIdGet,
+    readReportSupervisorReportFilesReportIdGet,
     editReportSupervisorReportsReportIdPut,
     readProjectsSupervisorProjectsGet,
   };
@@ -142,10 +143,12 @@ export type ReadReportsSupervisorReportsGetResult = NonNullable<
     >
   >
 >;
-export type ReadReportSupervisorReportsReportIdGetResult = NonNullable<
+export type ReadReportSupervisorReportFilesReportIdGetResult = NonNullable<
   Awaited<
     ReturnType<
-      ReturnType<typeof getSupervisor>['readReportSupervisorReportsReportIdGet']
+      ReturnType<
+        typeof getSupervisor
+      >['readReportSupervisorReportFilesReportIdGet']
     >
   >
 >;

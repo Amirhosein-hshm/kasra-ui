@@ -8,9 +8,12 @@ import type {
   ProjectResponse,
   ProposalRequest,
   ProposalResponse,
+  ProposalUserUpdateRequest,
+  RFPResponse,
   ReadProjectsUsersProjectsGetParams,
   ReportRequest,
   ReportResponse,
+  SearchRfpsEndpointUsersRfpsGetParams,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
@@ -34,6 +37,20 @@ export const getUser = () => {
     return api<ProposalResponse>({
       url: `/users/proposals/${proposalId}`,
       method: 'GET',
+    });
+  };
+  /**
+   * @summary Edit Proposal
+   */
+  const editProposalUsersProposalsProposalIdPut = (
+    proposalId: number,
+    proposalUserUpdateRequest: ProposalUserUpdateRequest
+  ) => {
+    return api<ProposalResponse>({
+      url: `/users/proposals/${proposalId}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: proposalUserUpdateRequest,
     });
   };
   /**
@@ -77,13 +94,23 @@ export const getUser = () => {
       method: 'GET',
     });
   };
+  /**
+   * @summary Search Rfps Endpoint
+   */
+  const searchRfpsEndpointUsersRfpsGet = (
+    params?: SearchRfpsEndpointUsersRfpsGetParams
+  ) => {
+    return api<RFPResponse[]>({ url: `/users/rfps/`, method: 'GET', params });
+  };
   return {
     addProposalUsersProposalsPost,
     readProposalUsersProposalsProposalIdGet,
+    editProposalUsersProposalsProposalIdPut,
     readProjectsUsersProjectsGet,
     readReportsUsersReportsByProjectProjectIdGet,
     addReportUsersReportsPost,
     readReportUsersReportsReportIdGet,
+    searchRfpsEndpointUsersRfpsGet,
   };
 };
 export type AddProposalUsersProposalsPostResult = NonNullable<
@@ -95,6 +122,13 @@ export type ReadProposalUsersProposalsProposalIdGetResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<typeof getUser>['readProposalUsersProposalsProposalIdGet']
+    >
+  >
+>;
+export type EditProposalUsersProposalsProposalIdPutResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getUser>['editProposalUsersProposalsProposalIdPut']
     >
   >
 >;
@@ -116,5 +150,10 @@ export type AddReportUsersReportsPostResult = NonNullable<
 export type ReadReportUsersReportsReportIdGetResult = NonNullable<
   Awaited<
     ReturnType<ReturnType<typeof getUser>['readReportUsersReportsReportIdGet']>
+  >
+>;
+export type SearchRfpsEndpointUsersRfpsGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getUser>['searchRfpsEndpointUsersRfpsGet']>
   >
 >;

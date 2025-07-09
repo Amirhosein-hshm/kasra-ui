@@ -341,7 +341,8 @@
               }
             }
           }
-        }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
       }
     },
     "/users/proposals/{proposal_id}": {
@@ -357,6 +358,47 @@
             "schema": { "type": "integer", "title": "Proposal Id" }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["user"],
+        "summary": "Edit Proposal",
+        "operationId": "edit_proposal_users_proposals__proposal_id__put",
+        "parameters": [
+          {
+            "name": "proposal_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Proposal Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposalUserUpdateRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -510,6 +552,55 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/ReportResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/rfps/": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Search Rfps Endpoint",
+        "operationId": "search_rfps_endpoint_users_rfps__get",
+        "parameters": [
+          {
+            "name": "info",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "title": "Info" }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/RFPResponse" },
+                  "title": "Response Search Rfps Endpoint Users Rfps  Get"
+                }
               }
             }
           },
@@ -778,6 +869,42 @@
             "required": true,
             "schema": { "type": "integer", "title": "Project Id" }
           },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mentor/all-reports/": {
+      "get": {
+        "tags": ["mentor"],
+        "summary": "Get All Reports",
+        "operationId": "get_all_reports_mentor_all_reports__get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
           {
             "name": "skip",
             "in": "query",
@@ -1322,8 +1449,6 @@
         "properties": {
           "info": { "type": "string", "title": "Info" },
           "RFP_id": { "type": "integer", "title": "Rfp Id" },
-          "user_id": { "type": "integer", "title": "User Id" },
-          "state": { "type": "integer", "title": "State" },
           "comment": { "type": "string", "title": "Comment" },
           "file_id": {
             "anyOf": [{ "type": "integer" }, { "type": "null" }],
@@ -1331,7 +1456,7 @@
           }
         },
         "type": "object",
-        "required": ["info", "RFP_id", "user_id", "state", "comment"],
+        "required": ["info", "RFP_id", "comment"],
         "title": "ProposalRequest"
       },
       "ProposalResponse": {
@@ -1373,6 +1498,25 @@
         "type": "object",
         "required": ["state", "comment"],
         "title": "ProposalUpdate"
+      },
+      "ProposalUserUpdateRequest": {
+        "properties": {
+          "info": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Info"
+          },
+          "RFP_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Rfp Id"
+          },
+          "file_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "File Id"
+          }
+        },
+        "type": "object",
+        "required": ["info", "RFP_id", "file_id"],
+        "title": "ProposalUserUpdateRequest"
       },
       "RFPFieldResponse": {
         "properties": {
@@ -1425,11 +1569,10 @@
         "properties": {
           "info": { "type": "string", "title": "Info" },
           "project_id": { "type": "integer", "title": "Project Id" },
-          "comment": { "type": "string", "title": "Comment" },
-          "state": { "type": "integer", "title": "State" }
+          "comment": { "type": "string", "title": "Comment" }
         },
         "type": "object",
-        "required": ["info", "project_id", "comment", "state"],
+        "required": ["info", "project_id", "comment"],
         "title": "ReportRequest"
       },
       "ReportResponse": {

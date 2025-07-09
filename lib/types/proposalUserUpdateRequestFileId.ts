@@ -5,8 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportRequest {
-  info: string;
-  projectId: number;
-  comment: string;
-}
+export type ProposalUserUpdateRequestFileId = number | null;
