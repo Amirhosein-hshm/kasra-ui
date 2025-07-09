@@ -45,6 +45,7 @@ export * from './readProjectsSupervisorProjectsGetParams';
 export * from './readProjectsUsersProjectsGetParams';
 export * from './readProposalsBrokerProposalsGetParams';
 export * from './readProposalsSupervisorProposalsGetParams';
+export * from './readProposalsUsersProposalsGetParams';
 export * from './readReportsSupervisorReportsGetParams';
 export * from './readRfpFieldsExplorerRfpFieldsGetParams';
 export * from './refreshTokenRefreshTokenPostParams';

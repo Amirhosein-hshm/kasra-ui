@@ -7,11 +7,9 @@
 import type {
   ProjectResponse,
   ProposalResponse,
-  ProposalUpdate,
   ReadProjectsSupervisorProjectsGetParams,
   ReadProposalsSupervisorProposalsGetParams,
   ReadReportsSupervisorReportsGetParams,
-  ReportFileResponse,
   ReportResponse,
   ReportUpdate,
 } from '../../types';
@@ -41,17 +39,14 @@ export const getSupervisor = () => {
     });
   };
   /**
-   * @summary Edit Proposal
+   * @summary Read Reports By Project
    */
-  const editProposalSupervisorProposalsProposalIdPut = (
-    proposalId: number,
-    proposalUpdate: ProposalUpdate
+  const readReportsByProjectSupervisorReportsByProjectProjectIdGet = (
+    projectId: number
   ) => {
-    return api<ProposalResponse>({
-      url: `/supervisor/proposals/${proposalId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: proposalUpdate,
+    return api<ReportResponse[]>({
+      url: `/supervisor/reports-by-project/${projectId}`,
+      method: 'GET',
     });
   };
   /**
@@ -64,15 +59,6 @@ export const getSupervisor = () => {
       url: `/supervisor/reports/`,
       method: 'GET',
       params,
-    });
-  };
-  /**
-   * @summary Read Report
-   */
-  const readReportSupervisorReportFilesReportIdGet = (reportId: number) => {
-    return api<ReportFileResponse[]>({
-      url: `/supervisor/report-files/${reportId}`,
-      method: 'GET',
     });
   };
   /**
@@ -104,9 +90,8 @@ export const getSupervisor = () => {
   return {
     readProposalsSupervisorProposalsGet,
     readProposalSupervisorProposalsProposalIdGet,
-    editProposalSupervisorProposalsProposalIdPut,
+    readReportsByProjectSupervisorReportsByProjectProjectIdGet,
     readReportsSupervisorReportsGet,
-    readReportSupervisorReportFilesReportIdGet,
     editReportSupervisorReportsReportIdPut,
     readProjectsSupervisorProjectsGet,
   };
@@ -127,28 +112,20 @@ export type ReadProposalSupervisorProposalsProposalIdGetResult = NonNullable<
     >
   >
 >;
-export type EditProposalSupervisorProposalsProposalIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
+export type ReadReportsByProjectSupervisorReportsByProjectProjectIdGetResult =
+  NonNullable<
+    Awaited<
       ReturnType<
-        typeof getSupervisor
-      >['editProposalSupervisorProposalsProposalIdPut']
+        ReturnType<
+          typeof getSupervisor
+        >['readReportsByProjectSupervisorReportsByProjectProjectIdGet']
+      >
     >
-  >
->;
+  >;
 export type ReadReportsSupervisorReportsGetResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<typeof getSupervisor>['readReportsSupervisorReportsGet']
-    >
-  >
->;
-export type ReadReportSupervisorReportFilesReportIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getSupervisor
-      >['readReportSupervisorReportFilesReportIdGet']
     >
   >
 >;

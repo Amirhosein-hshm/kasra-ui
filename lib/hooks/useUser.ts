@@ -5,32 +5,40 @@ import {
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { getUser } from '@/lib/services';
+
 import type {
   ProjectResponse,
-  ReadProjectsUsersProjectsGetParams,
   ProposalRequest,
   ProposalResponse,
   ProposalUserUpdateRequest,
+  RFPResponse,
+  ReadProjectsUsersProjectsGetParams,
+  ReadProposalsUsersProposalsGetParams,
   ReportRequest,
   ReportResponse,
-  RFPResponse,
   SearchRfpsEndpointUsersRfpsGetParams,
 } from '@/lib/types';
 
-export function useUserProjects(
-  params?: ReadProjectsUsersProjectsGetParams,
-  options?: UseQueryOptions<ProjectResponse[], Error>
+/**
+ * Get all user proposals
+ */
+export function useUserProposals(
+  params?: ReadProposalsUsersProposalsGetParams,
+  options?: UseQueryOptions<ProposalResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['userProjects', params],
+    queryKey: ['userProposals', params],
     queryFn: () =>
       getUser()
-        .readProjectsUsersProjectsGet(params)
+        .readProposalsUsersProposalsGet(params)
         .then((res) => res.data),
     ...options,
   });
 }
 
+/**
+ * Get single user proposal by ID
+ */
 export function useUserProposal(
   proposalId: number,
   options?: UseQueryOptions<ProposalResponse, Error>
@@ -46,6 +54,9 @@ export function useUserProposal(
   });
 }
 
+/**
+ * Add new proposal
+ */
 export function useAddUserProposal(
   options?: UseMutationOptions<ProposalResponse, Error, ProposalRequest>
 ) {
@@ -58,6 +69,9 @@ export function useAddUserProposal(
   });
 }
 
+/**
+ * Edit user proposal
+ */
 export function useEditUserProposal(
   options?: UseMutationOptions<
     ProposalResponse,
@@ -74,6 +88,44 @@ export function useEditUserProposal(
   });
 }
 
+/**
+ * Get all user projects
+ */
+export function useUserProjects(
+  params?: ReadProjectsUsersProjectsGetParams,
+  options?: UseQueryOptions<ProjectResponse, Error>
+) {
+  return useQuery({
+    queryKey: ['userProjects', params],
+    queryFn: () =>
+      getUser()
+        .readProjectsUsersProjectsGet(params)
+        .then((res) => res.data),
+    ...options,
+  });
+}
+
+/**
+ * Get single user project by ID
+ */
+export function useUserProjectById(
+  projectId: number,
+  options?: UseQueryOptions<ProjectResponse[], Error>
+) {
+  return useQuery({
+    queryKey: ['userProjectById', projectId],
+    queryFn: () =>
+      getUser()
+        .readProjectsSingleUsersProjectsProjectIdGet(projectId)
+        .then((res) => res.data),
+    enabled: !!projectId,
+    ...options,
+  });
+}
+
+/**
+ * Get reports by project ID
+ */
 export function useUserReportsByProject(
   projectId: number,
   options?: UseQueryOptions<ReportResponse[], Error>
@@ -82,13 +134,16 @@ export function useUserReportsByProject(
     queryKey: ['userReportsByProject', projectId],
     queryFn: () =>
       getUser()
-        .readReportsUsersReportsByProjectProjectIdGet(projectId)
+        .readReportsByProjectIdUsersReportsByProjectProjectIdGet(projectId)
         .then((res) => res.data),
     enabled: !!projectId,
     ...options,
   });
 }
 
+/**
+ * Get single report by ID
+ */
 export function useUserReport(
   reportId: number,
   options?: UseQueryOptions<ReportResponse, Error>
@@ -104,6 +159,9 @@ export function useUserReport(
   });
 }
 
+/**
+ * Add new report
+ */
 export function useAddUserReport(
   options?: UseMutationOptions<ReportResponse, Error, ReportRequest>
 ) {
@@ -116,6 +174,9 @@ export function useAddUserReport(
   });
 }
 
+/**
+ * Search RFPs
+ */
 export function useSearchRfps(
   params?: SearchRfpsEndpointUsersRfpsGetParams,
   options?: UseQueryOptions<RFPResponse[], Error>

@@ -5,9 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportRequest {
-  info: string;
-  projectId: number;
-  comment: string;
-  fileId: number;
-}
+export type ReadProposalsUsersProposalsGetParams = {
+skip?: number;
+limit?: number;
+info?: string;
+};

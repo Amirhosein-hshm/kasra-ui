@@ -12,4 +12,5 @@ export interface ReportResponse {
   project: ProjectResponse;
   comment: string;
   state: number;
+  fileId: number;
 }

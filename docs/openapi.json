@@ -316,13 +316,14 @@
         "tags": ["user"],
         "summary": "Add Proposal",
         "operationId": "add_proposal_users_proposals__post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/ProposalRequest" }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -341,8 +342,54 @@
               }
             }
           }
-        },
-        "security": [{ "OAuth2PasswordBearer": [] }]
+        }
+      },
+      "get": {
+        "tags": ["user"],
+        "summary": "Read Proposals",
+        "operationId": "read_proposals_users_proposals__get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 0, "title": "Skip" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "default": 10, "title": "Limit" }
+          },
+          {
+            "name": "info",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "title": "Info" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/ProposalResponse" },
+                  "title": "Response Read Proposals Users Proposals  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
       }
     },
     "/users/proposals/{proposal_id}": {
@@ -444,10 +491,43 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/projects/{project_id}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Read Projects Single",
+        "operationId": "read_projects_single_users_projects__project_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Project Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
                 "schema": {
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/ProjectResponse" },
-                  "title": "Response Read Projects Users Projects  Get"
+                  "title": "Response Read Projects Single Users Projects  Project Id  Get"
                 }
               }
             }
@@ -466,8 +546,8 @@
     "/users/reports-by-project/{project_id}": {
       "get": {
         "tags": ["user"],
-        "summary": "Read Reports",
-        "operationId": "read_reports_users_reports_by_project__project_id__get",
+        "summary": "Read Reports By Project Id",
+        "operationId": "read_reports_by_project_id_users_reports_by_project__project_id__get",
         "parameters": [
           {
             "name": "project_id",
@@ -484,7 +564,7 @@
                 "schema": {
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/ReportResponse" },
-                  "title": "Response Read Reports Users Reports By Project  Project Id  Get"
+                  "title": "Response Read Reports By Project Id Users Reports By Project  Project Id  Get"
                 }
               }
             }
@@ -1088,33 +1168,31 @@
             }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/supervisor/reports-by-project/{project_id}": {
+      "get": {
         "tags": ["supervisor"],
-        "summary": "Edit Proposal",
-        "operationId": "edit_proposal_supervisor_proposals__proposal_id__put",
+        "summary": "Read Reports By Project",
+        "operationId": "read_reports_by_project_supervisor_reports_by_project__project_id__get",
         "parameters": [
           {
-            "name": "proposal_id",
+            "name": "project_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer", "title": "Proposal Id" }
+            "schema": { "type": "integer", "title": "Project Id" }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/ProposalUpdate" }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProposalResponse" }
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/ReportResponse" },
+                  "title": "Response Read Reports By Project Supervisor Reports By Project  Project Id  Get"
+                }
               }
             }
           },
@@ -1157,45 +1235,6 @@
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/ReportResponse" },
                   "title": "Response Read Reports Supervisor Reports  Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/supervisor/report-files/{report_id}": {
-      "get": {
-        "tags": ["supervisor"],
-        "summary": "Read Report",
-        "operationId": "read_report_supervisor_report_files__report_id__get",
-        "parameters": [
-          {
-            "name": "report_id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer", "title": "Report Id" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ReportFileResponse"
-                  },
-                  "title": "Response Read Report Supervisor Report Files  Report Id  Get"
                 }
               }
             }
@@ -1490,15 +1529,6 @@
         "required": ["info", "rfp", "comment"],
         "title": "ProposalSingleResponse"
       },
-      "ProposalUpdate": {
-        "properties": {
-          "state": { "type": "integer", "title": "State" },
-          "comment": { "type": "string", "title": "Comment" }
-        },
-        "type": "object",
-        "required": ["state", "comment"],
-        "title": "ProposalUpdate"
-      },
       "ProposalUserUpdateRequest": {
         "properties": {
           "info": {
@@ -1554,25 +1584,15 @@
         "required": ["id", "info", "RFP_field"],
         "title": "RFPResponse"
       },
-      "ReportFileResponse": {
-        "properties": {
-          "id": { "type": "integer", "title": "Id" },
-          "info": { "type": "string", "title": "Info" },
-          "report": { "$ref": "#/components/schemas/ReportResponse" },
-          "file_id": { "type": "integer", "title": "File Id" }
-        },
-        "type": "object",
-        "required": ["id", "info", "report", "file_id"],
-        "title": "ReportFileResponse"
-      },
       "ReportRequest": {
         "properties": {
           "info": { "type": "string", "title": "Info" },
           "project_id": { "type": "integer", "title": "Project Id" },
-          "comment": { "type": "string", "title": "Comment" }
+          "comment": { "type": "string", "title": "Comment" },
+          "file_id": { "type": "integer", "title": "File Id" }
         },
         "type": "object",
-        "required": ["info", "project_id", "comment"],
+        "required": ["info", "project_id", "comment", "file_id"],
         "title": "ReportRequest"
       },
       "ReportResponse": {
@@ -1581,10 +1601,11 @@
           "info": { "type": "string", "title": "Info" },
           "project": { "$ref": "#/components/schemas/ProjectResponse" },
           "comment": { "type": "string", "title": "Comment" },
-          "state": { "type": "integer", "title": "State" }
+          "state": { "type": "integer", "title": "State" },
+          "file_id": { "type": "integer", "title": "File Id" }
         },
         "type": "object",
-        "required": ["id", "info", "project", "comment", "state"],
+        "required": ["id", "info", "project", "comment", "state", "file_id"],
         "title": "ReportResponse"
       },
       "ReportUpdate": {

@@ -5,17 +5,20 @@ import {
   UseMutationOptions,
 } from '@tanstack/react-query';
 import { getSupervisor } from '@/lib/services';
-import {
-  ReadProjectsSupervisorProjectsGetParams,
-  ProjectResponseOutput,
+
+import type {
+  ProjectResponse,
   ProposalResponse,
-  ProposalUpdate,
-  ReadProposalsSupervisorProposalsGetParams,
-  ReadReportsSupervisorReportsGetParams,
   ReportResponse,
   ReportUpdate,
-} from 'lib/types';
+  ReadProjectsSupervisorProjectsGetParams,
+  ReadProposalsSupervisorProposalsGetParams,
+  ReadReportsSupervisorReportsGetParams,
+} from '@/lib/types';
 
+/**
+ * Get all supervisor proposals
+ */
 export function useSupervisorProposals(
   params?: ReadProposalsSupervisorProposalsGetParams,
   options?: UseQueryOptions<ProposalResponse[], Error>
@@ -30,6 +33,9 @@ export function useSupervisorProposals(
   });
 }
 
+/**
+ * Get a single proposal by ID (supervisor)
+ */
 export function useSupervisorProposal(
   proposalId: number,
   options?: UseQueryOptions<ProposalResponse, Error>
@@ -45,25 +51,27 @@ export function useSupervisorProposal(
   });
 }
 
-export function useEditSupervisorProposal(
-  options?: UseMutationOptions<
-    ProposalResponse,
-    Error,
-    { proposalId: number; proposalUpdate: ProposalUpdate }
-  >
+/**
+ * Get reports by project ID (supervisor)
+ */
+export function useSupervisorReportsByProject(
+  projectId: number,
+  options?: UseQueryOptions<ReportResponse[], Error>
 ) {
-  return useMutation({
-    mutationFn: ({ proposalId, proposalUpdate }) =>
+  return useQuery({
+    queryKey: ['supervisorReportsByProject', projectId],
+    queryFn: () =>
       getSupervisor()
-        .editProposalSupervisorProposalsProposalIdPut(
-          proposalId,
-          proposalUpdate
-        )
+        .readReportsByProjectSupervisorReportsByProjectProjectIdGet(projectId)
         .then((res) => res.data),
+    enabled: !!projectId,
     ...options,
   });
 }
 
+/**
+ * Get all reports (supervisor)
+ */
 export function useSupervisorReports(
   params?: ReadReportsSupervisorReportsGetParams,
   options?: UseQueryOptions<ReportResponse[], Error>
@@ -78,40 +86,31 @@ export function useSupervisorReports(
   });
 }
 
-export function useSupervisorReport(
-  reportId: number,
-  options?: UseQueryOptions<ReportResponse, Error>
-) {
-  return useQuery({
-    queryKey: ['supervisorReport', reportId],
-    queryFn: () =>
-      getSupervisor()
-        .readReportSupervisorReportsReportIdGet(reportId)
-        .then((res) => res.data),
-    enabled: !!reportId,
-    ...options,
-  });
-}
-
+/**
+ * Edit a report (supervisor)
+ */
 export function useEditSupervisorReport(
   options?: UseMutationOptions<
     ReportResponse,
     Error,
-    { reportId: number; reportUpdate: ReportUpdate }
+    { reportId: number; data: ReportUpdate }
   >
 ) {
   return useMutation({
-    mutationFn: ({ reportId, reportUpdate }) =>
+    mutationFn: ({ reportId, data }) =>
       getSupervisor()
-        .editReportSupervisorReportsReportIdPut(reportId, reportUpdate)
+        .editReportSupervisorReportsReportIdPut(reportId, data)
         .then((res) => res.data),
     ...options,
   });
 }
 
+/**
+ * Get all supervisor projects
+ */
 export function useSupervisorProjects(
   params?: ReadProjectsSupervisorProjectsGetParams,
-  options?: UseQueryOptions<ProjectResponseOutput[], Error>
+  options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
     queryKey: ['supervisorProjects', params],
