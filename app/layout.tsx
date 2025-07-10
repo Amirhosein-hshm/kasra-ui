@@ -1,4 +1,5 @@
 'use client';
+
 import { Toaster } from '@/ui/components/sonner';
 import QueryProvider from '@/lib/providers/query-provider';
 import { DirectionProvider } from '@radix-ui/react-direction';
