@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { PATHS } from './lib/constants/PATHS';
 
 const protectedRoutes = [
   '/dashboard',
@@ -64,6 +65,16 @@ export function middleware(request: NextRequest) {
       const unauthorizedUrl = new URL('/auth/forbidden', request.url);
       return NextResponse.redirect(unauthorizedUrl);
     }
+  }
+
+  if (pathname === '/') {
+    let redirectionURL;
+    if (accessToken) {
+      redirectionURL = new URL(PATHS.dashboard.root, request.url);
+    } else {
+      redirectionURL = new URL(PATHS.auth.login, request.url);
+    }
+    return NextResponse.redirect(redirectionURL);
   }
 
   if ((pathname === '/login' || pathname === '/auth/login') && accessToken) {
