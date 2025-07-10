@@ -75,22 +75,6 @@ export function getProjectsTableColumns(
                   مشاهده <Eye color="var(--color-stone-primary)" />
                 </DropdownMenuItem>
               </Link>
-              {options?.onView && (
-                <DropdownMenuItem
-                  onClick={() => options.onView?.(project)}
-                  className={dropdownMenuItemClassname}
-                >
-                  جزئیات
-                </DropdownMenuItem>
-              )}
-              {options?.onOpenProjectDetail && (
-                <DropdownMenuItem
-                  onClick={() => options.onOpenProjectDetail?.(project)}
-                  className={dropdownMenuItemClassname}
-                >
-                  اطلاعات بیشتر
-                </DropdownMenuItem>
-              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
