@@ -115,28 +115,52 @@ export function getProjectsTableColumns(
       header: 'اطلاعات پروژه',
     },
     {
-      accessorKey: 'proposalId',
-      header: 'شناسه پروپوزال',
+      accessorKey: 'proposal.info',
+      header: 'پروپوزال',
     },
     {
-      accessorKey: 'userSupervisorId',
-      header: 'شناسه سرپرست',
+      header: 'سرپرست',
+      cell: ({ row }) => {
+        return (
+          <div className="hover:underline">
+            {row.original.supervisor.fname +
+              ' ' +
+              row.original.supervisor.lname}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: 'userMasterId',
-      header: 'شناسه استاد راهنما',
+      header: 'استاد راهنما',
+      cell: ({ row }) => {
+        return (
+          <div className="hover:underline">
+            {row.original.master.fname + ' ' + row.original.master.lname}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: 'userDiscovererId',
-      header: 'شناسه کاشف',
+      header: 'کاشف',
+      cell: ({ row }) => {
+        return (
+          <div className="hover:underline">
+            {row.original.discoverer.fname +
+              ' ' +
+              row.original.discoverer.lname}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: 'userBrokerId',
-      header: 'شناسه کارگزار',
-    },
-    {
-      accessorKey: 'userUserId',
-      header: 'شناسه مجری',
+      header: 'کارگزار',
+      cell: ({ row }) => {
+        return (
+          <div className="hover:underline">
+            {row.original.broker.fname + ' ' + row.original.broker.lname}
+          </div>
+        );
+      },
     },
   ];
 }
