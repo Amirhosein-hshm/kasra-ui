@@ -7,6 +7,9 @@ import { useMeStore } from '@/lib/stores/me.stores';
 import { useState } from 'react';
 import { CommissionSideBar } from './components/commission-sidebar';
 import { ProposalDetailSideBar } from './components/proposal-detail';
+import { Button } from '@/ui/components/button';
+import { AddProposalSideBar } from './components/add-proposal-sidebar';
+import { EditProposalSideBar } from './components/edit-proposal-sidebar';
 
 interface Props {
   data: ProposalResponse[];
@@ -32,13 +35,20 @@ export default function ProposalsTable({
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
   const [openProposalDetail, setOpenProposalDetail] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openCommission, setOpenCommission] = useState(false);
+  const [openAddProposal, setOpenAddProposal] = useState(false);
+  const [openEditProposal, setOpenEditProposal] = useState(false);
+
   const [selected, setSelected] = useState<ProposalResponse | null>(null);
 
   const proposalsTableColumns = getProposalsTableColumns(userTypeId!, {
-    onView: (item) => {
+    onOpenCommission: (item) => {
       setSelected(item);
-      setOpen(true);
+      setOpenCommission(true);
+    },
+    onEditProposal: (item) => {
+      setSelected(item);
+      setOpenEditProposal(true);
     },
     onOpenProposalDetail: (item) => {
       setSelected(item);
@@ -60,18 +70,33 @@ export default function ProposalsTable({
         }}
         search={search}
         setSearch={setSearch}
+        headerAppendix={
+          userTypeId === 3 && (
+            <Button onClick={() => setOpenAddProposal(true)}>
+              افزودن پروپوزال
+            </Button>
+          )
+        }
       />
-
       <CommissionSideBar
-        open={open}
-        onOpenChange={setOpen}
+        open={openCommission}
+        onOpenChange={setOpenCommission}
         selected={selected}
       />
-
       <ProposalDetailSideBar
         open={openProposalDetail}
         onOpenChange={setOpenProposalDetail}
         selected={selected}
+      />
+      <AddProposalSideBar
+        open={openAddProposal}
+        onOpenChange={() => setOpenAddProposal(false)}
+      />
+
+      <EditProposalSideBar
+        open={openEditProposal}
+        onOpenChange={() => setOpenEditProposal(false)}
+        selected={selected!}
       />
     </>
   );

@@ -93,7 +93,7 @@ export function useEditUserProposal(
  */
 export function useUserProjects(
   params?: ReadProjectsUsersProjectsGetParams,
-  options?: UseQueryOptions<ProjectResponse, Error>
+  options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
     queryKey: ['userProjects', params],

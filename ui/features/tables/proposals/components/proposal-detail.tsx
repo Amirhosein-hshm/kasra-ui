@@ -1,8 +1,9 @@
-import { useBrokerProposal } from '@/lib/hooks';
+import { useBrokerProposal, useUserProposal } from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import { ProposalResponse } from 'lib/types/proposalResponse';
 import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
 import { json } from 'stream/consumers';
+import { useMeStore } from '@/lib/stores/me.stores';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -15,10 +16,26 @@ export function ProposalDetailSideBar({
   onOpenChange,
   selected,
 }: ProposalSidebarProps) {
-  const { data, isLoading } = useBrokerProposal(selected?.id ?? 0, {
-    enabled: open && !!selected?.id,
-    queryKey: ['brokerProposal', selected?.id],
-  });
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
+
+  const { data: brokerQ, isLoading: brokerLoading } = useBrokerProposal(
+    selected?.id ?? 0,
+    {
+      enabled: open && !!selected?.id && userTypeId === 1,
+      queryKey: ['brokerProposal', selected?.id],
+    }
+  );
+
+  const { data: userQ, isLoading: userLoading } = useUserProposal(
+    selected?.id ?? 0,
+    {
+      enabled: open && !!selected?.id && userTypeId === 3,
+      queryKey: ['userProposal', selected?.id],
+    }
+  );
+
+  const data = brokerQ || userQ;
+  const isLoading = brokerLoading || userLoading;
 
   return (
     <Sidebar

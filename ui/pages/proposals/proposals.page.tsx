@@ -2,7 +2,11 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { useBrokerProposals, useSupervisorProposals } from '@/lib/hooks';
+import {
+  useBrokerProposals,
+  useSupervisorProposals,
+  useUserProposals,
+} from '@/lib/hooks';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProposalsTable from '@/ui/features/tables/proposals';
 import { useMeStore } from '@/lib/stores/me.stores';
@@ -50,14 +54,26 @@ export default function ProposalsPage() {
   );
 
   const brokerQ = useBrokerProposals(queryParams, {
-    enabled: userTypeId !== 4,
+    enabled: userTypeId == 1,
     queryKey: ['brokerProposals', queryParams],
   });
+
+  const userQ = useUserProposals(queryParams, {
+    enabled: userTypeId == 3,
+    queryKey: ['userProposals', queryParams],
+  });
+
   const supervisorQ = useSupervisorProposals(queryParams, {
     enabled: userTypeId === 4,
     queryKey: ['supervisorProposals', queryParams],
   });
-  const data = userTypeId === 4 ? supervisorQ.data : brokerQ.data;
+  const data =
+    userTypeId === 4
+      ? supervisorQ.data
+      : userTypeId === 1
+      ? brokerQ.data
+      : userQ.data;
+
   const isLoading =
     userTypeId === 4 ? supervisorQ.isLoading : brokerQ.isLoading;
   const total = 30;

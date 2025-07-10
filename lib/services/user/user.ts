@@ -72,7 +72,7 @@ export const getUser = () => {
   const readProjectsUsersProjectsGet = (
     params?: ReadProjectsUsersProjectsGetParams
   ) => {
-    return api<ProjectResponse>({
+    return api<ProjectResponse[]>({
       url: `/users/projects/`,
       method: 'GET',
       params,

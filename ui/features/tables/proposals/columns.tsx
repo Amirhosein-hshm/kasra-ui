@@ -22,8 +22,9 @@ import {
 } from 'lucide-react';
 
 interface ColumnOptions {
-  onView?: (proposal: ProposalResponse) => void;
+  onOpenCommission?: (proposal: ProposalResponse) => void;
   onOpenProposalDetail?: (proposal: ProposalResponse) => void;
+  onEditProposal?: (proposal: ProposalResponse) => void;
 }
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
@@ -84,7 +85,7 @@ export function getProposalsTableColumns(
 
               {userRoleId === 1 && (
                 <DropdownMenuItem
-                  onClick={() => options?.onView?.(proposal)}
+                  onClick={() => options?.onOpenCommission?.(proposal)}
                   className={dropdownMenuItemClassname}
                 >
                   کمیسیون <FileText color="var(--color-stone-primary)" />
@@ -102,11 +103,9 @@ export function getProposalsTableColumns(
                 </DropdownMenuItem>
               )}
 
-              {userRoleId === 4 && (
+              {(userRoleId === 4 || userRoleId === 3) && (
                 <DropdownMenuItem
-                  onClick={() =>
-                    navigator.clipboard.writeText(proposal.id.toString())
-                  }
+                  onClick={() => options?.onEditProposal?.(proposal)}
                   className={dropdownMenuItemClassname}
                 >
                   ویرایش <Edit color="var(--color-blue-primary)" />
@@ -168,10 +167,16 @@ const getProposalTableFiles = (userRoleId: number) => {
     );
   }
   if (userRoleId === 4) {
-    return proposalsTableFields;
+    const fields = ['info', 'rfp.info', 'rfp.rfpField.title'];
+    return proposalsTableFields.filter((field) =>
+      fields.includes(field.accessorKey)
+    );
   }
   if (userRoleId === 3) {
-    return proposalsTableFields;
+    const fields = ['info', 'rfp.info', 'rfp.rfpField.title'];
+    return proposalsTableFields.filter((field) =>
+      fields.includes(field.accessorKey)
+    );
   }
 
   return proposalsTableFields;

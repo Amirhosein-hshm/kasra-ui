@@ -19,7 +19,7 @@ import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRe
 
 const baseURL = 'http://localhost:8000/';
 
-const SNAKE_EXCLUDE = [/^RFP_field_id$/];
+const SNAKE_EXCLUDE = [/^RFP_field_id$/, /^RFP_id$/];
 
 const api: AxiosInstance = axios.create({
   baseURL,
