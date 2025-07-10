@@ -11,6 +11,7 @@ import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProposalsTable from '@/ui/features/tables/proposals';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { useDebounce } from '@/lib/utils/hooks/useDebounce';
+import { UserType } from '@/lib/types/UserType.enum';
 
 export default function ProposalsPage() {
   const searchParams = useSearchParams();
@@ -54,28 +55,30 @@ export default function ProposalsPage() {
   );
 
   const brokerQ = useBrokerProposals(queryParams, {
-    enabled: userTypeId == 1,
+    enabled: userTypeId == UserType.Broker,
     queryKey: ['brokerProposals', queryParams],
   });
 
   const userQ = useUserProposals(queryParams, {
-    enabled: userTypeId == 3,
+    enabled: userTypeId == UserType.User,
     queryKey: ['userProposals', queryParams],
   });
 
   const supervisorQ = useSupervisorProposals(queryParams, {
-    enabled: userTypeId === 4,
+    enabled: userTypeId === UserType.Supervisor,
     queryKey: ['supervisorProposals', queryParams],
   });
   const data =
-    userTypeId === 4
+    userTypeId === UserType.Supervisor
       ? supervisorQ.data
-      : userTypeId === 1
+      : userTypeId === UserType.Broker
       ? brokerQ.data
       : userQ.data;
 
   const isLoading =
-    userTypeId === 4 ? supervisorQ.isLoading : brokerQ.isLoading;
+    userTypeId === UserType.Supervisor
+      ? supervisorQ.isLoading
+      : brokerQ.isLoading;
   const total = 30;
 
   if (isLoading || !data) return <TableSkeleton />;

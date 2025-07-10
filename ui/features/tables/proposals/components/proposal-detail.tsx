@@ -4,6 +4,7 @@ import { ProposalResponse } from 'lib/types/proposalResponse';
 import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
 import { json } from 'stream/consumers';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { UserType } from '@/lib/types/UserType.enum';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -21,7 +22,7 @@ export function ProposalDetailSideBar({
   const { data: brokerQ, isLoading: brokerLoading } = useBrokerProposal(
     selected?.id ?? 0,
     {
-      enabled: open && !!selected?.id && userTypeId === 1,
+      enabled: open && !!selected?.id && userTypeId === UserType.Broker,
       queryKey: ['brokerProposal', selected?.id],
     }
   );
@@ -29,7 +30,7 @@ export function ProposalDetailSideBar({
   const { data: userQ, isLoading: userLoading } = useUserProposal(
     selected?.id ?? 0,
     {
-      enabled: open && !!selected?.id && userTypeId === 3,
+      enabled: open && !!selected?.id && userTypeId === UserType.User,
       queryKey: ['userProposal', selected?.id],
     }
   );

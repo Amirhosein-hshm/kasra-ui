@@ -10,6 +10,7 @@ import { ProposalDetailSideBar } from './components/proposal-detail';
 import { Button } from '@/ui/components/button';
 import { AddProposalSideBar } from './components/add-proposal-sidebar';
 import { EditProposalSideBar } from './components/edit-proposal-sidebar';
+import { UserType } from '@/lib/types/UserType.enum';
 
 interface Props {
   data: ProposalResponse[];
@@ -71,7 +72,7 @@ export default function ProposalsTable({
         search={search}
         setSearch={setSearch}
         headerAppendix={
-          userTypeId === 3 && (
+          userTypeId === UserType.User && (
             <Button onClick={() => setOpenAddProposal(true)}>
               افزودن پروپوزال
             </Button>

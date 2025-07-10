@@ -6,6 +6,7 @@ import { useUserProjects, useSupervisorProjects } from '@/lib/hooks';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProjectsTable from '@/ui/features/tables/projects';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { UserType } from '@/lib/types/UserType.enum';
 
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
@@ -47,20 +48,24 @@ export default function ProjectsPage() {
   );
 
   const userQ = useUserProjects(queryParams, {
-    enabled: userTypeId === 3,
+    enabled: userTypeId === UserType.User,
     queryKey: ['userProjects', queryParams],
   });
   const supervisorQ = useSupervisorProjects(queryParams, {
-    enabled: userTypeId === 4,
+    enabled: userTypeId === UserType.Supervisor,
     queryKey: ['supervisorProjects', queryParams],
   });
   const data =
-    userTypeId === 4 ? supervisorQ.data : userTypeId === 3 ? userQ.data : [];
+    userTypeId === UserType.Supervisor
+      ? supervisorQ.data
+      : userTypeId === UserType.User
+      ? userQ.data
+      : [];
 
   const isLoading =
-    userTypeId === 4
+    userTypeId === UserType.Supervisor
       ? supervisorQ.isLoading
-      : userTypeId === 3
+      : userTypeId === UserType.User
       ? userQ.isLoading
       : false;
 
