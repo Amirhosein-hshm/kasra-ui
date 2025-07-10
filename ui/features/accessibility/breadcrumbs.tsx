@@ -33,7 +33,7 @@ export default function Breadcrumbs() {
             .join('/');
 
           return (
-            <div key={href}>
+            <div key={href} className="flex items-center gap-2">
               <BreadcrumbItem
                 key={href}
                 className={clsx(
