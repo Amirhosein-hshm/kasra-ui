@@ -87,6 +87,17 @@ export const getSupervisor = () => {
       params,
     });
   };
+  /**
+   * @summary Read Projects
+   */
+  const readProjectsSupervisorSingleProjectProjectIdGet = (
+    projectId: number
+  ) => {
+    return api<ProjectResponse>({
+      url: `/supervisor/single-project/${projectId}`,
+      method: 'GET',
+    });
+  };
   return {
     readProposalsSupervisorProposalsGet,
     readProposalSupervisorProposalsProposalIdGet,
@@ -94,6 +105,7 @@ export const getSupervisor = () => {
     readReportsSupervisorReportsGet,
     editReportSupervisorReportsReportIdPut,
     readProjectsSupervisorProjectsGet,
+    readProjectsSupervisorSingleProjectProjectIdGet,
   };
 };
 export type ReadProposalsSupervisorProposalsGetResult = NonNullable<
@@ -140,6 +152,15 @@ export type ReadProjectsSupervisorProjectsGetResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<typeof getSupervisor>['readProjectsSupervisorProjectsGet']
+    >
+  >
+>;
+export type ReadProjectsSupervisorSingleProjectProjectIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<
+        typeof getSupervisor
+      >['readProjectsSupervisorSingleProjectProjectIdGet']
     >
   >
 >;

@@ -121,3 +121,20 @@ export function useSupervisorProjects(
     ...options,
   });
 }
+
+/**
+ * Get single supervisor projects
+ */
+export function useSupervisorSingleProject(
+  projectId: number,
+  options?: UseQueryOptions<ProjectResponse, Error>
+) {
+  return useQuery({
+    queryKey: ['supervisorSingleProject', projectId],
+    queryFn: () =>
+      getSupervisor()
+        .readProjectsSupervisorSingleProjectProjectIdGet(projectId)
+        .then((res) => res.data),
+    ...options,
+  });
+}
