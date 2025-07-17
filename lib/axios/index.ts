@@ -17,7 +17,7 @@ import { getAuthentication } from '@/lib/services';
 
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
 
-const baseURL = 'http://localhost:8000/';
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const SNAKE_EXCLUDE = [/^RFP_field_id$/, /^RFP_id$/];
 

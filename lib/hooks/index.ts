@@ -5,3 +5,4 @@ export * from './useSupervisor';
 export * from './useUser';
 export * from './useDarkMode';
 export * from './useMentor';
+export * from './useTablePagination';
