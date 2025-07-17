@@ -1,11 +1,10 @@
 'use client';
 import {
   useSupervisorReportsByProject,
-  useTablePagination,
   useUserReportsByProject,
 } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { ProjectResponse, ReportResponse } from '@/lib/types';
+import { ProjectResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
 import ReportForTable from '@/lib/ui-types/ReportForTable.interface';
 import { Badge } from '@/ui/components/badge';
@@ -28,8 +27,6 @@ export default function SingleProjectPage(props: Props) {
 
   const projectId = props.project.id;
   const fileId = props.project.proposal.fileId;
-
-  const { info, setInfo } = useTablePagination();
 
   const supervisorReportsQuery = useSupervisorReportsByProject(projectId, {
     enabled: isSupervisor,
