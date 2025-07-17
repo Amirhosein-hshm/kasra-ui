@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, Table } from '@tanstack/react-table';
 import { Checkbox } from '@/ui/components/checkbox';
 
 import { MoreHorizontal, Trash, Edit, Eye, ArrowUpDown } from 'lucide-react';
@@ -14,43 +14,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
-import { ReportResponse } from '@/lib/types';
+import ColumnOptions from '@/lib/ui-types/ColumnOptions.interface';
+import ReportForTable from '@/lib/ui-types/ReportForTable.interface';
 
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
-interface ColumnOptions {
-  onView?: (report: ReportResponse) => void;
-  onOpenReportDetail?: (report: ReportResponse) => void;
-}
-
 export function getReportsTableColumns(
-  options?: ColumnOptions
-): ColumnDef<ReportResponse>[] {
-  return [
-    {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="انتخاب همه"
-          className="m-3"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="انتخاب"
-          className="m-3"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+  options?: ColumnOptions<ReportForTable>
+): ColumnDef<ReportForTable>[] {
+  const selectionColumn: ColumnDef<ReportForTable> = {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="انتخاب همه"
+        className="m-3"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="انتخاب"
+        className="m-3"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  };
+
+  const columns = [
     {
       id: 'actions',
       cell: ({ row }) => {
@@ -82,22 +79,22 @@ export function getReportsTableColumns(
                   جزئیات
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(report.id.toString())
-                }
-                className={dropdownMenuItemClassname}
-              >
-                حذف <Trash color="var(--color-red-primary)" />
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(report.id.toString())
-                }
-                className={dropdownMenuItemClassname}
-              >
-                ویرایش <Edit color="var(--color-blue-primary)" />
-              </DropdownMenuItem>
+              {options?.onDelete && (
+                <DropdownMenuItem
+                  onClick={() => options?.onDelete?.(report)}
+                  className={dropdownMenuItemClassname}
+                >
+                  حذف <Trash color="var(--color-red-primary)" />
+                </DropdownMenuItem>
+              )}
+              {options?.onEdit && (
+                <DropdownMenuItem
+                  onClick={() => options?.onEdit?.(report)}
+                  className={dropdownMenuItemClassname}
+                >
+                  ویرایش <Edit color="var(--color-blue-primary)" />
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -122,12 +119,16 @@ export function getReportsTableColumns(
       header: 'وضعیت',
     },
     {
-      accessorKey: 'percent',
+      accessorKey: 'percentage',
       header: 'درصد تایید',
     },
     {
-      accessorKey: 'project_id',
+      accessorKey: 'project',
       header: 'پروژه',
     },
   ];
+
+  if (!options?.deactivateSelection) columns.unshift(selectionColumn as any);
+
+  return columns;
 }

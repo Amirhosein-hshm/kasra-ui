@@ -3,56 +3,47 @@
 import DataTable from '@/ui/components/data-table/index';
 import { getReportsTableColumns } from './columns';
 import { ReportResponse } from '@/lib/types';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
+import PaginationProps from '@/lib/ui-types/PaginationProps.interface';
+import SearchProps from '@/lib/ui-types/SearchProps.interface';
+import { useRouter } from 'next/navigation';
+import { PATHS } from '@/lib/constants/PATHS';
+import ReportForTable from '@/lib/ui-types/ReportForTable.interface';
 
 interface Props {
-  data: ReportResponse[];
-  pageIndex: number;
-  pageSize: number;
-  pageCount: number;
-  setPageIndex: (index: number) => void;
-  setPageSize: (size: number) => void;
-  search: string;
-  setSearch: (v: string) => void;
+  data: ReportForTable[];
+  pagination?: PaginationProps;
+  search?: SearchProps;
+  headerAppendix?: ReactNode;
+  deactivateSelection?: boolean;
 }
 
 export default function ReportsTable({
   data,
-  pageIndex,
-  pageSize,
-  pageCount,
-  setPageIndex,
-  setPageSize,
+  pagination,
   search,
-  setSearch,
+  headerAppendix,
+  deactivateSelection,
 }: Props) {
   const [openReportDetail, setOpenReportDetail] = useState(false);
-  const [selected, setSelected] = useState<ReportResponse | null>(null);
+  const [selected, setSelected] = useState<ReportForTable | null>(null);
+  const router = useRouter();
 
   const reportsTableColumns = getReportsTableColumns({
     onView: (item) => {
-      setSelected(item);
-      setOpenReportDetail(true);
+      router.push(PATHS.dashboard.reports.single(item.id));
     },
-    onOpenReportDetail: (item) => {
-      setSelected(item);
-      setOpenReportDetail(true);
-    },
+    deactivateSelection,
   });
 
   return (
     <DataTable
       columns={reportsTableColumns}
       data={data}
-      externalPagination={{
-        pageIndex,
-        pageSize,
-        pageCount,
-        setPageIndex,
-        setPageSize,
-      }}
-      search={search}
-      setSearch={setSearch}
+      externalPagination={pagination}
+      search={search?.search}
+      setSearch={search?.setSearch}
+      headerAppendix={headerAppendix}
     />
   );
 }
