@@ -491,7 +491,11 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/ProjectResponse" },
+                  "title": "Response Read Projects Users Projects  Get"
+                }
               }
             }
           },
@@ -1326,6 +1330,39 @@
                   "items": { "$ref": "#/components/schemas/ProjectResponse" },
                   "title": "Response Read Projects Supervisor Projects  Get"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/supervisor/single-project/{project_id}": {
+      "get": {
+        "tags": ["supervisor"],
+        "summary": "Read Projects",
+        "operationId": "read_projects_supervisor_single_project__project_id__get",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Project Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
               }
             }
           },
