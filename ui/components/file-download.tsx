@@ -35,7 +35,7 @@ const FileDownload = ({
       <motion.div
         onClick={onClick}
         whileHover="animate"
-        className="w-fit p-10 group/file block rounded-lg cursor-pointer relative overflow-hidden"
+        className="w-fit group/file block rounded-lg cursor-pointer relative overflow-hidden"
       >
         <div className="w-40 flex flex-col items-center">
           {title && (
