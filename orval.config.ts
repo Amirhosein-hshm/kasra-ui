@@ -1,8 +1,9 @@
 import { defineConfig } from 'orval';
+require('dotenv').config();
 
 export default defineConfig({
   kasra: {
-    input: './docs/openapi.json',
+    input: process.env.OPENAPI_JSON_URL,
     output: {
       target: './lib/services1/kasra.api.ts',
       schemas: './lib/types/',
