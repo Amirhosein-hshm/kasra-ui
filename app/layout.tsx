@@ -28,6 +28,8 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* FIXME: */}
+        <title>سامانه کسری</title>
       </head>
       <body>
         <QueryProvider>
