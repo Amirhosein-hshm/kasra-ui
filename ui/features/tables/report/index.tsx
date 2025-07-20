@@ -16,6 +16,7 @@ interface Props {
   search?: SearchProps;
   headerAppendix?: ReactNode;
   deactivateSelection?: boolean;
+  loading?: boolean;
 }
 
 export default function ReportsTable({
@@ -24,6 +25,7 @@ export default function ReportsTable({
   search,
   headerAppendix,
   deactivateSelection,
+  loading,
 }: Props) {
   const [openReportDetail, setOpenReportDetail] = useState(false);
   const [selected, setSelected] = useState<ReportForTable | null>(null);
@@ -44,6 +46,7 @@ export default function ReportsTable({
       search={search?.search}
       setSearch={search?.setSearch}
       headerAppendix={headerAppendix}
+      loading={loading}
     />
   );
 }

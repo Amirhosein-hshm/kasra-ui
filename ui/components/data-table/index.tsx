@@ -36,12 +36,13 @@ import { Button } from '@/ui/components/button';
 
 import styles from './data-table-styles.module.css';
 import clsx from 'clsx';
+import { TableSkeleton } from '../loadings/table-loading';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   headerAppendix?: ReactNode;
-
+  loading?: boolean;
   externalPagination?: {
     pageIndex: number;
     pageSize: number;
@@ -61,6 +62,7 @@ export default function DataTable<TData, TValue>({
   externalPagination,
   search,
   setSearch,
+  loading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -114,6 +116,8 @@ export default function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
   });
+
+  if (loading) return <TableSkeleton className="my-4" rowCount={3} />;
 
   return (
     <>

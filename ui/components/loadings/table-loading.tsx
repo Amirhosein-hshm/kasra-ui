@@ -9,14 +9,25 @@ import {
   TableRow,
 } from '@/ui/components/table';
 import { Skeleton } from '@/ui/components/skeleton';
+import clsx from 'clsx';
 
-export function TableSkeleton() {
+interface Props {
+  className?: string;
+  rowCount?: number;
+  columnCount?: number;
+}
+
+export function TableSkeleton({
+  className,
+  columnCount = 6,
+  rowCount = 12,
+}: Props) {
   return (
-    <div className="rounded-md border backdrop-blur-lg p-2">
+    <div className={clsx('rounded-md border backdrop-blur-lg p-2', className)}>
       <Table>
         <TableHeader>
           <TableRow>
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: rowCount }).map((_, i) => (
               <TableHead key={i}>
                 <Skeleton className="h-4 w-20" />
               </TableHead>
@@ -24,9 +35,9 @@ export function TableSkeleton() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 12 }).map((_, rowIdx) => (
+          {Array.from({ length: columnCount }).map((_, rowIdx) => (
             <TableRow key={rowIdx}>
-              {Array.from({ length: 6 }).map((_, colIdx) => (
+              {Array.from({ length: rowCount }).map((_, colIdx) => (
                 <TableCell key={colIdx}>
                   <Skeleton className="h-4 w-full" />
                 </TableCell>

@@ -1,16 +1,16 @@
 'use client';
+
 import {
   useSupervisorReportsByProject,
   useTablePagination,
   useUserReportsByProject,
 } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { ProjectResponse, ReportResponse } from '@/lib/types';
+import { ProjectResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
 import ReportForTable from '@/lib/ui-types/ReportForTable.interface';
 import { Badge } from '@/ui/components/badge';
 import FileDownload from '@/ui/components/file-download';
-import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import { UploadReportDialog } from '@/ui/features/dialogs/upload-report.dialog';
 import ReportsTable from '@/ui/features/tables/report';
 import clsx from 'clsx';
@@ -65,7 +65,12 @@ export default function SingleProjectPage(props: Props) {
       ? userReportsQuery.isLoading
       : false;
 
-  if (isLoading || !dataRaw) return <TableSkeleton />;
+  const isSuccess =
+    userTypeId === UserType.Supervisor
+      ? supervisorReportsQuery.isSuccess
+      : userTypeId === UserType.User
+      ? userReportsQuery.isSuccess
+      : false;
 
   return (
     <div className={clsx('PageContainer')}>
@@ -84,10 +89,14 @@ export default function SingleProjectPage(props: Props) {
         <FileDownload title="بارگیری پروپوزال" />
       </Link>
 
+      <h2 className="mt-4">گزارش کارها</h2>
+
       <ReportsTable
         data={data || []}
         headerAppendix={isUser && <UploadReportDialog />}
         deactivateSelection
+        // FIXME:
+        loading={isLoading}
       />
     </div>
   );
