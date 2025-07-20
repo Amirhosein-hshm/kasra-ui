@@ -10,4 +10,5 @@ export interface ReportRequest {
   projectId: number;
   comment: string;
   fileId: number;
+  percent: number;
 }

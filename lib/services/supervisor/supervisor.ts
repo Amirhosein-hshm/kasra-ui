@@ -98,6 +98,15 @@ export const getSupervisor = () => {
       method: 'GET',
     });
   };
+  /**
+   * @summary Read Report
+   */
+  const readReportSupervisorSingleReportIdGet = (id: number) => {
+    return api<ReportResponse>({
+      url: `/supervisor/single-report/${id}`,
+      method: 'GET',
+    });
+  };
   return {
     readProposalsSupervisorProposalsGet,
     readProposalSupervisorProposalsProposalIdGet,
@@ -106,6 +115,7 @@ export const getSupervisor = () => {
     editReportSupervisorReportsReportIdPut,
     readProjectsSupervisorProjectsGet,
     readProjectsSupervisorSingleProjectProjectIdGet,
+    readReportSupervisorSingleReportIdGet,
   };
 };
 export type ReadProposalsSupervisorProposalsGetResult = NonNullable<

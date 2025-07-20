@@ -13,4 +13,5 @@ export interface ReportResponse {
   comment: string;
   state: number;
   fileId: number;
+  percent: number;
 }

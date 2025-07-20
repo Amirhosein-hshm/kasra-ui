@@ -138,3 +138,20 @@ export function useSupervisorSingleProject(
     ...options,
   });
 }
+
+/**
+ * Get single report by id
+ */
+export function useSupervisorSingleReport(
+  reportId: number,
+  options?: UseQueryOptions<ReportResponse, Error>
+) {
+  return useQuery({
+    queryKey: ['supervisorSingleReport', reportId],
+    queryFn: () =>
+      getSupervisor()
+        .readReportSupervisorSingleReportIdGet(reportId)
+        .then((res) => res.data),
+    ...options,
+  });
+}
