@@ -65,7 +65,7 @@ export function getAuthTokens(): AuthTokens | null {
 
   const userRoleId = userRoleIdRaw ? parseInt(userRoleIdRaw, 10) : undefined;
 
-  // @ts-ignore
+  // @ts-expect-error: unable to type this return shape due to dynamic runtime structure
   return { accessToken, refreshToken, userRoleId };
 }
 

@@ -1,3 +1,4 @@
+'use client';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -28,7 +29,7 @@ export function useTablePagination() {
       params.delete('info');
     }
     router.replace(`?${params.toString()}`);
-  }, [pageIndex, info]);
+  }, [pageIndex, info, router, searchParams]);
 
   const queryParams = useMemo(
     () => ({

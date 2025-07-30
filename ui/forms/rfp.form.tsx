@@ -1,6 +1,6 @@
 'use client';
 
-import RFP from '@/lib/types/models/RFP';
+// import {RFPFieldResponse:} from '@/lib/types/rFPFieldResponse';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
@@ -18,7 +18,7 @@ import {
 import { useAddExplorerRfp } from '@/lib/hooks';
 
 interface Props {
-  rfpToUpdate?: RFP;
+  rfpToUpdate?: any;
 }
 
 export default function RFPForm({ rfpToUpdate }: Props) {
@@ -28,7 +28,7 @@ export default function RFPForm({ rfpToUpdate }: Props) {
 
   const { mutateAsync } = useAddExplorerRfp();
 
-  const handleSubmit = form.handleSubmit((data: RFP) => {
+  const handleSubmit = form.handleSubmit((data: any) => {
     // mutateAsync({info: data.info, })
   });
 
