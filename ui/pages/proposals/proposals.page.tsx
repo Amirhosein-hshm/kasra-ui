@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, Suspense } from 'react';
 import {
   useBrokerProposals,
   useSupervisorProposals,
@@ -13,7 +13,7 @@ import { useMeStore } from '@/lib/stores/me.stores';
 import { useDebounce } from '@/lib/utils/hooks/useDebounce';
 import { UserType } from '@/lib/types/UserType.enum';
 
-export default function ProposalsPage() {
+function ProposalsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
@@ -94,5 +94,13 @@ export default function ProposalsPage() {
       search={info}
       setSearch={setInfo}
     />
+  );
+}
+
+export default function ProposalsPage() {
+  return (
+    <Suspense fallback={<TableSkeleton />}>
+      <ProposalsPageContent />
+    </Suspense>
   );
 }

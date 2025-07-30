@@ -16,7 +16,7 @@ export default function ProtectedLayout({
   );
 }
 
-export function GetMeLoader() {
+function GetMeLoader() {
   const setUser = useMeStore((s) => s.setUser);
   const initialized = useMeStore((s) => s.initialized);
 
@@ -29,7 +29,7 @@ export function GetMeLoader() {
 
   useEffect(() => {
     if (isSuccess && data) {
-      setUser(data);
+      setUser(data as any);
     }
   }, [isSuccess, data, setUser]);
 
