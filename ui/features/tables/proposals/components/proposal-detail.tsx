@@ -68,7 +68,7 @@ export function ProposalDetailSideBar({
           {data.fileId && (
             // FIXME:
             <a
-              href={`http://localhost:8000/file/download/${data.fileId}`}
+              href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/file/download/${data.fileId}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block text-blue-600 dark:text-blue-400 hover:underline mt-2"
