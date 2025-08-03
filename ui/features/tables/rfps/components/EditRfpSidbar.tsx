@@ -118,7 +118,7 @@ export function EditRFPSidebar({
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
                 <a
-                  href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/file/download/${fileId}`}
+                  href={`${process.env.NEXT_PUBLIC_API_BASE_URL}file/download/${fileId}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 dark:text-blue-400 hover:underline"
