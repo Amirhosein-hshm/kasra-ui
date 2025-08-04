@@ -1,6 +1,12 @@
+'use client';
 import { cn } from '@/lib/utils';
 import { IconDownload } from '@tabler/icons-react';
-import { motion } from 'motion/react';
+import dynamic from 'next/dynamic';
+
+const motion: any = dynamic<any>(
+  () => import('motion').then((mod) => mod as any),
+  { ssr: false }
+);
 
 const mainVariant = {
   initial: {
@@ -23,7 +29,7 @@ const secondaryVariant = {
   },
 };
 
-const FileDownload = ({
+export const FileDownload = ({
   onClick,
   title,
 }: {
@@ -70,5 +76,3 @@ const FileDownload = ({
     </div>
   );
 };
-
-export default FileDownload;
