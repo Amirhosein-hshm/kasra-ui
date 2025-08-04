@@ -2,7 +2,6 @@
 
 import {
   useSupervisorReportsByProject,
-  useTablePagination,
   useUserReportsByProject,
 } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
@@ -28,8 +27,6 @@ export default function SingleProjectPage(props: Props) {
 
   const projectId = props.project.id;
   const fileId = props.project.proposal.fileId;
-
-  const { info, setInfo } = useTablePagination();
 
   const supervisorReportsQuery = useSupervisorReportsByProject(projectId, {
     enabled: isSupervisor,
