@@ -118,18 +118,17 @@ export default function DataTable<TData, TValue>({
   return (
     <>
       <div className="flex justify-between py-4 max-lg:flex-col max-lg:gap-2">
-        {search && setSearch && (
-          <div className="w-full flex gap-2">
+        <div className="w-full flex gap-2">
+          {search && setSearch && (
             <Input
               placeholder="جستجو در نام‌ها..."
               value={search ?? ''}
               onChange={(event) => setSearch?.(event.target.value)}
               className="max-w-sm"
             />
-
-            {headerAppendix}
-          </div>
-        )}
+          )}
+          {headerAppendix}
+        </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -83,7 +83,11 @@ export default function SingleProjectPage(props: Props) {
 
       <ReportsTable
         data={data || []}
-        headerAppendix={isUser && <UploadReportDialog />}
+        headerAppendix={
+          isUser && (
+            <UploadReportDialog projectIdToUploadReportFor={props.project.id} />
+          )
+        }
         deactivateSelection
       />
     </div>
