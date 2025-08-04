@@ -122,6 +122,7 @@ export function EditProposalSideBar({
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
                 <a
+                  // FIXME:
                   href={`http://localhost:8000/file/download/${fileId}`}
                   target="_blank"
                   rel="noopener noreferrer"

@@ -66,6 +66,7 @@ export function ProposalDetailSideBar({
             )}
           </div>
           {data.fileId && (
+            // FIXME:
             <a
               href={`http://localhost:8000/file/download/${data.fileId}`}
               target="_blank"
