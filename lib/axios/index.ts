@@ -16,6 +16,7 @@ import {
 import { getAuthentication } from '@/lib/services';
 
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
+import { handleApiError } from '../helpers/handleApiError';
 
 const baseURL =
   typeof window !== 'undefined'
@@ -141,6 +142,7 @@ api.interceptors.response.use(
       }
     }
 
+    handleApiError(error);
     return Promise.reject(error);
   }
 );
