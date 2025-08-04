@@ -1,5 +1,5 @@
 import { Badge } from '@/ui/components/badge';
-import FileDownload from '@/ui/components/file-download';
+import { FileDownload } from '@/ui/components/file-download';
 import Link from 'next/link';
 
 export default function SingleReportPage() {
