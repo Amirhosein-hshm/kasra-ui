@@ -5,7 +5,7 @@ import SingleProjectPage from '@/ui/pages/projects/single-project.page';
 import { QueryClient } from '@tanstack/react-query';
 
 export default async function Page({ params }: any) {
-  const { id } = params;
+  const { id } = await params;
   const projectId = Number(id);
 
   const queryClient = new QueryClient();
