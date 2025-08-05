@@ -1,17 +1,10 @@
 'use client';
 
 import { getSupervisor } from '@/lib/services';
-import ErrorView from '@/ui/features/error/error.view';
 import SingleProjectPage from '@/ui/pages/projects/single-project.page';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Suspense } from 'react';
-
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
 
 export default function Page() {
   const { id } = useParams();
