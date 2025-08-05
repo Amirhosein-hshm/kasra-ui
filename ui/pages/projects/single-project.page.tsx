@@ -83,7 +83,9 @@ export default function SingleProjectPage(props: Props) {
             : ''
         }
       >
-        <FileDownload title="بارگیری پروپوزال" />
+        <FileDownload>
+          بارگیری پروپوزال
+        </FileDownload>
       </Link>
 
       <h2 className="mt-4">گزارش کارها</h2>
