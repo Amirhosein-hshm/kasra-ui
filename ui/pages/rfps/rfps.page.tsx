@@ -5,12 +5,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchExplorerRfps } from '@/lib/hooks';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import RfpsTable from '@/ui/features/tables/rfps';
-import { useMeStore } from '@/lib/stores/me.stores';
 
 export default function RfpsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
   const pageFromUrl = useMemo(() => {
     const raw = searchParams.get('page');

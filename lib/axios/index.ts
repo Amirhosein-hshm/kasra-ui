@@ -16,8 +16,12 @@ import {
 import { getAuthentication } from '@/lib/services';
 
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
+import { handleApiError } from '../helpers/handleApiError';
 
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const baseURL =
+  typeof window !== 'undefined'
+    ? process.env.NEXT_PUBLIC_API_BASE_URL
+    : process.env.NEXT_PUBLIC_API_BASE_URL_SERVER_SIDE;
 
 const SNAKE_EXCLUDE = [/^RFP_field_id$/, /^RFP_id$/];
 
@@ -138,6 +142,7 @@ api.interceptors.response.use(
       }
     }
 
+    handleApiError(error);
     return Promise.reject(error);
   }
 );

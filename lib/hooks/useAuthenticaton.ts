@@ -12,15 +12,18 @@ import {
   RefreshTokenRefreshTokenPostParams,
   UserInfoResponse,
 } from 'lib/types';
-
 export function useLogin(
   options?: UseMutationOptions<Token, Error, BodyLoginTokenPost>
 ) {
   return useMutation({
-    mutationFn: (data) =>
-      getAuthentication()
-        .loginTokenPost(data)
-        .then((res) => res.data),
+    mutationFn: async (data) => {
+      try {
+        const res = await getAuthentication().loginTokenPost(data);
+        return res.data;
+      } catch (error) {
+        throw error;
+      }
+    },
     onSuccess: (data) => {
       setAuthTokens({
         userRoleId: data.roleId,
@@ -32,14 +35,23 @@ export function useLogin(
   });
 }
 
+/**
+ * Refresh Token Hook
+ */
 export function useRefreshToken(
   options?: UseMutationOptions<Token, Error, RefreshTokenRefreshTokenPostParams>
 ) {
   return useMutation({
-    mutationFn: (params) =>
-      getAuthentication()
-        .refreshTokenRefreshTokenPost(params)
-        .then((res) => res.data),
+    mutationFn: async (params) => {
+      try {
+        const res = await getAuthentication().refreshTokenRefreshTokenPost(
+          params
+        );
+        return res.data;
+      } catch (error) {
+        throw error;
+      }
+    },
     onSuccess: (data) => {
       setAuthTokens({
         accessToken: data.accessToken,
@@ -50,13 +62,20 @@ export function useRefreshToken(
   });
 }
 
+/**
+ * Get Current User Info Hook
+ */
 export function useUserMe(options?: UseQueryOptions<UserInfoResponse, Error>) {
   return useQuery({
     queryKey: ['userMe'],
-    queryFn: () =>
-      getAuthentication()
-        .readUsersMeUsersMeGet()
-        .then((res) => res.data),
+    queryFn: async () => {
+      try {
+        const res = await getAuthentication().readUsersMeUsersMeGet();
+        return res.data;
+      } catch (error) {
+        throw error;
+      }
+    },
     ...options,
   });
 }
@@ -66,12 +85,10 @@ export function logout() {
 }
 
 export function useLogout() {
-  const logoutMutation = useMutation({
+  return useMutation({
     mutationFn: async () => {
       clearAuthTokens();
       return true;
     },
   });
-
-  return logoutMutation;
 }

@@ -1,8 +1,7 @@
 'use client';
 
-import { getSupervisor } from '@/lib/services';
+import { useSupervisorSingleProject } from '@/lib/hooks';
 import SingleProjectPage from '@/ui/pages/projects/single-project.page';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -10,23 +9,7 @@ export default function Page() {
   const { id } = useParams();
   const projectId = Number(id);
 
-  const query = useSuspenseQuery({
-    queryKey: ['supervisorSingleProject', projectId],
-    queryFn: () =>
-      getSupervisor()
-        .readProjectsSupervisorSingleProjectProjectIdGet(projectId)
-        .then((res) => {
-          console.log('data', res.data);
-          return res.data;
-        })
-        .catch((err) => {
-          console.log('err', err);
-        }),
-  });
-
-  if (query.isError || (query.isSuccess && !query.data)) {
-    throw new Error('no query data');
-  }
+  const query = useSupervisorSingleProject(projectId);
 
   return (
     <Suspense>
