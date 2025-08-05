@@ -56,7 +56,7 @@ export function AddRFPSidebar({ open, onOpenChange }: RFPSidebarProps) {
       <Sidebar
         open={open}
         onOpenChange={onOpenChange}
-        title={`ایجاد کومیسیون`}
+        title={`ایجاد کمیسیون`}
         description=""
         onSubmit={form.handleSubmit(onSubmit)}
         isLoading={isPending}
@@ -65,7 +65,7 @@ export function AddRFPSidebar({ open, onOpenChange }: RFPSidebarProps) {
           <FormInput
             name="info"
             label="عنوان"
-            placeholder="عنوان کومیسیون را وارد کنید"
+            placeholder="عنوان کمیسیون را وارد کنید"
           />
           <FormSelect
             name="RFP_field_id"

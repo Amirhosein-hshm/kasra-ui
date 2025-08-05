@@ -117,6 +117,7 @@ export function EditRFPSidebar({
 
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
+                {/* FIXME: */}
                 <a
                   href={`${process.env.NEXT_PUBLIC_API_BASE_URL}file/download/${fileId}`}
                   target="_blank"

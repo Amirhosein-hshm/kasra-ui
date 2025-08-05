@@ -66,6 +66,7 @@ export function ProposalDetailSideBar({
             )}
           </div>
           {data.fileId && (
+            // FIXME:
             <a
               href={`${process.env.NEXT_PUBLIC_API_BASE_URL}file/download/${data.fileId}`}
               target="_blank"

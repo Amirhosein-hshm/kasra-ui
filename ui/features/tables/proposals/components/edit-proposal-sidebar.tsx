@@ -108,7 +108,7 @@ export function EditProposalSideBar({
             <FormInput
               name="info"
               label="عنوان"
-              placeholder="عنوان کومیسیون را وارد کنید"
+              placeholder="عنوان کمیسیون را وارد کنید"
             />
             <FormSelect
               name="RFP_id"
