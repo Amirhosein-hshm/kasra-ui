@@ -1,8 +1,11 @@
+'use client';
+
 import { getSupervisor } from '@/lib/services';
-import { ProjectResponse } from '@/lib/types';
 import ErrorView from '@/ui/features/error/error.view';
 import SingleProjectPage from '@/ui/pages/projects/single-project.page';
-import { QueryClient } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 interface PageProps {
   params: {
@@ -10,35 +13,33 @@ interface PageProps {
   };
 }
 
-export default async function Page({ params }: PageProps) {
-  const { id } = await params;
+export default function Page() {
+  const { id } = useParams();
   const projectId = Number(id);
 
-  const queryClient = new QueryClient();
-
-  // Prefetch the data on the server
-  await queryClient.prefetchQuery({
+  const query = useSuspenseQuery({
     queryKey: ['supervisorSingleProject', projectId],
     queryFn: () =>
       getSupervisor()
         .readProjectsSupervisorSingleProjectProjectIdGet(projectId)
         .then((res) => {
-          console.log(res.data);
+          console.log('data', res.data);
           return res.data;
         })
         .catch((err) => {
-          console.log(err);
+          console.log('err', err);
         }),
   });
 
-  const projectData: ProjectResponse | undefined = queryClient.getQueryData([
-    'supervisorSingleProject',
-    projectId,
-  ]);
-
-  if (!projectData) {
-    return <ErrorView />;
+  if (query.isError || (query.isSuccess && !query.data)) {
+    throw new Error('no query data');
   }
 
-  return <SingleProjectPage project={projectData} />;
+  return (
+    <Suspense>
+      {query.data ? <SingleProjectPage project={query.data} /> : <></>}
+    </Suspense>
+  );
+
+  return <ErrorView />;
 }
