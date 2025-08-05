@@ -40,6 +40,4 @@ export default function Page() {
       {query.data ? <SingleProjectPage project={query.data} /> : <></>}
     </Suspense>
   );
-
-  return <ErrorView />;
 }
