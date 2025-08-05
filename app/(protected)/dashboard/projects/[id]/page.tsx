@@ -5,12 +5,6 @@ import SingleProjectPage from '@/ui/pages/projects/single-project.page';
 import { useParams } from 'next/navigation';
 import { Suspense } from 'react';
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
 export default function Page() {
   const { id } = useParams();
   const projectId = Number(id);
