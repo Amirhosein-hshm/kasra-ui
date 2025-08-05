@@ -59,9 +59,9 @@ export function CommissionSideBar({
         queryKey: ['brokerProposals'],
       });
       form.reset();
-      toast.success('کومیسیون با موفقیت ایجاد شد');
+      toast.success('کمیسیون با موفقیت ایجاد شد');
     } catch (e) {
-      toast.error('خطا در ایجاد کومیسیون');
+      toast.error('خطا در ایجاد کمیسیون');
     }
   };
 
@@ -70,7 +70,7 @@ export function CommissionSideBar({
       <Sidebar
         open={open}
         onOpenChange={onOpenChange}
-        title={`کومیسیون ${selected?.id ?? ''}`}
+        title={`کمیسیون ${selected?.id ?? ''}`}
         description=""
         onSubmit={form.handleSubmit(onSubmit)}
         isLoading={isPending}
@@ -85,7 +85,7 @@ export function CommissionSideBar({
           <FormInput
             name="title"
             label="عنوان"
-            placeholder="عنوان کومیسیون را وارد کنید"
+            placeholder="عنوان کمیسیون را وارد کنید"
           />
           <FormSelect
             name="userMasterId"
@@ -114,7 +114,7 @@ export function CommissionSideBar({
           <FormInput
             name="comment"
             label="توضیحات"
-            placeholder="توضیحات کومیسیون را وارد کنید"
+            placeholder="توضیحات کمیسیون را وارد کنید"
             multiline
             rows={4}
           />

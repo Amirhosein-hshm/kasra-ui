@@ -71,7 +71,7 @@ export function AddProposalSideBar({
           <FormInput
             name="info"
             label="عنوان"
-            placeholder="عنوان کومیسیون را وارد کنید"
+            placeholder="عنوان کمیسیون را وارد کنید"
           />
           <FormSelect
             name="RFP_id"
@@ -85,7 +85,7 @@ export function AddProposalSideBar({
           <FormInput
             name="comment"
             label="توضیحات"
-            placeholder="توضیحات کومیسیون را وارد کنید"
+            placeholder="توضیحات کمیسیون را وارد کنید"
             multiline
             rows={4}
           />
