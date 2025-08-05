@@ -29,7 +29,6 @@ export default function LoginForm({ onSuccess }: Props) {
       });
       onSuccess(login.roleId);
     } catch (error) {
-      console.error('Login failed:', error);
     } finally {
       setFormIsSubmitting(false);
     }
