@@ -92,7 +92,7 @@ export function getProposalsTableColumns(
                 </DropdownMenuItem>
               )}
 
-              {userRoleId === 4 && (
+              {/* {userRoleId === 4 && (
                 <DropdownMenuItem
                   onClick={() =>
                     navigator.clipboard.writeText(proposal.id.toString())
@@ -101,7 +101,7 @@ export function getProposalsTableColumns(
                 >
                   حذف <Trash color="var(--color-red-primary)" />
                 </DropdownMenuItem>
-              )}
+              )} */}
 
               {(userRoleId === 4 || userRoleId === 3) && (
                 <DropdownMenuItem
