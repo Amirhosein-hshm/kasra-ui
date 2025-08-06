@@ -85,10 +85,13 @@ api.interceptors.request.use((config) => {
 // ✅ camelCase response + refresh token handling
 api.interceptors.response.use(
   (response) => {
+    const data = response?.data;
     if (
-      response?.data &&
-      typeof response.data === 'object' &&
-      response.data !== null
+      data &&
+      typeof data === 'object' &&
+      data !== null &&
+      !(data instanceof Blob) &&
+      !(data instanceof ArrayBuffer)
     ) {
       response.data = camelcaseKeys(response.data, { deep: true });
     }

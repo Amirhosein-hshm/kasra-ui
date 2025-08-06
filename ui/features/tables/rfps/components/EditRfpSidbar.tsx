@@ -15,6 +15,7 @@ import { FileUpload } from '@/ui/components/file-upload';
 import { useEffect, useState } from 'react';
 import { IconX } from '@tabler/icons-react';
 import { RFPSidebarSkeleton } from './loading/editRfpSidbarloading';
+import FileDownload from '@/ui/features/file-download/fileDownload';
 
 interface EditRFPSidebarProps {
   open: boolean;
@@ -117,16 +118,7 @@ export function EditRFPSidebar({
 
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
-                {/* FIXME: */}
-                <a
-                  href={`${process.env.NEXT_PUBLIC_API_BASE_URL}file/download/${fileId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                  📎 دانلود فایل پیوست‌شده
-                </a>
-
+                <FileDownload id={fileId!} />
                 <button
                   type="button"
                   onClick={removeExistingFile}

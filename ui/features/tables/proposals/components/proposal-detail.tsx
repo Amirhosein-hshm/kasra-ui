@@ -5,6 +5,7 @@ import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
 import { json } from 'stream/consumers';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
+import FileDownload from '@/ui/features/file-download/fileDownload';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -65,17 +66,8 @@ export function ProposalDetailSideBar({
               </div>
             )}
           </div>
-          {data.fileId && (
-            // FIXME:
-            <a
-              href={`${process.env.NEXT_PUBLIC_API_BASE_URL}file/download/${data.fileId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-blue-600 dark:text-blue-400 hover:underline mt-2"
-            >
-              📎 دانلود فایل پیوست‌شده
-            </a>
-          )}
+
+          <FileDownload id={data.fileId!} />
         </div>
       ) : (
         <ProposalDetailSkeleton />
