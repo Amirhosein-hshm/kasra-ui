@@ -9,6 +9,7 @@ export function handleApiError(
   }
 
   if (!error.__handled__) {
+    // TODO: migrate error handling
     const message = 'مشکلی پیش آمده!';
 
     toast.error(message);
