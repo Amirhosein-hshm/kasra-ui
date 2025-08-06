@@ -10,4 +10,5 @@ export interface ProposalAllResponse {
   id: number;
   info: string;
   rfp: RFPResponse;
+  state: number;
 }

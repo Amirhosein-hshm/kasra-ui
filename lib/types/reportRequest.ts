@@ -9,6 +9,8 @@ export interface ReportRequest {
   info: string;
   projectId: number;
   comment: string;
-  fileId: number;
+  filePdfId: number;
+  fileDocxId: number;
+  filePptxId: number;
   percent: number;
 }
