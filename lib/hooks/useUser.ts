@@ -146,7 +146,7 @@ export function useUserReportsByProject(
  */
 export function useUserReport(
   reportId: number,
-  options?: UseQueryOptions<ReportResponse, Error>
+  options?: Partial<UseQueryOptions<ReportResponse, Error>>
 ) {
   return useQuery({
     queryKey: ['userReport', reportId],
