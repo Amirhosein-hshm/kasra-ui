@@ -1,4 +1,4 @@
-import { useAddUserReport, useUserProjects } from '@/lib/hooks';
+import { useAddUserReport } from '@/lib/hooks';
 import { useUploadFile } from '@/lib/hooks/useFile';
 import { Button } from '@/ui/components/button';
 import {
@@ -15,7 +15,8 @@ import { Label } from '@/ui/components/label';
 import { Slider } from '@/ui/components/slider';
 import { Textarea } from '@/ui/components/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PropsWithChildren, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { PropsWithChildren, useRef, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -46,9 +47,14 @@ interface Props {
 }
 
 export function UploadReportDialog({ projectId }: Props) {
+  const dialogCloseRef = useRef<HTMLButtonElement>(null);
   const [isPending, setIsPending] = useState(false);
-  const uploadFile = useUploadFile();
+  const uploadPdfFile = useUploadFile({ mutationKey: ['pdf'] });
+  const uploadWordFile = useUploadFile({ mutationKey: ['word'] });
+  const uploadPPTXFile = useUploadFile({ mutationKey: ['pptx'] });
   const addReport = useAddUserReport();
+
+  const queryClient = useQueryClient();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -62,22 +68,34 @@ export function UploadReportDialog({ projectId }: Props) {
   });
 
   const handleSubmit = form.handleSubmit((data) => {
-    const ids = { word: -1, pdf: -1, powerpoint: -1 };
+    const ids = { word: null, pdf: null, powerpoint: null };
     setIsPending(true);
-    uploadFile
-      .mutateAsync({ file: data.pdfFile[0] })
-      .then((res) => {
-        ids.word = res.data?.id;
-      })
-      .then(() => uploadFile.mutateAsync({ file: data.wordFile[0] }))
-      .then((res) => {
-        ids.word = res.data?.id;
-      })
-      .then(() => uploadFile.mutateAsync({ file: data.powerPointFile[0] }))
-      .then((res) => {
-        ids.word = res.data?.id;
-      })
+    Promise.all([
+      uploadPdfFile.mutateAsync({ file: data.pdfFile[0] }).then((data) => {
+        if (!data.id) throw new Error('Pdf file upload failed');
+
+        ids.pdf = data.id;
+      }),
+      uploadWordFile.mutateAsync({ file: data.wordFile[0] }).then((data) => {
+        if (!data.id) throw new Error('Word file upload failed');
+
+        ids.word = data.id;
+      }),
+      uploadPPTXFile
+        .mutateAsync({ file: data.powerPointFile[0] })
+        .then((data) => {
+          if (!data.id) throw new Error('Pptx file upload failed');
+
+          ids.powerpoint = data.id;
+        }),
+      ,
+    ])
       .then(() => {
+        if (!ids.word || !ids.pdf || !ids.powerpoint) {
+          toast.error('بارگذاری فایل ها موفقیت آمیز نبود');
+          return;
+        }
+
         addReport
           .mutateAsync({
             fileDocxId: ids.word,
@@ -87,6 +105,17 @@ export function UploadReportDialog({ projectId }: Props) {
             info: data.description,
             percent: data.progress[0],
             projectId,
+          })
+          .then(() => {
+            queryClient
+              .invalidateQueries
+              // FIXME: target the exact query here
+              ()
+              .finally(() => {
+                toast.success('گزارش بارگذاری شد');
+                setIsPending(false);
+                dialogCloseRef.current?.click();
+              });
           })
           .catch(() => {
             toast.error('بارگذاری گزارش موفقیت آمیز نبود');
@@ -198,7 +227,7 @@ export function UploadReportDialog({ projectId }: Props) {
             </div>
             <DialogFooter className="sm:justify-start">
               <DialogClose asChild>
-                <Button variant="outline" type="button">
+                <Button variant="outline" type="button" ref={dialogCloseRef}>
                   لغو
                 </Button>
               </DialogClose>
