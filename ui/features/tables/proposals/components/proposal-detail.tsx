@@ -5,7 +5,7 @@ import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
 import { json } from 'stream/consumers';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
-import FileDownload from '@/ui/features/file-download/fileDownload';
+import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -67,7 +67,7 @@ export function ProposalDetailSideBar({
             )}
           </div>
 
-          <FileDownload id={data.fileId!} />
+          <FileDownloadLink id={data.fileId!} />
         </div>
       ) : (
         <ProposalDetailSkeleton />
