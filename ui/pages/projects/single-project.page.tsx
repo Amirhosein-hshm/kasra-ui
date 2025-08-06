@@ -76,15 +76,7 @@ export default function SingleProjectPage(props: Props) {
         <Badge>{(props.project.proposal.rfp as any).rfpField.title}</Badge>
       </h1>
 
-      <Link
-        href={
-          fileId
-            ? `${process.env.NEXT_PUBLIC_API_BASE_URL}file/download/${fileId}`
-            : ''
-        }
-      >
-        <FileDownload>بارگیری پروپوزال</FileDownload>
-      </Link>
+      <FileDownload id={fileId!}>بارگیری پروپوزال</FileDownload>
 
       <h2 className="mt-4">گزارش کارها</h2>
 

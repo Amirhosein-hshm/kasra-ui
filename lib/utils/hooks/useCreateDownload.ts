@@ -1,13 +1,8 @@
-'use client';
 import { useDownload } from '@/lib/hooks/useDownload';
 import { toast } from 'sonner';
 
-type Props = {
-  id: number;
-};
-
-export default function FileDownload({ id }: Props) {
-  const { mutateAsync } = useDownload();
+export function useCreateDownload(id: number) {
+  const { mutateAsync, isPending } = useDownload();
 
   const onDownLoad = async () => {
     try {
@@ -30,15 +25,5 @@ export default function FileDownload({ id }: Props) {
     }
   };
 
-  return (
-    id && (
-      <div
-        className="inline-block text-blue-600 dark:text-blue-400 hover:underline mt-2"
-        onClick={onDownLoad}
-        style={{ cursor: 'pointer' }}
-      >
-        📎 دانلود فایل پیوست‌شده
-      </div>
-    )
-  );
+  return { onDownLoad, isPending };
 }

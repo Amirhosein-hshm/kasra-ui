@@ -19,7 +19,7 @@ import {
 } from './edit-proposal-validation';
 import { IconX } from '@tabler/icons-react';
 import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
-import FileDownload from '@/ui/features/file-download/fileDownload';
+import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -122,7 +122,7 @@ export function EditProposalSideBar({
             />
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
-                <FileDownload id={fileId!} />
+                <FileDownloadLink id={fileId!} />
                 <button
                   type="button"
                   onClick={removeExistingFile}

@@ -31,9 +31,11 @@ export default function SingleReportPage({
 
       <div className="flex gap-2">
         {/* TODO: add download mechanism */}
-        <FileDownload>بارگیری فایل pdf</FileDownload>
-        <FileDownload>بارگیری فایل word</FileDownload>
-        <FileDownload>بارگیری فایل powerpoint</FileDownload>
+        <FileDownload id={fileIDs.pdf}>بارگیری فایل pdf</FileDownload>
+        <FileDownload id={fileIDs.word}>بارگیری فایل word</FileDownload>
+        <FileDownload id={fileIDs.powerpoint}>
+          بارگیری فایل powerpoint
+        </FileDownload>
       </div>
 
       {/* TODO: approve/reject report by supervisor */}

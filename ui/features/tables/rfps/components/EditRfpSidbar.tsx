@@ -15,7 +15,7 @@ import { FileUpload } from '@/ui/components/file-upload';
 import { useEffect, useState } from 'react';
 import { IconX } from '@tabler/icons-react';
 import { RFPSidebarSkeleton } from './loading/editRfpSidbarloading';
-import FileDownload from '@/ui/features/file-download/fileDownload';
+import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 
 interface EditRFPSidebarProps {
   open: boolean;
@@ -119,7 +119,7 @@ export function EditRFPSidebar({
 
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
-                <FileDownload id={fileId!} />
+                <FileDownloadLink id={fileId!} />
                 <button
                   type="button"
                   onClick={removeExistingFile}
