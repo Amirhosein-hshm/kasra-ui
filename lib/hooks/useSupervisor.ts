@@ -21,7 +21,7 @@ import type {
  */
 export function useSupervisorProposals(
   params?: ReadProposalsSupervisorProposalsGetParams,
-  options?: UseQueryOptions<ProposalResponse[], Error>
+  options?: Partial<UseQueryOptions<ProposalResponse[], Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorProposals', params],
@@ -38,7 +38,7 @@ export function useSupervisorProposals(
  */
 export function useSupervisorProposal(
   proposalId: number,
-  options?: UseQueryOptions<ProposalResponse, Error>
+  options?: Partial<UseQueryOptions<ProposalResponse, Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorProposal', proposalId],
@@ -56,7 +56,7 @@ export function useSupervisorProposal(
  */
 export function useSupervisorReportsByProject(
   projectId: number,
-  options?: UseQueryOptions<ReportResponse[], Error>
+  options?: Partial<UseQueryOptions<ReportResponse[], Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorReportsByProject', projectId],
@@ -74,7 +74,7 @@ export function useSupervisorReportsByProject(
  */
 export function useSupervisorReports(
   params?: ReadReportsSupervisorReportsGetParams,
-  options?: UseQueryOptions<ReportResponse[], Error>
+  options?: Partial<UseQueryOptions<ReportResponse[], Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorReports', params],
@@ -110,7 +110,7 @@ export function useEditSupervisorReport(
  */
 export function useSupervisorProjects(
   params?: ReadProjectsSupervisorProjectsGetParams,
-  options?: UseQueryOptions<ProjectResponse[], Error>
+  options?: Partial<UseQueryOptions<ProjectResponse[], Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorProjects', params],
@@ -127,7 +127,7 @@ export function useSupervisorProjects(
  */
 export function useSupervisorSingleProject(
   projectId: number,
-  options?: UseQueryOptions<ProjectResponse, Error>
+  options?: Partial<UseQueryOptions<ProjectResponse, Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorSingleProject', projectId],
@@ -144,7 +144,7 @@ export function useSupervisorSingleProject(
  */
 export function useSupervisorSingleReport(
   reportId: number,
-  options?: UseQueryOptions<ReportResponse, Error>
+  options?: Partial<UseQueryOptions<ReportResponse, Error>>
 ) {
   return useQuery({
     queryKey: ['supervisorSingleReport', reportId],

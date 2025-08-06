@@ -130,10 +130,10 @@ export default function DataTable<TData, TValue>({
               onChange={(event) => setSearch?.(event.target.value)}
               className="max-w-sm"
             />
-
-            {headerAppendix}
           </div>
         )}
+
+        {headerAppendix}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

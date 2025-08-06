@@ -12,6 +12,8 @@ export interface ReportResponse {
   project: ProjectResponse;
   comment: string;
   state: number;
-  fileId: number;
+  filePdfId: number;
+  fileDocxId: number;
+  filePptxId: number;
   percent: number;
 }

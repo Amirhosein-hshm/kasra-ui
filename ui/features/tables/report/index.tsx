@@ -27,8 +27,6 @@ export default function ReportsTable({
   deactivateSelection,
   loading,
 }: Props) {
-  const [openReportDetail, setOpenReportDetail] = useState(false);
-  const [selected, setSelected] = useState<ReportForTable | null>(null);
   const router = useRouter();
 
   const reportsTableColumns = getReportsTableColumns({

@@ -1,22 +1,21 @@
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosError,
 } from 'axios';
 import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
 
 import {
+  clearAuthTokens,
   getAuthTokens,
   setAuthTokens,
-  clearAuthTokens,
 } from '../utils/cookies';
 
 import { getAuthentication } from '@/lib/services';
 
 import type { RefreshTokenRefreshTokenPostParams } from '../types/refreshTokenRefreshTokenPostParams';
-import { handleApiError } from '../helpers/handleApiError';
 
 const baseURL =
   typeof window !== 'undefined'
@@ -145,7 +144,8 @@ api.interceptors.response.use(
       }
     }
 
-    handleApiError(error);
+    // TODO: implement implicit error handling
+    // handleApiError(error);
     return Promise.reject(error);
   }
 );
@@ -157,5 +157,4 @@ export function setAccessToken(token: string) {
   }
 }
 
-export { clearAuthTokens };
-export { api };
+export { api, clearAuthTokens };

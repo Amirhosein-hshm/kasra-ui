@@ -83,16 +83,15 @@ export default function SingleProjectPage(props: Props) {
             : ''
         }
       >
-        <FileDownload title="بارگیری پروپوزال" />
+        <FileDownload>بارگیری پروپوزال</FileDownload>
       </Link>
 
       <h2 className="mt-4">گزارش کارها</h2>
 
       <ReportsTable
         data={data || []}
-        headerAppendix={isUser && <UploadReportDialog />}
+        headerAppendix={isUser && <UploadReportDialog projectId={projectId} />}
         deactivateSelection
-        // FIXME:
         loading={isLoading}
       />
     </div>
