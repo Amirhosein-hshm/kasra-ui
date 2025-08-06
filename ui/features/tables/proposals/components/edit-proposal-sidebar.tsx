@@ -71,9 +71,7 @@ export function EditProposalSideBar({
         data: { info: data.info!, RFP_id: data.RFP_id!, fileId },
       });
       onOpenChange(false);
-      queryClient.invalidateQueries({
-        queryKey: ['userProposals'],
-      });
+      queryClient.invalidateQueries();
       form.reset();
       toast.success('پروپوزال با موفقیت ویرایش شد');
     } catch (e) {
