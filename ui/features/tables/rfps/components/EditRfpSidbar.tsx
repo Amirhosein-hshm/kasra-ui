@@ -44,18 +44,22 @@ export function EditRFPSidebar({
     { queryKey: ['explorerRfpFields', {}], enabled: open }
   );
 
-  const { data } = useGetExplorerRfpById(selected.id, {
-    enabled: isSuccess,
-    queryKey: ['explorerRfpById', selected.id],
-  });
+  const { data, isPending: getGetExplorerRfpByIdLoading } =
+    useGetExplorerRfpById(selected.id, {
+      enabled: isSuccess,
+      queryKey: ['explorerRfpById', selected.id],
+    });
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (data) {
+    if (data && selected) {
       // @ts-ignore
       form.setValue('RFP_field_id', data.rfpField.id);
       form.setValue('info', data.info);
+      setFileId(selected.fileId ?? null);
     }
-  }, [data]);
+  }, [data, selected, getGetExplorerRfpByIdLoading, fields.length]);
 
   const [fileId, setFileId] = useState<number | null>(selected.fileId ?? null);
   const handleUploadComplete = (val: any) => {
@@ -65,7 +69,12 @@ export function EditRFPSidebar({
   const removeExistingFile = () => setFileId(null);
 
   const { mutateAsync, isPending } = useEditExplorerRfp();
-  const queryClient = useQueryClient();
+
+  const handleClose = () => {
+    queryClient.removeQueries({ queryKey: ['explorerRfpById', selected.id] });
+    onOpenChange(false);
+    form.reset();
+  };
 
   const onSubmit = async (data: RFPFormValues) => {
     try {
@@ -78,31 +87,23 @@ export function EditRFPSidebar({
         },
       });
       toast.success('RFP با موفقیت به‌روزرسانی شد');
-      onOpenChange(false);
+      handleClose();
       queryClient.invalidateQueries({ queryKey: ['explorerRfps'] });
     } catch {
       toast.error('خطا در ویرایش RFP');
     }
   };
 
-  useEffect(() => {
-    form.reset({
-      info: selected.info,
-      RFP_field_id: selected.RFP_field_id,
-    });
-    setFileId(selected.fileId ?? null);
-  }, [selected, form]);
-
   return (
     <FormProvider {...form}>
       <Sidebar
         open={open}
-        onOpenChange={onOpenChange}
+        onOpenChange={handleClose}
         title="ویرایش کمیسیون"
         onSubmit={form.handleSubmit(onSubmit)}
         isLoading={isPending}
       >
-        {!isPending ? (
+        {true ? (
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormInput
               name="info"
