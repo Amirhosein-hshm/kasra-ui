@@ -20,12 +20,18 @@ function GetMeLoader() {
   const setUser = useMeStore((s) => s.setUser);
   const initialized = useMeStore((s) => s.initialized);
 
-  const { data, isSuccess } = useUserMe({
+  const setLoading = useMeStore((s) => s.setLoading);
+
+  const { data, isSuccess, isPending } = useUserMe({
     queryKey: ['me'],
     staleTime: 5 * 60 * 1000,
     retry: false,
     enabled: !initialized,
   });
+
+  useEffect(() => {
+    setLoading(isPending);
+  }, [isPending]);
 
   useEffect(() => {
     if (isSuccess && data) {
