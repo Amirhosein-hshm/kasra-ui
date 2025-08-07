@@ -1,4 +1,4 @@
-import { getFile } from '@/lib/services/file';
+import { getFile } from '@/lib/services';
 import {
   useMutation,
   UseMutationOptions,

@@ -15,6 +15,7 @@ export * from './commissionRequest';
 export * from './commissionResponse';
 export * from './getAllReportsMentorAllReportsGetParams';
 export * from './getProjectMentorProjectsGetParams';
+export * from './getProposalCommissionBrokerCommissionsProposalIdGetParams';
 export * from './getReportsMentorReportsProjectIdGetParams';
 export * from './hTTPValidationError';
 export * from './projectResponse';

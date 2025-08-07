@@ -5,10 +5,11 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
-  AddCommissionBrokerCommissionsGetParams,
   CommissionRequest,
   CommissionResponse,
-  ProposalResponse,
+  GetProposalCommissionBrokerCommissionsProposalIdGetParams,
+  ProposalAllResponse,
+  ProposalSingleResponse,
   ReadProposalsBrokerProposalsGetParams,
   UserInfoResponse,
 } from '../../types';
@@ -22,7 +23,7 @@ export const getBroker = () => {
   const readProposalsBrokerProposalsGet = (
     params?: ReadProposalsBrokerProposalsGetParams
   ) => {
-    return api<ProposalResponse[]>({
+    return api<ProposalAllResponse[]>({
       url: `/broker/proposals/`,
       method: 'GET',
       params,
@@ -32,7 +33,7 @@ export const getBroker = () => {
    * @summary Read Proposal
    */
   const readProposalBrokerProposalsProposalIdGet = (proposalId: number) => {
-    return api<ProposalResponse>({
+    return api<ProposalSingleResponse>({
       url: `/broker/proposals/${proposalId}`,
       method: 'GET',
     });
@@ -43,7 +44,7 @@ export const getBroker = () => {
   const addCommissionBrokerCommissionsPost = (
     commissionRequest: CommissionRequest
   ) => {
-    return api<CommissionResponse>({
+    return api<unknown>({
       url: `/broker/commissions/`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -51,13 +52,14 @@ export const getBroker = () => {
     });
   };
   /**
-   * @summary Add Commission
+   * @summary Get Proposal Commission
    */
-  const addCommissionBrokerCommissionsGet = (
-    params: AddCommissionBrokerCommissionsGetParams
+  const getProposalCommissionBrokerCommissionsProposalIdGet = (
+    proposalId: number,
+    params?: GetProposalCommissionBrokerCommissionsProposalIdGetParams
   ) => {
-    return api<CommissionResponse>({
-      url: `/broker/commissions/`,
+    return api<CommissionResponse[]>({
+      url: `/broker/commissions/${proposalId}`,
       method: 'GET',
       params,
     });
@@ -93,7 +95,7 @@ export const getBroker = () => {
     readProposalsBrokerProposalsGet,
     readProposalBrokerProposalsProposalIdGet,
     addCommissionBrokerCommissionsPost,
-    addCommissionBrokerCommissionsGet,
+    getProposalCommissionBrokerCommissionsProposalIdGet,
     readUsersMasterBrokerUsersMasterGet,
     readUsersDiscovererBrokerUsersDiscovererGet,
     readUsersSupervisorBrokerUsersSupervisorGet,
@@ -118,13 +120,16 @@ export type AddCommissionBrokerCommissionsPostResult = NonNullable<
     >
   >
 >;
-export type AddCommissionBrokerCommissionsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getBroker>['addCommissionBrokerCommissionsGet']
+export type GetProposalCommissionBrokerCommissionsProposalIdGetResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        ReturnType<
+          typeof getBroker
+        >['getProposalCommissionBrokerCommissionsProposalIdGet']
+      >
     >
-  >
->;
+  >;
 export type ReadUsersMasterBrokerUsersMasterGetResult = NonNullable<
   Awaited<
     ReturnType<
