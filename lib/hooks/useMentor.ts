@@ -6,6 +6,7 @@ import type {
   GetReportsMentorReportsProjectIdGetParams,
   GetAllReportsMentorAllReportsGetParams,
   ProjectResponse,
+  ReportResponse,
 } from '@/lib/types';
 
 /**
@@ -57,6 +58,23 @@ export function useAllMentorReports(
       getMentor()
         .getAllReportsMentorAllReportsGet(params)
         .then((res) => res.data),
+    ...options,
+  });
+}
+
+/**
+ * Get a single report assigned to mentor
+ */
+export function useMentorReport(
+  reportId: number,
+  options?: Partial<UseQueryOptions<unknown, Error>>
+) {
+  return useQuery({
+    queryKey: ['mentorReport', reportId],
+    queryFn: () =>
+      getMentor()
+        .getSingleReportsMentorSingleReportReportIdGet(reportId)
+        .then((res) => res.data as ReportResponse),
     ...options,
   });
 }

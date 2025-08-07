@@ -2,8 +2,12 @@ import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import { Badge } from '@/ui/components/badge';
 import { FileDownload } from '@/ui/components/file-download';
+import CommentOnReportDialog from '@/ui/features/dialogs/comment-on-report.dialog';
+import CommentOnReportForm from '@/ui/forms/comment-on-report.form';
+import { use } from 'react';
 
 interface Props {
+  reportID: number;
   projectID: number;
   info: string;
   fileIDs: {
@@ -15,6 +19,7 @@ interface Props {
 }
 
 export default function SingleReportPage({
+  reportID,
   projectID,
   info,
   fileIDs,
@@ -30,7 +35,6 @@ export default function SingleReportPage({
       <p>{info}</p>
 
       <div className="flex gap-2">
-        {/* TODO: add download mechanism */}
         <FileDownload id={fileIDs.pdf}>بارگیری فایل pdf</FileDownload>
         <FileDownload id={fileIDs.word}>بارگیری فایل word</FileDownload>
         <FileDownload id={fileIDs.powerpoint}>
@@ -39,6 +43,7 @@ export default function SingleReportPage({
       </div>
 
       {/* TODO: approve/reject report by supervisor */}
+      {isSupervisor && <CommentOnReportDialog reportID={reportID} />}
 
       {comment && comment.length > 0 && (
         <div>

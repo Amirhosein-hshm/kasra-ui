@@ -1,6 +1,10 @@
 'use client';
 
-import { useSupervisorSingleReport, useUserReport } from '@/lib/hooks';
+import {
+  useMentorReport,
+  useSupervisorSingleReport,
+  useUserReport,
+} from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { ReportResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
@@ -17,6 +21,7 @@ export default function Page() {
   const userTypeId = userInfo?.user?.userTypeId;
   const isUser = userTypeId === UserType.User;
   const isSupervisor = userTypeId === UserType.Supervisor;
+  const isMentor = userTypeId === UserType.Mentor;
 
   const supervisorReportQuery = useSupervisorSingleReport(reportId, {
     enabled: isSupervisor,
@@ -24,33 +29,44 @@ export default function Page() {
   const userReportQuery = useUserReport(reportId, {
     enabled: isUser,
   });
+  const mentorReportQuery = useMentorReport(reportId, {
+    enabled: isMentor,
+  });
 
-  const reportData: ReportResponse | null | undefined = isUser
+  const data: ReportResponse | null | undefined = isUser
     ? userReportQuery.data
     : isSupervisor
     ? supervisorReportQuery.data
+    : isMentor
+    ? (mentorReportQuery.data as ReportResponse)
     : null;
 
-  if (userReportQuery.isError || supervisorReportQuery.isError) {
+  const isError = isUser
+    ? userReportQuery.isError
+    : isSupervisor
+    ? supervisorReportQuery.isError
+    : isMentor
+    ? mentorReportQuery.isError
+    : null;
+
+  if (isError) {
     return <ErrorView />;
   }
-  if (userReportQuery.isLoading || supervisorReportQuery.isLoading) {
-    return <></>;
-  }
-  if (reportData?.project) {
+
+  if (data)
     return (
       <SingleReportPage
-        projectID={reportData?.project?.id}
-        info={reportData?.info}
+        reportID={data?.id}
+        projectID={data?.project?.id}
+        info={data?.info}
         fileIDs={{
-          pdf: reportData?.filePdfId,
-          word: reportData?.fileDocxId,
-          powerpoint: reportData?.filePptxId,
+          pdf: data?.filePdfId,
+          word: data?.fileDocxId,
+          powerpoint: data?.filePptxId,
         }}
-        comment={reportData?.comment}
+        comment={data?.comment}
       />
     );
-  }
 
   return <Spinner size={50} className="my-20 mx-auto" />;
 }
