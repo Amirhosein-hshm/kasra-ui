@@ -1,16 +1,15 @@
 import { useBrokerProposal, useUserProposal } from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
-import { ProposalResponse } from 'lib/types/proposalResponse';
 import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
-import { json } from 'stream/consumers';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
+import { ProposalAllResponse } from '@/lib/types';
 
 interface ProposalSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  selected?: ProposalResponse | null;
+  selected?: ProposalAllResponse | null;
 }
 
 export function ProposalDetailSideBar({

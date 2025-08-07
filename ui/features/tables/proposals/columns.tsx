@@ -20,18 +20,19 @@ import {
   Trash,
   FileText,
 } from 'lucide-react';
+import { ProposalAllResponse } from '@/lib/types';
 
 interface ColumnOptions {
-  onOpenCommission?: (proposal: ProposalResponse) => void;
-  onOpenProposalDetail?: (proposal: ProposalResponse) => void;
-  onEditProposal?: (proposal: ProposalResponse) => void;
+  onOpenCommission?: (proposal: ProposalAllResponse) => void;
+  onOpenProposalDetail?: (proposal: ProposalAllResponse) => void;
+  onEditProposal?: (proposal: ProposalAllResponse) => void;
 }
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
 export function getProposalsTableColumns(
   userRoleId: number,
   options?: ColumnOptions
-): ColumnDef<ProposalResponse>[] {
+): ColumnDef<ProposalAllResponse>[] {
   return [
     {
       id: 'select',

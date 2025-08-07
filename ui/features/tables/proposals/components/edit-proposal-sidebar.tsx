@@ -4,7 +4,6 @@ import {
   useUserProposal,
 } from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
-import { ProposalResponse } from 'lib/types/proposalResponse';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormSelect } from '@/ui/components/select/select';
 import { FormInput } from '@/ui/components/input/input';
@@ -20,11 +19,12 @@ import {
 import { IconX } from '@tabler/icons-react';
 import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
+import { ProposalAllResponse } from '@/lib/types';
 
 interface ProposalSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  selected?: ProposalResponse | null;
+  selected?: ProposalAllResponse | null;
 }
 
 export function EditProposalSideBar({
@@ -89,7 +89,7 @@ export function EditProposalSideBar({
       info: selected?.info,
       RFP_id: selected?.rfp.id,
     });
-    setFileId(selected?.fileId ?? null);
+    setFileId(selected?.rfp.fileId ?? null);
   }, [selected, form]);
 
   return (

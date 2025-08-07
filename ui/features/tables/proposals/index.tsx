@@ -1,6 +1,5 @@
 'use client';
 
-import { ProposalResponse } from 'lib/types/proposalResponse';
 import DataTable from '@/ui/components/data-table/index';
 import { getProposalsTableColumns } from './columns';
 import { useMeStore } from '@/lib/stores/me.stores';
@@ -11,9 +10,10 @@ import { Button } from '@/ui/components/button';
 import { AddProposalSideBar } from './components/add-proposal-sidebar';
 import { EditProposalSideBar } from './components/edit-proposal-sidebar';
 import { UserType } from '@/lib/types/UserType.enum';
+import { ProposalAllResponse } from '@/lib/types';
 
 interface Props {
-  data: ProposalResponse[];
+  data: ProposalAllResponse[];
   pageIndex: number;
   pageSize: number;
   pageCount: number;
@@ -40,7 +40,7 @@ export default function ProposalsTable({
   const [openAddProposal, setOpenAddProposal] = useState(false);
   const [openEditProposal, setOpenEditProposal] = useState(false);
 
-  const [selected, setSelected] = useState<ProposalResponse | null>(null);
+  const [selected, setSelected] = useState<ProposalAllResponse | null>(null);
 
   const proposalsTableColumns = getProposalsTableColumns(userTypeId!, {
     onOpenCommission: (item) => {

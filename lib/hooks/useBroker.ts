@@ -8,14 +8,16 @@ import { getBroker } from '@/lib/services';
 import {
   CommissionRequest,
   CommissionResponse,
-  ProposalResponse,
+  GetProposalCommissionBrokerCommissionsProposalIdGetParams,
+  ProposalAllResponse,
+  ProposalSingleResponse,
   ReadProposalsBrokerProposalsGetParams,
   UserInfoResponse,
 } from 'lib/types';
 
 export function useBrokerProposals(
   params?: ReadProposalsBrokerProposalsGetParams,
-  options?: UseQueryOptions<ProposalResponse[], Error>
+  options?: UseQueryOptions<ProposalAllResponse[], Error>
 ) {
   return useQuery({
     queryKey: ['brokerProposals', params],
@@ -29,7 +31,7 @@ export function useBrokerProposals(
 
 export function useBrokerProposal(
   proposalId: number,
-  options?: UseQueryOptions<ProposalResponse, Error>
+  options?: UseQueryOptions<ProposalSingleResponse, Error>
 ) {
   return useQuery({
     queryKey: ['brokerProposal', proposalId],
@@ -43,7 +45,7 @@ export function useBrokerProposal(
 }
 
 export function useAddBrokerCommission(
-  options?: UseMutationOptions<CommissionResponse, Error, CommissionRequest>
+  options?: UseMutationOptions<unknown, Error, CommissionRequest>
 ) {
   return useMutation({
     mutationFn: (data) =>
@@ -89,6 +91,22 @@ export function useBrokerUsersSupervisor(
       getBroker()
         .readUsersSupervisorBrokerUsersSupervisorGet()
         .then((res) => res.data),
+    ...options,
+  });
+}
+
+export function useBrokerProposalCommissions(
+  proposalId: number,
+  params?: GetProposalCommissionBrokerCommissionsProposalIdGetParams,
+  options?: UseQueryOptions<CommissionResponse[], Error>
+) {
+  return useQuery({
+    queryKey: ['brokerProposalCommissions', proposalId, params],
+    queryFn: () =>
+      getBroker()
+        .getProposalCommissionBrokerCommissionsProposalIdGet(proposalId, params)
+        .then((res) => res.data),
+    enabled: !!proposalId,
     ...options,
   });
 }

@@ -1,7 +1,7 @@
 export { getAuthentication } from './authentication';
-export * from './broker';
-export * from './explorer';
-export * from './supervisor';
-export * from './user';
-export * from './file';
-export * from './mentor';
+export * from './broker/broker';
+export * from './explorer/explorer';
+export * from './supervisor/supervisor';
+export * from './user/user';
+export * from './file/file';
+export * from './mentor/mentor';
