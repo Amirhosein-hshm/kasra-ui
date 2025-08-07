@@ -3,8 +3,6 @@ import { UserType } from '@/lib/types/UserType.enum';
 import { Badge } from '@/ui/components/badge';
 import { FileDownload } from '@/ui/components/file-download';
 import CommentOnReportDialog from '@/ui/features/dialogs/comment-on-report.dialog';
-import CommentOnReportForm from '@/ui/forms/comment-on-report.form';
-import { use } from 'react';
 
 interface Props {
   reportID: number;
@@ -16,9 +14,11 @@ interface Props {
     powerpoint: number;
   };
   comment: string;
+  state: number;
 }
 
 export default function SingleReportPage({
+  state,
   reportID,
   projectID,
   info,
@@ -30,11 +30,32 @@ export default function SingleReportPage({
 
   return (
     <div className="mt-4 flex flex-col gap-2">
-      <Badge>پروژه {projectID}</Badge>
+      <div>
+        <strong>پروژه:</strong> <Badge>{projectID}</Badge>
+      </div>
 
-      <p>{info}</p>
+      <div>
+        <strong>وضعیت:</strong>{' '}
+        {state === 1 ? (
+          <Badge
+            variant="secondary"
+            className="bg-teal-500 text-white dark:bg-teal-600"
+          >
+            تایید شده
+          </Badge>
+        ) : state === 2 ? (
+          <Badge variant="destructive">رد شده</Badge>
+        ) : (
+          <Badge>در انتظار بررسی</Badge>
+        )}
+      </div>
+
+      <p>
+        <strong>اطلاعات:</strong> {info}
+      </p>
 
       <div className="flex gap-2">
+        <strong>فایل های گزارش:</strong>
         <FileDownload id={fileIDs.pdf}>بارگیری فایل pdf</FileDownload>
         <FileDownload id={fileIDs.word}>بارگیری فایل word</FileDownload>
         <FileDownload id={fileIDs.powerpoint}>
@@ -47,7 +68,7 @@ export default function SingleReportPage({
 
       {comment && comment.length > 0 && (
         <div>
-          <h3>نظر:</h3>
+          <strong>نظر:</strong>
           <p>{comment}</p>
         </div>
       )}

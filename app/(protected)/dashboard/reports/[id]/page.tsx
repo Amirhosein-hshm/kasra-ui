@@ -56,6 +56,7 @@ export default function Page() {
   if (data)
     return (
       <SingleReportPage
+        state={data?.state}
         reportID={data?.id}
         projectID={data?.project?.id}
         info={data?.info}
