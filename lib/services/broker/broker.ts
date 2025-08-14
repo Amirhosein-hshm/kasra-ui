@@ -10,6 +10,7 @@ import type {
   GetAllocatesBrokerAllocatesGetParams,
   RFPResponse,
   SearchRfpsEndpointBrokerRfpsGetParams,
+  UserInfoResponse,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
@@ -68,12 +69,19 @@ export const getBroker = () => {
       method: 'GET',
     });
   };
+  /**
+   * @summary Read Users Master
+   */
+  const readUsersMasterBrokerUsersGet = () => {
+    return api<UserInfoResponse[]>({ url: `/broker/users/`, method: 'GET' });
+  };
   return {
     searchRfpsEndpointBrokerRfpsGet,
     searchRfpsBrokerSingleRfpRfpIdGet,
     addAllocateBrokerAllocatesPost,
     getAllocatesBrokerAllocatesGet,
     singleAllocateBrokerSingleAllocateAllocateIdGet,
+    readUsersMasterBrokerUsersGet,
   };
 };
 export type SearchRfpsEndpointBrokerRfpsGetResult = NonNullable<
@@ -105,5 +113,10 @@ export type SingleAllocateBrokerSingleAllocateAllocateIdGetResult = NonNullable<
         typeof getBroker
       >['singleAllocateBrokerSingleAllocateAllocateIdGet']
     >
+  >
+>;
+export type ReadUsersMasterBrokerUsersGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getBroker>['readUsersMasterBrokerUsersGet']>
   >
 >;

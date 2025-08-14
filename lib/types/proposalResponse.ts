@@ -6,6 +6,7 @@
  */
 import type { ProposalResponseAllocateId } from './proposalResponseAllocateId';
 import type { ProposalResponseSupervisorId } from './proposalResponseSupervisorId';
+import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { ProposalResponseFileId } from './proposalResponseFileId';
 import type { ProposalResponseComment } from './proposalResponseComment';
 
@@ -22,6 +23,7 @@ export interface ProposalResponse {
   allocateId: ProposalResponseAllocateId;
   supervisorId: ProposalResponseSupervisorId;
   userId: number;
+  creator: UserInfoLimitedResponse;
   fileId: ProposalResponseFileId;
   state: string;
   comment: ProposalResponseComment;
