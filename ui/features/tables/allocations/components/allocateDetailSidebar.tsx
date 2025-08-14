@@ -1,10 +1,11 @@
-import { useBrokerAllocate } from '@/lib/hooks';
+import { useBrokerAllocate, useUserAllocate } from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import { AllocateDetailSkeleton } from './loading/AllocateDetailsLoading';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 import { AllocateResponse } from '@/lib/types';
 import { getFullName } from '@/lib/utils';
 import { toJalaliYMD } from '@/lib/utils/toJalali';
+import { useMeStore } from '@/lib/stores/me.stores';
 
 interface AllocateSidebarProps {
   open: boolean;
@@ -17,7 +18,20 @@ export function AllocateDetailSideBar({
   onOpenChange,
   selected,
 }: AllocateSidebarProps) {
-  const { data, isLoading } = useBrokerAllocate(selected?.id);
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
+
+  const { data: brokerAllocate, isLoading: brokerLoading } = useBrokerAllocate(
+    userTypeId!,
+    selected?.id
+  );
+
+  const { data: userAllocate, isLoading: userLoading } = useUserAllocate(
+    userTypeId!,
+    selected?.id
+  );
+
+  const data = brokerAllocate || userAllocate;
+  const isLoading = brokerLoading || userLoading;
 
   return (
     <Sidebar

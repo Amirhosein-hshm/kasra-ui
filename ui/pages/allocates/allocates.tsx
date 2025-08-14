@@ -2,9 +2,10 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, startTransition } from 'react';
-import { useBrokerAllocates } from '@/lib/hooks';
+import { useBrokerAllocates, useUserAllocates } from '@/lib/hooks';
 import { useDebounced } from '@/lib/utils/hooks/useDebounce';
-import AllocatesTable from '@/ui/features/tables/allocations/brokerAllocation';
+import AllocatesTable from '@/ui/features/tables/allocations';
+import { useMeStore } from '@/lib/stores/me.stores';
 
 export default function AllocatePage() {
   const searchParams = useSearchParams();
@@ -55,9 +56,13 @@ export default function AllocatePage() {
     [pageIndex, pageSize, debouncedInfo]
   );
 
-  const brokerQ = useBrokerAllocates(queryParams);
-  const data = brokerQ.data;
-  const isInitialLoading = brokerQ.isLoading && !data;
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
+
+  const brokerQ = useBrokerAllocates(userTypeId!, queryParams);
+  const userQ = useUserAllocates(userTypeId!, queryParams);
+
+  const data = brokerQ.data || userQ.data;
+  const isInitialLoading = (brokerQ.isLoading || userQ.isLoading) && !data;
 
   const total = 30;
 
@@ -71,7 +76,7 @@ export default function AllocatePage() {
       setPageSize={() => {}}
       search={searchInput}
       setSearch={setSearchInput}
-      isFetching={brokerQ.isFetching}
+      isFetching={brokerQ.isFetching || userQ.isFetching}
       isInitialLoading={isInitialLoading}
     />
   );

@@ -5,6 +5,8 @@ import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
 import { getAllocateTableColumns } from './columns';
 import { AllocateDetailSideBar } from './components/allocateDetailSidebar';
+import { AddProjectTitleSideBar } from './components/addProjectTitle';
+import { useMeStore } from '@/lib/stores/me.stores';
 
 interface Props {
   data: AllocateResponse[];
@@ -35,10 +37,18 @@ export default function AllocatesTable({
 
   const [isOpenAllocateDetails, setIsOpenAllocateDetails] = useState(false);
 
-  const allocatesTableColumns = getAllocateTableColumns({
+  const [isOpenAddProjectTitle, setIsOpenAddProjectTitle] = useState(false);
+
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
+
+  const allocatesTableColumns = getAllocateTableColumns(userTypeId!, {
     onView: (item) => {
       setSelected(item);
       setIsOpenAllocateDetails(true);
+    },
+    onOpenAddProjectTitle: (item) => {
+      setSelected(item);
+      setIsOpenAddProjectTitle(true);
     },
   });
 
@@ -62,6 +72,11 @@ export default function AllocatesTable({
       <AllocateDetailSideBar
         open={isOpenAllocateDetails}
         onOpenChange={setIsOpenAllocateDetails}
+        selected={selected}
+      />
+      <AddProjectTitleSideBar
+        onOpenChange={setIsOpenAddProjectTitle}
+        open={isOpenAddProjectTitle}
         selected={selected}
       />
     </>

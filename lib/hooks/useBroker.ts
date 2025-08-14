@@ -86,11 +86,13 @@ export function useAddAllocate(
 
 /** List/Get Allocates (with filters) */
 export function useBrokerAllocates(
+  userTypeId: number,
   params?: GetAllocatesBrokerAllocatesGetParams,
   options?: UseQueryOptions<AllocateResponse[], Error>
 ) {
   return useQuery({
     queryKey: brokerQueryKeys.allocates(params),
+    enabled: !!userTypeId && userTypeId === 1,
     queryFn: async () => {
       const res = await getBroker().getAllocatesBrokerAllocatesGet(params);
       return res.data;
@@ -101,6 +103,7 @@ export function useBrokerAllocates(
 
 /** Get single Allocate by id */
 export function useBrokerAllocate(
+  userTypeId: number,
   allocateId?: number,
   options?: UseQueryOptions<AllocateResponse, Error>
 ) {
@@ -115,7 +118,7 @@ export function useBrokerAllocate(
         );
       return res.data;
     },
-    enabled: typeof allocateId === 'number',
+    enabled: typeof allocateId === 'number' && userTypeId == 1,
     ...options,
   });
 }

@@ -214,10 +214,12 @@ export function useAddUserReport(
 
 /** List allocates */
 export function useUserAllocates(
+  userTypeId: number,
   params?: GetAllocatesUsersAllocatesGetParams,
   options?: UseQueryOptions<AllocateResponse[], Error>
 ) {
   return useQuery({
+    enabled: !!userTypeId && userTypeId == 3,
     queryKey: userQueryKeys.allocates(params),
     queryFn: async () => {
       const res = await getUser().getAllocatesUsersAllocatesGet(params);
@@ -229,6 +231,7 @@ export function useUserAllocates(
 
 /** Single allocate */
 export function useUserAllocate(
+  userTypeId: number,
   allocateId?: number,
   options?: UseQueryOptions<AllocateResponse, Error>
 ) {
@@ -243,7 +246,7 @@ export function useUserAllocate(
         );
       return res.data;
     },
-    enabled: typeof allocateId === 'number',
+    enabled: typeof allocateId === 'number' && userTypeId == 3,
     ...options,
   });
 }

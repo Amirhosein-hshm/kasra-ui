@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal, Eye } from 'lucide-react';
+import { MoreHorizontal, Eye, Edit } from 'lucide-react';
 import { AllocateResponse } from '@/lib/types/';
 import { Button } from '@/ui/components/button';
 import {
@@ -19,9 +19,11 @@ const dropdownMenuItemClassname = 'cursor-pointer';
 
 interface ColumnOptions {
   onView?: (allocate: AllocateResponse) => void;
+  onOpenAddProjectTitle?: (allocate: AllocateResponse) => void;
 }
 
 export function getAllocateTableColumns(
+  userTypeId: number,
   options?: ColumnOptions
 ): ColumnDef<AllocateResponse>[] {
   return [
@@ -77,6 +79,15 @@ export function getAllocateTableColumns(
               >
                 <Eye /> مشاهده
               </DropdownMenuItem>
+
+              {userTypeId === 3 && (
+                <DropdownMenuItem
+                  onClick={() => options?.onOpenAddProjectTitle?.(allocate)}
+                  className={dropdownMenuItemClassname}
+                >
+                  <Edit /> ساخت موضوع پروژه
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
