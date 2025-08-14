@@ -1,10 +1,7 @@
 'use client';
 
-import { Checkbox } from '@/ui/components/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
-
-import { ArrowUpDown, Edit, Eye, MoreHorizontal, Trash } from 'lucide-react';
-
+import { Edit, MoreHorizontal, Eye, Shuffle } from 'lucide-react';
 import { RFPResponse } from '@/lib/types/';
 import { Button } from '@/ui/components/button';
 import {
@@ -15,8 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
+import { toJalaliYMD } from '@/lib/utils/toJalali';
 
-const dropdownMenuItemClassname = 'justify-end cursor-pointer';
+const dropdownMenuItemClassname = 'cursor-pointer';
 
 interface ColumnOptions {
   onView?: (rfp: RFPResponse) => void;
@@ -28,30 +26,27 @@ export function getRfpsTableColumns(
 ): ColumnDef<RFPResponse>[] {
   return [
     {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="انتخاب همه"
-          className="m-3"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="انتخاب"
-          className="m-3"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      accessorKey: 'info',
+      header: 'اطلاعات پروژه',
     },
     {
+      accessorKey: 'rfpField.title',
+      header: 'دسته بندی',
+    },
+    {
+      header: 'تاریخ ثبت',
+      cell({ row }) {
+        const rfp = row.original;
+        return <span key={rfp.id}>{toJalaliYMD(rfp.createdAt)}</span>;
+      },
+    },
+
+    {
+      header: 'ثبت کننده',
+      accessorKey: 'creatorId',
+    },
+    {
+      header: 'عملیات',
       id: 'actions',
       cell: ({ row }) => {
         const rfp = row.original;
@@ -72,34 +67,19 @@ export function getRfpsTableColumns(
                 onClick={() => options?.onOpenRfpEdit?.(rfp)}
                 className={dropdownMenuItemClassname}
               >
-                مشاهده و ویرایش <Edit color="var(--color-blue-primary)" />
+                <Eye /> مشاهده
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={() => options?.onOpenRfpEdit?.(rfp)}
+                className={dropdownMenuItemClassname}
+              >
+                <Shuffle /> تخصیص
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
       },
-    },
-    {
-      accessorKey: 'id',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            شناسه
-            <ArrowUpDown className="mr-2 h-4 w-4" />
-          </Button>
-        );
-      },
-    },
-    {
-      accessorKey: 'info',
-      header: 'اطلاعات پروژه',
-    },
-    {
-      accessorKey: 'rfpField.title',
-      header: 'دسته بندی',
     },
   ];
 }

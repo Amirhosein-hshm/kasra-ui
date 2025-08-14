@@ -21,21 +21,23 @@ export default function DashboardPage() {
       permissions: [3, 4],
     },
     {
-      title: 'گزارش کار ها',
+      title: 'تخصیص ها',
       src: '/backgrounds/reports.jpg',
       action: PATHS.dashboard.reports.root,
-      permissions: [5],
+      permissions: [1],
     },
     {
       title: 'RFP ها',
       src: '/backgrounds/rfps.jpg',
       action: PATHS.dashboard.rfps.root,
-      permissions: [2],
+      permissions: [1, 2],
     },
   ];
   const allowedCards = cards.filter((item) =>
     item.permissions.includes(userTypeId || 0)
   );
+
+  console.log(userTypeId);
 
   return (
     <div className="h-full flex justify-center lg:items-center">

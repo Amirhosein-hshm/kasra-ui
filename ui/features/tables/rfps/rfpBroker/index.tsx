@@ -3,10 +3,7 @@
 import { RFPResponse } from '@/lib/types';
 import DataTable from '@/ui/components/data-table/index';
 import { getRfpsTableColumns } from './columns';
-import { Button } from '@/ui/components/button';
 import { useState } from 'react';
-import { AddRFPSidebar } from './components/addRfpSidbar';
-import { EditRFPSidebar } from './components/EditRfpSidbar';
 
 interface Props {
   data: RFPResponse[];
@@ -17,6 +14,8 @@ interface Props {
   setPageSize: (size: number) => void;
   search: string;
   setSearch: (v: string) => void;
+  isFetching: boolean;
+  isInitialLoading: boolean;
 }
 
 export default function RfpsTable({
@@ -28,11 +27,10 @@ export default function RfpsTable({
   setPageSize,
   search,
   setSearch,
+  isFetching,
+  isInitialLoading,
 }: Props) {
-  const [openRfpAdd, setOpenRfpAdd] = useState(false);
   const [selected, setSelected] = useState<RFPResponse | null>(null);
-
-  const [openRfpEdit, setOpenRfpEdit] = useState(false);
 
   const rfpsTableColumns = getRfpsTableColumns({
     onView: (item) => {
@@ -41,7 +39,6 @@ export default function RfpsTable({
     },
     onOpenRfpEdit: (item) => {
       setSelected(item);
-      setOpenRfpEdit(true);
     },
   });
 
@@ -59,19 +56,8 @@ export default function RfpsTable({
         }}
         search={search}
         setSearch={setSearch}
-        headerAppendix={
-          <Button onClick={() => setOpenRfpAdd(true)}>افزودن RFP</Button>
-        }
-      />
-      <AddRFPSidebar
-        open={openRfpAdd}
-        onOpenChange={() => setOpenRfpAdd(false)}
-      />
-      <EditRFPSidebar
-        /* @ts-ignore */
-        selected={{ ...selected, RFP_field_id: 22 }!}
-        open={openRfpEdit}
-        onOpenChange={() => setOpenRfpEdit(false)}
+        isFetching={isFetching}
+        loading={isInitialLoading}
       />
     </>
   );

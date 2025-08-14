@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 import { FileUpload } from '@/ui/components/file-upload';
 import { useEffect, useState } from 'react';
 import { IconX } from '@tabler/icons-react';
-import { RFPSidebarSkeleton } from './loading/editRfpSidbarloading';
+import { RFPSidebarSkeleton } from '../loading/editRfpSidbarloading';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 
 interface EditRFPSidebarProps {
@@ -80,7 +80,7 @@ export function EditRFPSidebar({
     try {
       await mutateAsync({
         rfpId: selected.id,
-        rFPRequest: {
+        payload: {
           ...data,
           RFP_field_id: data.RFP_field_id,
           fileId,

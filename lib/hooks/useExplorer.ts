@@ -5,6 +5,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query';
 
 import { getExplorer } from '@/lib/services';
@@ -69,6 +70,7 @@ export function useSearchExplorerRfps(
       const res = await getExplorer().searchRfpsEndpointExplorerRfpsGet(params);
       return res.data;
     },
+    placeholderData: keepPreviousData,
     enabled: !!params, // همان رفتار فایل قدیمی
     ...options,
   });

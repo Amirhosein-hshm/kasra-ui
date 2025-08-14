@@ -21,8 +21,8 @@ const publicRoutes = [
 ];
 
 export const ROLE_ACCESS: Record<RoleId, string[]> = {
-  1: ['/dashboard/proposals', '/profile'],
-  2: ['/dashboard/rfps', '/profile'],
+  1: ['/dashboard', '/dashboard/proposals', '/profile'],
+  2: ['/dashboard', '/dashboard/rfps', '/profile'],
   3: [
     '/dashboard',
     '/dashboard/proposals',

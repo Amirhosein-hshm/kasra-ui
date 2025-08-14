@@ -15,12 +15,6 @@ import {
 } from '@tanstack/react-table';
 
 import { Input } from '@/ui/components/input';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/ui/components/dropdown-menu';
 
 import Pagination from '@/ui/components/pagination';
 import {
@@ -42,6 +36,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   headerAppendix?: ReactNode;
+  isFetching: boolean;
   loading?: boolean;
   externalPagination?: {
     pageIndex: number;
@@ -63,6 +58,7 @@ export default function DataTable<TData, TValue>({
   search,
   setSearch,
   loading,
+  isFetching,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -117,54 +113,39 @@ export default function DataTable<TData, TValue>({
     onRowSelectionChange: setRowSelection,
   });
 
-  if (loading) return <TableSkeleton className="my-4" rowCount={3} />;
+  if (loading && (!data || data.length === 0)) {
+    return <TableSkeleton className="my-4" rowCount={3} />;
+  }
 
   return (
     <>
       <div className="flex justify-between py-4 max-lg:flex-col max-lg:gap-2">
-        {search && setSearch && (
-          <div className="w-full flex gap-2">
+        {setSearch && (
+          <div className="w-full flex gap-2 items-center">
             <Input
               placeholder="جستجو در نام‌ها..."
               value={search ?? ''}
               onChange={(event) => setSearch?.(event.target.value)}
               className="max-w-sm"
             />
+            {isFetching && (
+              <span className="animate-spin size-4 rounded-full border-2 border-current border-t-transparent" />
+            )}
           </div>
         )}
-
         {headerAppendix}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">ستون‌های قابل مشاهده</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
       <div
-        className={clsx('rounded-md border backdrop-blur-lg', styles.table)}
+        className={clsx(
+          'relative rounded-md border backdrop-blur-lg',
+          styles.table
+        )}
         dir="rtl"
       >
+        {isFetching && (
+          <div className="absolute inset-0 pointer-events-none bg-background/30 backdrop-blur-[1px]" />
+        )}
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

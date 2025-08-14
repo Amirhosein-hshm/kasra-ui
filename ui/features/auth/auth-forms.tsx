@@ -8,11 +8,7 @@ export default function AuthForms() {
 
   function handleLoginSuccess(roleId: number | string) {
     toast.success('ورود موفقیت‌آمیز بود');
-    roleId === 1
-      ? router.push('/dashboard/proposals')
-      : roleId === 2
-      ? router.push('/dashboard/rfps')
-      : router.push('/dashboard');
+    router.push('/dashboard');
   }
 
   return (
