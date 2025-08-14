@@ -4,6 +4,7 @@ import { RFPResponse } from '@/lib/types';
 import DataTable from '@/ui/components/data-table/index';
 import { getRfpsTableColumns } from './columns';
 import { useState } from 'react';
+import { RFPDetailSideBar } from './components/rfpDetailSidebar';
 
 interface Props {
   data: RFPResponse[];
@@ -32,12 +33,14 @@ export default function RfpsTable({
 }: Props) {
   const [selected, setSelected] = useState<RFPResponse | null>(null);
 
+  const [isOpenRfpDetails, setIsOpenRfpDetails] = useState(false);
+
   const rfpsTableColumns = getRfpsTableColumns({
     onView: (item) => {
       setSelected(item);
-      // setOpenRfpDetail(true);
+      setIsOpenRfpDetails(true);
     },
-    onOpenRfpEdit: (item) => {
+    onOpenRfpAllocate: (item) => {
       setSelected(item);
     },
   });
@@ -58,6 +61,12 @@ export default function RfpsTable({
         setSearch={setSearch}
         isFetching={isFetching}
         loading={isInitialLoading}
+      />
+
+      <RFPDetailSideBar
+        open={isOpenRfpDetails}
+        onOpenChange={setIsOpenRfpDetails}
+        selected={selected}
       />
     </>
   );

@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 import { toJalaliYMD } from '@/lib/utils/toJalali';
+import { getFullName } from '@/lib/utils';
 
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
@@ -40,13 +41,15 @@ export function getRfpsTableColumns(
       header: 'تاریخ ثبت',
       cell({ row }) {
         const rfp = row.original;
-        return <span key={rfp.id}>{toJalaliYMD(rfp.createdAt)}</span>;
+        return <span>{toJalaliYMD(rfp.createdAt)}</span>;
       },
     },
-
     {
       header: 'ثبت کننده',
-      accessorKey: 'creatorId',
+      cell({ row }) {
+        const rfp = row.original;
+        return <span>{getFullName(rfp.creator)}</span>;
+      },
     },
     {
       id: 'actions',
