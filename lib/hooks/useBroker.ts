@@ -1,112 +1,116 @@
+// src/lib/hooks/broker.ts
 import {
   useQuery,
   useMutation,
   UseQueryOptions,
   UseMutationOptions,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { getBroker } from '@/lib/services';
-import {
-  CommissionRequest,
-  CommissionResponse,
-  GetProposalCommissionBrokerCommissionsProposalIdGetParams,
-  ProposalAllResponse,
-  ProposalSingleResponse,
-  ReadProposalsBrokerProposalsGetParams,
-  UserInfoResponse,
+
+import type {
+  AllocateResponse,
+  BrokerCreateAllocate,
+  GetAllocatesBrokerAllocatesGetParams,
+  RFPResponse,
+  SearchRfpsEndpointBrokerRfpsGetParams,
 } from 'lib/types';
 
-export function useBrokerProposals(
-  params?: ReadProposalsBrokerProposalsGetParams,
-  options?: UseQueryOptions<ProposalAllResponse[], Error>
+/** Centralized query keys */
+export const brokerQueryKeys = {
+  rfps: (params?: SearchRfpsEndpointBrokerRfpsGetParams) =>
+    ['broker', 'rfps', params] as const,
+  rfp: (rfpId: number | undefined) => ['broker', 'rfp', rfpId] as const,
+  allocates: (params?: GetAllocatesBrokerAllocatesGetParams) =>
+    ['broker', 'allocates', params] as const,
+  allocate: (allocateId: number | undefined) =>
+    ['broker', 'allocate', allocateId] as const,
+};
+
+/** List/Search RFPs */
+export function useBrokerRfps(
+  params?: SearchRfpsEndpointBrokerRfpsGetParams,
+  options?: UseQueryOptions<RFPResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['brokerProposals', params],
-    queryFn: () =>
-      getBroker()
-        .readProposalsBrokerProposalsGet(params)
-        .then((res) => res.data),
+    queryKey: brokerQueryKeys.rfps(params),
+    queryFn: async () => {
+      const res = await getBroker().searchRfpsEndpointBrokerRfpsGet(params);
+      return res.data;
+    },
     ...options,
   });
 }
 
-export function useBrokerProposal(
-  proposalId: number,
-  options?: UseQueryOptions<ProposalSingleResponse, Error>
+/** Get single RFP by id */
+export function useBrokerRfp(
+  rfpId: number | undefined,
+  options?: UseQueryOptions<RFPResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['brokerProposal', proposalId],
-    queryFn: () =>
-      getBroker()
-        .readProposalBrokerProposalsProposalIdGet(proposalId)
-        .then((res) => res.data),
-    enabled: !!proposalId,
+    queryKey: brokerQueryKeys.rfp(rfpId),
+    queryFn: async () => {
+      if (!rfpId && rfpId !== 0) throw new Error('rfpId is required');
+      const res = await getBroker().searchRfpsBrokerSingleRfpRfpIdGet(rfpId!);
+      return res.data;
+    },
+    enabled: typeof rfpId === 'number',
     ...options,
   });
 }
 
-export function useAddBrokerCommission(
-  options?: UseMutationOptions<unknown, Error, CommissionRequest>
+/** Create/Add Allocate (mutation) */
+export function useAddAllocate(
+  options?: UseMutationOptions<AllocateResponse, Error, BrokerCreateAllocate>
 ) {
+  const qc = useQueryClient();
+
   return useMutation({
-    mutationFn: (data) =>
-      getBroker()
-        .addCommissionBrokerCommissionsPost(data)
-        .then((res) => res.data),
+    mutationFn: async (payload) => {
+      const res = await getBroker().addAllocateBrokerAllocatesPost(payload);
+      return res.data;
+    },
+    onSuccess: (data, variables, context) => {
+      // Invalidate allocate lists so they refetch
+      qc.invalidateQueries({ queryKey: ['broker', 'allocates'] });
+      options?.onSuccess?.(data, variables, context);
+    },
     ...options,
   });
 }
 
-export function useBrokerUsersMaster(
-  options?: UseQueryOptions<UserInfoResponse[], Error>
+/** List/Get Allocates (with filters) */
+export function useBrokerAllocates(
+  params?: GetAllocatesBrokerAllocatesGetParams,
+  options?: UseQueryOptions<AllocateResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['brokerUsersMaster'],
-    queryFn: () =>
-      getBroker()
-        .readUsersMasterBrokerUsersMasterGet()
-        .then((res) => res.data),
+    queryKey: brokerQueryKeys.allocates(params),
+    queryFn: async () => {
+      const res = await getBroker().getAllocatesBrokerAllocatesGet(params);
+      return res.data;
+    },
     ...options,
   });
 }
 
-export function useBrokerUsersDiscoverer(
-  options?: UseQueryOptions<UserInfoResponse[], Error>
+/** Get single Allocate by id */
+export function useBrokerAllocate(
+  allocateId: number | undefined,
+  options?: UseQueryOptions<AllocateResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['brokerUsersDiscoverer'],
-    queryFn: () =>
-      getBroker()
-        .readUsersDiscovererBrokerUsersDiscovererGet()
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-export function useBrokerUsersSupervisor(
-  options?: UseQueryOptions<UserInfoResponse[], Error>
-) {
-  return useQuery({
-    queryKey: ['brokerUsersSupervisor'],
-    queryFn: () =>
-      getBroker()
-        .readUsersSupervisorBrokerUsersSupervisorGet()
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-export function useBrokerProposalCommissions(
-  proposalId: number,
-  params?: GetProposalCommissionBrokerCommissionsProposalIdGetParams,
-  options?: UseQueryOptions<CommissionResponse[], Error>
-) {
-  return useQuery({
-    queryKey: ['brokerProposalCommissions', proposalId, params],
-    queryFn: () =>
-      getBroker()
-        .getProposalCommissionBrokerCommissionsProposalIdGet(proposalId, params)
-        .then((res) => res.data),
-    enabled: !!proposalId,
+    queryKey: brokerQueryKeys.allocate(allocateId),
+    queryFn: async () => {
+      if (!allocateId && allocateId !== 0)
+        throw new Error('allocateId is required');
+      const res =
+        await getBroker().singleAllocateBrokerSingleAllocateAllocateIdGet(
+          allocateId!
+        );
+      return res.data;
+    },
+    enabled: typeof allocateId === 'number',
     ...options,
   });
 }

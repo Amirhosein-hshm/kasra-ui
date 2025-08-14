@@ -1,192 +1,278 @@
+// src/lib/hooks/user.ts
 import {
   useQuery,
   useMutation,
   UseQueryOptions,
   UseMutationOptions,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { getUser } from '@/lib/services';
 
 import type {
+  AllocateResponse,
+  GetAllocatesUsersAllocatesGetParams,
   ProjectResponse,
-  ProposalRequest,
   ProposalResponse,
-  ProposalUserUpdateRequest,
-  RFPResponse,
   ReadProjectsUsersProjectsGetParams,
   ReadProposalsUsersProposalsGetParams,
   ReportRequest,
   ReportResponse,
-  SearchRfpsEndpointUsersRfpsGetParams,
-} from '@/lib/types';
+  UserUpdateAllocate,
+  UserUpdateProposal,
+} from 'lib/types';
 
-/**
- * Get all user proposals
- */
+/** Centralized query keys */
+export const userQueryKeys = {
+  proposals: (params?: ReadProposalsUsersProposalsGetParams) =>
+    ['user', 'proposals', params] as const,
+  proposal: (proposalId?: number) => ['user', 'proposal', proposalId] as const,
+
+  projects: (params?: ReadProjectsUsersProjectsGetParams) =>
+    ['user', 'projects', params] as const,
+  project: (projectId?: number) => ['user', 'project', projectId] as const,
+
+  reportsByProject: (projectId?: number) =>
+    ['user', 'reportsByProject', projectId] as const,
+  report: (reportId?: number) => ['user', 'report', reportId] as const,
+
+  allocates: (params?: GetAllocatesUsersAllocatesGetParams) =>
+    ['user', 'allocates', params] as const,
+  allocate: (allocateId?: number) => ['user', 'allocate', allocateId] as const,
+};
+
+/** ===== Proposals ===== */
+
+/** List user proposals */
 export function useUserProposals(
   params?: ReadProposalsUsersProposalsGetParams,
   options?: UseQueryOptions<ProposalResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['userProposals', params],
-    queryFn: () =>
-      getUser()
-        .readProposalsUsersProposalsGet(params)
-        .then((res) => res.data),
+    queryKey: userQueryKeys.proposals(params),
+    queryFn: async () => {
+      const res = await getUser().readProposalsUsersProposalsGet(params);
+      return res.data;
+    },
     ...options,
   });
 }
 
-/**
- * Get single user proposal by ID
- */
+/** Single user proposal */
 export function useUserProposal(
-  proposalId: number,
+  proposalId?: number,
   options?: UseQueryOptions<ProposalResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['userProposal', proposalId],
-    queryFn: () =>
-      getUser()
-        .readProposalUsersProposalsProposalIdGet(proposalId)
-        .then((res) => res.data),
-    enabled: !!proposalId,
+    queryKey: userQueryKeys.proposal(proposalId),
+    queryFn: async () => {
+      if (proposalId === undefined || proposalId === null)
+        throw new Error('proposalId is required');
+      const res = await getUser().readProposalUsersSingleProposalProposalIdGet(
+        proposalId
+      );
+      return res.data;
+    },
+    enabled: typeof proposalId === 'number',
     ...options,
   });
 }
 
-/**
- * Add new proposal
- */
-export function useAddUserProposal(
-  options?: UseMutationOptions<ProposalResponse, Error, ProposalRequest>
-) {
-  return useMutation({
-    mutationFn: (data) =>
-      getUser()
-        .addProposalUsersProposalsPost(data)
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-/**
- * Edit user proposal
- */
+/** Edit user proposal */
 export function useEditUserProposal(
   options?: UseMutationOptions<
     ProposalResponse,
     Error,
-    { proposalId: number; data: ProposalUserUpdateRequest }
+    { proposalId: number; data: UserUpdateProposal }
   >
 ) {
+  const qc = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ proposalId, data }) =>
-      getUser()
-        .editProposalUsersProposalsProposalIdPut(proposalId, data)
-        .then((res) => res.data),
+    mutationFn: async ({ proposalId, data }) => {
+      const res = await getUser().editProposalUsersProposalsProposalIdPut(
+        proposalId,
+        data
+      );
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({
+        queryKey: userQueryKeys.proposal(vars.proposalId),
+      });
+      qc.invalidateQueries({ queryKey: ['user', 'proposals'] });
+      options?.onSuccess?.(data, vars, ctx);
+    },
     ...options,
   });
 }
 
-/**
- * Get all user projects
- */
+/** ===== Projects ===== */
+
+/** List user projects */
 export function useUserProjects(
   params?: ReadProjectsUsersProjectsGetParams,
   options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['userProjects', params],
-    queryFn: () =>
-      getUser()
-        .readProjectsUsersProjectsGet(params)
-        .then((res) => res.data),
+    queryKey: userQueryKeys.projects(params),
+    queryFn: async () => {
+      const res = await getUser().readProjectsUsersProjectsGet(params);
+      return res.data;
+    },
     ...options,
   });
 }
 
-/**
- * Get single user project by ID
- */
+/** Single user project */
 export function useUserProjectById(
-  projectId: number,
-  options?: UseQueryOptions<ProjectResponse[], Error>
+  projectId?: number,
+  options?: UseQueryOptions<ProjectResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['userProjectById', projectId],
-    queryFn: () =>
-      getUser()
-        .readProjectsSingleUsersProjectsProjectIdGet(projectId)
-        .then((res) => res.data),
-    enabled: !!projectId,
+    queryKey: userQueryKeys.project(projectId),
+    queryFn: async () => {
+      if (projectId === undefined || projectId === null)
+        throw new Error('projectId is required');
+      const res = await getUser().readProjectsSingleUsersProjectsProjectIdGet(
+        projectId
+      );
+      return res.data;
+    },
+    enabled: typeof projectId === 'number',
     ...options,
   });
 }
 
-/**
- * Get reports by project ID
- */
+/** ===== Reports ===== */
+
+/** Reports by projectId */
 export function useUserReportsByProject(
-  projectId: number,
+  projectId?: number,
   options?: UseQueryOptions<ReportResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['userReportsByProject', projectId],
-    queryFn: () =>
-      getUser()
-        .readReportsByProjectIdUsersReportsByProjectProjectIdGet(projectId)
-        .then((res) => res.data),
-    enabled: !!projectId,
+    queryKey: userQueryKeys.reportsByProject(projectId),
+    queryFn: async () => {
+      if (projectId === undefined || projectId === null)
+        throw new Error('projectId is required');
+      const res =
+        await getUser().readReportsByProjectIdUsersReportsByProjectProjectIdGet(
+          projectId
+        );
+      return res.data;
+    },
+    enabled: typeof projectId === 'number',
     ...options,
   });
 }
 
-/**
- * Get single report by ID
- */
+/** Single report */
 export function useUserReport(
-  reportId: number,
-  options?: Partial<UseQueryOptions<ReportResponse, Error>>
+  reportId?: number,
+  options?: UseQueryOptions<ReportResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['userReport', reportId],
-    queryFn: () =>
-      getUser()
-        .readReportUsersReportsReportIdGet(reportId)
-        .then((res) => res.data),
-    enabled: !!reportId,
+    queryKey: userQueryKeys.report(reportId),
+    queryFn: async () => {
+      if (reportId === undefined || reportId === null)
+        throw new Error('reportId is required');
+      const res = await getUser().readReportUsersReportsReportIdGet(reportId);
+      return res.data;
+    },
+    enabled: typeof reportId === 'number',
     ...options,
   });
 }
 
-/**
- * Add new report
- */
+/** Add new report */
 export function useAddUserReport(
   options?: UseMutationOptions<ReportResponse, Error, ReportRequest>
 ) {
+  const qc = useQueryClient();
+
   return useMutation({
-    mutationFn: (data) =>
-      getUser()
-        .addReportUsersReportsPost(data)
-        .then((res) => res.data),
+    mutationFn: async (payload) => {
+      const res = await getUser().addReportUsersReportsPost(payload);
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      const projectId = (vars as any)?.projectId ?? (data as any)?.projectId;
+      if (typeof projectId === 'number') {
+        qc.invalidateQueries({
+          queryKey: userQueryKeys.reportsByProject(projectId),
+        });
+      } else {
+        qc.invalidateQueries({ queryKey: ['user', 'reportsByProject'] });
+      }
+      options?.onSuccess?.(data, vars, ctx);
+    },
     ...options,
   });
 }
 
-/**
- * Search RFPs
- */
-export function useSearchRfps(
-  params?: SearchRfpsEndpointUsersRfpsGetParams,
-  options?: UseQueryOptions<RFPResponse[], Error>
+/** ===== Allocates ===== */
+
+/** List allocates */
+export function useUserAllocates(
+  params?: GetAllocatesUsersAllocatesGetParams,
+  options?: UseQueryOptions<AllocateResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['searchRfps', params],
-    queryFn: () =>
-      getUser()
-        .searchRfpsEndpointUsersRfpsGet(params)
-        .then((res) => res.data),
+    queryKey: userQueryKeys.allocates(params),
+    queryFn: async () => {
+      const res = await getUser().getAllocatesUsersAllocatesGet(params);
+      return res.data;
+    },
+    ...options,
+  });
+}
+
+/** Single allocate */
+export function useUserAllocate(
+  allocateId?: number,
+  options?: UseQueryOptions<AllocateResponse, Error>
+) {
+  return useQuery({
+    queryKey: userQueryKeys.allocate(allocateId),
+    queryFn: async () => {
+      if (allocateId === undefined || allocateId === null)
+        throw new Error('allocateId is required');
+      const res =
+        await getUser().singleAllocateUsersSingleAllocateAllocateIdGet(
+          allocateId
+        );
+      return res.data;
+    },
+    enabled: typeof allocateId === 'number',
+    ...options,
+  });
+}
+
+/** Edit allocate */
+export function useEditUserAllocate(
+  options?: UseMutationOptions<
+    AllocateResponse,
+    Error,
+    { allocateId: number; data: UserUpdateAllocate }
+  >
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ allocateId, data }) => {
+      const res = await getUser().editAllocateUsersAllocatesAllocateIdPut(
+        allocateId,
+        data
+      );
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries({
+        queryKey: userQueryKeys.allocate(vars.allocateId),
+      });
+      qc.invalidateQueries({ queryKey: ['user', 'allocates'] });
+      options?.onSuccess?.(data, vars, ctx);
+    },
     ...options,
   });
 }

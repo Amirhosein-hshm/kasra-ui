@@ -1,1 +1,1 @@
-export { getAuthenticaton as getAuthentication } from './authentication';
+export { getAuthentication } from './authentication';

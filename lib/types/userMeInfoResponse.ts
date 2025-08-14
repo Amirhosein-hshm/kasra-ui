@@ -7,8 +7,10 @@
 import type { UserMeInfoResponseResumeFileId } from './userMeInfoResponseResumeFileId';
 import type { UserMeInfoResponseAddress } from './userMeInfoResponseAddress';
 import type { UserMeInfoResponsePhone } from './userMeInfoResponsePhone';
-import type { UserMeInfoResponseSTATECOMMISSION } from './userMeInfoResponseSTATECOMMISSION';
-import type { UserMeInfoResponseSTATEPROPOSAL } from './userMeInfoResponseSTATEPROPOSAL';
+import type { UserMeInfoResponseAllocateState } from './userMeInfoResponseAllocateState';
+import type { UserMeInfoResponseProposalState } from './userMeInfoResponseProposalState';
+import type { UserMeInfoResponseReportState } from './userMeInfoResponseReportState';
+import type { UserMeInfoResponseProjectState } from './userMeInfoResponseProjectState';
 
 export interface UserMeInfoResponse {
   id: number;
@@ -22,6 +24,9 @@ export interface UserMeInfoResponse {
   phone?: UserMeInfoResponsePhone;
   active: boolean;
   userTypeId: number;
-  STATE_COMMISSION: UserMeInfoResponseSTATECOMMISSION;
-  STATE_PROPOSAL: UserMeInfoResponseSTATEPROPOSAL;
+  notificationCount: number;
+  allocateState: UserMeInfoResponseAllocateState;
+  proposalState: UserMeInfoResponseProposalState;
+  reportState: UserMeInfoResponseReportState;
+  projectState: UserMeInfoResponseProjectState;
 }

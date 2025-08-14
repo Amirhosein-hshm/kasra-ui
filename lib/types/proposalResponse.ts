@@ -4,16 +4,25 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { RFPResponse } from './rFPResponse';
-import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
+import type { ProposalResponseAllocateId } from './proposalResponseAllocateId';
+import type { ProposalResponseSupervisorId } from './proposalResponseSupervisorId';
 import type { ProposalResponseFileId } from './proposalResponseFileId';
+import type { ProposalResponseComment } from './proposalResponseComment';
 
 export interface ProposalResponse {
   id: number;
-  info: string;
-  rfp: RFPResponse;
-  user: UserInfoLimitedResponse;
-  comment: string;
-  state: number;
-  fileId?: ProposalResponseFileId;
+  creatorId: number;
+  createdAt: string;
+  startAt: string;
+  endAt: string;
+  masterNameAndFamily: string;
+  title: string;
+  description: string;
+  RFP_id: number;
+  allocateId: ProposalResponseAllocateId;
+  supervisorId: ProposalResponseSupervisorId;
+  userId: number;
+  fileId: ProposalResponseFileId;
+  state: string;
+  comment: ProposalResponseComment;
 }

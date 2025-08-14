@@ -30,7 +30,7 @@ export default function DashboardPage() {
       title: 'RFP ها',
       src: '/backgrounds/rfps.jpg',
       action: PATHS.dashboard.rfps.root,
-      permissions: [],
+      permissions: [2],
     },
   ];
   const allowedCards = cards.filter((item) =>

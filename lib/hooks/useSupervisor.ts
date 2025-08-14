@@ -1,94 +1,112 @@
+// src/lib/hooks/supervisor.ts
 import {
   useQuery,
   useMutation,
   UseQueryOptions,
   UseMutationOptions,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { getSupervisor } from '@/lib/services';
 
 import type {
   ProjectResponse,
-  ProposalResponse,
   ReportResponse,
   ReportUpdate,
   ReadProjectsSupervisorProjectsGetParams,
-  ReadProposalsSupervisorProposalsGetParams,
-  ReadReportsSupervisorReportsGetParams,
 } from '@/lib/types';
 
-/**
- * Get all supervisor proposals
- */
-export function useSupervisorProposals(
-  params?: ReadProposalsSupervisorProposalsGetParams,
-  options?: Partial<UseQueryOptions<ProposalResponse[], Error>>
+/** Centralized query keys */
+export const supervisorQueryKeys = {
+  projects: (params?: ReadProjectsSupervisorProjectsGetParams) =>
+    ['supervisor', 'projects', params] as const,
+  project: (projectId?: number) =>
+    ['supervisor', 'project', projectId] as const,
+
+  reportsByProject: (projectId?: number) =>
+    ['supervisor', 'reportsByProject', projectId] as const,
+  report: (reportId?: number) => ['supervisor', 'report', reportId] as const,
+};
+
+/** Read projects (list) */
+export function useSupervisorProjects(
+  params?: ReadProjectsSupervisorProjectsGetParams,
+  options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['supervisorProposals', params],
-    queryFn: () =>
-      getSupervisor()
-        .readProposalsSupervisorProposalsGet(params)
-        .then((res) => res.data),
+    queryKey: supervisorQueryKeys.projects(params),
+    queryFn: async () => {
+      const res = await getSupervisor().readProjectsSupervisorProjectsGet(
+        params
+      );
+      return res.data;
+    },
     ...options,
   });
 }
 
-/**
- * Get a single proposal by ID (supervisor)
- */
-export function useSupervisorProposal(
-  proposalId: number,
-  options?: Partial<UseQueryOptions<ProposalResponse, Error>>
+/** Read single project by id */
+export function useSupervisorSingleProject(
+  projectId?: number,
+  options?: UseQueryOptions<ProjectResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['supervisorProposal', proposalId],
-    queryFn: () =>
-      getSupervisor()
-        .readProposalSupervisorProposalsProposalIdGet(proposalId)
-        .then((res) => res.data),
-    enabled: !!proposalId,
+    queryKey: supervisorQueryKeys.project(projectId),
+    queryFn: async () => {
+      if (projectId === undefined || projectId === null)
+        throw new Error('projectId is required');
+      const res =
+        await getSupervisor().readProjectsSupervisorSingleProjectProjectIdGet(
+          projectId
+        );
+      return res.data;
+    },
+    enabled: typeof projectId === 'number',
     ...options,
   });
 }
 
-/**
- * Get reports by project ID (supervisor)
- */
+/** Read reports by project id */
 export function useSupervisorReportsByProject(
-  projectId: number,
-  options?: Partial<UseQueryOptions<ReportResponse[], Error>>
+  projectId?: number,
+  options?: UseQueryOptions<ReportResponse[], Error>
 ) {
   return useQuery({
-    queryKey: ['supervisorReportsByProject', projectId],
-    queryFn: () =>
-      getSupervisor()
-        .readReportsByProjectSupervisorReportsByProjectProjectIdGet(projectId)
-        .then((res) => res.data),
-    enabled: !!projectId,
+    queryKey: supervisorQueryKeys.reportsByProject(projectId),
+    queryFn: async () => {
+      if (projectId === undefined || projectId === null)
+        throw new Error('projectId is required');
+      const res =
+        await getSupervisor().readReportsByProjectSupervisorReportsByProjectProjectIdGet(
+          projectId
+        );
+      return res.data;
+    },
+    enabled: typeof projectId === 'number',
     ...options,
   });
 }
 
-/**
- * Get all reports (supervisor)
- */
-export function useSupervisorReports(
-  params?: ReadReportsSupervisorReportsGetParams,
-  options?: Partial<UseQueryOptions<ReportResponse[], Error>>
+/** Read single report by id */
+export function useSupervisorSingleReport(
+  reportId?: number,
+  options?: UseQueryOptions<ReportResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['supervisorReports', params],
-    queryFn: () =>
-      getSupervisor()
-        .readReportsSupervisorReportsGet(params)
-        .then((res) => res.data),
+    queryKey: supervisorQueryKeys.report(reportId),
+    queryFn: async () => {
+      if (reportId === undefined || reportId === null)
+        throw new Error('reportId is required');
+      const res = await getSupervisor().readReportSupervisorSingleReportIdGet(
+        reportId
+      );
+      return res.data;
+    },
+    enabled: typeof reportId === 'number',
     ...options,
   });
 }
 
-/**
- * Edit a report (supervisor)
- */
+/** Edit a report */
 export function useEditSupervisorReport(
   options?: UseMutationOptions<
     ReportResponse,
@@ -96,62 +114,26 @@ export function useEditSupervisorReport(
     { reportId: number; data: ReportUpdate }
   >
 ) {
+  const qc = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ reportId, data }) =>
-      getSupervisor()
-        .editReportSupervisorReportsReportIdPut(reportId, data)
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-/**
- * Get all supervisor projects
- */
-export function useSupervisorProjects(
-  params?: ReadProjectsSupervisorProjectsGetParams,
-  options?: Partial<UseQueryOptions<ProjectResponse[], Error>>
-) {
-  return useQuery({
-    queryKey: ['supervisorProjects', params],
-    queryFn: () =>
-      getSupervisor()
-        .readProjectsSupervisorProjectsGet(params)
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-/**
- * Get single supervisor projects
- */
-export function useSupervisorSingleProject(
-  projectId: number,
-  options?: Partial<UseQueryOptions<ProjectResponse, Error>>
-) {
-  return useQuery({
-    queryKey: ['supervisorSingleProject', projectId],
-    queryFn: () =>
-      getSupervisor()
-        .readProjectsSupervisorSingleProjectProjectIdGet(projectId)
-        .then((res) => res.data),
-    ...options,
-  });
-}
-
-/**
- * Get single report by id
- */
-export function useSupervisorSingleReport(
-  reportId: number,
-  options?: Partial<UseQueryOptions<ReportResponse, Error>>
-) {
-  return useQuery({
-    queryKey: ['supervisorSingleReport', reportId],
-    queryFn: () =>
-      getSupervisor()
-        .readReportSupervisorSingleReportIdGet(reportId)
-        .then((res) => res.data),
+    mutationFn: async ({ reportId, data }) => {
+      const res = await getSupervisor().editReportSupervisorReportsReportIdPut(
+        reportId,
+        data
+      );
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      // تازه‌سازی گزارش تکی و لیست گزارش‌های پروژه‌ی مربوطه
+      qc.invalidateQueries({
+        queryKey: supervisorQueryKeys.report(vars.reportId),
+      });
+      // اگر payload شامل projectId نیست و توی UI می‌دونی projectId فعالی وجود داره،
+      // می‌تونی به‌جاش invalidate عمومی انجام بدی:
+      qc.invalidateQueries({ queryKey: ['supervisor', 'reportsByProject'] });
+      options?.onSuccess?.(data, vars, ctx);
+    },
     ...options,
   });
 }

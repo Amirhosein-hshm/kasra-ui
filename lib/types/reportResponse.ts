@@ -4,16 +4,21 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { ReportResponseAcceptedPercent } from './reportResponseAcceptedPercent';
 import type { ProjectResponse } from './projectResponse';
 
 export interface ReportResponse {
   id: number;
-  info: string;
-  project: ProjectResponse;
+  creatorId: number;
+  createdAt: string;
+  title: string;
   comment: string;
-  state: number;
+  state: string;
+  anouncedPercent: number;
+  acceptedPercent: ReportResponseAcceptedPercent;
+  projectId: number;
   filePdfId: number;
   fileDocxId: number;
   filePptxId: number;
-  percent: number;
+  project: ProjectResponse;
 }

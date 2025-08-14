@@ -6,119 +6,116 @@
  */
 import type {
   ProjectResponse,
-  ProposalResponse,
   ReadProjectsSupervisorProjectsGetParams,
-  ReadProposalsSupervisorProposalsGetParams,
-  ReadReportsSupervisorReportsGetParams,
   ReportResponse,
-  ReportUpdate
+  ReportUpdate,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-
-
-  export const getSupervisor = () => {
-/**
- * @summary Read Proposals
- */
-const readProposalsSupervisorProposalsGet = (
-    params?: ReadProposalsSupervisorProposalsGetParams,
- ) => {
-      return api<ProposalResponse[]>(
-      {url: `/supervisor/proposals/`, method: 'GET',
-        params
-    },
-      );
-    }
+export const getSupervisor = () => {
   /**
- * @summary Read Proposal
- */
-const readProposalSupervisorProposalsProposalIdGet = (
-    proposalId: number,
- ) => {
-      return api<ProposalResponse>(
-      {url: `/supervisor/proposals/${proposalId}`, method: 'GET'
-    },
-      );
-    }
+   * @summary Read Reports By Project
+   */
+  const readReportsByProjectSupervisorReportsByProjectProjectIdGet = (
+    projectId: number
+  ) => {
+    return api<ReportResponse[]>({
+      url: `/supervisor/reports-by-project/${projectId}`,
+      method: 'GET',
+    });
+  };
   /**
- * @summary Read Reports By Project
- */
-const readReportsByProjectSupervisorReportsByProjectProjectIdGet = (
-    projectId: number,
- ) => {
-      return api<ReportResponse[]>(
-      {url: `/supervisor/reports-by-project/${projectId}`, method: 'GET'
-    },
-      );
-    }
+   * @summary Read Report
+   */
+  const readReportSupervisorSingleReportIdGet = (id: number) => {
+    return api<ReportResponse>({
+      url: `/supervisor/single-report/${id}`,
+      method: 'GET',
+    });
+  };
   /**
- * @summary Read Report
- */
-const readReportSupervisorSingleReportIdGet = (
-    id: number,
- ) => {
-      return api<ReportResponse>(
-      {url: `/supervisor/single-report/${id}`, method: 'GET'
-    },
-      );
-    }
-  /**
- * @summary Read Reports
- */
-const readReportsSupervisorReportsGet = (
-    params?: ReadReportsSupervisorReportsGetParams,
- ) => {
-      return api<ReportResponse[]>(
-      {url: `/supervisor/reports/`, method: 'GET',
-        params
-    },
-      );
-    }
-  /**
- * @summary Edit Report
- */
-const editReportSupervisorReportsReportIdPut = (
+   * @summary Edit Report
+   */
+  const editReportSupervisorReportsReportIdPut = (
     reportId: number,
-    reportUpdate: ReportUpdate,
- ) => {
-      return api<ReportResponse>(
-      {url: `/supervisor/reports/${reportId}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: reportUpdate
-    },
-      );
-    }
+    reportUpdate: ReportUpdate
+  ) => {
+    return api<ReportResponse>({
+      url: `/supervisor/reports/${reportId}`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: reportUpdate,
+    });
+  };
   /**
- * @summary Read Projects
- */
-const readProjectsSupervisorProjectsGet = (
-    params?: ReadProjectsSupervisorProjectsGetParams,
- ) => {
-      return api<ProjectResponse[]>(
-      {url: `/supervisor/projects/`, method: 'GET',
-        params
-    },
-      );
-    }
+   * @summary Read Projects
+   */
+  const readProjectsSupervisorProjectsGet = (
+    params?: ReadProjectsSupervisorProjectsGetParams
+  ) => {
+    return api<ProjectResponse[]>({
+      url: `/supervisor/projects/`,
+      method: 'GET',
+      params,
+    });
+  };
   /**
- * @summary Read Projects
- */
-const readProjectsSupervisorSingleProjectProjectIdGet = (
-    projectId: number,
- ) => {
-      return api<ProjectResponse>(
-      {url: `/supervisor/single-project/${projectId}`, method: 'GET'
-    },
-      );
-    }
-  return {readProposalsSupervisorProposalsGet,readProposalSupervisorProposalsProposalIdGet,readReportsByProjectSupervisorReportsByProjectProjectIdGet,readReportSupervisorSingleReportIdGet,readReportsSupervisorReportsGet,editReportSupervisorReportsReportIdPut,readProjectsSupervisorProjectsGet,readProjectsSupervisorSingleProjectProjectIdGet}};
-export type ReadProposalsSupervisorProposalsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readProposalsSupervisorProposalsGet']>>>
-export type ReadProposalSupervisorProposalsProposalIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readProposalSupervisorProposalsProposalIdGet']>>>
-export type ReadReportsByProjectSupervisorReportsByProjectProjectIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readReportsByProjectSupervisorReportsByProjectProjectIdGet']>>>
-export type ReadReportSupervisorSingleReportIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readReportSupervisorSingleReportIdGet']>>>
-export type ReadReportsSupervisorReportsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readReportsSupervisorReportsGet']>>>
-export type EditReportSupervisorReportsReportIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['editReportSupervisorReportsReportIdPut']>>>
-export type ReadProjectsSupervisorProjectsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readProjectsSupervisorProjectsGet']>>>
-export type ReadProjectsSupervisorSingleProjectProjectIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSupervisor>['readProjectsSupervisorSingleProjectProjectIdGet']>>>
+   * @summary Read Projects
+   */
+  const readProjectsSupervisorSingleProjectProjectIdGet = (
+    projectId: number
+  ) => {
+    return api<ProjectResponse>({
+      url: `/supervisor/single-project/${projectId}`,
+      method: 'GET',
+    });
+  };
+  return {
+    readReportsByProjectSupervisorReportsByProjectProjectIdGet,
+    readReportSupervisorSingleReportIdGet,
+    editReportSupervisorReportsReportIdPut,
+    readProjectsSupervisorProjectsGet,
+    readProjectsSupervisorSingleProjectProjectIdGet,
+  };
+};
+export type ReadReportsByProjectSupervisorReportsByProjectProjectIdGetResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        ReturnType<
+          typeof getSupervisor
+        >['readReportsByProjectSupervisorReportsByProjectProjectIdGet']
+      >
+    >
+  >;
+export type ReadReportSupervisorSingleReportIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getSupervisor>['readReportSupervisorSingleReportIdGet']
+    >
+  >
+>;
+export type EditReportSupervisorReportsReportIdPutResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getSupervisor>['editReportSupervisorReportsReportIdPut']
+    >
+  >
+>;
+export type ReadProjectsSupervisorProjectsGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getSupervisor>['readProjectsSupervisorProjectsGet']
+    >
+  >
+>;
+export type ReadProjectsSupervisorSingleProjectProjectIdGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<
+        typeof getSupervisor
+      >['readProjectsSupervisorSingleProjectProjectIdGet']
+    >
+  >
+>;

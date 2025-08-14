@@ -4,4 +4,4 @@ export * from './explorer/explorer';
 export * from './supervisor/supervisor';
 export * from './user/user';
 export * from './file/file';
-export * from './mentor/mentor';
+export * from './researcher/researcher';

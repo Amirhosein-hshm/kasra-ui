@@ -6,6 +6,7 @@
  */
 import type {
   BodyLoginTokenPost,
+  NotificationResponse,
   RefreshTokenRefreshTokenPostParams,
   Token,
   UserInfoResponse,
@@ -13,7 +14,7 @@ import type {
 
 import { api } from '../../axios/mutator';
 
-export const getAuthenticaton = () => {
+export const getAuthentication = () => {
   /**
    * @summary Login
    */
@@ -64,24 +65,33 @@ export const getAuthenticaton = () => {
   const readUsersMeUsersMeGet = () => {
     return api<UserInfoResponse>({ url: `/users/me`, method: 'GET' });
   };
+  const readUsersMeNotifMeGet = () => {
+    return api<NotificationResponse[]>({ url: `/notif/me`, method: 'GET' });
+  };
   return {
     loginTokenPost,
     refreshTokenRefreshTokenPost,
     readUsersMeUsersMeGet,
+    readUsersMeNotifMeGet,
   };
 };
 export type LoginTokenPostResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getAuthenticaton>['loginTokenPost']>>
+  Awaited<ReturnType<ReturnType<typeof getAuthentication>['loginTokenPost']>>
 >;
 export type RefreshTokenRefreshTokenPostResult = NonNullable<
   Awaited<
     ReturnType<
-      ReturnType<typeof getAuthenticaton>['refreshTokenRefreshTokenPost']
+      ReturnType<typeof getAuthentication>['refreshTokenRefreshTokenPost']
     >
   >
 >;
 export type ReadUsersMeUsersMeGetResult = NonNullable<
   Awaited<
-    ReturnType<ReturnType<typeof getAuthenticaton>['readUsersMeUsersMeGet']>
+    ReturnType<ReturnType<typeof getAuthentication>['readUsersMeUsersMeGet']>
+  >
+>;
+export type ReadUsersMeNotifMeGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getAuthentication>['readUsersMeNotifMeGet']>
   >
 >;

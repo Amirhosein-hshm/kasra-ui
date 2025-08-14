@@ -6,11 +6,11 @@
  */
 
 export interface ReportRequest {
-  info: string;
+  title: string;
   projectId: number;
   comment: string;
   filePdfId: number;
   fileDocxId: number;
   filePptxId: number;
-  percent: number;
+  anouncedPercent: number;
 }

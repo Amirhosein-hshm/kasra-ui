@@ -5,8 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportUpdate {
-  state: string;
+export interface ExplorerUpdateProposal {
   comment: string;
-  acceptedPercent: number;
+  supervisorId: number;
 }

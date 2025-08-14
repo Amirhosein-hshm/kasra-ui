@@ -5,8 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportUpdate {
-  state: string;
-  comment: string;
-  acceptedPercent: number;
-}
+export type SearchRfpsEndpointBrokerRfpsGetParams = {
+info?: string;
+skip?: number;
+limit?: number;
+};

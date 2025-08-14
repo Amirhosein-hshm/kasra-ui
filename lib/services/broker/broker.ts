@@ -5,153 +5,105 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
-  CommissionRequest,
-  CommissionResponse,
-  GetProposalCommissionBrokerCommissionsProposalIdGetParams,
-  ProposalAllResponse,
-  ProposalSingleResponse,
-  ReadProposalsBrokerProposalsGetParams,
-  UserInfoResponse,
+  AllocateResponse,
+  BrokerCreateAllocate,
+  GetAllocatesBrokerAllocatesGetParams,
+  RFPResponse,
+  SearchRfpsEndpointBrokerRfpsGetParams,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
 export const getBroker = () => {
   /**
-   * @summary Read Proposals
+   * @summary Search Rfps Endpoint
    */
-  const readProposalsBrokerProposalsGet = (
-    params?: ReadProposalsBrokerProposalsGetParams
+  const searchRfpsEndpointBrokerRfpsGet = (
+    params?: SearchRfpsEndpointBrokerRfpsGetParams
   ) => {
-    return api<ProposalAllResponse[]>({
-      url: `/broker/proposals/`,
-      method: 'GET',
-      params,
-    });
+    return api<RFPResponse[]>({ url: `/broker/rfps/`, method: 'GET', params });
   };
   /**
-   * @summary Read Proposal
+   * @summary Search Rfps
    */
-  const readProposalBrokerProposalsProposalIdGet = (proposalId: number) => {
-    return api<ProposalSingleResponse>({
-      url: `/broker/proposals/${proposalId}`,
+  const searchRfpsBrokerSingleRfpRfpIdGet = (rfpId: number) => {
+    return api<RFPResponse>({
+      url: `/broker/single-rfp/${rfpId}`,
       method: 'GET',
     });
   };
   /**
-   * @summary Add Commission
+   * @summary Add Allocate
    */
-  const addCommissionBrokerCommissionsPost = (
-    commissionRequest: CommissionRequest
+  const addAllocateBrokerAllocatesPost = (
+    brokerCreateAllocate: BrokerCreateAllocate
   ) => {
-    return api<unknown>({
-      url: `/broker/commissions/`,
+    return api<AllocateResponse>({
+      url: `/broker/allocates/`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: commissionRequest,
+      data: brokerCreateAllocate,
     });
   };
   /**
-   * @summary Get Proposal Commission
+   * @summary Get Allocates
    */
-  const getProposalCommissionBrokerCommissionsProposalIdGet = (
-    proposalId: number,
-    params?: GetProposalCommissionBrokerCommissionsProposalIdGetParams
+  const getAllocatesBrokerAllocatesGet = (
+    params?: GetAllocatesBrokerAllocatesGetParams
   ) => {
-    return api<CommissionResponse[]>({
-      url: `/broker/commissions/${proposalId}`,
+    return api<AllocateResponse[]>({
+      url: `/broker/allocates/`,
       method: 'GET',
       params,
     });
   };
   /**
-   * @summary Read Users Master
+   * @summary Single Allocate
    */
-  const readUsersMasterBrokerUsersMasterGet = () => {
-    return api<UserInfoResponse[]>({
-      url: `/broker/users-master/`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Read Users Discoverer
-   */
-  const readUsersDiscovererBrokerUsersDiscovererGet = () => {
-    return api<UserInfoResponse[]>({
-      url: `/broker/users-discoverer/`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Read Users Supervisor
-   */
-  const readUsersSupervisorBrokerUsersSupervisorGet = () => {
-    return api<UserInfoResponse[]>({
-      url: `/broker/users-supervisor/`,
+  const singleAllocateBrokerSingleAllocateAllocateIdGet = (
+    allocateId: number
+  ) => {
+    return api<AllocateResponse>({
+      url: `/broker/single-allocate/${allocateId}`,
       method: 'GET',
     });
   };
   return {
-    readProposalsBrokerProposalsGet,
-    readProposalBrokerProposalsProposalIdGet,
-    addCommissionBrokerCommissionsPost,
-    getProposalCommissionBrokerCommissionsProposalIdGet,
-    readUsersMasterBrokerUsersMasterGet,
-    readUsersDiscovererBrokerUsersDiscovererGet,
-    readUsersSupervisorBrokerUsersSupervisorGet,
+    searchRfpsEndpointBrokerRfpsGet,
+    searchRfpsBrokerSingleRfpRfpIdGet,
+    addAllocateBrokerAllocatesPost,
+    getAllocatesBrokerAllocatesGet,
+    singleAllocateBrokerSingleAllocateAllocateIdGet,
   };
 };
-export type ReadProposalsBrokerProposalsGetResult = NonNullable<
+export type SearchRfpsEndpointBrokerRfpsGetResult = NonNullable<
   Awaited<
-    ReturnType<ReturnType<typeof getBroker>['readProposalsBrokerProposalsGet']>
+    ReturnType<ReturnType<typeof getBroker>['searchRfpsEndpointBrokerRfpsGet']>
   >
 >;
-export type ReadProposalBrokerProposalsProposalIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getBroker>['readProposalBrokerProposalsProposalIdGet']
-    >
-  >
->;
-export type AddCommissionBrokerCommissionsPostResult = NonNullable<
+export type SearchRfpsBrokerSingleRfpRfpIdGetResult = NonNullable<
   Awaited<
     ReturnType<
-      ReturnType<typeof getBroker>['addCommissionBrokerCommissionsPost']
+      ReturnType<typeof getBroker>['searchRfpsBrokerSingleRfpRfpIdGet']
     >
   >
 >;
-export type GetProposalCommissionBrokerCommissionsProposalIdGetResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getBroker
-        >['getProposalCommissionBrokerCommissionsProposalIdGet']
-      >
-    >
-  >;
-export type ReadUsersMasterBrokerUsersMasterGetResult = NonNullable<
+export type AddAllocateBrokerAllocatesPostResult = NonNullable<
   Awaited<
-    ReturnType<
-      ReturnType<typeof getBroker>['readUsersMasterBrokerUsersMasterGet']
-    >
+    ReturnType<ReturnType<typeof getBroker>['addAllocateBrokerAllocatesPost']>
   >
 >;
-export type ReadUsersDiscovererBrokerUsersDiscovererGetResult = NonNullable<
+export type GetAllocatesBrokerAllocatesGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getBroker>['getAllocatesBrokerAllocatesGet']>
+  >
+>;
+export type SingleAllocateBrokerSingleAllocateAllocateIdGetResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<
         typeof getBroker
-      >['readUsersDiscovererBrokerUsersDiscovererGet']
-    >
-  >
->;
-export type ReadUsersSupervisorBrokerUsersSupervisorGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getBroker
-      >['readUsersSupervisorBrokerUsersSupervisorGet']
+      >['singleAllocateBrokerSingleAllocateAllocateIdGet']
     >
   >
 >;

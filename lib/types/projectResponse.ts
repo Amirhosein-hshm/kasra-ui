@@ -4,15 +4,18 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { ProposalSingleResponse } from './proposalSingleResponse';
+import type { ProposalResponse } from './proposalResponse';
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 
 export interface ProjectResponse {
   id: number;
+  creatorId: number;
+  createdAt: string;
+  startAt: string;
+  endAt: string;
   title: string;
-  proposal: ProposalSingleResponse;
+  master: string;
+  proposal: ProposalResponse;
   supervisor: UserInfoLimitedResponse;
-  discoverer: UserInfoLimitedResponse;
-  master: UserInfoLimitedResponse;
-  broker: UserInfoLimitedResponse;
+  user: UserInfoLimitedResponse;
 }

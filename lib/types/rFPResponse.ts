@@ -4,12 +4,14 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { RFPFieldResponse } from './rFPFieldResponse';
 import type { RFPResponseFileId } from './rFPResponseFileId';
+import type { RFPFieldResponse } from './rFPFieldResponse';
 
 export interface RFPResponse {
   id: number;
   info: string;
-  RFP_field: RFPFieldResponse;
+  createdAt: string;
+  creatorId: number;
   fileId?: RFPResponseFileId;
+  RFP_field: RFPFieldResponse;
 }
