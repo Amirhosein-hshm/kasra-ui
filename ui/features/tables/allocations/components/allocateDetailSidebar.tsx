@@ -1,4 +1,8 @@
-import { useBrokerAllocate, useUserAllocate } from '@/lib/hooks';
+import {
+  useBrokerAllocate,
+  useUserAllocate,
+  useResearcherAllocate,
+} from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import { AllocateDetailSkeleton } from './loading/AllocateDetailsLoading';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
@@ -29,9 +33,11 @@ export function AllocateDetailSideBar({
     userTypeId!,
     selected?.id
   );
+  const { data: researcherAllocate, isLoading: researcherLoading } =
+    useResearcherAllocate(userTypeId!, selected?.id);
 
-  const data = brokerAllocate || userAllocate;
-  const isLoading = brokerLoading || userLoading;
+  const data = brokerAllocate || userAllocate || researcherAllocate;
+  const isLoading = brokerLoading || userLoading || researcherLoading;
 
   return (
     <Sidebar

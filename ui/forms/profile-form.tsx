@@ -15,11 +15,11 @@ export default function ProfileForm() {
   const loading = useMeStore((s) => s.loading);
 
   const roles = {
-    1: 'کارگذار',
+    1: 'کارگزار کسری',
     2: 'کاشف',
     3: 'کاربر عادی',
     4: 'ناظر',
-    5: 'استاد راهنما',
+    5: 'امور محققین',
   };
 
   return loading ? (

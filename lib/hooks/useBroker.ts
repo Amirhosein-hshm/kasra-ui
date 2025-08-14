@@ -5,6 +5,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query';
 import { getBroker } from '@/lib/services';
 
@@ -38,10 +39,12 @@ export function useBrokerRfps(
 ) {
   return useQuery({
     queryKey: brokerQueryKeys.rfps(params),
+    placeholderData: keepPreviousData,
     queryFn: async () => {
       const res = await getBroker().searchRfpsEndpointBrokerRfpsGet(params);
       return res.data;
     },
+
     ...options,
   });
 }
@@ -93,6 +96,7 @@ export function useBrokerAllocates(
   return useQuery({
     queryKey: brokerQueryKeys.allocates(params),
     enabled: !!userTypeId && userTypeId === 1,
+    placeholderData: keepPreviousData,
     queryFn: async () => {
       const res = await getBroker().getAllocatesBrokerAllocatesGet(params);
       return res.data;

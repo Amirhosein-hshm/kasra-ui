@@ -5,6 +5,7 @@ import {
   UseQueryOptions,
   UseMutationOptions,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query';
 import { getUser } from '@/lib/services';
 
@@ -221,6 +222,7 @@ export function useUserAllocates(
   return useQuery({
     enabled: !!userTypeId && userTypeId == 3,
     queryKey: userQueryKeys.allocates(params),
+    placeholderData: keepPreviousData,
     queryFn: async () => {
       const res = await getUser().getAllocatesUsersAllocatesGet(params);
       return res.data;
