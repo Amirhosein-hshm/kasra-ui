@@ -23,7 +23,7 @@ export default function DashboardPage() {
     {
       title: 'تخصیص ها',
       src: '/backgrounds/reports.jpg',
-      action: PATHS.dashboard.reports.root,
+      action: PATHS.dashboard.allocate.root,
       permissions: [1],
     },
     {
@@ -36,8 +36,6 @@ export default function DashboardPage() {
   const allowedCards = cards.filter((item) =>
     item.permissions.includes(userTypeId || 0)
   );
-
-  console.log(userTypeId);
 
   return (
     <div className="h-full flex justify-center lg:items-center">

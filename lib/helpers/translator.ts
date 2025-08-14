@@ -17,5 +17,6 @@ const dictionary = {
     create: 'افزودن',
     update: 'بروزرسانی',
     upload: 'بارگذاری',
+    allocates: 'تخصیص ها',
   },
 };

@@ -1,14 +1,13 @@
 'use client';
 
-import { RFPResponse } from '@/lib/types';
+import { AllocateResponse } from '@/lib/types';
 import DataTable from '@/ui/components/data-table/index';
-import { getRfpsTableColumns } from './columns';
 import { useState } from 'react';
-import { RFPDetailSideBar } from './components/rfpDetailSidebar';
-import { RFPAllocationSideBar } from './components/rfpAllocation';
+import { getAllocateTableColumns } from './columns';
+import { AllocateDetailSideBar } from './components/allocateDetailSidebar';
 
 interface Props {
-  data: RFPResponse[];
+  data: AllocateResponse[];
   pageIndex: number;
   pageSize: number;
   pageCount: number;
@@ -20,7 +19,7 @@ interface Props {
   isInitialLoading: boolean;
 }
 
-export default function RfpsTable({
+export default function AllocatesTable({
   data,
   pageIndex,
   pageSize,
@@ -32,27 +31,21 @@ export default function RfpsTable({
   isFetching,
   isInitialLoading,
 }: Props) {
-  const [selected, setSelected] = useState<RFPResponse | null>(null);
+  const [selected, setSelected] = useState<AllocateResponse | null>(null);
 
-  const [isOpenRfpDetails, setIsOpenRfpDetails] = useState(false);
+  const [isOpenAllocateDetails, setIsOpenAllocateDetails] = useState(false);
 
-  const [isOpenRfpAllocation, setIsOpenRfpAllocation] = useState(false);
-
-  const rfpsTableColumns = getRfpsTableColumns({
+  const allocatesTableColumns = getAllocateTableColumns({
     onView: (item) => {
       setSelected(item);
-      setIsOpenRfpDetails(true);
-    },
-    onOpenRfpAllocate: (item) => {
-      setIsOpenRfpAllocation(true);
-      setSelected(item);
+      setIsOpenAllocateDetails(true);
     },
   });
 
   return (
     <>
       <DataTable
-        columns={rfpsTableColumns}
+        columns={allocatesTableColumns}
         data={data}
         externalPagination={{
           pageIndex,
@@ -66,15 +59,9 @@ export default function RfpsTable({
         isFetching={isFetching}
         loading={isInitialLoading}
       />
-
-      <RFPDetailSideBar
-        open={isOpenRfpDetails}
-        onOpenChange={setIsOpenRfpDetails}
-        selected={selected}
-      />
-      <RFPAllocationSideBar
-        open={isOpenRfpAllocation}
-        onOpenChange={setIsOpenRfpAllocation}
+      <AllocateDetailSideBar
+        open={isOpenAllocateDetails}
+        onOpenChange={setIsOpenAllocateDetails}
         selected={selected}
       />
     </>

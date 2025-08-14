@@ -31,10 +31,9 @@ export const PATHS = {
     },
     rfps: {
       root: '/dashboard/rfps',
-      create: `/dashboard/rfps/create`,
-      update(id: number) {
-        return `/dashboard/rfps/update/${id}`;
-      },
+    },
+    allocate: {
+      root: '/dashboard/allocates',
     },
   },
 };

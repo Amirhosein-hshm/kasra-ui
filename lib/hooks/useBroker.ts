@@ -14,17 +14,21 @@ import type {
   GetAllocatesBrokerAllocatesGetParams,
   RFPResponse,
   SearchRfpsEndpointBrokerRfpsGetParams,
+  UserInfoResponse,
 } from 'lib/types';
 
 /** Centralized query keys */
 export const brokerQueryKeys = {
   rfps: (params?: SearchRfpsEndpointBrokerRfpsGetParams) =>
     ['broker', 'rfps', params] as const,
-  rfp: (rfpId: number | undefined) => ['broker', 'rfp', rfpId] as const,
+  rfp: (rfpId?: number) => ['broker', 'rfp', rfpId] as const,
+
   allocates: (params?: GetAllocatesBrokerAllocatesGetParams) =>
     ['broker', 'allocates', params] as const,
-  allocate: (allocateId: number | undefined) =>
+  allocate: (allocateId?: number) =>
     ['broker', 'allocate', allocateId] as const,
+
+  users: ['broker', 'users'] as const,
 };
 
 /** List/Search RFPs */
@@ -44,14 +48,15 @@ export function useBrokerRfps(
 
 /** Get single RFP by id */
 export function useBrokerRfp(
-  rfpId: number | undefined,
+  rfpId?: number,
   options?: UseQueryOptions<RFPResponse, Error>
 ) {
   return useQuery({
     queryKey: brokerQueryKeys.rfp(rfpId),
     queryFn: async () => {
-      if (!rfpId && rfpId !== 0) throw new Error('rfpId is required');
-      const res = await getBroker().searchRfpsBrokerSingleRfpRfpIdGet(rfpId!);
+      if (rfpId === undefined || rfpId === null)
+        throw new Error('rfpId is required');
+      const res = await getBroker().searchRfpsBrokerSingleRfpRfpIdGet(rfpId);
       return res.data;
     },
     enabled: typeof rfpId === 'number',
@@ -71,7 +76,7 @@ export function useAddAllocate(
       return res.data;
     },
     onSuccess: (data, variables, context) => {
-      // Invalidate allocate lists so they refetch
+      // تازه‌سازی لیست تخصیص‌ها
       qc.invalidateQueries({ queryKey: ['broker', 'allocates'] });
       options?.onSuccess?.(data, variables, context);
     },
@@ -96,21 +101,35 @@ export function useBrokerAllocates(
 
 /** Get single Allocate by id */
 export function useBrokerAllocate(
-  allocateId: number | undefined,
+  allocateId?: number,
   options?: UseQueryOptions<AllocateResponse, Error>
 ) {
   return useQuery({
     queryKey: brokerQueryKeys.allocate(allocateId),
     queryFn: async () => {
-      if (!allocateId && allocateId !== 0)
+      if (allocateId === undefined || allocateId === null)
         throw new Error('allocateId is required');
       const res =
         await getBroker().singleAllocateBrokerSingleAllocateAllocateIdGet(
-          allocateId!
+          allocateId
         );
       return res.data;
     },
     enabled: typeof allocateId === 'number',
+    ...options,
+  });
+}
+
+/** Read master users (broker/users) */
+export function useBrokerUsers(
+  options?: UseQueryOptions<UserInfoResponse[], Error>
+) {
+  return useQuery({
+    queryKey: brokerQueryKeys.users,
+    queryFn: async () => {
+      const res = await getBroker().readUsersMasterBrokerUsersGet();
+      return res.data;
+    },
     ...options,
   });
 }
