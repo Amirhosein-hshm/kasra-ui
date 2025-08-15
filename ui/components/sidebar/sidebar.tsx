@@ -81,6 +81,7 @@ export function Sidebar({
                   <Button
                     loading={isLoading}
                     className="w-full sm:w-auto flex-1"
+                    type="submit"
                     onClick={() => {
                       onSubmit();
                     }}
