@@ -77,15 +77,17 @@ export function Sidebar({
                     بستن
                   </Button>
                 </DrawerClose>
-                <Button
-                  loading={isLoading}
-                  className="w-full sm:w-auto flex-1"
-                  onClick={() => {
-                    onSubmit?.();
-                  }}
-                >
-                  ثبت
-                </Button>
+                {onSubmit && (
+                  <Button
+                    loading={isLoading}
+                    className="w-full sm:w-auto flex-1"
+                    onClick={() => {
+                      onSubmit();
+                    }}
+                  >
+                    ثبت
+                  </Button>
+                )}
               </DrawerFooter>
             )
           )}
