@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  useMentorReport,
-  useSupervisorSingleReport,
-  useUserReport,
-} from '@/lib/hooks';
+import { useUserReport } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { ReportResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
@@ -20,34 +16,14 @@ export default function Page() {
   const userInfo = useMeStore();
   const userTypeId = userInfo?.user?.userTypeId;
   const isUser = userTypeId === UserType.User;
-  const isSupervisor = userTypeId === UserType.Supervisor;
-  const isMentor = userTypeId === UserType.Mentor;
 
-  const supervisorReportQuery = useSupervisorSingleReport(reportId, {
-    enabled: isSupervisor,
-  });
-  const userReportQuery = useUserReport(reportId, {
-    enabled: isUser,
-  });
-  const mentorReportQuery = useMentorReport(reportId, {
-    enabled: isMentor,
-  });
+  const userReportQuery = useUserReport(reportId);
 
   const data: ReportResponse | null | undefined = isUser
-    ? userReportQuery.data
-    : isSupervisor
-    ? supervisorReportQuery.data
-    : isMentor
-    ? (mentorReportQuery.data as ReportResponse)
+    ? (userReportQuery.data as ReportResponse)
     : null;
 
-  const isError = isUser
-    ? userReportQuery.isError
-    : isSupervisor
-    ? supervisorReportQuery.isError
-    : isMentor
-    ? mentorReportQuery.isError
-    : null;
+  const isError = isUser ? userReportQuery.isError : null;
 
   if (isError) {
     return <ErrorView />;
@@ -56,10 +32,9 @@ export default function Page() {
   if (data)
     return (
       <SingleReportPage
-        state={data?.state}
+        state={Number(data?.state)}
         reportID={data?.id}
         projectID={data?.project?.id}
-        info={data?.info}
         fileIDs={{
           pdf: data?.filePdfId,
           word: data?.fileDocxId,

@@ -1,28 +1,21 @@
-import {
-  useAddBrokerCommission,
-  useBrokerProposalCommissions,
-  useBrokerUsersDiscoverer,
-  useBrokerUsersMaster,
-  useBrokerUsersSupervisor,
-} from '@/lib/hooks';
-import { Sidebar } from '@/ui/components/sidebar/sidebar';
-import { useForm, FormProvider } from 'react-hook-form';
-import { FormSelect } from '@/ui/components/select/select';
-import { FormInput } from '@/ui/components/input/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  commissionSchema,
-  CommissionFormValues,
-} from './commission-validation';
-import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { ProposalAllResponse } from '@/lib/types';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { ProposalResponse } from '@/lib/types';
+import { FormInput } from '@/ui/components/input/input';
+import { FormSelect } from '@/ui/components/select/select';
+import { Sidebar } from '@/ui/components/sidebar/sidebar';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import {
+  CommissionFormValues,
+  commissionSchema,
+} from './commission-validation';
 
 interface ProposalSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  selected?: ProposalAllResponse | null;
+  selected?: ProposalResponse | null;
 }
 
 export function CommissionSideBar({
@@ -30,21 +23,6 @@ export function CommissionSideBar({
   onOpenChange,
   selected,
 }: ProposalSidebarProps) {
-  const { data: master = [] } = useBrokerUsersMaster({
-    enabled: open,
-    queryKey: ['broker-users-master'],
-  });
-
-  const { data: discoverer = [] } = useBrokerUsersDiscoverer({
-    enabled: open,
-    queryKey: ['broker-users-discoverer'],
-  });
-
-  const { data: supervisor = [] } = useBrokerUsersSupervisor({
-    enabled: open,
-    queryKey: ['broker-users-supervisor'],
-  });
-
   const form = useForm<CommissionFormValues>({
     resolver: zodResolver(commissionSchema),
   });
@@ -53,24 +31,12 @@ export function CommissionSideBar({
     (s) => s.user?.['stateCommission'] as Record<string, string>
   );
 
-  const { mutateAsync, isPending } = useAddBrokerCommission();
-
   const queryClient = useQueryClient();
 
   const params = {};
 
-  const { data: commissions = [] } = useBrokerProposalCommissions(
-    selected?.id!,
-    params,
-    {
-      queryKey: ['brokerProposalCommissions', selected?.id!, params],
-      enabled: open,
-    }
-  );
-
   const onSubmit = async (data: CommissionFormValues) => {
     try {
-      await mutateAsync({ ...data, proposalId: selected?.id ?? 0 });
       onOpenChange(false);
       queryClient.invalidateQueries({
         queryKey: ['brokerProposals'],
@@ -90,7 +56,7 @@ export function CommissionSideBar({
         title={`کمیسیون ${selected?.id ?? ''}`}
         description=""
         onSubmit={form.handleSubmit(onSubmit)}
-        isLoading={isPending}
+        // isLoading={isPending}
       >
         <div className=" flex flex-col gap-3">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -105,30 +71,30 @@ export function CommissionSideBar({
               label="عنوان"
               placeholder="عنوان کمیسیون را وارد کنید"
             />
-            <FormSelect
+            {/* <FormSelect
               name="userMasterId"
               label="مدیر"
               options={master.map((u) => ({
                 value: u.id,
                 label: `${u.fname} ${u.lname}`,
               }))}
-            />
-            <FormSelect
+            /> */}
+            {/* <FormSelect
               name="userDiscovererId"
               label="کاشف"
               options={discoverer.map((u) => ({
                 value: u.id,
                 label: `${u.fname} ${u.lname}`,
               }))}
-            />
-            <FormSelect
+            /> */}
+            {/* <FormSelect
               name="userSupervisorId"
               label="ناظر"
               options={supervisor.map((u) => ({
                 value: u.id,
                 label: `${u.fname} ${u.lname}`,
               }))}
-            />
+            /> */}
             <FormInput
               name="comment"
               label="توضیحات"
@@ -138,7 +104,7 @@ export function CommissionSideBar({
             />
           </form>
 
-          {commissions.length !== 0 && (
+          {/* {commissions.length !== 0 && (
             <div className="flex flex-col gap-2 ">
               {commissions.map((commission) => (
                 <div
@@ -183,7 +149,7 @@ export function CommissionSideBar({
                 </div>
               ))}
             </div>
-          )}
+          )} */}
         </div>
       </Sidebar>
     </FormProvider>

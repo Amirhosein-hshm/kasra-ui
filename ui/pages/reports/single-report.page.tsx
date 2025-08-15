@@ -7,7 +7,6 @@ import CommentOnReportDialog from '@/ui/features/dialogs/comment-on-report.dialo
 interface Props {
   reportID: number;
   projectID: number;
-  info: string;
   fileIDs: {
     word: number;
     pdf: number;
@@ -21,7 +20,6 @@ export default function SingleReportPage({
   state,
   reportID,
   projectID,
-  info,
   fileIDs,
   comment,
 }: Props) {
@@ -49,10 +47,6 @@ export default function SingleReportPage({
           <Badge>در انتظار بررسی</Badge>
         )}
       </div>
-
-      <p>
-        <strong>اطلاعات:</strong> {info}
-      </p>
 
       <div className="flex gap-2">
         <strong>فایل های گزارش:</strong>

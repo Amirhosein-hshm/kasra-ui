@@ -58,8 +58,9 @@ export default function CommentOnReportDialog({ reportID }: Props) {
         reportId: reportID,
         data: {
           comment: data.comment,
-          state: mode === 'approve' ? 1 : 2,
-          // FIXME: add progress field
+          // FIXME:
+          state: '',
+          acceptedPercent: 0,
         },
       })
       .then(() => {

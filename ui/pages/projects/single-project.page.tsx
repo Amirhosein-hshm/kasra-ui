@@ -62,18 +62,18 @@ export default function SingleProjectPage(props: Props) {
       ? userReportsQuery.isLoading
       : false;
 
-  const isSuccess =
+  const isFetching =
     userTypeId === UserType.Supervisor
-      ? supervisorReportsQuery.isSuccess
+      ? supervisorReportsQuery.isFetching
       : userTypeId === UserType.User
-      ? userReportsQuery.isSuccess
+      ? userReportsQuery.isFetching
       : false;
 
   return (
     <div className={clsx('PageContainer')}>
       <h1 className="my-4 flex gap-2">
         {props.project.title}
-        <Badge>{(props.project.proposal.rfp as any).rfpField.title}</Badge>
+        {/* <Badge>{(props.project.proposal.rfp as any).rfpField.title}</Badge> */}
       </h1>
 
       <FileDownload disabled={!fileId} id={fileId!}>
@@ -87,6 +87,7 @@ export default function SingleProjectPage(props: Props) {
         headerAppendix={isUser && <UploadReportDialog projectId={projectId} />}
         deactivateSelection
         loading={isLoading}
+        isFetching={isFetching}
       />
     </div>
   );

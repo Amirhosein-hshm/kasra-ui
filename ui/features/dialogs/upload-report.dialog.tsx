@@ -96,14 +96,15 @@ export function UploadReportDialog({ projectId }: Props) {
           return;
         }
 
+        // FIXME:
         addReport
           .mutateAsync({
             fileDocxId: ids.word,
             filePdfId: ids.pdf,
             filePptxId: ids.powerpoint,
             comment: '',
-            info: data.description,
-            percent: data.progress[0],
+            title: data.description,
+            anouncedPercent: data.progress[0],
             projectId,
           })
           .then(() => {

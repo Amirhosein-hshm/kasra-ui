@@ -14,6 +14,7 @@ interface Props {
   setPageSize: (size: number) => void;
   search: string;
   setSearch: (v: string) => void;
+  isFetching: boolean;
 }
 
 export default function ProjectsTable({
@@ -25,6 +26,7 @@ export default function ProjectsTable({
   setPageSize,
   search,
   setSearch,
+  isFetching,
 }: Props) {
   const [openProjectDetail, setOpenProjectDetail] = useState(false);
   const [selected, setSelected] = useState<ProjectResponse | null>(null);
@@ -53,6 +55,7 @@ export default function ProjectsTable({
       }}
       search={search}
       setSearch={setSearch}
+      isFetching={isFetching}
     />
   );
 }

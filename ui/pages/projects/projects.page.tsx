@@ -38,6 +38,13 @@ export default function ProjectsPage() {
       ? userProjectsQuery.isLoading
       : false;
 
+  const isFetching =
+    userTypeId === UserType.Supervisor
+      ? supervisorProjectsQuery.isFetching
+      : userTypeId === UserType.User
+      ? userProjectsQuery.isFetching
+      : false;
+
   const total = 30;
 
   if (isLoading || !data) return <TableSkeleton />;
@@ -52,6 +59,7 @@ export default function ProjectsPage() {
       setPageSize={() => {}}
       search={info}
       setSearch={setInfo}
+      isFetching={isFetching}
     />
   );
 }

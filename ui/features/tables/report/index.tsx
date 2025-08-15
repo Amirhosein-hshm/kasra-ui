@@ -17,6 +17,7 @@ interface Props {
   headerAppendix?: ReactNode;
   deactivateSelection?: boolean;
   loading?: boolean;
+  isFetching: boolean;
 }
 
 export default function ReportsTable({
@@ -26,6 +27,7 @@ export default function ReportsTable({
   headerAppendix,
   deactivateSelection,
   loading,
+  isFetching,
 }: Props) {
   const router = useRouter();
 
@@ -45,6 +47,7 @@ export default function ReportsTable({
       setSearch={search?.setSearch}
       headerAppendix={headerAppendix}
       loading={loading}
+      isFetching={isFetching}
     />
   );
 }

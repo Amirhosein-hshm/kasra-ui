@@ -117,33 +117,7 @@ export function getProjectsTableColumns(
     {
       header: 'استاد راهنما',
       cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.master.fname + ' ' + row.original.master.lname}
-          </div>
-        );
-      },
-    },
-    {
-      header: 'کاشف',
-      cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.discoverer.fname +
-              ' ' +
-              row.original.discoverer.lname}
-          </div>
-        );
-      },
-    },
-    {
-      header: 'کارگزار',
-      cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.broker.fname + ' ' + row.original.broker.lname}
-          </div>
-        );
+        return <div className="hover:underline">{row.original.master}</div>;
       },
     },
   ];
