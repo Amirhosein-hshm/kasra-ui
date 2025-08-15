@@ -6,6 +6,7 @@ import {
   useBrokerAllocates,
   useUserAllocates,
   useResearcherAllocates,
+  useExplorerAllocates,
 } from '@/lib/hooks';
 import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import AllocatesTable from '@/ui/features/tables/allocations';
@@ -68,9 +69,15 @@ export default function AllocatePage() {
 
   const researcherQ = useResearcherAllocates(userTypeId!, queryParams);
 
-  const data = brokerQ.data || userQ.data || researcherQ.data;
+  const explorerQ = useExplorerAllocates(userTypeId!, queryParams);
+
+  const data = brokerQ.data || userQ.data || researcherQ.data || explorerQ.data;
   const isInitialLoading =
-    (brokerQ.isLoading || userQ.isLoading || researcherQ.isLoading) && !data;
+    (brokerQ.isLoading ||
+      userQ.isLoading ||
+      researcherQ.isLoading ||
+      explorerQ.isLoading) &&
+    !data;
 
   const total = 30;
 
@@ -85,7 +92,10 @@ export default function AllocatePage() {
       search={searchInput}
       setSearch={setSearchInput}
       isFetching={
-        brokerQ.isFetching || userQ.isFetching || researcherQ.isFetching
+        brokerQ.isFetching ||
+        userQ.isFetching ||
+        researcherQ.isFetching ||
+        explorerQ.isFetching
       }
       isInitialLoading={isInitialLoading}
     />

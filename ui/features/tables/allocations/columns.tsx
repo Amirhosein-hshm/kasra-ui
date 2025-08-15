@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal, Eye, Edit } from 'lucide-react';
+import { MoreHorizontal, Eye, Edit, CheckCheck, UserPlus } from 'lucide-react';
 import { AllocateResponse } from '@/lib/types/';
 import { Button } from '@/ui/components/button';
 import {
@@ -20,6 +20,7 @@ const dropdownMenuItemClassname = 'cursor-pointer';
 interface ColumnOptions {
   onView?: (allocate: AllocateResponse) => void;
   onOpenAddProjectTitle?: (allocate: AllocateResponse) => void;
+  onOpenConfrimeAllocate?: (allocate: AllocateResponse) => void;
 }
 
 export function getAllocateTableColumns(
@@ -86,6 +87,24 @@ export function getAllocateTableColumns(
                   className={dropdownMenuItemClassname}
                 >
                   <Edit /> ساخت موضوع پروژه
+                </DropdownMenuItem>
+              )}
+
+              {userTypeId === 5 && (
+                <DropdownMenuItem
+                  onClick={() => options?.onOpenConfrimeAllocate?.(allocate)}
+                  className={dropdownMenuItemClassname}
+                >
+                  <CheckCheck /> تایید موضوع
+                </DropdownMenuItem>
+              )}
+
+              {userTypeId === 2 && (
+                <DropdownMenuItem
+                  onClick={() => options?.onOpenConfrimeAllocate?.(allocate)}
+                  className={dropdownMenuItemClassname}
+                >
+                  <UserPlus /> انتخاب استاد راهنما
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

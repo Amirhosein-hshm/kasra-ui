@@ -52,34 +52,34 @@ export function AllocateDetailSideBar({
           <div className="rounded-lg border p-4 space-y-2">
             <div className="flex justify-between items-center">
               <span className="font-medium">rfp عنوان</span>
-              <span className="text-right break-all">{selected?.rfp.info}</span>
+              <span className="text-right break-all">{data?.rfp.info}</span>
             </div>
             {/* @ts-ignore */}
-            {selected?.rfp.rfpField?.title && (
+            {data?.rfp.rfpField?.title && (
               <div className="flex justify-between items-center">
                 <span className="font-medium"> rfp دسته بندی</span>
                 <span className="text-right break-all">
                   {/* @ts-ignore */}
-                  {selected?.rfp.rfpField?.title}
+                  {data?.rfp.rfpField?.title}
                 </span>
               </div>
             )}
             <div className="flex justify-between items-center">
               <span className="font-medium"> rfp ثبت کننده</span>
               <span className="text-right break-all">
-                {getFullName(selected?.rfp.creator!)}
+                {getFullName(data?.rfp.creator!)}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="font-medium"> rfp تاریخ ثبت</span>
               <span className="text-right break-all">
-                {toJalaliYMD(selected?.rfp.createdAt!)}
+                {toJalaliYMD(data?.rfp.createdAt!)}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="font-medium">تخصیص یافته به</span>
               <span className="text-right break-all">
-                {getFullName(selected?.allocatedToUser!)}
+                {getFullName(data?.allocatedToUser!)}
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -90,16 +90,34 @@ export function AllocateDetailSideBar({
             <div className="flex justify-between items-center">
               <span className="font-medium"> تخصیص دهنده</span>
               <span className="text-right break-all">
-                {getFullName(selected?.rfp.creator!)}
+                {getFullName(data?.rfp.creator!)}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="font-medium"> تاریخ تخصیص</span>
               <span className="text-right break-all">
-                {toJalaliYMD(selected?.rfp.createdAt!)}
+                {toJalaliYMD(data?.rfp.createdAt!)}
               </span>
             </div>
           </div>
+
+          {data.projectTitle && (
+            <div className="rounded-lg border p-4 space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">موضوع پروژه</span>
+                <span className="text-right break-all">
+                  {data?.projectTitle}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="font-medium">توضیحات پروژه</span>
+                <span className="text-right break-all">
+                  {data?.projectDescription}
+                </span>
+              </div>
+            </div>
+          )}
           <FileDownloadLink id={data.rfp.fileId!} />
         </div>
       ) : (

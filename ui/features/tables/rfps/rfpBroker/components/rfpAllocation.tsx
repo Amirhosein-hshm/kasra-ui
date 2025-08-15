@@ -37,7 +37,7 @@ export function RFPAllocationSideBar({
       await mutateAsync({
         allocatedToUserId: data.allocatedToUserId,
         // @ts-ignore
-        RFP_id: selected?.rfpField.id!,
+        RFP_id: selected?.id!,
       });
       onOpenChange(false);
       form.reset();

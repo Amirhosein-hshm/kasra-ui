@@ -24,7 +24,7 @@ export default function DashboardPage() {
       title: 'تخصیص ها',
       src: '/backgrounds/reports.jpg',
       action: PATHS.dashboard.allocate.root,
-      permissions: [1, 3, 5],
+      permissions: [1, 2, 3, 5],
     },
     {
       title: 'RFP ها',

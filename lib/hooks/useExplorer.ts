@@ -202,11 +202,14 @@ export function useEditExplorerProposal(
 
 /** List Allocates */
 export function useExplorerAllocates(
+  userTypeId: number,
   params?: GetAllocatesExplorerAllocatesGetParams,
   options?: UseQueryOptions<AllocateResponse[], Error>
 ) {
   return useQuery({
     queryKey: explorerQueryKeys.allocates(params),
+    placeholderData: keepPreviousData,
+    enabled: userTypeId == 2,
     queryFn: async () => {
       const res = await getExplorer().getAllocatesExplorerAllocatesGet(params);
       return res.data;
