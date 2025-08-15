@@ -1,7 +1,6 @@
 'use client';
 
-import { ProposalResponse } from 'lib/types/proposalResponse';
-import { ColumnDef } from '@tanstack/react-table';
+import { Button } from '@/ui/components/button';
 import { Checkbox } from '@/ui/components/checkbox';
 import {
   DropdownMenu,
@@ -11,28 +10,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
-import { Button } from '@/ui/components/button';
-import {
-  ArrowUpDown,
-  Edit,
-  Eye,
-  MoreHorizontal,
-  Trash,
-  FileText,
-} from 'lucide-react';
-import { ProposalAllResponse } from '@/lib/types';
+import { ColumnDef } from '@tanstack/react-table';
+import { ProposalResponse } from 'lib/types/proposalResponse';
+import { ArrowUpDown, Edit, Eye, FileText, MoreHorizontal } from 'lucide-react';
 
 interface ColumnOptions {
-  onOpenCommission?: (proposal: ProposalAllResponse) => void;
-  onOpenProposalDetail?: (proposal: ProposalAllResponse) => void;
-  onEditProposal?: (proposal: ProposalAllResponse) => void;
+  onOpenCommission?: (proposal: ProposalResponse) => void;
+  onOpenProposalDetail?: (proposal: ProposalResponse) => void;
+  onEditProposal?: (proposal: ProposalResponse) => void;
 }
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
 export function getProposalsTableColumns(
   userRoleId: number,
   options?: ColumnOptions
-): ColumnDef<ProposalAllResponse>[] {
+): ColumnDef<ProposalResponse>[] {
   return [
     {
       id: 'select',
@@ -136,12 +128,12 @@ export function getProposalsTableColumns(
 const getProposalTableFiles = (userRoleId: number) => {
   const proposalsTableFields = [
     {
-      accessorKey: 'info',
+      accessorKey: 'title',
       header: 'عنوان',
     },
     {
-      accessorKey: 'rfpId',
-      header: 'شناسه RFP',
+      accessorKey: 'masterNameAndFamily',
+      header: 'استاد راهنما',
     },
     {
       accessorKey: 'comment',
@@ -150,11 +142,6 @@ const getProposalTableFiles = (userRoleId: number) => {
     {
       accessorKey: 'state',
       header: 'وضعیت',
-    },
-
-    {
-      accessorKey: 'rfp.info',
-      header: 'عنوان RFP',
     },
     {
       accessorKey: 'rfp.rfpField.title',
@@ -174,7 +161,7 @@ const getProposalTableFiles = (userRoleId: number) => {
     );
   }
   if (userRoleId === 3) {
-    const fields = ['info', 'rfp.info', 'rfp.rfpField.title'];
+    const fields = ['title', 'state', 'masterNameAndFamily'];
     return proposalsTableFields.filter((field) =>
       fields.includes(field.accessorKey)
     );

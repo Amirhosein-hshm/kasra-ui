@@ -1,19 +1,15 @@
 'use client';
 
-import DataTable from '@/ui/components/data-table/index';
-import { getProposalsTableColumns } from './columns';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { ProposalResponse } from '@/lib/types';
+import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
-import { CommissionSideBar } from './components/commission-sidebar';
-import { ProposalDetailSideBar } from './components/proposal-detail';
-import { Button } from '@/ui/components/button';
-import { AddProposalSideBar } from './components/add-proposal-sidebar';
+import { getProposalsTableColumns } from './columns';
 import { EditProposalSideBar } from './components/edit-proposal-sidebar';
-import { UserType } from '@/lib/types/UserType.enum';
-import { ProposalAllResponse } from '@/lib/types';
+import { ProposalDetailSideBar } from './components/proposal-detail';
 
 interface Props {
-  data: ProposalAllResponse[];
+  data: ProposalResponse[];
   pageIndex: number;
   pageSize: number;
   pageCount: number;
@@ -21,6 +17,7 @@ interface Props {
   setPageSize: (size: number) => void;
   search: string;
   setSearch: (v: string) => void;
+  isFetching: boolean;
 }
 
 export default function ProposalsTable({
@@ -32,6 +29,7 @@ export default function ProposalsTable({
   setPageSize,
   search,
   setSearch,
+  isFetching,
 }: Props) {
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
@@ -40,7 +38,7 @@ export default function ProposalsTable({
   const [openAddProposal, setOpenAddProposal] = useState(false);
   const [openEditProposal, setOpenEditProposal] = useState(false);
 
-  const [selected, setSelected] = useState<ProposalAllResponse | null>(null);
+  const [selected, setSelected] = useState<ProposalResponse | null>(null);
 
   const proposalsTableColumns = getProposalsTableColumns(userTypeId!, {
     onOpenCommission: (item) => {
@@ -71,27 +69,17 @@ export default function ProposalsTable({
         }}
         search={search}
         setSearch={setSearch}
-        headerAppendix={
-          userTypeId === UserType.User && (
-            <Button onClick={() => setOpenAddProposal(true)}>
-              افزودن پروپوزال
-            </Button>
-          )
-        }
+        isFetching={isFetching}
       />
-      <CommissionSideBar
+      {/* <CommissionSideBar
         open={openCommission}
         onOpenChange={setOpenCommission}
         selected={selected}
-      />
+      /> */}
       <ProposalDetailSideBar
         open={openProposalDetail}
         onOpenChange={setOpenProposalDetail}
         selected={selected}
-      />
-      <AddProposalSideBar
-        open={openAddProposal}
-        onOpenChange={() => setOpenAddProposal(false)}
       />
 
       <EditProposalSideBar

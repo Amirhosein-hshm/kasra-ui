@@ -1,30 +1,25 @@
-import {
-  useEditUserProposal,
-  useSearchRfps,
-  useUserProposal,
-} from '@/lib/hooks';
-import { Sidebar } from '@/ui/components/sidebar/sidebar';
-import { useForm, FormProvider } from 'react-hook-form';
-import { FormSelect } from '@/ui/components/select/select';
-import { FormInput } from '@/ui/components/input/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useEditUserProposal, useUserProposal } from '@/lib/hooks';
+import { ProposalResponse } from '@/lib/types';
 import { FileUpload } from '@/ui/components/file-upload';
+import { FormInput } from '@/ui/components/input/input';
+import { Sidebar } from '@/ui/components/sidebar/sidebar';
+import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { IconX } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   ProposalUpdateFormValues,
   proposalUpdateSchema,
 } from './edit-proposal-validation';
-import { IconX } from '@tabler/icons-react';
 import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
-import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
-import { ProposalAllResponse } from '@/lib/types';
 
 interface ProposalSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  selected?: ProposalAllResponse | null;
+  selected?: ProposalResponse | null;
 }
 
 export function EditProposalSideBar({
@@ -32,14 +27,6 @@ export function EditProposalSideBar({
   onOpenChange,
   selected,
 }: ProposalSidebarProps) {
-  const { data: rfps = [] } = useSearchRfps(
-    {},
-    {
-      enabled: open,
-      queryKey: ['broker-users-supervisor'],
-    }
-  );
-
   const form = useForm<ProposalUpdateFormValues>({
     resolver: zodResolver(proposalUpdateSchema),
   });
@@ -51,13 +38,6 @@ export function EditProposalSideBar({
     queryKey: ['userProposal', selected?.id],
   });
 
-  useEffect(() => {
-    if (data) {
-      form.setValue('RFP_id', data.rfp.id);
-      form.setValue('info', data.info);
-    }
-  }, [data]);
-
   const removeExistingFile = () => setFileId(null);
 
   const { mutateAsync, isPending } = useEditUserProposal();
@@ -68,7 +48,8 @@ export function EditProposalSideBar({
     try {
       await mutateAsync({
         proposalId: selected?.id ?? 0,
-        data: { info: data.info!, RFP_id: data.RFP_id!, fileId },
+        // FIXME:
+        data: { startAt: '', endAt: '', fileId: 1 },
       });
       onOpenChange(false);
       queryClient.invalidateQueries();
@@ -85,11 +66,8 @@ export function EditProposalSideBar({
   };
 
   useEffect(() => {
-    form.reset({
-      info: selected?.info,
-      RFP_id: selected?.rfp.id,
-    });
-    setFileId(selected?.rfp.fileId ?? null);
+    form.reset();
+    setFileId(null);
   }, [selected, form]);
 
   return (
@@ -108,15 +86,6 @@ export function EditProposalSideBar({
               name="info"
               label="عنوان"
               placeholder="عنوان کمیسیون را وارد کنید"
-            />
-            <FormSelect
-              name="RFP_id"
-              placeholder="وضعیت را انتخاب کنید"
-              label="وضعیت"
-              options={rfps.map((u) => ({
-                value: u.id,
-                label: `${u.info}`,
-              }))}
             />
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
