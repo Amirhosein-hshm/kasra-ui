@@ -2,15 +2,11 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, Suspense } from 'react';
-import {
-  useBrokerProposals,
-  useSupervisorProposals,
-  useUserProposals,
-} from '@/lib/hooks';
+import { useUserProposals } from '@/lib/hooks';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProposalsTable from '@/ui/features/tables/proposals';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { useDebounce } from '@/lib/utils/hooks/useDebounce';
+import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import { UserType } from '@/lib/types/UserType.enum';
 
 function ProposalsPageContent() {
@@ -32,7 +28,7 @@ function ProposalsPageContent() {
   const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
   const [info, setInfo] = useState(infoFromUrl);
 
-  const infoDebounce = useDebounce(info, 500);
+  const infoDebounce = useDebounced(info, 500);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -54,31 +50,15 @@ function ProposalsPageContent() {
     [pageIndex, pageSize, infoDebounce]
   );
 
-  const brokerQ = useBrokerProposals(queryParams, {
-    enabled: userTypeId == UserType.Broker,
-    queryKey: ['brokerProposals', queryParams],
-  });
-
   const userQ = useUserProposals(queryParams, {
     enabled: userTypeId == UserType.User,
     queryKey: ['userProposals', queryParams],
   });
 
-  const supervisorQ = useSupervisorProposals(queryParams, {
-    enabled: userTypeId === UserType.Supervisor,
-    queryKey: ['supervisorProposals', queryParams],
-  });
-  const data =
-    userTypeId === UserType.Supervisor
-      ? supervisorQ.data
-      : userTypeId === UserType.Broker
-      ? brokerQ.data
-      : userQ.data;
+  const data = userQ.data;
 
-  const isLoading =
-    userTypeId === UserType.Supervisor
-      ? supervisorQ.isLoading
-      : brokerQ.isLoading;
+  const isLoading = userQ.isLoading;
+  const isFetching = userQ.isFetching;
   const total = 30;
 
   if (isLoading || !data) return <TableSkeleton />;
@@ -93,6 +73,7 @@ function ProposalsPageContent() {
       setPageSize={() => {}}
       search={info}
       setSearch={setInfo}
+      isFetching={isFetching}
     />
   );
 }

@@ -1,7 +1,6 @@
 import { useEditUserProposal, useUserProposal } from '@/lib/hooks';
 import { ProposalResponse } from '@/lib/types';
 import { FileUpload } from '@/ui/components/file-upload';
-import { FormInput } from '@/ui/components/input/input';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +14,7 @@ import {
   proposalUpdateSchema,
 } from './edit-proposal-validation';
 import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
+import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -33,7 +33,7 @@ export function EditProposalSideBar({
 
   const [fileId, setFileId] = useState<number | null>(null);
 
-  const { data, isLoading } = useUserProposal(selected?.id ?? 0, {
+  const { isLoading } = useUserProposal(selected?.id ?? 0, {
     enabled: !!selected?.id,
     queryKey: ['userProposal', selected?.id],
   });
@@ -45,18 +45,26 @@ export function EditProposalSideBar({
   const queryClient = useQueryClient();
 
   const onSubmit = async (data: ProposalUpdateFormValues) => {
+    console.log('clicked');
+    if (!fileId) {
+      toast.error('بارگذاری فایل پروپوزال اجباری است');
+      return;
+    }
     try {
       await mutateAsync({
         proposalId: selected?.id ?? 0,
-        // FIXME:
-        data: { startAt: '', endAt: '', fileId: 1 },
+        data: {
+          startAt: data.startAt.toISOString(),
+          endAt: data.endAt.toISOString(),
+          fileId,
+        },
       });
       onOpenChange(false);
       queryClient.invalidateQueries();
       form.reset();
-      toast.success('پروپوزال با موفقیت ویرایش شد');
+      toast.success('پروپوزال با موفقیت تکمیل شد');
     } catch (e) {
-      toast.error('خطا در ویرایش پروپوزال');
+      toast.error('خطا در تکمیل پروپوزال');
     }
   };
 
@@ -82,11 +90,33 @@ export function EditProposalSideBar({
       >
         {!isLoading ? (
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormInput
-              name="info"
-              label="عنوان"
-              placeholder="عنوان کمیسیون را وارد کنید"
-            />
+            <div className="flex flex-col gap-1">
+              <div className="text-red-400 font-light text-sm">
+                {form.formState.errors.startAt?.message}
+              </div>
+              <div className="flex items-center gap-2">
+                <label>تاریخ شروع: </label>
+                <PersianDatePicker
+                  onChange={(date) => {
+                    form.setValue('startAt', date.toDate());
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="text-red-400 font-light text-sm">
+                {form.formState.errors.endAt?.message}
+              </div>
+              <div className="flex items-center gap-2">
+                <label>تاریخ پایان: </label>
+                <PersianDatePicker
+                  onChange={(date) => {
+                    form.setValue('endAt', date.toDate());
+                  }}
+                />
+              </div>
+            </div>
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
                 <FileDownloadLink id={fileId!} />
@@ -102,7 +132,7 @@ export function EditProposalSideBar({
             ) : (
               <FileUpload
                 onUploadComplete={handleUploadComplete}
-                title="بارگذاری فایل جدید RFP"
+                title="بارگذاری فایل پروپوزال"
               />
             )}
           </form>

@@ -101,7 +101,7 @@ export function getProposalsTableColumns(
                   onClick={() => options?.onEditProposal?.(proposal)}
                   className={dropdownMenuItemClassname}
                 >
-                  ویرایش <Edit color="var(--color-blue-primary)" />
+                  تکمیل پروپوزال <Edit color="var(--color-blue-primary)" />
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

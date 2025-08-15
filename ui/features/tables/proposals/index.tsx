@@ -35,7 +35,6 @@ export default function ProposalsTable({
 
   const [openProposalDetail, setOpenProposalDetail] = useState(false);
   const [openCommission, setOpenCommission] = useState(false);
-  const [openAddProposal, setOpenAddProposal] = useState(false);
   const [openEditProposal, setOpenEditProposal] = useState(false);
 
   const [selected, setSelected] = useState<ProposalResponse | null>(null);
