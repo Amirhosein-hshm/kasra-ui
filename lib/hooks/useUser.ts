@@ -1,4 +1,3 @@
-// src/lib/hooks/user.ts
 import {
   useQuery,
   useMutation,
