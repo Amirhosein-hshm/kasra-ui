@@ -31,21 +31,38 @@ export function EditProposalSideBar({
     resolver: zodResolver(proposalUpdateSchema),
   });
 
+  const [disableUpdate, setDisableUpdate] = useState(false);
   const [fileId, setFileId] = useState<number | null>(null);
 
-  const { isLoading } = useUserProposal(selected?.id ?? 0, {
+  const { data, isLoading } = useUserProposal(selected?.id ?? 0, {
     enabled: !!selected?.id,
     queryKey: ['userProposal', selected?.id],
   });
 
-  const removeExistingFile = () => setFileId(null);
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        startAt: data.startAt ? new Date(data.startAt) : undefined,
+        endAt: data.endAt ? new Date(data.endAt) : undefined,
+      });
+      if (data.fileId) {
+        setFileId(data.fileId);
+        setDisableUpdate(true);
+      }
+    }
+  }, [data]);
+
+  // FIXME: database cleanup
+  const removeExistingFile = () => {
+    if (!disableUpdate) setFileId(null);
+  };
 
   const { mutateAsync, isPending } = useEditUserProposal();
 
   const queryClient = useQueryClient();
 
   const onSubmit = async (data: ProposalUpdateFormValues) => {
-    console.log('clicked');
+    if (disableUpdate) return;
     if (!fileId) {
       toast.error('بارگذاری فایل پروپوزال اجباری است');
       return;
@@ -97,9 +114,12 @@ export function EditProposalSideBar({
               <div className="flex items-center gap-2">
                 <label>تاریخ شروع: </label>
                 <PersianDatePicker
+                  initialValue={form.watch('startAt')}
                   onChange={(date) => {
+                    if (disableUpdate) return;
                     form.setValue('startAt', date.toDate());
                   }}
+                  disabled={disableUpdate}
                 />
               </div>
             </div>
@@ -111,9 +131,12 @@ export function EditProposalSideBar({
               <div className="flex items-center gap-2">
                 <label>تاریخ پایان: </label>
                 <PersianDatePicker
+                  initialValue={form.watch('endAt')}
                   onChange={(date) => {
+                    if (disableUpdate) return;
                     form.setValue('endAt', date.toDate());
                   }}
+                  disabled={disableUpdate}
                 />
               </div>
             </div>
