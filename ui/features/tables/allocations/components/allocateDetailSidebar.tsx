@@ -2,6 +2,7 @@ import {
   useBrokerAllocate,
   useUserAllocate,
   useResearcherAllocate,
+  useExplorerAllocate,
 } from '@/lib/hooks';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import { AllocateDetailSkeleton } from './loading/AllocateDetailsLoading';
@@ -36,8 +37,13 @@ export function AllocateDetailSideBar({
   const { data: researcherAllocate, isLoading: researcherLoading } =
     useResearcherAllocate(userTypeId!, selected?.id);
 
-  const data = brokerAllocate || userAllocate || researcherAllocate;
-  const isLoading = brokerLoading || userLoading || researcherLoading;
+  const { data: explorerAllocate, isLoading: explorerLoading } =
+    useExplorerAllocate(userTypeId!, selected?.id);
+
+  const data =
+    brokerAllocate || userAllocate || researcherAllocate || explorerAllocate;
+  const isLoading =
+    brokerLoading || userLoading || researcherLoading || explorerLoading;
 
   return (
     <Sidebar

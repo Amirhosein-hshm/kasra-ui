@@ -14,6 +14,7 @@ import type {
   AllocateResponse,
   BrokerUpdateAllocate,
   ExplorerCreateUpdateRFP,
+  ExplorerUpdateAllocate,
   ExplorerUpdateProposal,
   GetAllocatesExplorerAllocatesGetParams,
   ProposalResponse,
@@ -220,6 +221,7 @@ export function useExplorerAllocates(
 
 /** Single Allocate */
 export function useExplorerAllocate(
+  userTypeId: number,
   allocateId?: number,
   options?: UseQueryOptions<AllocateResponse, Error>
 ) {
@@ -234,7 +236,7 @@ export function useExplorerAllocate(
         );
       return res.data;
     },
-    enabled: typeof allocateId === 'number',
+    enabled: typeof allocateId === 'number' && userTypeId == 2,
     ...options,
   });
 }
@@ -244,7 +246,7 @@ export function useEditExplorerAllocate(
   options?: UseMutationOptions<
     AllocateResponse,
     Error,
-    { allocateId: number; payload: BrokerUpdateAllocate }
+    { allocateId: number; payload: ExplorerUpdateAllocate }
   >
 ) {
   const qc = useQueryClient();
@@ -259,8 +261,7 @@ export function useEditExplorerAllocate(
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {
-      // تازه‌سازی لیست و آیتم تخصیص
-      qc.invalidateQueries({ queryKey: explorerQueryKeys.allocates() });
+      qc.invalidateQueries({ queryKey: ['explorer', 'allocates'] });
       qc.invalidateQueries({
         queryKey: explorerQueryKeys.allocate(vars.allocateId),
       });

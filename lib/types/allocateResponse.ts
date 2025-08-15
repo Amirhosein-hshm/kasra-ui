@@ -6,6 +6,7 @@
  */
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { RFPResponse } from './rFPResponse';
+import type { AllocateResponseMaster } from './allocateResponseMaster';
 import type { AllocateResponseProjectTitle } from './allocateResponseProjectTitle';
 import type { AllocateResponseProjectDescription } from './allocateResponseProjectDescription';
 
@@ -16,6 +17,7 @@ export interface AllocateResponse {
   creator: UserInfoLimitedResponse;
   rfp: RFPResponse;
   allocatedToUser: UserInfoLimitedResponse;
+  master: AllocateResponseMaster;
   projectTitle: AllocateResponseProjectTitle;
   projectDescription: AllocateResponseProjectDescription;
   state: string;

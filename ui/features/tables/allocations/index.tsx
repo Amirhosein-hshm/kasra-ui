@@ -11,6 +11,7 @@ import Modal from '@/ui/components/modal/modal';
 import { Button } from '@/ui/components/button';
 import { useEditResearcherAllocate } from '@/lib/hooks';
 import { toast } from 'sonner';
+import { AddMasterAllocateSideBar } from './components/addMasterAllocateMaster';
 
 interface Props {
   data: AllocateResponse[];
@@ -44,6 +45,9 @@ export default function AllocatesTable({
   const [isOpenAddProjectTitle, setIsOpenAddProjectTitle] = useState(false);
 
   const [isOpenConfirmeAllocate, setIsOpenConfirmeAllocate] = useState(false);
+
+  const [isOpenAddMasterToAllocate, setIsOpenAddMasterToAllocate] =
+    useState(false);
 
   const handleCloseConfrimeAllocate = () => {
     setIsOpenConfirmeAllocate(false);
@@ -95,6 +99,11 @@ export default function AllocatesTable({
       setSelected(item);
       setIsOpenConfirmeAllocate(true);
     },
+
+    onOpenAddMasterToAllocate: (item) => {
+      setSelected(item);
+      setIsOpenAddMasterToAllocate(true);
+    },
   });
 
   return (
@@ -122,6 +131,11 @@ export default function AllocatesTable({
       <AddProjectTitleSideBar
         onOpenChange={setIsOpenAddProjectTitle}
         open={isOpenAddProjectTitle}
+        selected={selected}
+      />
+      <AddMasterAllocateSideBar
+        onOpenChange={setIsOpenAddMasterToAllocate}
+        open={isOpenAddMasterToAllocate}
         selected={selected}
       />
       <Modal

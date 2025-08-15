@@ -21,6 +21,7 @@ interface ColumnOptions {
   onView?: (allocate: AllocateResponse) => void;
   onOpenAddProjectTitle?: (allocate: AllocateResponse) => void;
   onOpenConfrimeAllocate?: (allocate: AllocateResponse) => void;
+  onOpenAddMasterToAllocate?: (allocate: AllocateResponse) => void;
 }
 
 export function getAllocateTableColumns(
@@ -101,7 +102,7 @@ export function getAllocateTableColumns(
 
               {userTypeId === 2 && (
                 <DropdownMenuItem
-                  onClick={() => options?.onOpenConfrimeAllocate?.(allocate)}
+                  onClick={() => options?.onOpenAddMasterToAllocate?.(allocate)}
                   className={dropdownMenuItemClassname}
                 >
                   <UserPlus /> انتخاب استاد راهنما

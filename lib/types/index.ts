@@ -7,6 +7,7 @@
 
 export * from './addCommissionBrokerCommissionsGetParams';
 export * from './allocateResponse';
+export * from './allocateResponseMaster';
 export * from './allocateResponseProjectDescription';
 export * from './allocateResponseProjectTitle';
 export * from './bodyLoginTokenPost';
@@ -21,6 +22,7 @@ export * from './commissionResponse';
 export * from './editAllocateResearcherAllocatesAllocateIdPutParams';
 export * from './explorerCreateUpdateRFP';
 export * from './explorerCreateUpdateRFPFileId';
+export * from './explorerUpdateAllocate';
 export * from './explorerUpdateProposal';
 export * from './getAllReportsMentorAllReportsGetParams';
 export * from './getAllReportsResearcherAllReportsGetParams';
@@ -44,7 +46,9 @@ export * from './proposalRequestFileId';
 export * from './proposalResponse';
 export * from './proposalResponseAllocateId';
 export * from './proposalResponseComment';
+export * from './proposalResponseEndAt';
 export * from './proposalResponseFileId';
+export * from './proposalResponseStartAt';
 export * from './proposalResponseSupervisorId';
 export * from './proposalSingleResponse';
 export * from './proposalSingleResponseFileId';

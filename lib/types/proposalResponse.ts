@@ -4,6 +4,8 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { ProposalResponseStartAt } from './proposalResponseStartAt';
+import type { ProposalResponseEndAt } from './proposalResponseEndAt';
 import type { ProposalResponseAllocateId } from './proposalResponseAllocateId';
 import type { ProposalResponseSupervisorId } from './proposalResponseSupervisorId';
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
@@ -14,8 +16,8 @@ export interface ProposalResponse {
   id: number;
   creatorId: number;
   createdAt: string;
-  startAt: string;
-  endAt: string;
+  startAt: ProposalResponseStartAt;
+  endAt: ProposalResponseEndAt;
   masterNameAndFamily: string;
   title: string;
   description: string;

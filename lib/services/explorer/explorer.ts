@@ -6,8 +6,8 @@
  */
 import type {
   AllocateResponse,
-  BrokerUpdateAllocate,
   ExplorerCreateUpdateRFP,
+  ExplorerUpdateAllocate,
   ExplorerUpdateProposal,
   GetAllocatesExplorerAllocatesGetParams,
   ProposalResponse,
@@ -122,13 +122,13 @@ export const getExplorer = () => {
    */
   const editAllocateExplorerAllocatesAllocateIdPut = (
     allocateId: number,
-    brokerUpdateAllocate: BrokerUpdateAllocate
+    explorerUpdateAllocate: ExplorerUpdateAllocate
   ) => {
     return api<AllocateResponse>({
       url: `/explorer/allocates/${allocateId}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      data: brokerUpdateAllocate,
+      data: explorerUpdateAllocate,
     });
   };
   /**
