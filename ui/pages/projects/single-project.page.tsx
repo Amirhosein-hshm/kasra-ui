@@ -1,29 +1,45 @@
 'use client';
 
 import {
+  useDataTableRequirements,
+  useResearcherReportsByProject,
   useSupervisorReportsByProject,
   useUserReportsByProject,
 } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { ProjectResponse } from '@/lib/types';
+import { ProjectResponse, ReportResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
 import ReportForTable from '@/lib/ui-types/ReportForTable.interface';
-import { Badge } from '@/ui/components/badge';
 import { FileDownload } from '@/ui/components/file-download';
 import { UploadReportDialog } from '@/ui/features/dialogs/upload-report.dialog';
 import ReportsTable from '@/ui/features/tables/report';
 import clsx from 'clsx';
-import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useMemo, useState } from 'react';
 
 interface Props {
   project: ProjectResponse;
 }
 
 export default function SingleProjectPage(props: Props) {
+  const {
+    searchParams,
+    debouncedInfo,
+    pageIndex,
+    pageSize,
+    searchInput,
+    setPageIndex,
+    setSearchInput,
+    pageFromUrl,
+    infoFromUrl,
+    queryParams,
+  } = useDataTableRequirements();
+
   const userInfo = useMeStore();
   const userTypeId = userInfo?.user?.userTypeId;
   const isUser = userTypeId === UserType.User;
   const isSupervisor = userTypeId === UserType.Supervisor;
+  const isResearcher = userTypeId === UserType.Researcher;
 
   const projectId = props.project.id;
   const fileId = props.project.proposal.fileId;
@@ -38,18 +54,27 @@ export default function SingleProjectPage(props: Props) {
     queryKey: ['userReportsByProject', projectId],
   });
 
+  const researcherReportsQuery = useResearcherReportsByProject<
+    ReportResponse[] | undefined
+  >(projectId, queryParams, {
+    enabled: isResearcher,
+    queryKey: ['userReportsByProject', projectId, queryParams],
+  });
+
   const dataRaw =
     userTypeId === UserType.Supervisor
       ? supervisorReportsQuery.data
       : userTypeId === UserType.User
       ? userReportsQuery.data
+      : userTypeId === UserType.Researcher
+      ? researcherReportsQuery.data
       : [];
 
   const data: ReportForTable[] =
     dataRaw?.map((item) => ({
       id: item.id,
       state: item.state,
-      project: item.project.title,
+      project: item.project?.title,
       percentage: item.acceptedPercent ?? 0,
     })) ?? [];
 
@@ -58,6 +83,8 @@ export default function SingleProjectPage(props: Props) {
       ? supervisorReportsQuery.isLoading
       : userTypeId === UserType.User
       ? userReportsQuery.isLoading
+      : userTypeId === UserType.Researcher
+      ? researcherReportsQuery.isLoading
       : false;
 
   const isFetching =
@@ -65,6 +92,8 @@ export default function SingleProjectPage(props: Props) {
       ? supervisorReportsQuery.isFetching
       : userTypeId === UserType.User
       ? userReportsQuery.isFetching
+      : userTypeId === UserType.Researcher
+      ? researcherReportsQuery.isFetching
       : false;
 
   return (

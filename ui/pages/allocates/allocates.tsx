@@ -7,30 +7,27 @@ import {
   useUserAllocates,
   useResearcherAllocates,
   useExplorerAllocates,
+  useDataTableRequirements,
 } from '@/lib/hooks';
 import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import AllocatesTable from '@/ui/features/tables/allocations';
 import { useMeStore } from '@/lib/stores/me.stores';
 
 export default function AllocatePage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const pageFromUrl = useMemo(() => {
-    const raw = searchParams.get('page');
-    const page = raw ? parseInt(raw, 10) : 1;
-    return isNaN(page) || page < 1 ? 1 : page;
-  }, [searchParams]);
 
-  const infoFromUrl = useMemo(
-    () => searchParams.get('info') || '',
-    [searchParams]
-  );
-
-  const pageSize = 10;
-  const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
-
-  const [searchInput, setSearchInput] = useState(infoFromUrl);
-  const debouncedInfo = useDebounced(searchInput, 450);
+  const {
+    searchParams,
+    debouncedInfo,
+    pageIndex,
+    pageSize,
+    searchInput,
+    setPageIndex,
+    setSearchInput,
+    pageFromUrl,
+    infoFromUrl,
+    queryParams,
+  } = useDataTableRequirements();
 
   useEffect(() => {
     setPageIndex(pageFromUrl - 1);
@@ -51,15 +48,6 @@ export default function AllocatePage() {
   useEffect(() => {
     setPageIndex(0);
   }, [debouncedInfo]);
-
-  const queryParams = useMemo(
-    () => ({
-      skip: pageIndex * pageSize,
-      limit: pageSize,
-      info: debouncedInfo || undefined,
-    }),
-    [pageIndex, pageSize, debouncedInfo]
-  );
 
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
