@@ -8,10 +8,9 @@ import {
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import { useDebounced } from '@/lib/utils/hooks/useDebounce';
-import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProposalsTable from '@/ui/features/tables/proposals';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 function ProposalsPageContent() {
   const searchParams = useSearchParams();
@@ -90,8 +89,6 @@ function ProposalsPageContent() {
 
   const total = 30;
 
-  if (isLoading || !data) return <TableSkeleton />;
-
   return (
     <ProposalsTable
       data={data || []}
@@ -109,9 +106,5 @@ function ProposalsPageContent() {
 }
 
 export default function ProposalsPage() {
-  return (
-    <Suspense fallback={<TableSkeleton />}>
-      <ProposalsPageContent />
-    </Suspense>
-  );
+  return <ProposalsPageContent />;
 }

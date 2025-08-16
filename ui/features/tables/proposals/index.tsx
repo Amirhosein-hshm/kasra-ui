@@ -52,35 +52,6 @@ export default function ProposalsTable({
 
   const [isOpenAssignSupervisor, setIsOpenAssignSupervisor] = useState(false);
 
-  const explorerForm = useForm({
-    defaultValues: {
-      supervisor_id: -1,
-    },
-  });
-  const {
-    mutateAsync: assignSupervisorToProposal,
-    isPending: isPendingAssignSupervisorToProposal,
-  } = useEditExplorerProposal();
-  const handleSubmitExplorerForm = explorerForm.handleSubmit((data) => {
-    if (selected)
-      assignSupervisorToProposal({
-        proposalId: selected.id,
-        payload: {
-          supervisorId: data.supervisor_id,
-          // FIXME:
-          comment: '',
-        },
-      })
-        .then(() => {
-          toast.success('تعیین ناظر انجام شد');
-          setIsOpenAssignSupervisor(false);
-          queryClient.invalidateQueries();
-        })
-        .catch(() => {
-          toast.error('تعیین ناظر موفقیت آمیز نبود');
-        });
-  });
-
   const {
     mutateAsync: editProposalAndCreateProject,
     isPending: editProposalAndCreateProjectIsPending,

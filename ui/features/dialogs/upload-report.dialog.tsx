@@ -1,3 +1,5 @@
+'use client';
+
 import { useAddUserReport } from '@/lib/hooks';
 import { useUploadFile } from '@/lib/hooks/useFile';
 import { Button } from '@/ui/components/button';
@@ -29,14 +31,10 @@ const formSchema = z.object({
       .max(100, 'درصد پیشرفت باید کمتر مساوی از ۱۰۰ باشد'),
   ]),
   description: z.string().min(1, 'توضیحات الزامی است'),
-  wordFile: z
-    .instanceof(FileList)
-    .refine((file) => file.length > 0, 'فایل Word الزامی است'),
-  pdfFile: z
-    .instanceof(FileList)
-    .refine((file) => file.length > 0, 'فایل PDF الزامی است'),
+  wordFile: z.any().refine((file) => file.length > 0, 'فایل Word الزامی است'),
+  pdfFile: z.any().refine((file) => file.length > 0, 'فایل PDF الزامی است'),
   powerPointFile: z
-    .instanceof(FileList)
+    .any()
     .refine((file) => file.length > 0, 'فایل PowerPoint الزامی است'),
 });
 
@@ -185,7 +183,7 @@ export function UploadReportDialog({ projectId }: Props) {
                 <Label htmlFor="word">
                   <span>بارگذاری فایل word</span>
                   <ErrorMessage>
-                    {form.formState.errors.wordFile?.message}
+                    {form.formState.errors.wordFile?.message?.toString()}
                   </ErrorMessage>
                 </Label>
                 <Input
@@ -200,7 +198,7 @@ export function UploadReportDialog({ projectId }: Props) {
                 <Label htmlFor="pdf">
                   <span>بارگذاری فایل pdf</span>
                   <ErrorMessage>
-                    {form.formState.errors.pdfFile?.message}
+                    {form.formState.errors.pdfFile?.message?.toString()}
                   </ErrorMessage>
                 </Label>
                 <Input
@@ -215,7 +213,7 @@ export function UploadReportDialog({ projectId }: Props) {
                 <Label htmlFor="powerpoint">
                   <span>بارگذاری فایل powerpoint</span>
                   <ErrorMessage>
-                    {form.formState.errors.powerPointFile?.message}
+                    {form.formState.errors.powerPointFile?.message?.toString()}
                   </ErrorMessage>
                 </Label>
                 <Input
