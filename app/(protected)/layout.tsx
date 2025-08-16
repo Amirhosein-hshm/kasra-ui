@@ -31,7 +31,7 @@ function GetMeLoader() {
 
   useEffect(() => {
     setLoading(isPending);
-  }, [isPending]);
+  }, [isPending, setLoading]);
 
   useEffect(() => {
     if (isSuccess && data) {

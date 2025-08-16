@@ -3,5 +3,5 @@ export enum UserType {
   Explorer = 2,
   User = 3,
   Supervisor = 4,
-  Mentor = 5,
+  Researcher = 5,
 }

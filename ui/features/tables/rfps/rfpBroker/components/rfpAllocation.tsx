@@ -43,8 +43,6 @@ export function RFPAllocationSideBar({
       form.reset();
       toast.success('rfp با موفقیت تخصیص یافت');
     } catch (e) {
-      console.log(e);
-
       toast.error('خطا در تخصیص');
     }
   };

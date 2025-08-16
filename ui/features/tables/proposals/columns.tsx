@@ -1,7 +1,6 @@
 'use client';
 
-import { ProposalResponse } from 'lib/types/proposalResponse';
-import { ColumnDef } from '@tanstack/react-table';
+import { Button } from '@/ui/components/button';
 import { Checkbox } from '@/ui/components/checkbox';
 import {
   DropdownMenu,
@@ -11,28 +10,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
-import { Button } from '@/ui/components/button';
+import { ColumnDef } from '@tanstack/react-table';
+import { ProposalResponse } from 'lib/types/proposalResponse';
 import {
   ArrowUpDown,
+  Check,
   Edit,
   Eye,
   MoreHorizontal,
-  Trash,
-  FileText,
+  UserPenIcon,
 } from 'lucide-react';
-import { ProposalAllResponse } from '@/lib/types';
 
 interface ColumnOptions {
-  onOpenCommission?: (proposal: ProposalAllResponse) => void;
-  onOpenProposalDetail?: (proposal: ProposalAllResponse) => void;
-  onEditProposal?: (proposal: ProposalAllResponse) => void;
+  onOpenConfirmProposal?: (proposal: ProposalResponse) => void;
+  onOpenProposalDetail?: (proposal: ProposalResponse) => void;
+  onEditProposal?: (proposal: ProposalResponse) => void;
+  onOpenAssignProposal?: (proposal: ProposalResponse) => void;
 }
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
 export function getProposalsTableColumns(
   userRoleId: number,
   options?: ColumnOptions
-): ColumnDef<ProposalAllResponse>[] {
+): ColumnDef<ProposalResponse>[] {
   return [
     {
       id: 'select',
@@ -84,12 +84,12 @@ export function getProposalsTableColumns(
                 مشاهده <Eye color="var(--color-stone-primary)" />
               </DropdownMenuItem>
 
-              {userRoleId === 1 && (
+              {userRoleId === 5 && (
                 <DropdownMenuItem
-                  onClick={() => options?.onOpenCommission?.(proposal)}
+                  onClick={() => options?.onOpenConfirmProposal?.(proposal)}
                   className={dropdownMenuItemClassname}
                 >
-                  کمیسیون <FileText color="var(--color-stone-primary)" />
+                  تایید پروپوزال <Check color="var(--color-green-primary)" />
                 </DropdownMenuItem>
               )}
 
@@ -104,12 +104,21 @@ export function getProposalsTableColumns(
                 </DropdownMenuItem>
               )} */}
 
+              {userRoleId === 2 && (
+                <DropdownMenuItem
+                  onClick={() => options?.onOpenAssignProposal?.(proposal)}
+                  className={dropdownMenuItemClassname}
+                >
+                  تعیین ناظر <UserPenIcon color="var(--color-blue-primary)" />
+                </DropdownMenuItem>
+              )}
+
               {(userRoleId === 4 || userRoleId === 3) && (
                 <DropdownMenuItem
                   onClick={() => options?.onEditProposal?.(proposal)}
                   className={dropdownMenuItemClassname}
                 >
-                  ویرایش <Edit color="var(--color-blue-primary)" />
+                  تکمیل پروپوزال <Edit color="var(--color-blue-primary)" />
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>
@@ -136,12 +145,12 @@ export function getProposalsTableColumns(
 const getProposalTableFiles = (userRoleId: number) => {
   const proposalsTableFields = [
     {
-      accessorKey: 'info',
+      accessorKey: 'title',
       header: 'عنوان',
     },
     {
-      accessorKey: 'rfpId',
-      header: 'شناسه RFP',
+      accessorKey: 'masterNameAndFamily',
+      header: 'استاد راهنما',
     },
     {
       accessorKey: 'comment',
@@ -150,11 +159,6 @@ const getProposalTableFiles = (userRoleId: number) => {
     {
       accessorKey: 'state',
       header: 'وضعیت',
-    },
-
-    {
-      accessorKey: 'rfp.info',
-      header: 'عنوان RFP',
     },
     {
       accessorKey: 'rfp.rfpField.title',
@@ -174,7 +178,7 @@ const getProposalTableFiles = (userRoleId: number) => {
     );
   }
   if (userRoleId === 3) {
-    const fields = ['info', 'rfp.info', 'rfp.rfpField.title'];
+    const fields = ['title', 'state', 'masterNameAndFamily'];
     return proposalsTableFields.filter((field) =>
       fields.includes(field.accessorKey)
     );

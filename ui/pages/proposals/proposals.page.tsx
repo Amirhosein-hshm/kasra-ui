@@ -1,17 +1,16 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState, Suspense } from 'react';
 import {
-  useBrokerProposals,
-  useSupervisorProposals,
+  useExplorerProposals,
+  useResearcherProposals,
   useUserProposals,
 } from '@/lib/hooks';
-import { TableSkeleton } from '@/ui/components/loadings/table-loading';
-import ProposalsTable from '@/ui/features/tables/proposals';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { useDebounce } from '@/lib/utils/hooks/useDebounce';
 import { UserType } from '@/lib/types/UserType.enum';
+import { useDebounced } from '@/lib/utils/hooks/useDebounce';
+import ProposalsTable from '@/ui/features/tables/proposals';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 
 function ProposalsPageContent() {
   const searchParams = useSearchParams();
@@ -32,7 +31,7 @@ function ProposalsPageContent() {
   const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
   const [info, setInfo] = useState(infoFromUrl);
 
-  const infoDebounce = useDebounce(info, 500);
+  const infoDebounce = useDebounced(info, 500);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -54,34 +53,41 @@ function ProposalsPageContent() {
     [pageIndex, pageSize, infoDebounce]
   );
 
-  const brokerQ = useBrokerProposals(queryParams, {
-    enabled: userTypeId == UserType.Broker,
-    queryKey: ['brokerProposals', queryParams],
-  });
-
   const userQ = useUserProposals(queryParams, {
     enabled: userTypeId == UserType.User,
     queryKey: ['userProposals', queryParams],
   });
-
-  const supervisorQ = useSupervisorProposals(queryParams, {
-    enabled: userTypeId === UserType.Supervisor,
-    queryKey: ['supervisorProposals', queryParams],
+  const explorerQ = useExplorerProposals(queryParams, {
+    enabled: userTypeId == UserType.Explorer,
+    queryKey: ['explorerProposals', queryParams],
   });
-  const data =
-    userTypeId === UserType.Supervisor
-      ? supervisorQ.data
-      : userTypeId === UserType.Broker
-      ? brokerQ.data
-      : userQ.data;
+  const researcherQ = useResearcherProposals(queryParams, {
+    enabled: userTypeId == UserType.Researcher,
+    queryKey: ['explorerProposals', queryParams],
+  });
+
+  const isFetching =
+    userTypeId === UserType.User
+      ? userQ.isFetching
+      : userTypeId === UserType.Explorer
+      ? explorerQ.isFetching
+      : researcherQ.isFetching;
 
   const isLoading =
-    userTypeId === UserType.Supervisor
-      ? supervisorQ.isLoading
-      : brokerQ.isLoading;
-  const total = 30;
+    userTypeId === UserType.User
+      ? userQ.isLoading
+      : userTypeId === UserType.Explorer
+      ? explorerQ.isLoading
+      : researcherQ.isLoading;
 
-  if (isLoading || !data) return <TableSkeleton />;
+  const data =
+    userTypeId === UserType.User
+      ? userQ.data
+      : userTypeId === UserType.Explorer
+      ? explorerQ.data
+      : researcherQ.data;
+
+  const total = 30;
 
   return (
     <ProposalsTable
@@ -93,14 +99,12 @@ function ProposalsPageContent() {
       setPageSize={() => {}}
       search={info}
       setSearch={setInfo}
+      isFetching={isFetching}
+      isInitialLoading={isLoading}
     />
   );
 }
 
 export default function ProposalsPage() {
-  return (
-    <Suspense fallback={<TableSkeleton />}>
-      <ProposalsPageContent />
-    </Suspense>
-  );
+  return <ProposalsPageContent />;
 }

@@ -1,30 +1,25 @@
-import {
-  useEditUserProposal,
-  useSearchRfps,
-  useUserProposal,
-} from '@/lib/hooks';
-import { Sidebar } from '@/ui/components/sidebar/sidebar';
-import { useForm, FormProvider } from 'react-hook-form';
-import { FormSelect } from '@/ui/components/select/select';
-import { FormInput } from '@/ui/components/input/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useEditUserProposal, useUserProposal } from '@/lib/hooks';
+import { ProposalResponse } from '@/lib/types';
 import { FileUpload } from '@/ui/components/file-upload';
+import { Sidebar } from '@/ui/components/sidebar/sidebar';
+import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { IconX } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   ProposalUpdateFormValues,
   proposalUpdateSchema,
 } from './edit-proposal-validation';
-import { IconX } from '@tabler/icons-react';
 import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
-import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
-import { ProposalAllResponse } from '@/lib/types';
+import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
 
 interface ProposalSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  selected?: ProposalAllResponse | null;
+  selected?: ProposalResponse | null;
 }
 
 export function EditProposalSideBar({
@@ -32,18 +27,11 @@ export function EditProposalSideBar({
   onOpenChange,
   selected,
 }: ProposalSidebarProps) {
-  const { data: rfps = [] } = useSearchRfps(
-    {},
-    {
-      enabled: open,
-      queryKey: ['broker-users-supervisor'],
-    }
-  );
-
   const form = useForm<ProposalUpdateFormValues>({
     resolver: zodResolver(proposalUpdateSchema),
   });
 
+  const [disableUpdate, setDisableUpdate] = useState(false);
   const [fileId, setFileId] = useState<number | null>(null);
 
   const { data, isLoading } = useUserProposal(selected?.id ?? 0, {
@@ -53,29 +41,47 @@ export function EditProposalSideBar({
 
   useEffect(() => {
     if (data) {
-      form.setValue('RFP_id', data.rfp.id);
-      form.setValue('info', data.info);
+      form.reset({
+        startAt: data.startAt ? new Date(data.startAt) : undefined,
+        endAt: data.endAt ? new Date(data.endAt) : undefined,
+      });
+      if (data.fileId) {
+        setFileId(data.fileId);
+        setDisableUpdate(true);
+      }
     }
   }, [data]);
 
-  const removeExistingFile = () => setFileId(null);
+  // FIXME: database cleanup
+  const removeExistingFile = () => {
+    if (!disableUpdate) setFileId(null);
+  };
 
   const { mutateAsync, isPending } = useEditUserProposal();
 
   const queryClient = useQueryClient();
 
   const onSubmit = async (data: ProposalUpdateFormValues) => {
+    if (disableUpdate) return;
+    if (!fileId) {
+      toast.error('بارگذاری فایل پروپوزال اجباری است');
+      return;
+    }
     try {
       await mutateAsync({
         proposalId: selected?.id ?? 0,
-        data: { info: data.info!, RFP_id: data.RFP_id!, fileId },
+        data: {
+          startAt: data.startAt.toISOString(),
+          endAt: data.endAt.toISOString(),
+          fileId,
+        },
       });
       onOpenChange(false);
       queryClient.invalidateQueries();
       form.reset();
-      toast.success('پروپوزال با موفقیت ویرایش شد');
+      toast.success('پروپوزال با موفقیت تکمیل شد');
     } catch (e) {
-      toast.error('خطا در ویرایش پروپوزال');
+      toast.error('خطا در تکمیل پروپوزال');
     }
   };
 
@@ -85,11 +91,8 @@ export function EditProposalSideBar({
   };
 
   useEffect(() => {
-    form.reset({
-      info: selected?.info,
-      RFP_id: selected?.rfp.id,
-    });
-    setFileId(selected?.rfp.fileId ?? null);
+    form.reset();
+    setFileId(null);
   }, [selected, form]);
 
   return (
@@ -104,20 +107,39 @@ export function EditProposalSideBar({
       >
         {!isLoading ? (
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormInput
-              name="info"
-              label="عنوان"
-              placeholder="عنوان کمیسیون را وارد کنید"
-            />
-            <FormSelect
-              name="RFP_id"
-              placeholder="وضعیت را انتخاب کنید"
-              label="وضعیت"
-              options={rfps.map((u) => ({
-                value: u.id,
-                label: `${u.info}`,
-              }))}
-            />
+            <div className="flex flex-col gap-1">
+              <div className="text-red-400 font-light text-sm">
+                {form.formState.errors.startAt?.message}
+              </div>
+              <div className="flex items-center gap-2">
+                <label>تاریخ شروع: </label>
+                <PersianDatePicker
+                  initialValue={form.watch('startAt')}
+                  onChange={(date) => {
+                    if (disableUpdate) return;
+                    form.setValue('startAt', date.toDate());
+                  }}
+                  disabled={disableUpdate}
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="text-red-400 font-light text-sm">
+                {form.formState.errors.endAt?.message}
+              </div>
+              <div className="flex items-center gap-2">
+                <label>تاریخ پایان: </label>
+                <PersianDatePicker
+                  initialValue={form.watch('endAt')}
+                  onChange={(date) => {
+                    if (disableUpdate) return;
+                    form.setValue('endAt', date.toDate());
+                  }}
+                  disabled={disableUpdate}
+                />
+              </div>
+            </div>
             {fileId ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
                 <FileDownloadLink id={fileId!} />
@@ -133,7 +155,7 @@ export function EditProposalSideBar({
             ) : (
               <FileUpload
                 onUploadComplete={handleUploadComplete}
-                title="بارگذاری فایل جدید RFP"
+                title="بارگذاری فایل پروپوزال"
               />
             )}
           </form>

@@ -1,27 +1,26 @@
 // src/lib/hooks/explorer.ts
 import {
-  useQuery,
-  useMutation,
-  UseQueryOptions,
-  UseMutationOptions,
-  useQueryClient,
   keepPreviousData,
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
 } from '@tanstack/react-query';
 
 import { getExplorer } from '@/lib/services';
 
 import type {
   AllocateResponse,
-  BrokerUpdateAllocate,
   ExplorerCreateUpdateRFP,
   ExplorerUpdateAllocate,
   ExplorerUpdateProposal,
   GetAllocatesExplorerAllocatesGetParams,
   ProposalResponse,
-  RFPFieldResponse,
-  RFPResponse,
   ReadProposalsExplorerProposalsGetParams,
   ReadRfpFieldsExplorerRfpFieldsGetParams,
+  RFPFieldResponse,
+  RFPResponse,
   SearchRfpsEndpointExplorerRfpsGetParams,
   UserInfoResponse,
 } from 'lib/types';
@@ -146,7 +145,7 @@ export function useGetExplorerRfpById(
 
 /** List Supervisors */
 export function useExplorerUsersSupervisor(
-  options?: UseQueryOptions<UserInfoResponse[], Error>
+  options?: Partial<UseQueryOptions<UserInfoResponse[], Error>>
 ) {
   return useQuery({
     queryKey: explorerQueryKeys.supervisors,

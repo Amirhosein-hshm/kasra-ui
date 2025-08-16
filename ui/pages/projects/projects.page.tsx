@@ -4,6 +4,7 @@ import {
   useUserProjects,
   useSupervisorProjects,
   useTablePagination,
+  useResearcherProjects,
 } from '@/lib/hooks';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProjectsTable from '@/ui/features/tables/projects';
@@ -24,11 +25,18 @@ export default function ProjectsPage() {
     enabled: userTypeId === UserType.Supervisor,
     queryKey: ['supervisorProjects', queryParams],
   });
+  const researcherProjectsQuery = useResearcherProjects(queryParams, {
+    enabled: userTypeId === UserType.Researcher,
+    queryKey: ['researcherProjects', queryParams],
+  });
+
   const data =
     userTypeId === UserType.Supervisor
       ? supervisorProjectsQuery.data
       : userTypeId === UserType.User
       ? userProjectsQuery.data
+      : userTypeId === UserType.Researcher
+      ? researcherProjectsQuery.data
       : [];
 
   const isLoading =
@@ -36,6 +44,17 @@ export default function ProjectsPage() {
       ? supervisorProjectsQuery.isLoading
       : userTypeId === UserType.User
       ? userProjectsQuery.isLoading
+      : userTypeId === UserType.Researcher
+      ? researcherProjectsQuery.isLoading
+      : false;
+
+  const isFetching =
+    userTypeId === UserType.Supervisor
+      ? supervisorProjectsQuery.isFetching
+      : userTypeId === UserType.User
+      ? userProjectsQuery.isFetching
+      : userTypeId === UserType.Researcher
+      ? researcherProjectsQuery.isFetching
       : false;
 
   const total = 30;
@@ -52,6 +71,7 @@ export default function ProjectsPage() {
       setPageSize={() => {}}
       search={info}
       setSearch={setInfo}
+      isFetching={isFetching}
     />
   );
 }

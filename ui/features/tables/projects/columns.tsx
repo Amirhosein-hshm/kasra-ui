@@ -4,7 +4,7 @@ import { ProjectResponse } from '@/lib/types';
 import { Checkbox } from '@/ui/components/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 
-import { ArrowUpDown, Eye, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, CheckIcon, Eye, MoreHorizontal } from 'lucide-react';
 
 import { PATHS } from '@/lib/constants/PATHS';
 import { Button } from '@/ui/components/button';
@@ -17,15 +17,18 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 import Link from 'next/link';
+import { UserType } from '@/lib/types/UserType.enum';
 
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
 interface ColumnOptions {
   onView?: (project: ProjectResponse) => void;
   onOpenProjectDetail?: (project: ProjectResponse) => void;
+  onOpenApproveProject?: (project: ProjectResponse) => void;
 }
 
 export function getProjectsTableColumns(
+  userRoleId: number,
   options?: ColumnOptions
 ): ColumnDef<ProjectResponse>[] {
   return [
@@ -75,6 +78,15 @@ export function getProjectsTableColumns(
                   مشاهده <Eye color="var(--color-stone-primary)" />
                 </DropdownMenuItem>
               </Link>
+              {userRoleId === UserType.Researcher && (
+                <DropdownMenuItem
+                  className={dropdownMenuItemClassname}
+                  onClick={() => options?.onOpenApproveProject?.(row.original)}
+                >
+                  تایید نهایی پروژه{' '}
+                  <CheckIcon color="var(--color-green-primary)" />
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -117,33 +129,7 @@ export function getProjectsTableColumns(
     {
       header: 'استاد راهنما',
       cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.master.fname + ' ' + row.original.master.lname}
-          </div>
-        );
-      },
-    },
-    {
-      header: 'کاشف',
-      cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.discoverer.fname +
-              ' ' +
-              row.original.discoverer.lname}
-          </div>
-        );
-      },
-    },
-    {
-      header: 'کارگزار',
-      cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.broker.fname + ' ' + row.original.broker.lname}
-          </div>
-        );
+        return <div className="hover:underline">{row.original.master}</div>;
       },
     },
   ];

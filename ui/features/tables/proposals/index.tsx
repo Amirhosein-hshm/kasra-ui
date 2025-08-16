@@ -1,19 +1,27 @@
 'use client';
 
-import DataTable from '@/ui/components/data-table/index';
-import { getProposalsTableColumns } from './columns';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { ProposalResponse } from '@/lib/types';
+import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
-import { CommissionSideBar } from './components/commission-sidebar';
-import { ProposalDetailSideBar } from './components/proposal-detail';
-import { Button } from '@/ui/components/button';
-import { AddProposalSideBar } from './components/add-proposal-sidebar';
+import { getProposalsTableColumns } from './columns';
 import { EditProposalSideBar } from './components/edit-proposal-sidebar';
+import { ProposalDetailSideBar } from './components/proposal-detail';
+import Modal from '@/ui/components/modal/modal';
 import { UserType } from '@/lib/types/UserType.enum';
-import { ProposalAllResponse } from '@/lib/types';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  useEditExplorerProposal,
+  useEditProposalAndCreateProject,
+  useExplorerUsersSupervisor,
+} from '@/lib/hooks';
+import { toast } from 'sonner';
+import { Button } from '@/ui/components/button';
+import { useForm } from 'react-hook-form';
+import { AssignSupervisorToProposalSidebar } from './components/assign-supervisor-to-proposal-sidebar';
 
 interface Props {
-  data: ProposalAllResponse[];
+  data: ProposalResponse[];
   pageIndex: number;
   pageSize: number;
   pageCount: number;
@@ -21,6 +29,8 @@ interface Props {
   setPageSize: (size: number) => void;
   search: string;
   setSearch: (v: string) => void;
+  isFetching: boolean;
+  isInitialLoading: boolean;
 }
 
 export default function ProposalsTable({
@@ -32,20 +42,50 @@ export default function ProposalsTable({
   setPageSize,
   search,
   setSearch,
+  isFetching,
+  isInitialLoading,
 }: Props) {
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
+  const isResearcher = userTypeId === UserType.Researcher;
+
+  const queryClient = useQueryClient();
+
+  const [isOpenAssignSupervisor, setIsOpenAssignSupervisor] = useState(false);
+
+  const {
+    mutateAsync: editProposalAndCreateProject,
+    isPending: editProposalAndCreateProjectIsPending,
+  } = useEditProposalAndCreateProject();
+  const handleSubmitEditProposalAndCreateProject = async (accept: boolean) => {
+    if (!isResearcher || !selected) return;
+    editProposalAndCreateProject({
+      proposalId: selected.id,
+      accept,
+    })
+      .then(() => {
+        toast.success(`پروپوزال ${accept ? 'تایید' : 'رد'} شد`);
+        handleCloseConfirmProposal();
+        queryClient.invalidateQueries();
+      })
+      .catch(() => {
+        toast.error('تایید پروپوزال موفقیت آمیز نبود');
+      });
+  };
+
+  const [isOpenConfirmProposal, setIsOpenConfirmProposal] = useState(false);
+  const handleCloseConfirmProposal = () => {
+    setIsOpenConfirmProposal(false);
+  };
 
   const [openProposalDetail, setOpenProposalDetail] = useState(false);
-  const [openCommission, setOpenCommission] = useState(false);
-  const [openAddProposal, setOpenAddProposal] = useState(false);
   const [openEditProposal, setOpenEditProposal] = useState(false);
 
-  const [selected, setSelected] = useState<ProposalAllResponse | null>(null);
+  const [selected, setSelected] = useState<ProposalResponse | null>(null);
 
   const proposalsTableColumns = getProposalsTableColumns(userTypeId!, {
-    onOpenCommission: (item) => {
+    onOpenConfirmProposal: (item) => {
       setSelected(item);
-      setOpenCommission(true);
+      setIsOpenConfirmProposal(true);
     },
     onEditProposal: (item) => {
       setSelected(item);
@@ -54,6 +94,10 @@ export default function ProposalsTable({
     onOpenProposalDetail: (item) => {
       setSelected(item);
       setOpenProposalDetail(true);
+    },
+    onOpenAssignProposal(item) {
+      setSelected(item);
+      setIsOpenAssignSupervisor(true);
     },
   });
 
@@ -71,27 +115,14 @@ export default function ProposalsTable({
         }}
         search={search}
         setSearch={setSearch}
-        headerAppendix={
-          userTypeId === UserType.User && (
-            <Button onClick={() => setOpenAddProposal(true)}>
-              افزودن پروپوزال
-            </Button>
-          )
-        }
+        isFetching={isFetching}
+        loading={isInitialLoading}
       />
-      <CommissionSideBar
-        open={openCommission}
-        onOpenChange={setOpenCommission}
-        selected={selected}
-      />
+
       <ProposalDetailSideBar
         open={openProposalDetail}
         onOpenChange={setOpenProposalDetail}
         selected={selected}
-      />
-      <AddProposalSideBar
-        open={openAddProposal}
-        onOpenChange={() => setOpenAddProposal(false)}
       />
 
       <EditProposalSideBar
@@ -99,6 +130,42 @@ export default function ProposalsTable({
         onOpenChange={() => setOpenEditProposal(false)}
         selected={selected!}
       />
+
+      <AssignSupervisorToProposalSidebar
+        open={isOpenAssignSupervisor}
+        onOpenChange={() => setIsOpenAssignSupervisor(false)}
+        selected={selected!}
+      />
+
+      <Modal
+        open={isOpenConfirmProposal}
+        onOpenChange={handleCloseConfirmProposal}
+        title={`تایید پروپوزال ${selected?.id}`}
+        size="xl"
+        disableOutsideClose
+        showDefaultFooter={false}
+        customFooter={
+          <div className="flex w-full gap-2 justify-end">
+            <Button
+              className="w-20"
+              loading={editProposalAndCreateProjectIsPending}
+              variant="outline"
+              onClick={() => handleSubmitEditProposalAndCreateProject(false)}
+            >
+              رد
+            </Button>
+            <Button
+              className="w-20"
+              loading={editProposalAndCreateProjectIsPending}
+              onClick={() => handleSubmitEditProposalAndCreateProject(true)}
+            >
+              تایید
+            </Button>
+          </div>
+        }
+      >
+        این پروپوزال را تایید میکنید؟
+      </Modal>
     </>
   );
 }

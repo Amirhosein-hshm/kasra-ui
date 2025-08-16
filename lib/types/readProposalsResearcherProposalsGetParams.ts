@@ -5,8 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportUpdate {
-  comment: string;
-  acceptedPercent: number;
-  accept: boolean;
-}
+export type ReadProposalsResearcherProposalsGetParams = {
+skip?: number;
+limit?: number;
+info?: string;
+};

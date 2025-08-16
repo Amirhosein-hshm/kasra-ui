@@ -5,8 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportUpdate {
-  comment: string;
-  acceptedPercent: number;
-  accept: boolean;
-}
+export type EditProposalAndCreateProjectResearcherProposalProposalIdPutParams = {
+accept?: boolean;
+};

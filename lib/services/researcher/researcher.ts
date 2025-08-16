@@ -7,14 +7,15 @@
 import type {
   AllocateResponse,
   EditAllocateResearcherAllocatesAllocateIdPutParams,
+  EditProposalAndCreateProjectResearcherProposalProposalIdPutParams,
   GetAllReportsResearcherAllReportsGetParams,
   GetAllocatesResearcherAllocatesGetParams,
   GetProjectResearcherProjectsGetParams,
   GetReportsResearcherReportsProjectIdGetParams,
   ProjectResponse,
   ProposalResponse,
-  ResearcherUpdateProposal,
-} from '../../types';
+  ReadProposalsResearcherProposalsGetParams,
+} from '@/lib/types';
 
 import { api } from '../../axios/mutator';
 
@@ -119,13 +120,24 @@ export const getResearcher = () => {
    */
   const editProposalAndCreateProjectResearcherProposalProposalIdPut = (
     proposalId: number,
-    researcherUpdateProposal: ResearcherUpdateProposal
+    params?: EditProposalAndCreateProjectResearcherProposalProposalIdPutParams
   ) => {
     return api<ProposalResponse>({
       url: `/researcher/proposal/${proposalId}`,
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: researcherUpdateProposal,
+      params,
+    });
+  };
+  /**
+   * @summary Read Proposals
+   */
+  const readProposalsResearcherProposalsGet = (
+    params?: ReadProposalsResearcherProposalsGetParams
+  ) => {
+    return api<ProposalResponse[]>({
+      url: `/researcher/proposals/`,
+      method: 'GET',
+      params,
     });
   };
   return {
@@ -138,6 +150,7 @@ export const getResearcher = () => {
     singleAllocateResearcherSingleAllocateAllocateIdGet,
     editAcceptingProjectResearcherProjectsProjectIdPut,
     editProposalAndCreateProjectResearcherProposalProposalIdPut,
+    readProposalsResearcherProposalsGet,
   };
 };
 export type GetProjectResearcherProjectsGetResult = NonNullable<
@@ -219,3 +232,10 @@ export type EditProposalAndCreateProjectResearcherProposalProposalIdPutResult =
       >
     >
   >;
+export type ReadProposalsResearcherProposalsGetResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getResearcher>['readProposalsResearcherProposalsGet']
+    >
+  >
+>;

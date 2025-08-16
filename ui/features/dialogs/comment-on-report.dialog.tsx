@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/ui/components/dialog';
-import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
 import { Slider } from '@/ui/components/slider';
 import { Textarea } from '@/ui/components/textarea';
@@ -20,22 +19,29 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-const formSchema = z.object({
-  //   progress: z.tuple([
-  //     z
-  //       .number()
-  //       .min(1, 'درصد پیشرفت باید بیشتر از ۰ باشد')
-  //       .max(100, 'درصد پیشرفت باید کمتر مساوی از ۱۰۰ باشد'),
-  //   ]),
-  comment: z.string().min(1, 'توضیحات الزامی است'),
-});
-type FormValues = z.infer<typeof formSchema>;
+const getFormSchema = (max: number = 100) =>
+  z.object({
+    progress: z.tuple([
+      z
+        .number()
+        .min(1, 'درصد پیشرفت باید بیشتر از ۰ باشد')
+        .max(max, `درصد پیشرفت باید کمتر مساوی از ${max} باشد`),
+    ]),
+    comment: z.string().min(1, 'توضیحات الزامی است'),
+  });
+type FormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
 interface Props {
   reportID: number;
+  announcedPercentage: number;
+  acceptedPercentage: number;
 }
 
-export default function CommentOnReportDialog({ reportID }: Props) {
+export default function CommentOnReportDialog({
+  reportID,
+  announcedPercentage,
+  acceptedPercentage,
+}: Props) {
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
   const [mode, setMode] = useState<'approve' | 'reject'>();
   const [isPending, setIsPending] = useState(false);
@@ -44,9 +50,9 @@ export default function CommentOnReportDialog({ reportID }: Props) {
   const queryClient = useQueryClient();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(getFormSchema(announcedPercentage)),
     defaultValues: {
-      //   progress: [0],
+      progress: [0],
       comment: '',
     },
   });
@@ -58,20 +64,23 @@ export default function CommentOnReportDialog({ reportID }: Props) {
         reportId: reportID,
         data: {
           comment: data.comment,
-          state: mode === 'approve' ? 1 : 2,
-          // FIXME: add progress field
+          acceptedPercent: data.progress[0],
+          accept: mode === 'approve',
         },
       })
       .then(() => {
         queryClient.invalidateQueries();
-        toast.success('نظر با موفقیت افزوده شد');
+        toast.success(`گزارش  ${mode === 'approve' ? 'تایید' : 'رد'} شد`);
         dialogCloseRef.current?.click();
       })
       .catch(() => {
-        toast.error('افزودن نظر موفقیت آمیز نبود');
+        toast.error(
+          `${mode === 'approve' ? 'تایید' : 'رد'} گزارش موفقیت آمیز نبود`
+        );
       })
       .finally(() => {
         setIsPending(false);
+        form.reset();
       });
   });
 
@@ -80,10 +89,19 @@ export default function CommentOnReportDialog({ reportID }: Props) {
       <Dialog>
         <div className="flex gap-2">
           <DialogTrigger>
-            <Button onClick={() => setMode('approve')}>تایید گزارش‌کار</Button>
+            <Button asChild onClick={() => setMode('approve')}>
+              تایید گزارش‌کار
+            </Button>
           </DialogTrigger>
           <DialogTrigger>
-            <Button onClick={() => setMode('reject')} variant="destructive">
+            <Button
+              asChild
+              onClick={() => {
+                form.setValue('progress', [acceptedPercentage]);
+                setMode('reject');
+              }}
+              variant="destructive"
+            >
               رد گزارش‌کار
             </Button>{' '}
           </DialogTrigger>
@@ -97,7 +115,7 @@ export default function CommentOnReportDialog({ reportID }: Props) {
             </DialogHeader>
 
             <div className="Main flex flex-col gap-4">
-              {/* {mode === 'approve' && (
+              {mode === 'approve' && (
                 <div className="grid gap-3">
                   <Label htmlFor="progress">
                     <span>درصد پیشرفت: {form.watch('progress')[0]}%</span>
@@ -124,7 +142,7 @@ export default function CommentOnReportDialog({ reportID }: Props) {
                     )}
                   />
                 </div>
-              )} */}
+              )}
 
               <div className="grid gap-3">
                 <Label htmlFor="comment">
