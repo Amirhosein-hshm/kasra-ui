@@ -99,7 +99,7 @@ export function EditRFPSidebar({
       <Sidebar
         open={open}
         onOpenChange={handleClose}
-        title="ویرایش کمیسیون"
+        title="ویرایش RFP"
         onSubmit={form.handleSubmit(onSubmit)}
         isLoading={isPending}
       >
@@ -108,7 +108,7 @@ export function EditRFPSidebar({
             <FormInput
               name="info"
               label="عنوان"
-              placeholder="عنوان کمیسیون را وارد کنید"
+              placeholder="عنوان RFP را وارد کنید"
             />
             <FormSelect
               name="RFP_field_id"

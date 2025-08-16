@@ -73,7 +73,7 @@ export default function SingleReportPage({
         </FileDownload>
       </div>
 
-      {isSupervisor && (
+      {isSupervisor && state === 'در انتظار تایید' && (
         <CommentOnReportDialog
           reportID={reportID}
           announcedPercentage={announcedPercentage}

@@ -37,9 +37,9 @@ export function AssignSupervisorToProposalSidebar({
       supervisor_id: -1,
     },
   });
+
   const { mutateAsync, isPending } = useEditExplorerProposal();
   const handleSubmitExplorerForm = explorerForm.handleSubmit((data) => {
-    if (data.supervisor_id) return;
     if (selected)
       mutateAsync({
         proposalId: selected.id,
@@ -66,7 +66,7 @@ export function AssignSupervisorToProposalSidebar({
         onOpenChange={onOpenChange}
         title={`تعیین ناظر برای پروپوزال ${selected?.id ?? ''}`}
         description=""
-        onSubmit={data?.supervisorId ? undefined : handleSubmitExplorerForm}
+        onSubmit={!!data?.supervisorId ? undefined : handleSubmitExplorerForm}
         isLoading={isPending}
       >
         {!isLoading ? (
@@ -86,12 +86,6 @@ export function AssignSupervisorToProposalSidebar({
                 label: `${u.fname} ${u.lname}`,
               }))}
             />
-            {explorerForm.watch('supervisor_id') !== -1 &&
-              !data?.supervisorId && (
-                <Button type="submit" loading={isPending}>
-                  ثبت
-                </Button>
-              )}
           </form>
         ) : (
           <AssignProposalSupervisorSidebarSkeleton />
