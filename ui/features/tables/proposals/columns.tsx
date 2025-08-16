@@ -12,12 +12,20 @@ import {
 } from '@/ui/components/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
 import { ProposalResponse } from 'lib/types/proposalResponse';
-import { ArrowUpDown, Edit, Eye, FileText, MoreHorizontal } from 'lucide-react';
+import {
+  ArrowUpDown,
+  Check,
+  Edit,
+  Eye,
+  MoreHorizontal,
+  UserPenIcon,
+} from 'lucide-react';
 
 interface ColumnOptions {
-  onOpenCommission?: (proposal: ProposalResponse) => void;
+  onOpenConfirmProposal?: (proposal: ProposalResponse) => void;
   onOpenProposalDetail?: (proposal: ProposalResponse) => void;
   onEditProposal?: (proposal: ProposalResponse) => void;
+  onOpenAssignProposal?: (proposal: ProposalResponse) => void;
 }
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
@@ -76,12 +84,12 @@ export function getProposalsTableColumns(
                 مشاهده <Eye color="var(--color-stone-primary)" />
               </DropdownMenuItem>
 
-              {userRoleId === 1 && (
+              {userRoleId === 5 && (
                 <DropdownMenuItem
-                  onClick={() => options?.onOpenCommission?.(proposal)}
+                  onClick={() => options?.onOpenConfirmProposal?.(proposal)}
                   className={dropdownMenuItemClassname}
                 >
-                  کمیسیون <FileText color="var(--color-stone-primary)" />
+                  تایید پروپوزال <Check color="var(--color-green-primary)" />
                 </DropdownMenuItem>
               )}
 
@@ -95,6 +103,15 @@ export function getProposalsTableColumns(
                   حذف <Trash color="var(--color-red-primary)" />
                 </DropdownMenuItem>
               )} */}
+
+              {userRoleId === 2 && (
+                <DropdownMenuItem
+                  onClick={() => options?.onOpenAssignProposal?.(proposal)}
+                  className={dropdownMenuItemClassname}
+                >
+                  تعیین ناظر <UserPenIcon color="var(--color-blue-primary)" />
+                </DropdownMenuItem>
+              )}
 
               {(userRoleId === 4 || userRoleId === 3) && (
                 <DropdownMenuItem

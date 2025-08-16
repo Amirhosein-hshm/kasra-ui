@@ -145,7 +145,7 @@ export function useGetExplorerRfpById(
 
 /** List Supervisors */
 export function useExplorerUsersSupervisor(
-  options?: UseQueryOptions<UserInfoResponse[], Error>
+  options?: Partial<UseQueryOptions<UserInfoResponse[], Error>>
 ) {
   return useQuery({
     queryKey: explorerQueryKeys.supervisors,

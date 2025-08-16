@@ -1,11 +1,13 @@
+'use client';
+
 import { useUserProposal } from '@/lib/hooks';
-import { Sidebar } from '@/ui/components/sidebar/sidebar';
-import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { UserType } from '@/lib/types/UserType.enum';
-import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 import { ProposalResponse } from '@/lib/types';
+import { UserType } from '@/lib/types/UserType.enum';
+import { Sidebar } from '@/ui/components/sidebar/sidebar';
+import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 import { PropsWithChildren } from 'react';
+import { ProposalDetailSkeleton } from './loading/proposal-detail-loading';
 
 interface ProposalSidebarProps {
   open: boolean;

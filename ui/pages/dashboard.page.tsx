@@ -18,7 +18,7 @@ export default function DashboardPage() {
       title: 'پروپوزال ها',
       src: '/backgrounds/proposals.jpg',
       action: PATHS.dashboard.proposals.root,
-      permissions: [3, 4],
+      permissions: [2, 3, 4, 5],
     },
     {
       title: 'تخصیص ها',

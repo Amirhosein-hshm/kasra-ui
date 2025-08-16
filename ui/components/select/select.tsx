@@ -22,6 +22,8 @@ interface FormSelectProps {
   options?: Option[];
   enumKey?: string; // prop جدید
   className?: string;
+  value?: string;
+  disabled?: boolean;
 }
 
 export function FormSelect({
@@ -31,6 +33,8 @@ export function FormSelect({
   options,
   enumKey,
   className,
+  value,
+  disabled,
 }: FormSelectProps) {
   const {
     control,
@@ -64,8 +68,9 @@ export function FormSelect({
         control={control}
         render={({ field }) => (
           <Select
-            value={field.value?.toString() || ''}
+            value={value || field.value?.toString() || ''}
             onValueChange={field.onChange}
+            disabled={disabled}
           >
             <SelectTrigger
               className={cn(error && 'border-destructive', className)}

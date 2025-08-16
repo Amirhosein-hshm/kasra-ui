@@ -1,24 +1,23 @@
 // src/lib/hooks/researcher.ts
-import {
-  useQuery,
-  useMutation,
-  UseQueryOptions,
-  UseMutationOptions,
-  useQueryClient,
-  keepPreviousData,
-} from '@tanstack/react-query';
 import { getResearcher } from '@/lib/services';
+import {
+  keepPreviousData,
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 
 import type {
   AllocateResponse,
   EditAllocateResearcherAllocatesAllocateIdPutParams,
-  GetAllReportsResearcherAllReportsGetParams,
   GetAllocatesResearcherAllocatesGetParams,
+  GetAllReportsResearcherAllReportsGetParams,
   GetProjectResearcherProjectsGetParams,
   GetReportsResearcherReportsProjectIdGetParams,
   ProjectResponse,
   ProposalResponse,
-  ResearcherUpdateProposal,
 } from 'lib/types';
 
 export const researcherQueryKeys = {
@@ -221,23 +220,42 @@ export function useEditProposalAndCreateProject(
   options?: UseMutationOptions<
     ProposalResponse,
     Error,
-    { proposalId: number; payload: ResearcherUpdateProposal }
+    { proposalId: number; accept: boolean }
   >
 ) {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ proposalId, payload }) => {
+    mutationFn: async ({ proposalId, accept }) => {
       const res =
         await getResearcher().editProposalAndCreateProjectResearcherProposalProposalIdPut(
           proposalId,
-          payload
+          { accept }
         );
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {
       qc.invalidateQueries({ queryKey: ['researcher', 'projects'] });
       options?.onSuccess?.(data, vars, ctx);
+    },
+    ...options,
+  });
+}
+
+export function useResearcherProposals(
+  params?: {
+    skip?: number;
+    limit?: number;
+  },
+  options?: Partial<UseQueryOptions<ProposalResponse[], Error>>
+) {
+  return useQuery({
+    queryKey: researcherQueryKeys.projects(params),
+    queryFn: async () => {
+      const res = await getResearcher().readProposalsResearcherProposalsGet(
+        params
+      );
+      return res.data;
     },
     ...options,
   });

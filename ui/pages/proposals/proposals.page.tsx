@@ -1,13 +1,17 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState, Suspense } from 'react';
-import { useUserProposals } from '@/lib/hooks';
+import {
+  useExplorerProposals,
+  useResearcherProposals,
+  useUserProposals,
+} from '@/lib/hooks';
+import { useMeStore } from '@/lib/stores/me.stores';
+import { UserType } from '@/lib/types/UserType.enum';
+import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProposalsTable from '@/ui/features/tables/proposals';
-import { useMeStore } from '@/lib/stores/me.stores';
-import { useDebounced } from '@/lib/utils/hooks/useDebounce';
-import { UserType } from '@/lib/types/UserType.enum';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 
 function ProposalsPageContent() {
   const searchParams = useSearchParams();
@@ -54,11 +58,36 @@ function ProposalsPageContent() {
     enabled: userTypeId == UserType.User,
     queryKey: ['userProposals', queryParams],
   });
+  const explorerQ = useExplorerProposals(queryParams, {
+    enabled: userTypeId == UserType.Explorer,
+    queryKey: ['explorerProposals', queryParams],
+  });
+  const researcherQ = useResearcherProposals(queryParams, {
+    enabled: userTypeId == UserType.Researcher,
+    queryKey: ['explorerProposals', queryParams],
+  });
 
-  const data = userQ.data;
+  const isFetching =
+    userTypeId === UserType.User
+      ? userQ.isFetching
+      : userTypeId === UserType.Explorer
+      ? explorerQ.isFetching
+      : researcherQ.isFetching;
 
-  const isLoading = userQ.isLoading;
-  const isFetching = userQ.isFetching;
+  const isLoading =
+    userTypeId === UserType.User
+      ? userQ.isLoading
+      : userTypeId === UserType.Explorer
+      ? explorerQ.isLoading
+      : researcherQ.isLoading;
+
+  const data =
+    userTypeId === UserType.User
+      ? userQ.data
+      : userTypeId === UserType.Explorer
+      ? explorerQ.data
+      : researcherQ.data;
+
   const total = 30;
 
   if (isLoading || !data) return <TableSkeleton />;
@@ -74,6 +103,7 @@ function ProposalsPageContent() {
       search={info}
       setSearch={setInfo}
       isFetching={isFetching}
+      isInitialLoading={isLoading}
     />
   );
 }
