@@ -38,7 +38,6 @@ export function AddRFPSidebar({ open, onOpenChange }: RFPSidebarProps) {
 
   const onSubmit = async (data: RFPFormValues) => {
     try {
-      console.log(data);
       await mutateAsync({ ...data, RFP_field_id: data.RFP_field_id, fileId });
       onOpenChange(false);
       queryClient.invalidateQueries({

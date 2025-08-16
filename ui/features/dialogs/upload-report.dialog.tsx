@@ -121,7 +121,7 @@ export function UploadReportDialog({ projectId }: Props) {
           });
       })
       .catch(() => {
-        toast.error('بارگذاری فایل ها آمیز نبود');
+        toast.error('بارگذاری فایل ها موفقیت آمیز نبود');
       })
       .finally(() => {
         setIsPending(false);

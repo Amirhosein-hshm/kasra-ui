@@ -120,7 +120,8 @@ export function useEditSupervisorReport(
     mutationFn: async ({ reportId, data }) => {
       const res = await getSupervisor().editReportSupervisorReportsReportIdPut(
         reportId,
-        data
+        data,
+        { accept: data.accept }
       );
       return res.data;
     },

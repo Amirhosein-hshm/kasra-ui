@@ -48,11 +48,9 @@ export default function SingleProjectPage(props: Props) {
   const data: ReportForTable[] =
     dataRaw?.map((item) => ({
       id: item.id,
-      // FIXME:
-      status: item.state ? '?' : '!',
+      state: item.state,
       project: item.project.title,
-      // FIXME:
-      percentage: 0,
+      percentage: item.acceptedPercent ?? 0,
     })) ?? [];
 
   const isLoading =

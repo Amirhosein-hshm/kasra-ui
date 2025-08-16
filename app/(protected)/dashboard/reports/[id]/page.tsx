@@ -2,7 +2,6 @@
 
 import { useUserReport } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
-import { ReportResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
 import Spinner from '@/ui/common/spinner';
 import ErrorView from '@/ui/features/error/error.view';
@@ -19,10 +18,8 @@ export default function Page() {
 
   const userReportQuery = useUserReport(reportId);
 
-  const data: ReportResponse | null | undefined = isUser
-    ? (userReportQuery.data as ReportResponse)
-    : null;
-
+  const isLoading = userReportQuery.isLoading;
+  const data = userReportQuery.data;
   const isError = isUser ? userReportQuery.isError : null;
 
   if (isError) {
@@ -32,7 +29,7 @@ export default function Page() {
   if (data)
     return (
       <SingleReportPage
-        state={Number(data?.state)}
+        state={data?.state}
         reportID={data?.id}
         projectID={data?.project?.id}
         fileIDs={{
@@ -41,8 +38,10 @@ export default function Page() {
           powerpoint: data?.filePptxId,
         }}
         comment={data?.comment}
+        announcedPercentage={data?.anouncedPercent}
+        acceptedPercentage={data?.acceptedPercent ?? 0}
       />
     );
 
-  return <Spinner size={50} className="my-20 mx-auto" />;
+  if (isLoading) return <Spinner size={50} className="my-20 mx-auto" />;
 }

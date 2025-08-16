@@ -115,7 +115,7 @@ export function getReportsTableColumns(
       },
     },
     {
-      accessorKey: 'status',
+      accessorKey: 'state',
       header: 'وضعیت',
     },
     {

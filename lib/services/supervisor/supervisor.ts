@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
+  EditReportSupervisorReportsReportIdPutParams,
   ProjectResponse,
   ReadProjectsSupervisorProjectsGetParams,
   ReportResponse,
@@ -39,13 +40,15 @@ export const getSupervisor = () => {
    */
   const editReportSupervisorReportsReportIdPut = (
     reportId: number,
-    reportUpdate: ReportUpdate
+    reportUpdate: ReportUpdate,
+    params: EditReportSupervisorReportsReportIdPutParams
   ) => {
     return api<ReportResponse>({
       url: `/supervisor/reports/${reportId}`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: reportUpdate,
+      params,
     });
   };
   /**

@@ -21,6 +21,7 @@ export * from './commissionRequest';
 export * from './commissionResponse';
 export * from './editAllocateResearcherAllocatesAllocateIdPutParams';
 export * from './editProposalAndCreateProjectResearcherProposalProposalIdPutParams';
+export * from './editReportSupervisorReportsReportIdPutParams';
 export * from './explorerCreateUpdateRFP';
 export * from './explorerCreateUpdateRFPFileId';
 export * from './explorerUpdateAllocate';

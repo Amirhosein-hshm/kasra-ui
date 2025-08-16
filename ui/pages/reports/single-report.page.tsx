@@ -13,7 +13,9 @@ interface Props {
     powerpoint: number;
   };
   comment: string;
-  state: number;
+  state: string;
+  announcedPercentage: number;
+  acceptedPercentage: number;
 }
 
 export default function SingleReportPage({
@@ -22,31 +24,45 @@ export default function SingleReportPage({
   projectID,
   fileIDs,
   comment,
+  announcedPercentage,
+  acceptedPercentage,
 }: Props) {
   const { user } = useMeStore();
   const isSupervisor = user?.userTypeId === UserType.Supervisor;
 
   return (
-    <div className="mt-4 flex flex-col gap-2">
+    <div className="mt-4 flex flex-col gap-3">
       <div>
         <strong>پروژه:</strong> <Badge>{projectID}</Badge>
       </div>
 
       <div>
         <strong>وضعیت:</strong>{' '}
-        {state === 1 ? (
+        {state === 'تایید شده' ? (
           <Badge
             variant="secondary"
             className="bg-teal-500 text-white dark:bg-teal-600"
           >
             تایید شده
           </Badge>
-        ) : state === 2 ? (
+        ) : state === 'رد شده' ? (
           <Badge variant="destructive">رد شده</Badge>
         ) : (
-          <Badge>در انتظار بررسی</Badge>
+          <Badge>در انتظار تایید</Badge>
         )}
       </div>
+
+      {state === 'تایید شده' && (
+        <div>
+          <strong>درصد تایید:</strong>{' '}
+          <Badge
+            variant="secondary"
+            className="bg-teal-500 text-white dark:bg-teal-600"
+          >
+            {acceptedPercentage}%
+          </Badge>
+        </div>
+      )}
 
       <div className="flex gap-2">
         <strong>فایل های گزارش:</strong>
@@ -57,8 +73,13 @@ export default function SingleReportPage({
         </FileDownload>
       </div>
 
-      {/* TODO: approve/reject report by supervisor */}
-      {isSupervisor && <CommentOnReportDialog reportID={reportID} />}
+      {isSupervisor && (
+        <CommentOnReportDialog
+          reportID={reportID}
+          announcedPercentage={announcedPercentage}
+          acceptedPercentage={acceptedPercentage}
+        />
+      )}
 
       {comment && comment.length > 0 && (
         <div>
