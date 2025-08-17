@@ -13,22 +13,6 @@ export default function RootLayout({
   return (
     <html lang="en" dir="rtl" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const theme = localStorage.getItem('theme');
-                  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  if (theme === 'dark' || (!theme && systemDark)) {
-                    document.documentElement.classList.add('dark');
-                  }
-                } catch (_) {}
-              })();
-            `,
-          }}
-        />
-        {/* FIXME: */}
         <title>سامانه کسری</title>
       </head>
       <body>

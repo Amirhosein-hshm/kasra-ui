@@ -16,8 +16,6 @@ export default function LoginForm({ onSuccess }: Props) {
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const form = useForm<BodyLoginTokenPost>();
 
-  // Test cookie functionality on mount
-
   const { mutateAsync, isPending } = useLogin();
 
   const handleSubmit = form.handleSubmit(async (data: BodyLoginTokenPost) => {

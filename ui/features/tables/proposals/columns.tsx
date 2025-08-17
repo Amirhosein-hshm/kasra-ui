@@ -34,32 +34,10 @@ export function getProposalsTableColumns(
   options?: ColumnOptions
 ): ColumnDef<ProposalResponse>[] {
   return [
-    {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="انتخاب همه"
-          className="m-3"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="انتخاب"
-          className="m-3"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    ...getProposalTableFiles(userRoleId),
     {
       id: 'actions',
+      header: 'عملیات',
       cell: ({ row }) => {
         const proposal = row.original;
         return (
@@ -126,19 +104,6 @@ export function getProposalsTableColumns(
         );
       },
     },
-    {
-      accessorKey: 'id',
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          شناسه
-          <ArrowUpDown className="mr-2 h-4 w-4" />
-        </Button>
-      ),
-    },
-    ...getProposalTableFiles(userRoleId),
   ];
 }
 

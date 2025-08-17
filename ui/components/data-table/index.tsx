@@ -153,7 +153,7 @@ export default function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="text-right bg-dark/5 dark:bg-white/5"
+                    className="text-right bg-dark/5 dark:bg-white/45"
                   >
                     {header.isPlaceholder
                       ? null
@@ -166,7 +166,7 @@ export default function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="bg-black/5">
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

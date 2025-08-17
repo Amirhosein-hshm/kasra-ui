@@ -36,12 +36,9 @@ export default function Breadcrumbs() {
             <div key={href} className="flex items-center gap-2">
               <BreadcrumbItem
                 key={href}
-                className={clsx(
-                  'font-bold text-lg',
-                  isLast && 'text-black dark:text-white'
-                )}
+                className={clsx('font-bold text-lg', isLast && 'text-black')}
               >
-                <BreadcrumbLink href={`/${href}`}>{path.label}</BreadcrumbLink>
+                {path.label}
               </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
             </div>

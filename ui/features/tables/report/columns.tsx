@@ -49,7 +49,20 @@ export function getReportsTableColumns(
 
   const columns = [
     {
+      accessorKey: 'state',
+      header: 'وضعیت',
+    },
+    {
+      accessorKey: 'percentage',
+      header: 'درصد تایید',
+    },
+    {
+      accessorKey: 'project',
+      header: 'پروژه',
+    },
+    {
       id: 'actions',
+      header: 'عملیات',
       cell: ({ row }) => {
         const report = row.original;
         return (
@@ -99,32 +112,6 @@ export function getReportsTableColumns(
           </DropdownMenu>
         );
       },
-    },
-    {
-      accessorKey: 'id',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            شناسه
-            <ArrowUpDown className="mr-2 h-4 w-4" />
-          </Button>
-        );
-      },
-    },
-    {
-      accessorKey: 'state',
-      header: 'وضعیت',
-    },
-    {
-      accessorKey: 'percentage',
-      header: 'درصد تایید',
-    },
-    {
-      accessorKey: 'project',
-      header: 'پروژه',
     },
   ];
 

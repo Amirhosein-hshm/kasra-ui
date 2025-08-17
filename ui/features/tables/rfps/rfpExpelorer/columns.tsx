@@ -53,6 +53,7 @@ export function getRfpsTableColumns(
     },
     {
       id: 'actions',
+      header: 'عملیات',
       cell: ({ row }) => {
         const rfp = row.original;
         return (

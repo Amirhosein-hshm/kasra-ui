@@ -33,31 +33,34 @@ export function getProjectsTableColumns(
 ): ColumnDef<ProjectResponse>[] {
   return [
     {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="انتخاب همه"
-          className="m-3"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="انتخاب"
-          className="m-3"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      accessorKey: 'title',
+      header: 'اطلاعات پروژه',
+    },
+    {
+      accessorKey: 'proposal.info',
+      header: 'پروپوزال',
+    },
+    {
+      header: 'سرپرست',
+      cell: ({ row }) => {
+        return (
+          <div className="hover:underline">
+            {row.original.supervisor.fname +
+              ' ' +
+              row.original.supervisor.lname}
+          </div>
+        );
+      },
+    },
+    {
+      header: 'استاد راهنما',
+      cell: ({ row }) => {
+        return <div className="hover:underline">{row.original.master}</div>;
+      },
     },
     {
       id: 'actions',
+      header: 'عملیات',
       cell: ({ row }) => {
         const project = row.original;
         return (
@@ -90,46 +93,6 @@ export function getProjectsTableColumns(
             </DropdownMenuContent>
           </DropdownMenu>
         );
-      },
-    },
-    {
-      accessorKey: 'id',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            شناسه
-            <ArrowUpDown className="mr-2 h-4 w-4" />
-          </Button>
-        );
-      },
-    },
-    {
-      accessorKey: 'title',
-      header: 'اطلاعات پروژه',
-    },
-    {
-      accessorKey: 'proposal.info',
-      header: 'پروپوزال',
-    },
-    {
-      header: 'سرپرست',
-      cell: ({ row }) => {
-        return (
-          <div className="hover:underline">
-            {row.original.supervisor.fname +
-              ' ' +
-              row.original.supervisor.lname}
-          </div>
-        );
-      },
-    },
-    {
-      header: 'استاد راهنما',
-      cell: ({ row }) => {
-        return <div className="hover:underline">{row.original.master}</div>;
       },
     },
   ];

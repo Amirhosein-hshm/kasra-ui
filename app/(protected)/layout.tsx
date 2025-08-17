@@ -1,7 +1,7 @@
 'use client';
 import { useUserMe } from '@/lib/hooks';
-import { useEffect } from 'react';
 import { useMeStore } from '@/lib/stores/me.stores';
+import { useEffect } from 'react';
 
 export default function ProtectedLayout({
   children,

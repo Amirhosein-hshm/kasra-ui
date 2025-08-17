@@ -1,6 +1,5 @@
 export * from './useAuthenticaton';
 export * from './useBroker';
-export * from './useDarkMode';
 export * from './useDataTableRequirements';
 export * from './useExplorer';
 export * from './useResearcher';

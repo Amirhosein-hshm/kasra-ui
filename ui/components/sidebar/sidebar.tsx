@@ -51,7 +51,7 @@ export function Sidebar({
         <DrawerOverlay />
         <DrawerContent
           className={cn(
-            'bg-[#0a0e1a]/70 backdrop-blur-md text-white border-l border-white/10 shadow-xl',
+            'backdrop-blur-md text-foreground border-l border-white/10 shadow-xl',
             className
           )}
         >
@@ -64,7 +64,9 @@ export function Sidebar({
             </DrawerHeader>
           )}
 
-          <div className="flex-1 overflow-auto p-4">{children}</div>
+          <div className="flex-1 overflow-auto *:text-foreground! p-4">
+            {children}
+          </div>
 
           {/* اگر کاربر فوتر دلخواه داده */}
           {customFooter ? (
