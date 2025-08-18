@@ -4,21 +4,20 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { RFPResponse } from './rFPResponse';
-import type { AllocateResponseMaster } from './allocateResponseMaster';
+import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { AllocateResponseProjectTitle } from './allocateResponseProjectTitle';
 import type { AllocateResponseProjectDescription } from './allocateResponseProjectDescription';
+import type { AllocateResponseMaster } from './allocateResponseMaster';
 
 export interface AllocateResponse {
   id: number;
   creatorId: number;
   createdAt: string;
-  creator: UserInfoLimitedResponse;
   rfp: RFPResponse;
   allocatedToUser: UserInfoLimitedResponse;
-  master: AllocateResponseMaster;
   projectTitle: AllocateResponseProjectTitle;
   projectDescription: AllocateResponseProjectDescription;
+  master: AllocateResponseMaster;
   state: string;
 }

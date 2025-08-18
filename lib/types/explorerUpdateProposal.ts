@@ -4,8 +4,12 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { ExplorerUpdateProposalCommissionFileId } from './explorerUpdateProposalCommissionFileId';
+import type { ExplorerUpdateProposalCommissionDateTime } from './explorerUpdateProposalCommissionDateTime';
 
 export interface ExplorerUpdateProposal {
   comment: string;
   supervisorId: number;
+  commissionFileId: ExplorerUpdateProposalCommissionFileId;
+  commissionDateTime: ExplorerUpdateProposalCommissionDateTime;
 }

@@ -12,8 +12,8 @@ export interface RFPResponse {
   id: number;
   info: string;
   createdAt: string;
-  creator: UserInfoLimitedResponse;
   creatorId: number;
+  creator: UserInfoLimitedResponse;
   fileId?: RFPResponseFileId;
   RFP_field: RFPFieldResponse;
 }

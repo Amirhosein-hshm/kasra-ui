@@ -48,7 +48,7 @@ export function getAllocateTableColumns(
       header: 'ثبت کننده',
       cell({ row }) {
         const allocate = row.original;
-        return <span>{getFullName(allocate.creator)}</span>;
+        return <span>{getFullName(allocate.rfp.creator)}</span>;
       },
     },
 

@@ -6,9 +6,9 @@
  */
 import type { ProposalResponseStartAt } from './proposalResponseStartAt';
 import type { ProposalResponseEndAt } from './proposalResponseEndAt';
+import type { ProposalResponseMaster } from './proposalResponseMaster';
 import type { ProposalResponseAllocateId } from './proposalResponseAllocateId';
 import type { ProposalResponseSupervisorId } from './proposalResponseSupervisorId';
-import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { ProposalResponseFileId } from './proposalResponseFileId';
 import type { ProposalResponseComment } from './proposalResponseComment';
 
@@ -18,14 +18,13 @@ export interface ProposalResponse {
   createdAt: string;
   startAt: ProposalResponseStartAt;
   endAt: ProposalResponseEndAt;
-  masterNameAndFamily: string;
+  master: ProposalResponseMaster;
   title: string;
   description: string;
   RFP_id: number;
   allocateId: ProposalResponseAllocateId;
   supervisorId: ProposalResponseSupervisorId;
   userId: number;
-  creator: UserInfoLimitedResponse;
   fileId: ProposalResponseFileId;
   state: string;
   comment: ProposalResponseComment;

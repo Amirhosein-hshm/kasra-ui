@@ -6,5 +6,5 @@
  */
 
 export interface ExplorerUpdateAllocate {
-  master: string;
+  masterId: number;
 }

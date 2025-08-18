@@ -4,7 +4,6 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { ReportResponseAcceptedPercent } from './reportResponseAcceptedPercent';
 import type { ProjectResponse } from './projectResponse';
 
@@ -12,7 +11,6 @@ export interface ReportResponse {
   id: number;
   creatorId: number;
   createdAt: string;
-  creator: UserInfoLimitedResponse;
   title: string;
   comment: string;
   state: string;

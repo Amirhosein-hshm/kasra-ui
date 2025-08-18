@@ -10,6 +10,7 @@ import type {
   ExplorerUpdateAllocate,
   ExplorerUpdateProposal,
   GetAllocatesExplorerAllocatesGetParams,
+  MasterResponse,
   ProposalResponse,
   RFPFieldResponse,
   RFPResponse,
@@ -154,6 +155,12 @@ export const getExplorer = () => {
       method: 'GET',
     });
   };
+  /**
+   * @summary Get Masters
+   */
+  const getMastersExplorerMastersGet = () => {
+    return api<MasterResponse[]>({ url: `/explorer/masters`, method: 'GET' });
+  };
   return {
     readRfpFieldsExplorerRfpFieldsGet,
     searchRfpsEndpointExplorerRfpsGet,
@@ -166,6 +173,7 @@ export const getExplorer = () => {
     editAllocateExplorerAllocatesAllocateIdPut,
     getAllocatesExplorerAllocatesGet,
     singleAllocateExplorerSingleAllocateAllocateIdGet,
+    getMastersExplorerMastersGet,
   };
 };
 export type ReadRfpFieldsExplorerRfpFieldsGetResult = NonNullable<
@@ -248,3 +256,8 @@ export type SingleAllocateExplorerSingleAllocateAllocateIdGetResult =
       >
     >
   >;
+export type GetMastersExplorerMastersGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getExplorer>['getMastersExplorerMastersGet']>
+  >
+>;

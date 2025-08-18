@@ -5,7 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportUpdate {
-  comment: string;
-  acceptedPercent: number;
-}
+export type ExplorerUpdateProposalCommissionFileId = number | null;

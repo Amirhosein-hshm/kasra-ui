@@ -6,4 +6,4 @@
  */
 import type { MasterResponse } from './masterResponse';
 
-export type AllocateResponseMaster = MasterResponse | null;
+export type ProposalResponseMaster = MasterResponse | null;
