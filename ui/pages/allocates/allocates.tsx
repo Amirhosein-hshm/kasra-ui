@@ -1,7 +1,7 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState, startTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, startTransition } from 'react';
 import {
   useBrokerAllocates,
   useUserAllocates,
@@ -9,7 +9,6 @@ import {
   useExplorerAllocates,
   useDataTableRequirements,
 } from '@/lib/hooks';
-import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import AllocatesTable from '@/ui/features/tables/allocations';
 import { useMeStore } from '@/lib/stores/me.stores';
 
