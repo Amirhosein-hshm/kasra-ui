@@ -65,15 +65,8 @@ export function Modal({
       <DialogPortal>
         <DialogOverlay />
         <DialogContent
-          showCloseButton={showCloseButton}
-          className={cn(
-            // پایه‌ی شاد‌سی‌اِن
-            'bg-background',
-            // اندازه
-            sizeClass[size],
-            className
-          )}
-          // جلوگیری از بستن با کلیک بیرون/ESC (در صورت نیاز)
+          showCloseButton={false}
+          className={cn('bg-background', sizeClass[size], className)}
           onPointerDownOutside={(e) => {
             if (disableOutsideClose) e.preventDefault();
           }}
@@ -81,11 +74,20 @@ export function Modal({
             if (disableOutsideClose) e.preventDefault();
           }}
         >
+          {showCloseButton && (
+            <DialogClose className="absolute left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+              <span className="sr-only">بستن</span>✕
+            </DialogClose>
+          )}
           {showHeader && (title || description) && (
             <DialogHeader className="border-b pb-3">
-              {title && <DialogTitle>{title}</DialogTitle>}
+              {title && (
+                <DialogTitle className="text-right">{title}</DialogTitle>
+              )}
               {description && (
-                <DialogDescription>{description}</DialogDescription>
+                <DialogDescription className="text-right">
+                  {description}
+                </DialogDescription>
               )}
             </DialogHeader>
           )}

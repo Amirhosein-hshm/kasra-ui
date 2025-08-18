@@ -260,19 +260,14 @@ export function useUserAllocate(
 
 /** Edit allocate */
 export function useEditUserAllocate(
-  options?: UseMutationOptions<
-    AllocateResponse,
-    Error,
-    { allocateId: number; data: UserUpdateAllocate }
-  >
+  options?: UseMutationOptions<AllocateResponse, Error, { allocateId: number }>
 ) {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ allocateId, data }) => {
+    mutationFn: async ({ allocateId }) => {
       const res = await getUser().editAllocateUsersAllocatesAllocateIdPut(
-        allocateId,
-        data
+        allocateId
       );
       return res.data;
     },

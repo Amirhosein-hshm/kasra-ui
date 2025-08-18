@@ -87,7 +87,7 @@ export function getAllocateTableColumns(
                   onClick={() => options?.onOpenAddProjectTitle?.(allocate)}
                   className={dropdownMenuItemClassname}
                 >
-                  <Edit /> ساخت موضوع پروژه
+                  <Edit /> تایید ساخت پروژه
                 </DropdownMenuItem>
               )}
 

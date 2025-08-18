@@ -13,7 +13,6 @@ import type {
   ReadProposalsUsersProposalsGetParams,
   ReportRequest,
   ReportResponse,
-  UserUpdateAllocate,
   UserUpdateProposal,
 } from '../../types';
 
@@ -133,15 +132,10 @@ export const getUser = () => {
   /**
    * @summary Edit Allocate
    */
-  const editAllocateUsersAllocatesAllocateIdPut = (
-    allocateId: number,
-    userUpdateAllocate: UserUpdateAllocate
-  ) => {
+  const editAllocateUsersAllocatesAllocateIdPut = (allocateId: number) => {
     return api<AllocateResponse>({
       url: `/users/allocates/${allocateId}`,
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: userUpdateAllocate,
     });
   };
   return {

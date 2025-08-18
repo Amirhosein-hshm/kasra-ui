@@ -5,11 +5,10 @@ import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
 import { getAllocateTableColumns } from './columns';
 import { AllocateDetailSideBar } from './components/allocateDetailSidebar';
-import { AddProjectTitleSideBar } from './components/addProjectTitle';
 import { useMeStore } from '@/lib/stores/me.stores';
 import Modal from '@/ui/components/modal/modal';
 import { Button } from '@/ui/components/button';
-import { useEditResearcherAllocate } from '@/lib/hooks';
+import { useEditResearcherAllocate, useEditUserAllocate } from '@/lib/hooks';
 import { toast } from 'sonner';
 import { AddMasterAllocateSideBar } from './components/addMasterAllocateMaster';
 
@@ -85,6 +84,21 @@ export default function AllocatesTable({
   };
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
+  const {
+    mutateAsync: runEditUserAllocate,
+    isPending: editUserAllocateLoading,
+  } = useEditUserAllocate();
+
+  const onSubmitUserAcceptTitle = async () => {
+    try {
+      await runEditUserAllocate({ allocateId: selected?.id! });
+      setIsOpenAddProjectTitle(false);
+      toast.success('موضوع پروژه با موفقیت تایید شد');
+    } catch (e) {
+      toast.error('خطا در تایید موضوع پروژه');
+    }
+  };
+
   const allocatesTableColumns = getAllocateTableColumns(userTypeId!, {
     onView: (item) => {
       setSelected(item);
@@ -128,16 +142,33 @@ export default function AllocatesTable({
         onOpenChange={setIsOpenAllocateDetails}
         selected={selected}
       />
-      <AddProjectTitleSideBar
-        onOpenChange={setIsOpenAddProjectTitle}
-        open={isOpenAddProjectTitle}
-        selected={selected}
-      />
       <AddMasterAllocateSideBar
         onOpenChange={setIsOpenAddMasterToAllocate}
         open={isOpenAddMasterToAllocate}
         selected={selected}
       />
+
+      <Modal
+        open={isOpenAddProjectTitle}
+        onOpenChange={() => setIsOpenAddProjectTitle(false)}
+        title={`تایید موضوع پروژه`}
+        size="xl"
+        disableOutsideClose
+        showDefaultFooter={false}
+        customFooter={
+          <div className="flex w-full gap-2 justify-end">
+            <Button
+              className="w-20"
+              loading={editUserAllocateLoading}
+              onClick={onSubmitUserAcceptTitle}
+            >
+              تایید
+            </Button>
+          </div>
+        }
+      >
+        {`این موضوع را برای این پروژه ''${selected?.rfp.info}'' تایید میکنید؟`}
+      </Modal>
       <Modal
         open={isOpenConfirmeAllocate}
         onOpenChange={handleCloseConfrimeAllocate}
