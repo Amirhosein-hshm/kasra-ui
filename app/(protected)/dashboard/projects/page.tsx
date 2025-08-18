@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import ProjectsPage from '@/ui/pages/projects/projects.page';
+import ProjectsPage from '@/ui/pages/projects/projects';
 
 export default function PageWrapper() {
   return (

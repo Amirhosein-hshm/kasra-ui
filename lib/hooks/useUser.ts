@@ -44,10 +44,13 @@ export const userQueryKeys = {
 
 /** List user proposals */
 export function useUserProposals(
+  userTypeId: number,
   params?: ReadProposalsUsersProposalsGetParams,
   options?: UseQueryOptions<ProposalResponse[], Error>
 ) {
   return useQuery({
+    enabled: userTypeId == 3,
+    placeholderData: keepPreviousData,
     queryKey: userQueryKeys.proposals(params),
     queryFn: async () => {
       const res = await getUser().readProposalsUsersProposalsGet(params);
@@ -110,10 +113,13 @@ export function useEditUserProposal(
 
 /** List user projects */
 export function useUserProjects(
+  useTypeId: number,
   params?: ReadProjectsUsersProjectsGetParams,
   options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
+    enabled: useTypeId == 3,
+    placeholderData: keepPreviousData,
     queryKey: userQueryKeys.projects(params),
     queryFn: async () => {
       const res = await getUser().readProjectsUsersProjectsGet(params);

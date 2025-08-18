@@ -14,8 +14,6 @@ import { FileDownload } from '@/ui/components/file-download';
 import { UploadReportDialog } from '@/ui/features/dialogs/upload-report.dialog';
 import ReportsTable from '@/ui/features/tables/report';
 import clsx from 'clsx';
-import { useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
 
 interface Props {
   project: ProjectResponse;

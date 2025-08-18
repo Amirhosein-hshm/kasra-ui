@@ -10,14 +10,9 @@ import { ProposalDetailSideBar } from './components/proposal-detail';
 import Modal from '@/ui/components/modal/modal';
 import { UserType } from '@/lib/types/UserType.enum';
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  useEditExplorerProposal,
-  useEditProposalAndCreateProject,
-  useExplorerUsersSupervisor,
-} from '@/lib/hooks';
+import { useEditProposalAndCreateProject } from '@/lib/hooks';
 import { toast } from 'sonner';
 import { Button } from '@/ui/components/button';
-import { useForm } from 'react-hook-form';
 import { AssignSupervisorToProposalSidebar } from './components/assign-supervisor-to-proposal-sidebar';
 
 interface Props {

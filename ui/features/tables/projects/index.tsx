@@ -21,6 +21,7 @@ interface Props {
   search: string;
   setSearch: (v: string) => void;
   isFetching: boolean;
+  isInitialLoading: boolean;
 }
 
 export default function ProjectsTable({
@@ -33,6 +34,7 @@ export default function ProjectsTable({
   search,
   setSearch,
   isFetching,
+  isInitialLoading,
 }: Props) {
   const me = useMeStore();
   const queryClient = useQueryClient();
@@ -91,6 +93,7 @@ export default function ProjectsTable({
         search={search}
         setSearch={setSearch}
         isFetching={isFetching}
+        loading={isInitialLoading}
       />
 
       <Modal

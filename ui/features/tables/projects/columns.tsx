@@ -37,7 +37,7 @@ export function getProjectsTableColumns(
       header: 'اطلاعات پروژه',
     },
     {
-      accessorKey: 'proposal.info',
+      accessorKey: 'proposal.title',
       header: 'پروپوزال',
     },
     {
@@ -55,7 +55,9 @@ export function getProjectsTableColumns(
     {
       header: 'استاد راهنما',
       cell: ({ row }) => {
-        return <div className="hover:underline">{row.original.master}</div>;
+        return (
+          <div className="hover:underline">{row.original.master.name}</div>
+        );
       },
     },
     {

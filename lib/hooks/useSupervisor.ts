@@ -5,14 +5,16 @@ import {
   UseQueryOptions,
   UseMutationOptions,
   useQueryClient,
+  keepPreviousData,
 } from '@tanstack/react-query';
 import { getSupervisor } from '@/lib/services';
 
 import type {
+  EditReportSupervisorReportsReportIdPutParams,
   ProjectResponse,
+  ReadProjectsSupervisorProjectsGetParams,
   ReportResponse,
   ReportUpdate,
-  ReadProjectsSupervisorProjectsGetParams,
 } from '@/lib/types';
 
 /** Centralized query keys */
@@ -21,18 +23,23 @@ export const supervisorQueryKeys = {
     ['supervisor', 'projects', params] as const,
   project: (projectId?: number) =>
     ['supervisor', 'project', projectId] as const,
-
   reportsByProject: (projectId?: number) =>
     ['supervisor', 'reportsByProject', projectId] as const,
   report: (reportId?: number) => ['supervisor', 'report', reportId] as const,
 };
 
-/** Read projects (list) */
+/** Read projects (list)
+ *  NOTE: userTypeId برای سازگاری با کدهای قبلی حفظ شده اما در فراخوانی سرویس استفاده نمی‌شود.
+ */
 export function useSupervisorProjects(
+  // kept for backward compatibility (unused)
+  userTypeId: number,
   params?: ReadProjectsSupervisorProjectsGetParams,
   options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
+    enabled: userTypeId == 4,
+    placeholderData: keepPreviousData,
     queryKey: supervisorQueryKeys.projects(params),
     queryFn: async () => {
       const res = await getSupervisor().readProjectsSupervisorProjectsGet(
@@ -52,8 +59,9 @@ export function useSupervisorSingleProject(
   return useQuery({
     queryKey: supervisorQueryKeys.project(projectId),
     queryFn: async () => {
-      if (projectId === undefined || projectId === null)
+      if (projectId === undefined || projectId === null) {
         throw new Error('projectId is required');
+      }
       const res =
         await getSupervisor().readProjectsSupervisorSingleProjectProjectIdGet(
           projectId
@@ -73,8 +81,9 @@ export function useSupervisorReportsByProject(
   return useQuery({
     queryKey: supervisorQueryKeys.reportsByProject(projectId),
     queryFn: async () => {
-      if (projectId === undefined || projectId === null)
+      if (projectId === undefined || projectId === null) {
         throw new Error('projectId is required');
+      }
       const res =
         await getSupervisor().readReportsByProjectSupervisorReportsByProjectProjectIdGet(
           projectId
@@ -94,8 +103,9 @@ export function useSupervisorSingleReport(
   return useQuery({
     queryKey: supervisorQueryKeys.report(reportId),
     queryFn: async () => {
-      if (reportId === undefined || reportId === null)
+      if (reportId === undefined || reportId === null) {
         throw new Error('reportId is required');
+      }
       const res = await getSupervisor().readReportSupervisorSingleReportIdGet(
         reportId
       );
@@ -111,27 +121,31 @@ export function useEditSupervisorReport(
   options?: UseMutationOptions<
     ReportResponse,
     Error,
-    { reportId: number; data: ReportUpdate }
+    {
+      reportId: number;
+      data: ReportUpdate;
+      params?: EditReportSupervisorReportsReportIdPutParams;
+    }
   >
 ) {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ reportId, data }) => {
+    mutationFn: async ({ reportId, data, params }) => {
       const res = await getSupervisor().editReportSupervisorReportsReportIdPut(
         reportId,
         data,
-        { accept: data.accept }
+        // اگر پارامترهای کوئری لازم بود از بیرون بدهید؛ در غیر این صورت خالی ارسال می‌شود.
+        params ?? ({} as EditReportSupervisorReportsReportIdPutParams)
       );
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {
-      // تازه‌سازی گزارش تکی و لیست گزارش‌های پروژه‌ی مربوطه
+      // تازه‌سازی گزارش تک
       qc.invalidateQueries({
         queryKey: supervisorQueryKeys.report(vars.reportId),
       });
-      // اگر payload شامل projectId نیست و توی UI می‌دونی projectId فعالی وجود داره،
-      // می‌تونی به‌جاش invalidate عمومی انجام بدی:
+      // تازه‌سازی همه لیست‌های گزارش‌های پروژه (IDs مختلف)
       qc.invalidateQueries({ queryKey: ['supervisor', 'reportsByProject'] });
       options?.onSuccess?.(data, vars, ctx);
     },

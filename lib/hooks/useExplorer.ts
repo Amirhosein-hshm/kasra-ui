@@ -145,9 +145,11 @@ export function useGetExplorerRfpById(
 
 /** List Supervisors */
 export function useExplorerUsersSupervisor(
+  open: boolean,
   options?: Partial<UseQueryOptions<UserInfoResponse[], Error>>
 ) {
   return useQuery({
+    enabled: open,
     queryKey: explorerQueryKeys.supervisors,
     queryFn: async () => {
       const res =
@@ -160,10 +162,13 @@ export function useExplorerUsersSupervisor(
 
 /** List Proposals */
 export function useExplorerProposals(
+  userTypeId: number,
   params?: ReadProposalsExplorerProposalsGetParams,
   options?: UseQueryOptions<ProposalResponse[], Error>
 ) {
   return useQuery({
+    enabled: userTypeId == 2,
+    placeholderData: keepPreviousData,
     queryKey: explorerQueryKeys.proposals(params),
     queryFn: async () => {
       const res = await getExplorer().readProposalsExplorerProposalsGet(params);

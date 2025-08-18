@@ -9,8 +9,6 @@ import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
-import { Button } from '@/ui/components/button';
 import { AssignProposalSupervisorSidebarSkeleton } from './loading/AssignProposalSupervisorSidebarSkeleton';
 
 interface ProposalSidebarProps {
@@ -31,7 +29,7 @@ export function AssignSupervisorToProposalSidebar({
 
   const queryClient = useQueryClient();
 
-  const explorerUsersQ = useExplorerUsersSupervisor();
+  const explorerUsersQ = useExplorerUsersSupervisor(open);
   const explorerForm = useForm({
     defaultValues: {
       supervisor_id: -1,

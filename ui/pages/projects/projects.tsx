@@ -3,32 +3,61 @@
 import {
   useUserProjects,
   useSupervisorProjects,
-  useTablePagination,
   useResearcherProjects,
+  useDataTableRequirements,
 } from '@/lib/hooks';
-import { TableSkeleton } from '@/ui/components/loadings/table-loading';
 import ProjectsTable from '@/ui/features/tables/projects';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
+import { startTransition, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ProjectsPage() {
+  const router = useRouter();
+
+  const {
+    searchParams,
+    debouncedInfo,
+    pageIndex,
+    pageSize,
+    searchInput,
+    setPageIndex,
+    setSearchInput,
+    pageFromUrl,
+    infoFromUrl,
+    queryParams,
+  } = useDataTableRequirements();
+
+  useEffect(() => {
+    setPageIndex(pageFromUrl - 1);
+    setSearchInput(infoFromUrl);
+  }, [pageFromUrl, infoFromUrl]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', (pageIndex + 1).toString());
+    if (debouncedInfo) params.set('info', debouncedInfo);
+    else params.delete('info');
+
+    startTransition(() => {
+      router.replace(`?${params.toString()}`);
+    });
+  }, [pageIndex, debouncedInfo]);
+
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
-  const { queryParams, pageIndex, pageSize, setPageIndex, info, setInfo } =
-    useTablePagination();
-
-  const userProjectsQuery = useUserProjects(queryParams, {
-    enabled: userTypeId === UserType.User,
-    queryKey: ['userProjects', queryParams],
-  });
-  const supervisorProjectsQuery = useSupervisorProjects(queryParams, {
-    enabled: userTypeId === UserType.Supervisor,
-    queryKey: ['supervisorProjects', queryParams],
-  });
-  const researcherProjectsQuery = useResearcherProjects(queryParams, {
-    enabled: userTypeId === UserType.Researcher,
-    queryKey: ['researcherProjects', queryParams],
-  });
+  useEffect(() => {
+    setPageIndex(0);
+  }, [debouncedInfo]);
+  const userProjectsQuery = useUserProjects(userTypeId!, queryParams);
+  const supervisorProjectsQuery = useSupervisorProjects(
+    userTypeId!,
+    queryParams
+  );
+  const researcherProjectsQuery = useResearcherProjects(
+    userTypeId!,
+    queryParams
+  );
 
   const data =
     userTypeId === UserType.Supervisor
@@ -39,7 +68,7 @@ export default function ProjectsPage() {
       ? researcherProjectsQuery.data
       : [];
 
-  const isLoading =
+  const isInitialLoading =
     userTypeId === UserType.Supervisor
       ? supervisorProjectsQuery.isLoading
       : userTypeId === UserType.User
@@ -59,8 +88,6 @@ export default function ProjectsPage() {
 
   const total = 30;
 
-  if (isLoading || !data) return <TableSkeleton />;
-
   return (
     <ProjectsTable
       data={data || []}
@@ -69,9 +96,10 @@ export default function ProjectsPage() {
       pageCount={Math.ceil(total / pageSize)}
       setPageIndex={setPageIndex}
       setPageSize={() => {}}
-      search={info}
-      setSearch={setInfo}
+      search={searchInput}
+      setSearch={setSearchInput}
       isFetching={isFetching}
+      isInitialLoading={isInitialLoading}
     />
   );
 }

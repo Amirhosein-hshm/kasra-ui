@@ -41,10 +41,13 @@ export const researcherQueryKeys = {
 };
 
 export function useResearcherProjects(
+  userTypeId: number,
   params?: GetProjectResearcherProjectsGetParams,
   options?: UseQueryOptions<ProjectResponse[], Error>
 ) {
   return useQuery({
+    enabled: userTypeId == 5,
+    placeholderData: keepPreviousData,
     queryKey: researcherQueryKeys.projects(params),
     queryFn: async () => {
       const res = await getResearcher().getProjectResearcherProjectsGet(params);
@@ -243,6 +246,7 @@ export function useEditProposalAndCreateProject(
 }
 
 export function useResearcherProposals(
+  userTypeId: number,
   params?: {
     skip?: number;
     limit?: number;
@@ -250,6 +254,8 @@ export function useResearcherProposals(
   options?: Partial<UseQueryOptions<ProposalResponse[], Error>>
 ) {
   return useQuery({
+    enabled: userTypeId == 5,
+    placeholderData: keepPreviousData,
     queryKey: researcherQueryKeys.projects(params),
     queryFn: async () => {
       const res = await getResearcher().readProposalsResearcherProposalsGet(

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useDataTableRequirements,
   useExplorerProposals,
   useResearcherProposals,
   useUserProposals,
@@ -10,61 +11,49 @@ import { UserType } from '@/lib/types/UserType.enum';
 import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import ProposalsTable from '@/ui/features/tables/proposals';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { startTransition, useEffect, useMemo, useState } from 'react';
 
 function ProposalsPageContent() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const userTypeId = useMeStore((s) => s.user?.userTypeId);
 
-  const pageFromUrl = useMemo(() => {
-    const raw = searchParams.get('page');
-    const page = raw ? parseInt(raw, 10) : 1;
-    return isNaN(page) || page < 1 ? 1 : page;
-  }, [searchParams]);
+  const {
+    searchParams,
+    debouncedInfo,
+    pageIndex,
+    pageSize,
+    searchInput,
+    setPageIndex,
+    setSearchInput,
+    pageFromUrl,
+    infoFromUrl,
+    queryParams,
+  } = useDataTableRequirements();
 
-  const infoFromUrl = useMemo(() => {
-    return searchParams.get('info') || '';
-  }, [searchParams]);
-
-  const pageSize = 10;
-  const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
-  const [info, setInfo] = useState(infoFromUrl);
-
-  const infoDebounce = useDebounced(info, 500);
+  useEffect(() => {
+    setPageIndex(pageFromUrl - 1);
+    setSearchInput(infoFromUrl);
+  }, [pageFromUrl, infoFromUrl]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', (pageIndex + 1).toString());
-    if (infoDebounce) {
-      params.set('info', infoDebounce);
-    } else {
-      params.delete('info');
-    }
-    router.replace(`?${params.toString()}`);
-  }, [pageIndex, infoDebounce]);
+    if (debouncedInfo) params.set('info', debouncedInfo);
+    else params.delete('info');
 
-  const queryParams = useMemo(
-    () => ({
-      skip: pageIndex * pageSize,
-      limit: pageSize,
-      info: infoDebounce || undefined,
-    }),
-    [pageIndex, pageSize, infoDebounce]
-  );
+    startTransition(() => {
+      router.replace(`?${params.toString()}`);
+    });
+  }, [pageIndex, debouncedInfo]);
 
-  const userQ = useUserProposals(queryParams, {
-    enabled: userTypeId == UserType.User,
-    queryKey: ['userProposals', queryParams],
-  });
-  const explorerQ = useExplorerProposals(queryParams, {
-    enabled: userTypeId == UserType.Explorer,
-    queryKey: ['explorerProposals', queryParams],
-  });
-  const researcherQ = useResearcherProposals(queryParams, {
-    enabled: userTypeId == UserType.Researcher,
-    queryKey: ['explorerProposals', queryParams],
-  });
+  useEffect(() => {
+    setPageIndex(0);
+  }, [debouncedInfo]);
+
+  const userTypeId = useMeStore((s) => s.user?.userTypeId);
+
+  const userQ = useUserProposals(userTypeId!, queryParams);
+  const explorerQ = useExplorerProposals(userTypeId!, queryParams);
+  const researcherQ = useResearcherProposals(userTypeId!, queryParams);
 
   const isFetching =
     userTypeId === UserType.User
@@ -97,8 +86,8 @@ function ProposalsPageContent() {
       pageCount={Math.ceil(total / pageSize)}
       setPageIndex={setPageIndex}
       setPageSize={() => {}}
-      search={info}
-      setSearch={setInfo}
+      search={searchInput}
+      setSearch={setSearchInput}
       isFetching={isFetching}
       isInitialLoading={isLoading}
     />
