@@ -4,11 +4,12 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/ui/components/input/input';
 import { toast } from 'sonner';
-import { useEditExplorerAllocate } from '@/lib/hooks';
+import { useEditExplorerAllocate, useExplorerMasters } from '@/lib/hooks';
 import {
   AddMasterAllocateFormValues,
   addMasterAllocateSchema,
 } from './add-master-allocate';
+import { FormSelect } from '@/ui/components/select/select';
 
 interface AddMasterAllocateSidebarProps {
   open: boolean;
@@ -30,14 +31,19 @@ export function AddMasterAllocateSideBar({
     form.reset();
   };
 
+  const { data: masters = [] } = useExplorerMasters({
+    enabled: open,
+    queryKey: ['broker-users'],
+  });
+
   const { mutateAsync, isPending } = useEditExplorerAllocate();
 
-  const onSubmit = async (data: AddMasterAllocateFormValues) => {
+  const onSubmit = async ({ masterId }: AddMasterAllocateFormValues) => {
     try {
       await mutateAsync({
         allocateId: selected?.id!,
         payload: {
-          master: data.firstName! + data.lastName!,
+          masterId: +masterId,
         },
       });
       handleClose();
@@ -59,15 +65,13 @@ export function AddMasterAllocateSideBar({
       >
         <div className=" flex flex-col gap-3">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormInput
-              name="firstName"
-              label="نام استاد راهنما"
-              placeholder="نام استاد راهنما"
-            />
-            <FormInput
-              name="lastName"
-              label="فامیلی استاد راهنما"
-              placeholder="فامیلی استاد راهنما"
+            <FormSelect
+              name="masterId"
+              label="استاد راهنما"
+              options={masters.map((u) => ({
+                value: u.id,
+                label: `${u.name} `,
+              }))}
             />
           </form>
         </div>

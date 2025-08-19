@@ -16,6 +16,7 @@ import type {
   ExplorerUpdateAllocate,
   ExplorerUpdateProposal,
   GetAllocatesExplorerAllocatesGetParams,
+  MasterResponse,
   ProposalResponse,
   ReadProposalsExplorerProposalsGetParams,
   ReadRfpFieldsExplorerRfpFieldsGetParams,
@@ -42,6 +43,8 @@ export const explorerQueryKeys = {
     ['explorer', 'allocates', params] as const,
   allocate: (allocateId?: number) =>
     ['explorer', 'allocate', allocateId] as const,
+
+  masters: ['explorer', 'masters'] as const, // ← جدید
 };
 
 /** Read RFP fields */
@@ -146,7 +149,7 @@ export function useGetExplorerRfpById(
 /** List Supervisors */
 export function useExplorerUsersSupervisor(
   open: boolean,
-  options?: Partial<UseQueryOptions<UserInfoResponse[], Error>>
+  options?: UseQueryOptions<UserInfoResponse[], Error>
 ) {
   return useQuery({
     enabled: open,
@@ -270,6 +273,20 @@ export function useEditExplorerAllocate(
         queryKey: explorerQueryKeys.allocate(vars.allocateId),
       });
       options?.onSuccess?.(data, vars, ctx);
+    },
+    ...options,
+  });
+}
+
+/** Get Masters (جدید) */
+export function useExplorerMasters(
+  options?: UseQueryOptions<MasterResponse[], Error>
+) {
+  return useQuery({
+    queryKey: explorerQueryKeys.masters,
+    queryFn: async () => {
+      const res = await getExplorer().getMastersExplorerMastersGet();
+      return res.data;
     },
     ...options,
   });
