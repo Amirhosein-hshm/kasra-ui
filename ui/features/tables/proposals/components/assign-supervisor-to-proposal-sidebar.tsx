@@ -10,6 +10,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { AssignProposalSupervisorSidebarSkeleton } from './loading/AssignProposalSupervisorSidebarSkeleton';
+import { FileUpload } from '@/ui/components/file-upload';
+import { useState } from 'react';
+import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CommissionFormValues,
+  commissionSchema,
+} from './commission-validation';
+import { FormInput } from '@/ui/components/input/input';
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -30,34 +39,40 @@ export function AssignSupervisorToProposalSidebar({
   const queryClient = useQueryClient();
 
   const explorerUsersQ = useExplorerUsersSupervisor(open);
-  const explorerForm = useForm({
-    defaultValues: {
-      supervisor_id: -1,
-    },
+  const explorerForm = useForm<CommissionFormValues>({
+    resolver: zodResolver(commissionSchema),
   });
 
+  const [fileId, setFileId] = useState<number | null>(null);
+
+  const onUploadComplete = (val: any) => {
+    toast.success('فایل با موفقیت بارگذاری شد');
+    setFileId(val.id);
+  };
+
   const { mutateAsync, isPending } = useEditExplorerProposal();
-  const handleSubmitExplorerForm = explorerForm.handleSubmit((data) => {
-    if (selected)
-      mutateAsync({
-        proposalId: selected.id,
-        payload: {
-          supervisorId: data.supervisor_id,
-          // FIXME:
-          comment: '',
-          commissionFileId: null,
-          commissionDateTime: null,
-        },
-      })
-        .then(() => {
-          toast.success('تعیین ناظر انجام شد');
-          onOpenChange(false);
-          queryClient.invalidateQueries();
+  const handleSubmitExplorerForm = explorerForm.handleSubmit(
+    ({ supervisorId, startAt, comment }) => {
+      if (selected)
+        mutateAsync({
+          proposalId: selected.id,
+          payload: {
+            supervisorId,
+            commissionFileId: fileId,
+            commissionDateTime: startAt?.toISOString(),
+            comment: comment ?? undefined,
+          },
         })
-        .catch(() => {
-          toast.error('تعیین ناظر موفقیت آمیز نبود');
-        });
-  });
+          .then(() => {
+            toast.success('تعیین ناظر انجام شد');
+            onOpenChange(false);
+            queryClient.invalidateQueries();
+          })
+          .catch(() => {
+            toast.error('تعیین ناظر موفقیت آمیز نبود');
+          });
+    }
+  );
 
   return (
     <FormProvider {...explorerForm}>
@@ -75,7 +90,7 @@ export function AssignSupervisorToProposalSidebar({
             className="flex flex-col gap-2"
           >
             <FormSelect
-              name="supervisor_id"
+              name="supervisorId"
               label="تعیین ناظر"
               value={
                 data?.supervisorId ? String(data?.supervisorId) : undefined
@@ -85,6 +100,25 @@ export function AssignSupervisorToProposalSidebar({
                 value: u.id,
                 label: `${u.fname} ${u.lname}`,
               }))}
+            />
+            <FileUpload
+              onUploadComplete={onUploadComplete}
+              title="بارگذاری فایل برای کمیسیون"
+            />
+            <label>تاریخ برکذاری کمیسیون: </label>
+            <PersianDatePicker
+              initialValue={explorerForm.watch('startAt')}
+              onChange={(date) => {
+                explorerForm.setValue('startAt', date?.toDate());
+              }}
+              disabled={false}
+            />
+            <FormInput
+              name="comment"
+              label="توضیحات"
+              placeholder="توضیحات خود را وارد کنید"
+              multiline={true}
+              rows={3}
             />
           </form>
         ) : (

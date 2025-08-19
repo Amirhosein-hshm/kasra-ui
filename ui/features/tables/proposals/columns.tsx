@@ -1,7 +1,7 @@
 'use client';
 
+import { useMeStore } from '@/lib/stores/me.stores';
 import { Button } from '@/ui/components/button';
-import { Checkbox } from '@/ui/components/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,14 +12,7 @@ import {
 } from '@/ui/components/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
 import { ProposalResponse } from 'lib/types/proposalResponse';
-import {
-  ArrowUpDown,
-  Check,
-  Edit,
-  Eye,
-  MoreHorizontal,
-  UserPenIcon,
-} from 'lucide-react';
+import { Check, Edit, Eye, MoreHorizontal, UserPenIcon } from 'lucide-react';
 
 interface ColumnOptions {
   onOpenConfirmProposal?: (proposal: ProposalResponse) => void;
@@ -27,12 +20,14 @@ interface ColumnOptions {
   onEditProposal?: (proposal: ProposalResponse) => void;
   onOpenAssignProposal?: (proposal: ProposalResponse) => void;
 }
-const dropdownMenuItemClassname = 'justify-end cursor-pointer';
+const dropdownMenuItemClassname = 'cursor-pointer';
 
 export function getProposalsTableColumns(
   userRoleId: number,
   options?: ColumnOptions
 ): ColumnDef<ProposalResponse>[] {
+  const proposalState = useMeStore((s) => s.user?.proposalState);
+
   return [
     ...getProposalTableFiles(userRoleId),
     {
@@ -52,53 +47,46 @@ export function getProposalsTableColumns(
               <DropdownMenuLabel className="text-center">
                 فعالیت ها
               </DropdownMenuLabel>
-
               <DropdownMenuSeparator />
 
               <DropdownMenuItem
                 onClick={() => options?.onOpenProposalDetail?.(proposal)}
                 className={dropdownMenuItemClassname}
               >
-                مشاهده <Eye color="var(--color-stone-primary)" />
+                <Eye /> مشاهده
               </DropdownMenuItem>
 
-              {userRoleId === 5 && (
-                <DropdownMenuItem
-                  onClick={() => options?.onOpenConfirmProposal?.(proposal)}
-                  className={dropdownMenuItemClassname}
-                >
-                  تایید پروپوزال <Check color="var(--color-green-primary)" />
-                </DropdownMenuItem>
-              )}
+              {userRoleId === 5 &&
+                (proposalState?.pendingToAccept as string) ==
+                  proposal.state && (
+                  <DropdownMenuItem
+                    onClick={() => options?.onOpenConfirmProposal?.(proposal)}
+                    className={dropdownMenuItemClassname}
+                  >
+                    <Check /> تایید پروپوزال
+                  </DropdownMenuItem>
+                )}
 
-              {/* {userRoleId === 4 && (
-                <DropdownMenuItem
-                  onClick={() =>
-                    navigator.clipboard.writeText(proposal.id.toString())
-                  }
-                  className={dropdownMenuItemClassname}
-                >
-                  حذف <Trash color="var(--color-red-primary)" />
-                </DropdownMenuItem>
-              )} */}
+              {userRoleId === 2 &&
+                (proposalState?.pendingToExplorerAccept as string) ==
+                  proposal.state && (
+                  <DropdownMenuItem
+                    onClick={() => options?.onOpenAssignProposal?.(proposal)}
+                    className={dropdownMenuItemClassname}
+                  >
+                    <UserPenIcon /> تعیین ناظر
+                  </DropdownMenuItem>
+                )}
 
-              {userRoleId === 2 && (
-                <DropdownMenuItem
-                  onClick={() => options?.onOpenAssignProposal?.(proposal)}
-                  className={dropdownMenuItemClassname}
-                >
-                  تعیین ناظر <UserPenIcon color="var(--color-blue-primary)" />
-                </DropdownMenuItem>
-              )}
-
-              {(userRoleId === 4 || userRoleId === 3) && (
-                <DropdownMenuItem
-                  onClick={() => options?.onEditProposal?.(proposal)}
-                  className={dropdownMenuItemClassname}
-                >
-                  تکمیل پروپوزال <Edit color="var(--color-blue-primary)" />
-                </DropdownMenuItem>
-              )}
+              {userRoleId === 3 &&
+                (proposalState?.pendingToFill as string) == proposal.state && (
+                  <DropdownMenuItem
+                    onClick={() => options?.onEditProposal?.(proposal)}
+                    className={dropdownMenuItemClassname}
+                  >
+                    <Edit /> تکمیل پروپوزال
+                  </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
