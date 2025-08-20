@@ -18,6 +18,7 @@ import type {
   GetReportsResearcherReportsProjectIdGetParams,
   ProjectResponse,
   ProposalResponse,
+  ResearcherProjectUpdate,
 } from 'lib/types';
 
 export const researcherQueryKeys = {
@@ -58,15 +59,20 @@ export function useResearcherProjects(
 }
 
 export function useEditAcceptingProject(
-  options?: UseMutationOptions<ProjectResponse, Error, { projectId: number }>
+  options?: UseMutationOptions<
+    ProjectResponse,
+    Error,
+    { projectId: number; researcherProjectUpdate: ResearcherProjectUpdate }
+  >
 ) {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ projectId }) => {
+    mutationFn: async ({ projectId, researcherProjectUpdate }) => {
       const res =
         await getResearcher().editAcceptingProjectResearcherProjectsProjectIdPut(
-          projectId
+          projectId,
+          researcherProjectUpdate
         );
       return res.data;
     },
@@ -77,7 +83,6 @@ export function useEditAcceptingProject(
     ...options,
   });
 }
-
 export function useResearcherReportsByProject<T = unknown>(
   projectId?: number,
   params?: GetReportsResearcherReportsProjectIdGetParams,
