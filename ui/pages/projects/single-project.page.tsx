@@ -94,6 +94,9 @@ export default function SingleProjectPage(props: Props) {
       ? researcherReportsQuery.isFetching
       : false;
 
+  const userLastReportAcceptedProgress =
+    userReportsQuery.data?.[0]?.acceptedPercent;
+
   return (
     <div className={clsx('PageContainer')}>
       <h1 className="my-4 flex gap-2">
@@ -109,7 +112,14 @@ export default function SingleProjectPage(props: Props) {
 
       <ReportsTable
         data={data || []}
-        headerAppendix={isUser && <UploadReportDialog projectId={projectId} />}
+        headerAppendix={
+          isUser && (
+            <UploadReportDialog
+              projectId={projectId}
+              alreadyAcceptedProgress={userLastReportAcceptedProgress ?? 0}
+            />
+          )
+        }
         deactivateSelection
         loading={isLoading}
         isFetching={isFetching}

@@ -23,28 +23,31 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-const formSchema = z.object({
-  progress: z.tuple([
-    z
-      .number()
-      .min(1, 'درصد پیشرفت باید بیشتر از ۰ باشد')
-      .max(100, 'درصد پیشرفت باید کمتر مساوی از ۱۰۰ باشد'),
-  ]),
-  description: z.string().min(1, 'توضیحات الزامی است'),
-  wordFile: z.any().refine((file) => file.length > 0, 'فایل Word الزامی است'),
-  pdfFile: z.any().refine((file) => file.length > 0, 'فایل PDF الزامی است'),
-  powerPointFile: z
-    .any()
-    .refine((file) => file.length > 0, 'فایل PowerPoint الزامی است'),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+const getFormSchema = (min: number = 1, max: number = 100) =>
+  z.object({
+    progress: z.tuple([
+      z
+        .number()
+        .min(min, `درصد پیشرفت باید بیشتر از ${min} باشد`)
+        .max(max, `درصد پیشرفت باید کمتر مساوی از ${max} باشد`),
+    ]),
+    description: z.string().min(1, 'توضیحات الزامی است'),
+    wordFile: z.any().refine((file) => file.length > 0, 'فایل Word الزامی است'),
+    pdfFile: z.any().refine((file) => file.length > 0, 'فایل PDF الزامی است'),
+    powerPointFile: z
+      .any()
+      .refine((file) => file.length > 0, 'فایل PowerPoint الزامی است'),
+  });
 
 interface Props {
   projectId: number;
+  alreadyAcceptedProgress: number;
 }
 
-export function UploadReportDialog({ projectId }: Props) {
+export function UploadReportDialog({
+  projectId,
+  alreadyAcceptedProgress,
+}: Props) {
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
   const [isPending, setIsPending] = useState(false);
   const uploadPdfFile = useUploadFile({ mutationKey: ['pdf'] });
@@ -54,10 +57,13 @@ export function UploadReportDialog({ projectId }: Props) {
 
   const queryClient = useQueryClient();
 
+  const formSchema = getFormSchema(alreadyAcceptedProgress);
+  type FormValues = z.infer<typeof formSchema>;
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      progress: [0],
+      progress: [alreadyAcceptedProgress],
       description: '',
       wordFile: undefined,
       pdfFile: undefined,
@@ -128,11 +134,14 @@ export function UploadReportDialog({ projectId }: Props) {
       });
   });
 
+  console.log(alreadyAcceptedProgress);
   return (
     <FormProvider {...form}>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">بارگذاری گزارش‌کار</Button>
+          <Button disabled={alreadyAcceptedProgress === 100} variant="outline">
+            بارگذاری گزارش‌کار
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
