@@ -46,7 +46,6 @@ export function ProposalDetailSideBar({
         <div className="space-y-3 text-sm text-gray-800 dark:text-gray-100">
           <div className="rounded-lg border p-4 space-y-2">
             <Item title="عنوان">{selected?.title}</Item>
-            <Item title="توضیحات">{selected?.description}</Item>
             <Item title="استاد راهنما">{selected?.master?.name}</Item>
             <Item title="نام و نام خانوادگی مجری">
               {selected?.applicantName}
