@@ -112,15 +112,10 @@ export function UploadReportDialog({
             projectId,
           })
           .then(() => {
-            queryClient
-              .invalidateQueries
-              // FIXME: target the exact query here
-              ()
-              .finally(() => {
-                toast.success('گزارش بارگذاری شد');
-                setIsPending(false);
-                dialogCloseRef.current?.click();
-              });
+            queryClient.invalidateQueries();
+            toast.success('گزارش بارگذاری شد');
+            setIsPending(false);
+            dialogCloseRef.current?.click();
           })
           .catch(() => {
             toast.error('بارگذاری گزارش موفقیت آمیز نبود');

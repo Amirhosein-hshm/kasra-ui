@@ -65,6 +65,10 @@ export default function AcceptOrRejectReportDialog({
   });
 
   const handleSubmit = form.handleSubmit((data) => {
+    if (data.progress[0] === 100 && !data.startAt) {
+      data.startAt = new Date().toISOString();
+    }
+
     setIsPending(true);
     updateReport
       .mutateAsync({

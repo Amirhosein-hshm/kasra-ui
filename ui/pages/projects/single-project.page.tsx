@@ -10,6 +10,7 @@ import { useMeStore } from '@/lib/stores/me.stores';
 import { ProjectResponse, ReportResponse } from '@/lib/types';
 import { UserType } from '@/lib/types/UserType.enum';
 import ReportForTable from '@/lib/ui-types/ReportForTable.interface';
+import { Badge } from '@/ui/components/badge';
 import { FileDownload } from '@/ui/components/file-download';
 import { UploadReportDialog } from '@/ui/features/dialogs/upload-report.dialog';
 import ReportsTable from '@/ui/features/tables/report';
@@ -99,10 +100,12 @@ export default function SingleProjectPage(props: Props) {
 
   return (
     <div className={clsx('PageContainer')}>
-      <h1 className="my-4 flex gap-2">
-        {props.project.title}
-        {/* <Badge>{(props.project.proposal.rfp as any).rfpField.title}</Badge> */}
-      </h1>
+      <div className="my-4 flex flex-col gap-2">
+        <h1>عنوان: {props.project.title}</h1>
+        <h2>
+          وضعیت: <Badge>{props.project.state}</Badge>
+        </h2>
+      </div>
 
       <FileDownload disabled={!fileId} id={fileId!}>
         بارگیری پروپوزال

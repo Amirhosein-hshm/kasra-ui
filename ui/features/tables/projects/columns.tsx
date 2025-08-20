@@ -45,9 +45,9 @@ export function getProjectsTableColumns(
       cell: ({ row }) => {
         return (
           <div className="hover:underline">
-            {row.original.supervisor.fname +
+            {row.original?.supervisor?.fname +
               ' ' +
-              row.original.supervisor.lname}
+              row.original?.supervisor?.lname}
           </div>
         );
       },
@@ -56,7 +56,7 @@ export function getProjectsTableColumns(
       header: 'استاد راهنما',
       cell: ({ row }) => {
         return (
-          <div className="hover:underline">{row.original.master.name}</div>
+          <div className="hover:underline">{row.original?.master?.name}</div>
         );
       },
     },
@@ -83,15 +83,18 @@ export function getProjectsTableColumns(
                   مشاهده <Eye color="var(--color-stone-primary)" />
                 </DropdownMenuItem>
               </Link>
-              {userRoleId === UserType.Researcher && (
-                <DropdownMenuItem
-                  className={dropdownMenuItemClassname}
-                  onClick={() => options?.onOpenApproveProject?.(row.original)}
-                >
-                  تایید نهایی پروژه{' '}
-                  <CheckIcon color="var(--color-green-primary)" />
-                </DropdownMenuItem>
-              )}
+              {userRoleId === UserType.Researcher &&
+                row.original.state !== 'غیر فعال' && (
+                  <DropdownMenuItem
+                    className={dropdownMenuItemClassname}
+                    onClick={() =>
+                      options?.onOpenApproveProject?.(row.original)
+                    }
+                  >
+                    تایید نهایی پروژه{' '}
+                    <CheckIcon color="var(--color-green-primary)" />
+                  </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
