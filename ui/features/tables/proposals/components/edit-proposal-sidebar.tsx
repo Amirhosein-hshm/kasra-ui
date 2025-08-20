@@ -179,8 +179,8 @@ export function EditProposalSideBar({
             {/* Applicant Information */}
             <FormInput
               name="applicantName"
-              label="نام متقاضی"
-              placeholder="نام کامل متقاضی را وارد کنید"
+              label="نام و نام خانوادگی مجری"
+              placeholder="نام کامل مجری را وارد کنید"
               inputOptions={{
                 disabled: disableUpdate,
               }}
@@ -207,7 +207,7 @@ export function EditProposalSideBar({
             <FormInput
               multiline
               name="expertise"
-              label="تخصص‌ها"
+              label="تخصص‌"
               placeholder="تخصص‌های مرتبط را وارد کنید"
               rows={2}
               textareaOptions={{
@@ -218,7 +218,7 @@ export function EditProposalSideBar({
             {/* Project Details */}
             <FormInput
               name="projectDuration"
-              label="مدت زمان پروژه"
+              label="مدت‌زمان و نفرساعت اجرای پروژه"
               placeholder="مدت زمان اجرای پروژه را وارد کنید"
               inputOptions={{
                 disabled: disableUpdate,
@@ -251,7 +251,7 @@ export function EditProposalSideBar({
             <FormInput
               multiline
               name="technicalDetails"
-              label="جزئیات فنی"
+              label="جزئیات و روش های فنی انجام پروژه"
               placeholder="جزئیات فنی پروژه را وارد کنید"
               rows={3}
               textareaOptions={{
@@ -262,8 +262,8 @@ export function EditProposalSideBar({
             <FormInput
               multiline
               name="productFeatures"
-              label="ویژگی‌های محصول"
-              placeholder="ویژگی‌های محصول نهایی را وارد کنید"
+              label="ويژگي‌هاي اصلي و مشخصات عمومی و فني محصول پروژه"
+              placeholder="ویژگی‌ها و مشخصات فنی محصول را وارد کنید"
               rows={2}
               textareaOptions={{
                 disabled: disableUpdate,
@@ -273,8 +273,8 @@ export function EditProposalSideBar({
             <FormInput
               multiline
               name="similarProducts"
-              label="محصولات مشابه"
-              placeholder="محصولات مشابه موجود در بازار را وارد کنید"
+              label="سوابق پژوهش‌ها و محصولات مشابه موجود در سطح کشور و دنیا"
+              placeholder="محصولات مشابه موجود را وارد کنید"
               rows={2}
               textareaOptions={{
                 disabled: disableUpdate,
@@ -285,7 +285,7 @@ export function EditProposalSideBar({
             <FormInput
               multiline
               name="projectOutcomes"
-              label="دستاوردهای پروژه"
+              label="دستاوردهای هر گام از پروژه"
               placeholder="دستاوردهای مورد انتظار از پروژه را وارد کنید"
               rows={2}
               textareaOptions={{
@@ -307,7 +307,7 @@ export function EditProposalSideBar({
             <FormInput
               multiline
               name="projectRisks"
-              label="ریسک‌های پروژه"
+              label="ریسک‌ها و گلوگاه‌هاي احتمالی در اجرای پروژه"
               placeholder="ریسک‌های احتمالی و راه‌حل‌های آن را وارد کنید"
               rows={2}
               textareaOptions={{
