@@ -2,7 +2,7 @@ import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import { Badge } from '@/ui/components/badge';
 import { FileDownload } from '@/ui/components/file-download';
-import CommentOnReportDialog from '@/ui/features/dialogs/comment-on-report.dialog';
+import AcceptOrRejectReportDialog from '@/ui/features/dialogs/accept-or-reject-report.dialog';
 
 interface Props {
   reportID: number;
@@ -15,6 +15,7 @@ interface Props {
   comment: string;
   state: string;
   announcedPercentage: number;
+  lastAcceptedPercentage: number;
   acceptedPercentage: number;
 }
 
@@ -25,6 +26,7 @@ export default function SingleReportPage({
   fileIDs,
   comment,
   announcedPercentage,
+  lastAcceptedPercentage,
   acceptedPercentage,
 }: Props) {
   const { user } = useMeStore();
@@ -74,10 +76,10 @@ export default function SingleReportPage({
       </div>
 
       {isSupervisor && state === 'در انتظار تایید' && (
-        <CommentOnReportDialog
+        <AcceptOrRejectReportDialog
           reportID={reportID}
           announcedPercentage={announcedPercentage}
-          acceptedPercentage={acceptedPercentage}
+          acceptedPercentage={lastAcceptedPercentage}
         />
       )}
 

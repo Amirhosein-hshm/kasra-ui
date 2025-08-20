@@ -23,13 +23,13 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-const getFormSchema = (min: number = 1, max: number = 100) =>
+const getFormSchema = (min: number = 1) =>
   z.object({
     progress: z.tuple([
       z
         .number()
         .min(min, `درصد پیشرفت باید بیشتر از ${min} باشد`)
-        .max(max, `درصد پیشرفت باید کمتر مساوی از ${max} باشد`),
+        .max(100, 'درصد پیشرفت باید کمتر مساوی از ۱۰۰ باشد'),
     ]),
     description: z.string().min(1, 'توضیحات الزامی است'),
     wordFile: z.any().refine((file) => file.length > 0, 'فایل Word الزامی است'),

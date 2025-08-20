@@ -20,18 +20,17 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-const getFormSchema = (max: number = 100) =>
+const getFormSchema = (min: number = 1, max: number = 100) =>
   z.object({
     progress: z.tuple([
       z
         .number()
-        .min(1, 'درصد پیشرفت باید بیشتر از ۰ باشد')
+        .min(min, `درصد پیشرفت باید بیشتر از ${min} باشد`)
         .max(max, `درصد پیشرفت باید کمتر مساوی از ${max} باشد`),
     ]),
     comment: z.string().min(1, 'توضیحات الزامی است'),
     startAt: z.string().optional(),
   });
-type FormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
 interface Props {
   reportID: number;
@@ -39,11 +38,12 @@ interface Props {
   acceptedPercentage: number;
 }
 
-export default function CommentOnReportDialog({
+export default function AcceptOrRejectReportDialog({
   reportID,
   announcedPercentage,
   acceptedPercentage,
 }: Props) {
+  console.log(acceptedPercentage);
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
   const [mode, setMode] = useState<'approve' | 'reject'>();
 
@@ -53,10 +53,12 @@ export default function CommentOnReportDialog({
 
   const queryClient = useQueryClient();
 
+  const formSchema = getFormSchema(acceptedPercentage, announcedPercentage);
+  type FormValues = z.infer<typeof formSchema>;
   const form = useForm<FormValues>({
-    resolver: zodResolver(getFormSchema(announcedPercentage)),
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      progress: [0],
+      progress: [announcedPercentage],
       comment: '',
       startAt: '',
     },

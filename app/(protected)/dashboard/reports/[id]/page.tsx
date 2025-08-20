@@ -1,6 +1,10 @@
 'use client';
 
-import { useUserReport } from '@/lib/hooks';
+import {
+  useSupervisorReportsByProject,
+  useUserReport,
+  useUserReportsByProject,
+} from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import Spinner from '@/ui/common/spinner';
@@ -17,6 +21,13 @@ export default function Page() {
   const isUser = userTypeId === UserType.User;
 
   const userReportQuery = useUserReport(reportId);
+  const projectID = userReportQuery.data?.projectId;
+  const supervisorReportsQuery = useSupervisorReportsByProject(projectID, {
+    enabled: userReportQuery.isSuccess,
+    queryKey: ['supervisor-reports-by-project-query', projectID],
+  });
+  const userLastReportAcceptedProgress =
+    supervisorReportsQuery.data?.[1]?.acceptedPercent;
 
   const isLoading = userReportQuery.isLoading;
   const data = userReportQuery.data;
@@ -39,6 +50,7 @@ export default function Page() {
         }}
         comment={data?.comment}
         announcedPercentage={data?.anouncedPercent}
+        lastAcceptedPercentage={userLastReportAcceptedProgress ?? 0}
         acceptedPercentage={data?.acceptedPercent ?? 0}
       />
     );
