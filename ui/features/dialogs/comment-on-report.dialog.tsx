@@ -163,6 +163,9 @@ export default function CommentOnReportDialog({
                           );
                         }}
                         disabled={false}
+                        datePickerProps={{
+                          inputClass: 'w-full p-2 border rounded-md',
+                        }}
                       />
                     </>
                   )}

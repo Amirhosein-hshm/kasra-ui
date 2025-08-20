@@ -2,15 +2,24 @@
 
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import DatePicker, { DateObject } from 'react-multi-date-picker';
+import DatePicker, {
+  DateObject,
+  DatePickerProps,
+} from 'react-multi-date-picker';
 
 interface Props {
   initialValue?: Date;
   onChange: (date: DateObject) => void;
   disabled?: boolean;
+  datePickerProps?: DatePickerProps;
 }
 
-export function PersianDatePicker({ onChange, initialValue, disabled }: Props) {
+export function PersianDatePicker({
+  onChange,
+  initialValue,
+  disabled,
+  datePickerProps,
+}: Props) {
   return (
     <DatePicker
       value={initialValue ?? new Date()}
@@ -22,6 +31,7 @@ export function PersianDatePicker({ onChange, initialValue, disabled }: Props) {
       calendarPosition="bottom-right"
       inputClass="w-25 p-2 border rounded-md"
       disabled={disabled}
+      {...datePickerProps}
     />
   );
 }
