@@ -25,45 +25,37 @@ export default function ProfileForm() {
   return loading ? (
     <ProfileFormSkeleton />
   ) : (
-    <div className={clsx('flex flex-col gap-4 items-center ', 'w-full h-full')}>
-      <div className="w-[50%] border-white border-[1px] rounded p-2 flex flex-col gap-2">
-        <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-center lg:gap-2">
-          <div>
+    <div className={clsx('pt-4 flex flex-col gap-4', 'w-full h-full')}>
+      <div className="w-full max-w-[400px] border-white border-[1px] rounded p-2 flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
+          <div className="bg-card px-2 py-1 rounded-sm">
             <span>نام و نام خانوادگی: </span>
             <span>{fullName}</span>
-          </div>
-          <div>
-            <span>تاریخ تولد: </span>
-            <span>{birthDate}</span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-center lg:gap-2">
-          <div>
-            <span>آدرس: </span>
-            <span>{address}</span>
           </div>
           <div>
             <span>نام پدر: </span>
             <span>{fatherName}</span>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-center lg:gap-2">
-          <div>
-            <span>شماره موبایل: </span>
-            <span>{phoneNumber}</span>
-          </div>
-          <div>
-            <span>نام کاربری: </span>
-            <span>{username}</span>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2 lg:flex-row lg:justify-between lg:items-center lg:gap-2">
-          <div>
+          <div className="bg-card px-2 py-1 rounded-sm">
             <span>نقش: </span>
             <span>{roles[userTypeId!]}</span>
           </div>
+          <div>
+            <span>آدرس: </span>
+            <span>{address}</span>
+          </div>
+          <div className="bg-card px-2 py-1 rounded-sm">
+            <span>تاریخ تولد: </span>
+            <span>{birthDate}</span>
+          </div>
+        </div>
+        <div>
+          <span>شماره موبایل: </span>
+          <span>{phoneNumber}</span>
+        </div>
+        <div className="bg-card px-2 py-1 rounded-sm">
+          <span>نام کاربری: </span>
+          <span>{username}</span>
         </div>
       </div>
     </div>

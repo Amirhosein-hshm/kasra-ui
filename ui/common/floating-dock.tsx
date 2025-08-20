@@ -84,9 +84,7 @@ const FloatingDockMobile = ({
                   key={item.title}
                   className={clsx(
                     'relative flex flex-row-reverse h-10 w-fit items-center justify-center rounded-full gap-1 px-2 backdrop-blur-lg',
-                    item.isActive
-                      ? 'bg-white/100 dark:bg-black/100'
-                      : 'bg-white/50 dark:bg-black/50'
+                    item.isActive ? 'bg-card/80' : 'bg-card/10'
                   )}
                 >
                   <div className="text-nowrap font-[vazir-bold] text-neutral-800 dark:text-neutral-100">
@@ -101,7 +99,7 @@ const FloatingDockMobile = ({
       </AnimatePresence>
       <button
         onClick={() => setOpen(!open)}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/50 dark:bg-black/50 backdrop-blur-lg"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-card backdrop-blur-lg"
       >
         <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-800 dark:text-neutral-400" />
       </button>
@@ -126,7 +124,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        'mx-auto hidden h-16 items-end gap-4 rounded-2xl bg-white/5 px-4 pb-3 md:flex dark:bg-black/5 backdrop-blur-lg',
+        'mx-auto hidden h-16 items-end gap-4 rounded-2xl bg-[#d5bdaf] px-4 pb-3 md:flex dark:bg-[#d5bdaf] backdrop-blur-lg',
         className
       )}
     >
@@ -192,9 +190,7 @@ function IconContainer({
       onClick={typeof action === 'string' ? undefined : action}
       className={clsx(
         'cursor-pointer backdrop-blur-xs rounded-[50%]',
-        isActive
-          ? 'bg-white/95 dark:bg-black/75'
-          : 'bg-white/50 dark:bg-black/25'
+        isActive ? 'bg-card' : 'bg-card/25'
       )}
     >
       <motion.div
