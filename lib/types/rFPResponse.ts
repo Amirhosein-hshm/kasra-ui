@@ -6,6 +6,24 @@
  */
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 import type { RFPResponseFileId } from './rFPResponseFileId';
+import type { RFPResponseBeneficiary } from './rFPResponseBeneficiary';
+import type { RFPResponseRepresentative } from './rFPResponseRepresentative';
+import type { RFPResponseIssueTitle } from './rFPResponseIssueTitle';
+import type { RFPResponseIssueDescription } from './rFPResponseIssueDescription';
+import type { RFPResponseMissionArea } from './rFPResponseMissionArea';
+import type { RFPResponseSpecialtyField } from './rFPResponseSpecialtyField';
+import type { RFPResponseIssueOrigin } from './rFPResponseIssueOrigin';
+import type { RFPResponseProposedExecutionPath } from './rFPResponseProposedExecutionPath';
+import type { RFPResponseFrequency } from './rFPResponseFrequency';
+import type { RFPResponseFinancialValue } from './rFPResponseFinancialValue';
+import type { RFPResponseKeyRequirements } from './rFPResponseKeyRequirements';
+import type { RFPResponseLimitations } from './rFPResponseLimitations';
+import type { RFPResponseTechnicalSolution } from './rFPResponseTechnicalSolution';
+import type { RFPResponseRelatedProjects } from './rFPResponseRelatedProjects';
+import type { RFPResponseProposedProduct } from './rFPResponseProposedProduct';
+import type { RFPResponseIssueSupport } from './rFPResponseIssueSupport';
+import type { RFPResponseAnalystEvaluator } from './rFPResponseAnalystEvaluator';
+import type { RFPResponseKeywords } from './rFPResponseKeywords';
 import type { RFPFieldResponse } from './rFPFieldResponse';
 
 export interface RFPResponse {
@@ -15,5 +33,23 @@ export interface RFPResponse {
   creatorId: number;
   creator: UserInfoLimitedResponse;
   fileId?: RFPResponseFileId;
+  beneficiary?: RFPResponseBeneficiary;
+  representative?: RFPResponseRepresentative;
+  issueTitle?: RFPResponseIssueTitle;
+  issueDescription?: RFPResponseIssueDescription;
+  missionArea?: RFPResponseMissionArea;
+  specialtyField?: RFPResponseSpecialtyField;
+  issueOrigin?: RFPResponseIssueOrigin;
+  proposedExecutionPath?: RFPResponseProposedExecutionPath;
+  frequency?: RFPResponseFrequency;
+  financialValue?: RFPResponseFinancialValue;
+  keyRequirements?: RFPResponseKeyRequirements;
+  limitations?: RFPResponseLimitations;
+  technicalSolution?: RFPResponseTechnicalSolution;
+  relatedProjects?: RFPResponseRelatedProjects;
+  proposedProduct?: RFPResponseProposedProduct;
+  issueSupport?: RFPResponseIssueSupport;
+  analystEvaluator?: RFPResponseAnalystEvaluator;
+  keywords?: RFPResponseKeywords;
   RFP_field: RFPFieldResponse;
 }

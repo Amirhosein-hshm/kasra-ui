@@ -11,6 +11,19 @@ import type { ProposalResponseAllocateId } from './proposalResponseAllocateId';
 import type { ProposalResponseSupervisorId } from './proposalResponseSupervisorId';
 import type { ProposalResponseFileId } from './proposalResponseFileId';
 import type { ProposalResponseComment } from './proposalResponseComment';
+import type { ProposalResponseApplicantName } from './proposalResponseApplicantName';
+import type { ProposalResponseContactNumber } from './proposalResponseContactNumber';
+import type { ProposalResponseEducation } from './proposalResponseEducation';
+import type { ProposalResponseExpertise } from './proposalResponseExpertise';
+import type { ProposalResponseProjectDuration } from './proposalResponseProjectDuration';
+import type { ProposalResponseProjectGoals } from './proposalResponseProjectGoals';
+import type { ProposalResponseProjectImportance } from './proposalResponseProjectImportance';
+import type { ProposalResponseTechnicalDetails } from './proposalResponseTechnicalDetails';
+import type { ProposalResponseProductFeatures } from './proposalResponseProductFeatures';
+import type { ProposalResponseSimilarProducts } from './proposalResponseSimilarProducts';
+import type { ProposalResponseProjectOutcomes } from './proposalResponseProjectOutcomes';
+import type { ProposalResponseProjectInnovation } from './proposalResponseProjectInnovation';
+import type { ProposalResponseProjectRisks } from './proposalResponseProjectRisks';
 
 export interface ProposalResponse {
   id: number;
@@ -28,4 +41,17 @@ export interface ProposalResponse {
   fileId: ProposalResponseFileId;
   state: string;
   comment: ProposalResponseComment;
+  applicantName: ProposalResponseApplicantName;
+  contactNumber: ProposalResponseContactNumber;
+  education: ProposalResponseEducation;
+  expertise: ProposalResponseExpertise;
+  projectDuration: ProposalResponseProjectDuration;
+  projectGoals: ProposalResponseProjectGoals;
+  projectImportance: ProposalResponseProjectImportance;
+  technicalDetails: ProposalResponseTechnicalDetails;
+  productFeatures: ProposalResponseProductFeatures;
+  similarProducts: ProposalResponseSimilarProducts;
+  projectOutcomes: ProposalResponseProjectOutcomes;
+  projectInnovation: ProposalResponseProjectInnovation;
+  projectRisks: ProposalResponseProjectRisks;
 }

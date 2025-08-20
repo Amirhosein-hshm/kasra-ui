@@ -4,9 +4,35 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { UserUpdateProposalApplicantName } from './userUpdateProposalApplicantName';
+import type { UserUpdateProposalContactNumber } from './userUpdateProposalContactNumber';
+import type { UserUpdateProposalEducation } from './userUpdateProposalEducation';
+import type { UserUpdateProposalExpertise } from './userUpdateProposalExpertise';
+import type { UserUpdateProposalProjectDuration } from './userUpdateProposalProjectDuration';
+import type { UserUpdateProposalProjectGoals } from './userUpdateProposalProjectGoals';
+import type { UserUpdateProposalProjectImportance } from './userUpdateProposalProjectImportance';
+import type { UserUpdateProposalTechnicalDetails } from './userUpdateProposalTechnicalDetails';
+import type { UserUpdateProposalProductFeatures } from './userUpdateProposalProductFeatures';
+import type { UserUpdateProposalSimilarProducts } from './userUpdateProposalSimilarProducts';
+import type { UserUpdateProposalProjectOutcomes } from './userUpdateProposalProjectOutcomes';
+import type { UserUpdateProposalProjectInnovation } from './userUpdateProposalProjectInnovation';
+import type { UserUpdateProposalProjectRisks } from './userUpdateProposalProjectRisks';
 
 export interface UserUpdateProposal {
   fileId: number;
   startAt: string;
   endAt: string;
+  applicantName: UserUpdateProposalApplicantName;
+  contactNumber: UserUpdateProposalContactNumber;
+  education: UserUpdateProposalEducation;
+  expertise: UserUpdateProposalExpertise;
+  projectDuration: UserUpdateProposalProjectDuration;
+  projectGoals: UserUpdateProposalProjectGoals;
+  projectImportance: UserUpdateProposalProjectImportance;
+  technicalDetails: UserUpdateProposalTechnicalDetails;
+  productFeatures: UserUpdateProposalProductFeatures;
+  similarProducts: UserUpdateProposalSimilarProducts;
+  projectOutcomes: UserUpdateProposalProjectOutcomes;
+  projectInnovation: UserUpdateProposalProjectInnovation;
+  projectRisks: UserUpdateProposalProjectRisks;
 }

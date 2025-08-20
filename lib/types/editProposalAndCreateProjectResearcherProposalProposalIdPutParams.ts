@@ -6,5 +6,5 @@
  */
 
 export type EditProposalAndCreateProjectResearcherProposalProposalIdPutParams = {
-accept?: boolean;
+accept: boolean;
 };

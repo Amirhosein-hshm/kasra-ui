@@ -5,9 +5,45 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ExplorerCreateUpdateRFPFileId } from './explorerCreateUpdateRFPFileId';
+import type { ExplorerCreateUpdateRFPBeneficiary } from './explorerCreateUpdateRFPBeneficiary';
+import type { ExplorerCreateUpdateRFPRepresentative } from './explorerCreateUpdateRFPRepresentative';
+import type { ExplorerCreateUpdateRFPIssueTitle } from './explorerCreateUpdateRFPIssueTitle';
+import type { ExplorerCreateUpdateRFPIssueDescription } from './explorerCreateUpdateRFPIssueDescription';
+import type { ExplorerCreateUpdateRFPMissionArea } from './explorerCreateUpdateRFPMissionArea';
+import type { ExplorerCreateUpdateRFPSpecialtyField } from './explorerCreateUpdateRFPSpecialtyField';
+import type { ExplorerCreateUpdateRFPIssueOrigin } from './explorerCreateUpdateRFPIssueOrigin';
+import type { ExplorerCreateUpdateRFPProposedExecutionPath } from './explorerCreateUpdateRFPProposedExecutionPath';
+import type { ExplorerCreateUpdateRFPFrequency } from './explorerCreateUpdateRFPFrequency';
+import type { ExplorerCreateUpdateRFPFinancialValue } from './explorerCreateUpdateRFPFinancialValue';
+import type { ExplorerCreateUpdateRFPKeyRequirements } from './explorerCreateUpdateRFPKeyRequirements';
+import type { ExplorerCreateUpdateRFPLimitations } from './explorerCreateUpdateRFPLimitations';
+import type { ExplorerCreateUpdateRFPTechnicalSolution } from './explorerCreateUpdateRFPTechnicalSolution';
+import type { ExplorerCreateUpdateRFPRelatedProjects } from './explorerCreateUpdateRFPRelatedProjects';
+import type { ExplorerCreateUpdateRFPProposedProduct } from './explorerCreateUpdateRFPProposedProduct';
+import type { ExplorerCreateUpdateRFPIssueSupport } from './explorerCreateUpdateRFPIssueSupport';
+import type { ExplorerCreateUpdateRFPAnalystEvaluator } from './explorerCreateUpdateRFPAnalystEvaluator';
+import type { ExplorerCreateUpdateRFPKeywords } from './explorerCreateUpdateRFPKeywords';
 
 export interface ExplorerCreateUpdateRFP {
   info: string;
   fileId?: ExplorerCreateUpdateRFPFileId;
   RFP_field_id: number;
+  beneficiary?: ExplorerCreateUpdateRFPBeneficiary;
+  representative?: ExplorerCreateUpdateRFPRepresentative;
+  issueTitle?: ExplorerCreateUpdateRFPIssueTitle;
+  issueDescription?: ExplorerCreateUpdateRFPIssueDescription;
+  missionArea?: ExplorerCreateUpdateRFPMissionArea;
+  specialtyField?: ExplorerCreateUpdateRFPSpecialtyField;
+  issueOrigin?: ExplorerCreateUpdateRFPIssueOrigin;
+  proposedExecutionPath?: ExplorerCreateUpdateRFPProposedExecutionPath;
+  frequency?: ExplorerCreateUpdateRFPFrequency;
+  financialValue?: ExplorerCreateUpdateRFPFinancialValue;
+  keyRequirements?: ExplorerCreateUpdateRFPKeyRequirements;
+  limitations?: ExplorerCreateUpdateRFPLimitations;
+  technicalSolution?: ExplorerCreateUpdateRFPTechnicalSolution;
+  relatedProjects?: ExplorerCreateUpdateRFPRelatedProjects;
+  proposedProduct?: ExplorerCreateUpdateRFPProposedProduct;
+  issueSupport?: ExplorerCreateUpdateRFPIssueSupport;
+  analystEvaluator?: ExplorerCreateUpdateRFPAnalystEvaluator;
+  keywords?: ExplorerCreateUpdateRFPKeywords;
 }

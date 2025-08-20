@@ -5,8 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ReportUpdate {
-  comment: string;
-  acceptedPercent: number;
-  commissionDateTime: string;
-}
+export type ExplorerCreateUpdateRFPRepresentative = string | null;
