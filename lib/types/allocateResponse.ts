@@ -16,8 +16,8 @@ export interface AllocateResponse {
   createdAt: string;
   rfp: RFPResponse;
   allocatedToUser: UserInfoLimitedResponse;
-  projectTitle: AllocateResponseProjectTitle;
-  projectDescription: AllocateResponseProjectDescription;
-  master: AllocateResponseMaster;
+  projectTitle?: AllocateResponseProjectTitle;
+  projectDescription?: AllocateResponseProjectDescription;
+  master?: AllocateResponseMaster;
   state: string;
 }

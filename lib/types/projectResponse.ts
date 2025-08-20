@@ -4,7 +4,7 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { MasterResponse } from './masterResponse';
+import type { ProjectResponseMaster } from './projectResponseMaster';
 import type { ProposalResponse } from './proposalResponse';
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 
@@ -15,7 +15,8 @@ export interface ProjectResponse {
   startAt: string;
   endAt: string;
   title: string;
-  master: MasterResponse;
+  master?: ProjectResponseMaster;
+  state: string;
   proposal: ProposalResponse;
   supervisor: UserInfoLimitedResponse;
   user: UserInfoLimitedResponse;

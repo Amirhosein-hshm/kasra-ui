@@ -62,6 +62,7 @@ export * from './masterResponse';
 export * from './notificationResponse';
 export * from './projectResponse';
 export * from './projectResponseInput';
+export * from './projectResponseMaster';
 export * from './projectResponseOutput';
 export * from './proposalAllResponse';
 export * from './proposalRequest';

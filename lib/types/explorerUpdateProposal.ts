@@ -10,6 +10,6 @@ import type { ExplorerUpdateProposalCommissionDateTime } from './explorerUpdateP
 export interface ExplorerUpdateProposal {
   comment: string;
   supervisorId: number;
-  commissionFileId: ExplorerUpdateProposalCommissionFileId;
-  commissionDateTime: ExplorerUpdateProposalCommissionDateTime;
+  commissionFileId?: ExplorerUpdateProposalCommissionFileId;
+  commissionDateTime?: ExplorerUpdateProposalCommissionDateTime;
 }

@@ -15,7 +15,7 @@ export interface ReportResponse {
   comment: string;
   state: string;
   anouncedPercent: number;
-  acceptedPercent: ReportResponseAcceptedPercent;
+  acceptedPercent?: ReportResponseAcceptedPercent;
   projectId: number;
   filePdfId: number;
   fileDocxId: number;
