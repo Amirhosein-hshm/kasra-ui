@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { getProjectsTableColumns } from './columns';
+import { FileUpload } from '@/ui/components/file-upload';
 
 interface Props {
   data: ProjectResponse[];
@@ -45,6 +46,8 @@ export default function ProjectsTable({
   };
   const [selected, setSelected] = useState<ProjectResponse | null>(null);
 
+  const [fileId, setFileId] = useState<number | null>(null);
+
   const projectsTableColumns = getProjectsTableColumns(
     me.user?.userTypeId ?? -1,
     {
@@ -63,11 +66,19 @@ export default function ProjectsTable({
     }
   );
 
+  const onUploadComplete = (val: any) => {
+    toast.success('فایل با موفقیت بارگذاری شد');
+    setFileId(val.id);
+  };
+
   const approveProject = useEditAcceptingProject();
   const handleApproveProject = () => {
     if (!selected) return;
     approveProject
-      .mutateAsync({ projectId: selected?.id })
+      .mutateAsync({
+        projectId: selected?.id,
+        researcherProjectUpdate: { commissionFileId: fileId! },
+      })
       .then(() => {
         toast.success('پروژه تایید شد');
         handleCloseApproveProjectModal();
@@ -117,13 +128,20 @@ export default function ProjectsTable({
               className="w-20"
               loading={approveProject.isPending}
               onClick={handleApproveProject}
+              disabled={!fileId}
             >
               تایید
             </Button>
           </div>
         }
       >
-        آیا از تایید این پروژه اطمینان دارید؟
+        <div>
+          <FileUpload
+            onUploadComplete={onUploadComplete}
+            title="فایل کمیسیون نهایی"
+          />
+        </div>
+        <div>آیا از تایید این پروژه اطمینان دارید؟</div>
       </Modal>
     </>
   );
