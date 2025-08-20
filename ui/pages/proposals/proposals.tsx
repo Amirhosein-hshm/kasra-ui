@@ -8,10 +8,9 @@ import {
 } from '@/lib/hooks';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
-import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import ProposalsTable from '@/ui/features/tables/proposals';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { startTransition, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { startTransition, useEffect } from 'react';
 
 function ProposalsPageContent() {
   const router = useRouter();

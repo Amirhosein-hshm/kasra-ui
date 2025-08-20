@@ -20,7 +20,7 @@ export function PersianDatePicker({ onChange, initialValue, disabled }: Props) {
       calendar={persian}
       locale={persian_fa}
       calendarPosition="bottom-right"
-      inputClass="w-full p-2 border rounded-md"
+      inputClass="w-25 p-2 border rounded-md"
       disabled={disabled}
     />
   );
