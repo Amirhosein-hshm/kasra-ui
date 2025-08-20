@@ -4,9 +4,10 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { ReportUpdateCommissionDateTime } from './reportUpdateCommissionDateTime';
 
 export interface ReportUpdate {
   comment: string;
   acceptedPercent: number;
-  commissionDateTime: string;
+  commissionDateTime?: ReportUpdateCommissionDateTime;
 }

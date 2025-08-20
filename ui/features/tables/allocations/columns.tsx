@@ -14,6 +14,7 @@ import {
 } from '@/ui/components/dropdown-menu';
 import { toJalaliYMD } from '@/lib/utils/toJalali';
 import { getFullName } from '@/lib/utils';
+import { useMeStore } from '@/lib/stores/me.stores';
 
 const dropdownMenuItemClassname = 'cursor-pointer';
 
@@ -28,6 +29,7 @@ export function getAllocateTableColumns(
   userTypeId: number,
   options?: ColumnOptions
 ): ColumnDef<AllocateResponse>[] {
+  const allocateState = useMeStore((s) => s.user?.allocateState);
   return [
     {
       accessorKey: 'rfp.info',
@@ -82,14 +84,16 @@ export function getAllocateTableColumns(
                 <Eye /> مشاهده
               </DropdownMenuItem>
 
-              {userTypeId === 3 && (
-                <DropdownMenuItem
-                  onClick={() => options?.onOpenAddProjectTitle?.(allocate)}
-                  className={dropdownMenuItemClassname}
-                >
-                  <Edit /> تایید ساخت پروژه
-                </DropdownMenuItem>
-              )}
+              {userTypeId === 3 &&
+                (allocateState?.pendingToSpecifyTitle as string) ==
+                  allocate.state && (
+                  <DropdownMenuItem
+                    onClick={() => options?.onOpenAddProjectTitle?.(allocate)}
+                    className={dropdownMenuItemClassname}
+                  >
+                    <Edit /> تایید ساخت پروژه
+                  </DropdownMenuItem>
+                )}
 
               {userTypeId === 5 && (
                 <DropdownMenuItem

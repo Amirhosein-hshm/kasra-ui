@@ -136,6 +136,7 @@ export * from './reportRequest';
 export * from './reportResponse';
 export * from './reportResponseAcceptedPercent';
 export * from './reportUpdate';
+export * from './reportUpdateCommissionDateTime';
 export * from './researcherProjectUpdate';
 export * from './researcherUpdateProposal';
 export * from './searchRfpsEndpointBrokerRfpsGetParams';

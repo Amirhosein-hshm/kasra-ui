@@ -1,5 +1,6 @@
 import { useEditSupervisorReport } from '@/lib/hooks';
 import { Button } from '@/ui/components/button';
+import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
 import {
   Dialog,
   DialogClose,
@@ -14,7 +15,7 @@ import { Slider } from '@/ui/components/slider';
 import { Textarea } from '@/ui/components/textarea/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { PropsWithChildren, useRef, useState } from 'react';
+import { PropsWithChildren, use, useEffect, useRef, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -28,6 +29,7 @@ const getFormSchema = (max: number = 100) =>
         .max(max, `درصد پیشرفت باید کمتر مساوی از ${max} باشد`),
     ]),
     comment: z.string().min(1, 'توضیحات الزامی است'),
+    startAt: z.string().optional(),
   });
 type FormValues = z.infer<ReturnType<typeof getFormSchema>>;
 
@@ -44,6 +46,8 @@ export default function CommentOnReportDialog({
 }: Props) {
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
   const [mode, setMode] = useState<'approve' | 'reject'>();
+
+  const [progressPercent, setProgressPercent] = useState<number[]>();
   const [isPending, setIsPending] = useState(false);
   const updateReport = useEditSupervisorReport();
 
@@ -54,6 +58,7 @@ export default function CommentOnReportDialog({
     defaultValues: {
       progress: [0],
       comment: '',
+      startAt: '',
     },
   });
 
@@ -65,8 +70,10 @@ export default function CommentOnReportDialog({
         data: {
           comment: data.comment,
           acceptedPercent: data.progress[0],
-          // FIXME:
-          commissionDateTime: new Date().toISOString(),
+          ...(data.startAt ? { commissionDateTime: data.startAt } : {}),
+        },
+        params: {
+          accept: mode === 'approve',
         },
       })
       .then(() => {
@@ -138,10 +145,27 @@ export default function CommentOnReportDialog({
                         min={0}
                         max={100}
                         step={1}
-                        onValueChange={field.onChange}
+                        onValueChange={(values) => {
+                          setProgressPercent(values);
+                          field.onChange(values);
+                        }}
                       />
                     )}
                   />
+                  {progressPercent && progressPercent![0] == 100 && (
+                    <>
+                      <label>تاریخ برکذاری کمیسیون</label>
+                      <PersianDatePicker
+                        onChange={(date) => {
+                          form.setValue(
+                            'startAt',
+                            date?.toDate().toISOString() ?? ''
+                          );
+                        }}
+                        disabled={false}
+                      />
+                    </>
+                  )}
                 </div>
               )}
 

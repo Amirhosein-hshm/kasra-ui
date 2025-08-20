@@ -33,7 +33,6 @@ export interface ProposalResponse {
   endAt: ProposalResponseEndAt;
   master: ProposalResponseMaster;
   title: string;
-  description: string;
   RFP_id: number;
   allocateId: ProposalResponseAllocateId;
   supervisorId: ProposalResponseSupervisorId;

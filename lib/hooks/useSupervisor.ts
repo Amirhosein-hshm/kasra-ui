@@ -116,7 +116,6 @@ export function useSupervisorSingleReport(
   });
 }
 
-/** Edit a report */
 export function useEditSupervisorReport(
   options?: UseMutationOptions<
     ReportResponse,
@@ -124,7 +123,7 @@ export function useEditSupervisorReport(
     {
       reportId: number;
       data: ReportUpdate;
-      params?: EditReportSupervisorReportsReportIdPutParams;
+      params: EditReportSupervisorReportsReportIdPutParams;
     }
   >
 ) {
@@ -135,17 +134,14 @@ export function useEditSupervisorReport(
       const res = await getSupervisor().editReportSupervisorReportsReportIdPut(
         reportId,
         data,
-        // اگر پارامترهای کوئری لازم بود از بیرون بدهید؛ در غیر این صورت خالی ارسال می‌شود.
         params ?? ({} as EditReportSupervisorReportsReportIdPutParams)
       );
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {
-      // تازه‌سازی گزارش تک
       qc.invalidateQueries({
         queryKey: supervisorQueryKeys.report(vars.reportId),
       });
-      // تازه‌سازی همه لیست‌های گزارش‌های پروژه (IDs مختلف)
       qc.invalidateQueries({ queryKey: ['supervisor', 'reportsByProject'] });
       options?.onSuccess?.(data, vars, ctx);
     },
