@@ -1,12 +1,12 @@
-import {
-  useQuery,
-  useMutation,
-  UseQueryOptions,
-  UseMutationOptions,
-  useQueryClient,
-  keepPreviousData,
-} from '@tanstack/react-query';
 import { getUser } from '@/lib/services';
+import {
+  keepPreviousData,
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 
 import type {
   AllocateResponse,
@@ -17,7 +17,6 @@ import type {
   ReadProposalsUsersProposalsGetParams,
   ReportRequest,
   ReportResponse,
-  UserUpdateAllocate,
   UserUpdateProposal,
 } from 'lib/types';
 

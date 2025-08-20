@@ -5,8 +5,8 @@ import DataTable from '@/ui/components/data-table/index';
 import { getRfpsTableColumns } from './columns';
 import { Button } from '@/ui/components/button';
 import { useState } from 'react';
-import { AddRFPSidebar } from './components/addRfpSidbar';
-import { EditRFPSidebar } from './components/EditRfpSidbar';
+import { EditRFPSidebar } from './components/EditRfpSidebar';
+import { AddRFPSidebar } from './components/AddRfpSidebar';
 
 interface Props {
   data: RFPResponse[];

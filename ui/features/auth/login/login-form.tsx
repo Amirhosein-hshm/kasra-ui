@@ -7,6 +7,7 @@ import { Label } from '@/ui/components/label';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BodyLoginTokenPost } from '@/lib/types';
+import { toast } from 'sonner';
 
 interface Props {
   onSuccess: (roleId: number | string) => void;
@@ -27,6 +28,7 @@ export default function LoginForm({ onSuccess }: Props) {
       });
       onSuccess(login.roleId);
     } catch (error) {
+      toast.error('ورود موفقیت‌آمیز نبود');
     } finally {
       setFormIsSubmitting(false);
     }

@@ -11,7 +11,7 @@ import {
 } from '@/ui/components/dialog';
 import { Label } from '@/ui/components/label';
 import { Slider } from '@/ui/components/slider';
-import { Textarea } from '@/ui/components/textarea';
+import { Textarea } from '@/ui/components/textarea/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { PropsWithChildren, useRef, useState } from 'react';
@@ -65,7 +65,8 @@ export default function CommentOnReportDialog({
         data: {
           comment: data.comment,
           acceptedPercent: data.progress[0],
-          accept: mode === 'approve',
+          // FIXME:
+          commissionDateTime: new Date().toISOString(),
         },
       })
       .then(() => {

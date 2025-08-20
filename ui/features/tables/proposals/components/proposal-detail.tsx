@@ -45,7 +45,7 @@ export function ProposalDetailSideBar({
           <div className="rounded-lg border p-4 space-y-2">
             <Item title="عنوان">{selected?.title}</Item>
             <Item title="توضیحات">{selected?.description}</Item>
-            <Item title="استاد راهنما">{selected?.masterNameAndFamily}</Item>
+            <Item title="استاد راهنما">{selected?.master?.name}</Item>
             <Item title="تاریخ شروع">
               {selected?.startAt
                 ? new Date(selected?.startAt).toLocaleDateString('fa-IR')

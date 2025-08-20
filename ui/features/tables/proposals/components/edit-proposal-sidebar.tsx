@@ -74,6 +74,20 @@ export function EditProposalSideBar({
           startAt: data.startAt.toISOString(),
           endAt: data.endAt.toISOString(),
           fileId,
+          // FIXME:
+          applicantName: null,
+          contactNumber: null,
+          education: null,
+          expertise: null,
+          projectDuration: null,
+          projectGoals: null,
+          projectImportance: null,
+          technicalDetails: null,
+          productFeatures: null,
+          similarProducts: null,
+          projectOutcomes: null,
+          projectInnovation: null,
+          projectRisks: null,
         },
       });
       onOpenChange(false);

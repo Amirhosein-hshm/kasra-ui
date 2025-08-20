@@ -45,6 +45,8 @@ export function AssignSupervisorToProposalSidebar({
           supervisorId: data.supervisor_id,
           // FIXME:
           comment: '',
+          commissionFileId: null,
+          commissionDateTime: null,
         },
       })
         .then(() => {

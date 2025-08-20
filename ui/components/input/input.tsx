@@ -1,8 +1,9 @@
 import { Input } from '../input';
-import { Textarea } from '../textarea';
-import { useFormContext, Controller } from 'react-hook-form';
+import { Textarea } from '../textarea/textarea';
+import { useFormContext, Controller, ControllerProps } from 'react-hook-form';
 import { Label } from '../label';
 import { cn } from '@/lib/utils';
+import { HTMLProps } from 'react';
 
 type Props = {
   name: string;
@@ -12,6 +13,15 @@ type Props = {
   multiline?: boolean;
   className?: string;
   rows?: number;
+  controllerProps?: Omit<ControllerProps, 'name' | 'control' | 'render'>;
+  inputOptions?: Omit<
+    HTMLProps<HTMLInputElement>,
+    'onChange' | 'onBlur' | 'ref'
+  >;
+  textareaOptions?: Omit<
+    HTMLProps<HTMLTextAreaElement>,
+    'onChange' | 'onBlur' | 'ref'
+  >;
 };
 
 export function FormInput({
@@ -22,6 +32,9 @@ export function FormInput({
   multiline = false,
   className,
   rows = 4,
+  controllerProps,
+  inputOptions,
+  textareaOptions,
 }: Props) {
   const { control } = useFormContext();
 
@@ -33,6 +46,7 @@ export function FormInput({
         </Label>
       )}
       <Controller
+        {...controllerProps}
         name={name}
         control={control}
         render={({ field, fieldState }) =>
@@ -50,6 +64,7 @@ export function FormInput({
                 className,
                 fieldState.error && 'border-destructive'
               )}
+              {...textareaOptions}
             />
           ) : (
             <Input
@@ -65,6 +80,7 @@ export function FormInput({
                 className,
                 fieldState.error && 'border-destructive'
               )}
+              {...inputOptions}
             />
           )
         }

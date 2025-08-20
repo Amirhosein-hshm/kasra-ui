@@ -15,7 +15,7 @@ import {
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
 import { Slider } from '@/ui/components/slider';
-import { Textarea } from '@/ui/components/textarea';
+import { Textarea } from '@/ui/components/textarea/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { PropsWithChildren, useRef, useState } from 'react';
