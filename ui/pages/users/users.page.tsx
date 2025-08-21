@@ -5,7 +5,6 @@ import { useAdminUsersInfo } from '@/lib/hooks/useAdmin';
 import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import UsersTable from '@/ui/features/tables/users';
-import { Suspense } from 'react';
 
 export default function UsersPage() {
   const me = useMeStore();
@@ -34,19 +33,17 @@ export default function UsersPage() {
   const isFetching = adminUsersInfoQuery.isFetching;
 
   return (
-    <Suspense>
-      <UsersTable
-        data={data || []}
-        pageIndex={pageIndex}
-        pageSize={pageSize}
-        pageCount={pageCount}
-        setPageIndex={setPageIndex}
-        setPageSize={setPageSize}
-        search={info}
-        setSearch={setInfo}
-        isFetching={isFetching}
-        isInitialLoading={isLoading}
-      />
-    </Suspense>
+    <UsersTable
+      data={data || []}
+      pageIndex={pageIndex}
+      pageSize={pageSize}
+      pageCount={pageCount}
+      setPageIndex={setPageIndex}
+      setPageSize={setPageSize}
+      search={info}
+      setSearch={setInfo}
+      isFetching={isFetching}
+      isInitialLoading={isLoading}
+    />
   );
 }
