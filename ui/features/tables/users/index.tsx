@@ -5,6 +5,8 @@ import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
 import { getUserTableColumns } from './columns';
 import { UserDetailsSideBar } from './components/UserDetailSidebar';
+import { Button } from '@/ui/components/button';
+import { AddUserSidebar } from './components/AddUserSidebar';
 
 interface Props {
   data: UserInfoResponse[];
@@ -34,6 +36,7 @@ export default function UsersTable({
   const [selected, setSelected] = useState<UserInfoResponse | null>(null);
 
   const [isOpenUserDetails, setIsOpenUserDetails] = useState(false);
+  const [isOpenAddUser, setIsOpenAddUser] = useState(false);
 
   const usersTableColumns = getUserTableColumns({
     onViewAndEdit: (item) => {
@@ -58,12 +61,22 @@ export default function UsersTable({
         setSearch={setSearch}
         isFetching={isFetching}
         loading={isInitialLoading}
+        headerAppendix={
+          <Button className="ml-2" onClick={() => setIsOpenAddUser(true)}>
+            افزودن کاربر
+          </Button>
+        }
       />
 
       <UserDetailsSideBar
         open={isOpenUserDetails}
         onOpenChange={(state) => setIsOpenUserDetails(state)}
         selected={selected}
+      />
+
+      <AddUserSidebar
+        open={isOpenAddUser}
+        onOpenChange={(state) => setIsOpenAddUser(state)}
       />
     </>
   );

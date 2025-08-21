@@ -6,6 +6,7 @@ import { useMeStore } from '@/lib/stores/me.stores';
 import { UserType } from '@/lib/types/UserType.enum';
 import UsersTable from '@/ui/features/tables/users';
 
+// TODO: Update & Delete user for admin
 export default function UsersPage() {
   const me = useMeStore();
   const userTypeId = me?.user?.userTypeId;

@@ -1,11 +1,17 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 import { getAdmin } from '../services/admin/admin';
 import {
   ReadUsersAdminUsersGetParams,
+  UserAddRequest,
   UserInfoResponse,
   UserRoleResponse,
 } from '../types';
-import { UserType } from '../types/UserType.enum';
 
 export const adminQueryKeys = {
   info: (params?: ReadUsersAdminUsersGetParams) =>
@@ -16,12 +22,10 @@ export const adminQueryKeys = {
 // Get user roles
 
 export function useAdminUserRoles(
-  userTypeId: number,
   options?: Partial<UseQueryOptions<UserRoleResponse[], Error>>
 ) {
   return useQuery({
-    enabled: userTypeId == UserType.Admin,
-    queryKey: adminQueryKeys.info(),
+    queryKey: adminQueryKeys.roles(),
     queryFn: async () => {
       const res = await getAdmin().readUserRolesAdminUserRolesGet();
       return res.data;
@@ -41,6 +45,24 @@ export function useAdminUsersInfo(
     queryFn: async () => {
       const res = await getAdmin().readUsersAdminUsersGet(params);
       return res.data;
+    },
+    ...options,
+  });
+}
+
+export function useAdminAddUser(
+  options?: Partial<UseMutationOptions<UserInfoResponse, Error, UserAddRequest>>
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      const res = await getAdmin().createUserAdminAddUserPost(payload);
+      return res.data;
+    },
+    onSuccess: (data, variables, context) => {
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, variables, context);
     },
     ...options,
   });

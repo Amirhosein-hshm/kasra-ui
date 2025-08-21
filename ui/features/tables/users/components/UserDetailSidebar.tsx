@@ -43,15 +43,50 @@ export function UserDetailsSideBar({
               </span>
             </div>
             <div className="flex justify-between items-center">
+              <span className="font-medium">تاریخ تولد</span>
+              <span className="text-right break-all">
+                {new Date(selected.birth).toLocaleDateString('fa-IR')}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
               <span className="font-medium">شماره تماس</span>
               <span className="text-right break-all">{selected.phone}</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-medium">آدرس</span>
+              <span className="text-right break-all">{selected.address}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="font-medium">وضعیت</span>
+              <span className="text-right break-all">
+                {selected.active ? (
+                  <span className="text-green-600">فعال</span>
+                ) : (
+                  <span className="text-red-600">غیرفعال</span>
+                )}
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="font-medium">نقش</span>
               <span className="text-right break-all">
-                {translator(String(selected.userTypeId!), 'roles')}
+                {translator(String(selected.userTypeId), 'roles')}
               </span>
             </div>
+            {selected.resumeFileId && (
+              <div className="flex justify-between items-center">
+                <span className="font-medium">رزومه</span>
+                <span className="text-right break-all">
+                  <a
+                    href={`/api/files/${selected.resumeFileId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    مشاهده رزومه
+                  </a>
+                </span>
+              </div>
+            )}
           </div>
         </div>
       ) : (

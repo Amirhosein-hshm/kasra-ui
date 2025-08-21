@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 
-interface ModalProps {
+export interface ModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 
