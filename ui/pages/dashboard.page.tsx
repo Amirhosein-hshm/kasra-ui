@@ -32,6 +32,12 @@ export default function DashboardPage() {
       action: PATHS.dashboard.rfps.root,
       permissions: [1, 2],
     },
+    {
+      title: 'کاربران',
+      src: '/backgrounds/users.png',
+      action: PATHS.dashboard.users.root,
+      permissions: [6],
+    },
   ];
   const allowedCards = cards.filter((item) =>
     item.permissions.includes(userTypeId || 0)

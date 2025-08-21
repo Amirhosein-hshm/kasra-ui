@@ -33,7 +33,7 @@ export const ROLE_ACCESS: Record<RoleId, string[]> = {
   ],
   4: ['/dashboard', '/dashboard/proposals', '/dashboard/projects', '/profile'],
   5: ['/dashboard', '/profile', '/dashboard/projects', '/dashboard/reports'],
-  6: ['/dashboard', '/profile', '/settings', '/projects'],
+  6: ['/dashboard', '/profile', '/users'],
 };
 
 export type RoleId = 1 | 2 | 3 | 4 | 5 | 6;

@@ -18,5 +18,6 @@ const dictionary = {
     update: 'بروزرسانی',
     upload: 'بارگذاری',
     allocates: 'تخصیص ها',
+    users: 'کاربران',
   },
 };

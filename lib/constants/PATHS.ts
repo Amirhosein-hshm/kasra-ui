@@ -35,5 +35,8 @@ export const PATHS = {
     allocate: {
       root: '/dashboard/allocates',
     },
+    users: {
+      root: '/dashboard/users',
+    },
   },
 };
