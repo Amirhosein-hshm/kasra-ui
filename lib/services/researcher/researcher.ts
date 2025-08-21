@@ -12,234 +12,193 @@ import type {
   GetAllocatesResearcherAllocatesGetParams,
   GetProjectResearcherProjectsGetParams,
   GetReportsResearcherReportsProjectIdGetParams,
+  MasterRequest,
+  MasterResponse,
   ProjectResponse,
   ProposalResponse,
+  ReadMastersResearcherMastersGetParams,
   ReadProposalsResearcherProposalsGetParams,
-  ResearcherProjectUpdate,
+  ResearcherProjectUpdate
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-export const getResearcher = () => {
+
+
+  export const getResearcher = () => {
+/**
+ * @summary Get Project
+ */
+const getProjectResearcherProjectsGet = (
+    params?: GetProjectResearcherProjectsGetParams,
+ ) => {
+      return api<ProjectResponse[]>(
+      {url: `/researcher/projects/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Get Project
-   */
-  const getProjectResearcherProjectsGet = (
-    params?: GetProjectResearcherProjectsGetParams
-  ) => {
-    return api<ProjectResponse[]>({
-      url: `/researcher/projects/`,
-      method: 'GET',
-      params,
-    });
-  };
-  /**
-   * @summary Get Reports
-   */
-  const getReportsResearcherReportsProjectIdGet = (
+ * @summary Get Reports
+ */
+const getReportsResearcherReportsProjectIdGet = (
     projectId: number,
-    params?: GetReportsResearcherReportsProjectIdGetParams
-  ) => {
-    return api<unknown>({
-      url: `/researcher/reports/${projectId}`,
-      method: 'GET',
-      params,
-    });
-  };
+    params?: GetReportsResearcherReportsProjectIdGetParams,
+ ) => {
+      return api<unknown>(
+      {url: `/researcher/reports/${projectId}`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Get Single Reports
-   */
-  const getSingleReportsResearcherSingleReportReportIdGet = (
-    reportId: number
-  ) => {
-    return api<unknown>({
-      url: `/researcher/single-report/${reportId}`,
-      method: 'GET',
-    });
-  };
+ * @summary Get Single Reports
+ */
+const getSingleReportsResearcherSingleReportReportIdGet = (
+    reportId: number,
+ ) => {
+      return api<unknown>(
+      {url: `/researcher/single-report/${reportId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Get All Reports
-   */
-  const getAllReportsResearcherAllReportsGet = (
-    params?: GetAllReportsResearcherAllReportsGetParams
-  ) => {
-    return api<unknown>({
-      url: `/researcher/all-reports/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Get All Reports
+ */
+const getAllReportsResearcherAllReportsGet = (
+    params?: GetAllReportsResearcherAllReportsGetParams,
+ ) => {
+      return api<unknown>(
+      {url: `/researcher/all-reports/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Edit Allocate
-   */
-  const editAllocateResearcherAllocatesAllocateIdPut = (
+ * @summary Edit Allocate
+ */
+const editAllocateResearcherAllocatesAllocateIdPut = (
     allocateId: number,
-    params?: EditAllocateResearcherAllocatesAllocateIdPutParams
-  ) => {
-    return api<AllocateResponse>({
-      url: `/researcher/allocates/${allocateId}`,
-      method: 'PUT',
-      params,
-    });
-  };
+    params?: EditAllocateResearcherAllocatesAllocateIdPutParams,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/researcher/allocates/${allocateId}`, method: 'PUT',
+        params
+    },
+      );
+    }
   /**
-   * @summary Get Allocates
-   */
-  const getAllocatesResearcherAllocatesGet = (
-    params?: GetAllocatesResearcherAllocatesGetParams
-  ) => {
-    return api<AllocateResponse[]>({
-      url: `/researcher/allocates/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Get Allocates
+ */
+const getAllocatesResearcherAllocatesGet = (
+    params?: GetAllocatesResearcherAllocatesGetParams,
+ ) => {
+      return api<AllocateResponse[]>(
+      {url: `/researcher/allocates/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Single Allocate
-   */
-  const singleAllocateResearcherSingleAllocateAllocateIdGet = (
-    allocateId: number
-  ) => {
-    return api<AllocateResponse>({
-      url: `/researcher/single-allocate/${allocateId}`,
-      method: 'GET',
-    });
-  };
+ * @summary Single Allocate
+ */
+const singleAllocateResearcherSingleAllocateAllocateIdGet = (
+    allocateId: number,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/researcher/single-allocate/${allocateId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Edit Accepting Project
-   */
-  const editAcceptingProjectResearcherProjectsProjectIdPut = (
+ * @summary Edit Accepting Project
+ */
+const editAcceptingProjectResearcherProjectsProjectIdPut = (
     projectId: number,
-    researcherProjectUpdate: ResearcherProjectUpdate
-  ) => {
-    return api<ProjectResponse>({
-      url: `/researcher/projects/${projectId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: researcherProjectUpdate,
-    });
-  };
+    researcherProjectUpdate: ResearcherProjectUpdate,
+ ) => {
+      return api<ProjectResponse>(
+      {url: `/researcher/projects/${projectId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: researcherProjectUpdate
+    },
+      );
+    }
   /**
-   * @summary Edit Proposal And Create Project
-   */
-  const editProposalAndCreateProjectResearcherProposalProposalIdPut = (
+ * @summary Edit Proposal And Create Project
+ */
+const editProposalAndCreateProjectResearcherProposalProposalIdPut = (
     proposalId: number,
-    params: EditProposalAndCreateProjectResearcherProposalProposalIdPutParams
-  ) => {
-    return api<ProposalResponse>({
-      url: `/researcher/proposal/${proposalId}`,
-      method: 'PUT',
-      params,
-    });
-  };
+    params: EditProposalAndCreateProjectResearcherProposalProposalIdPutParams,
+ ) => {
+      return api<ProposalResponse>(
+      {url: `/researcher/proposal/${proposalId}`, method: 'PUT',
+        params
+    },
+      );
+    }
   /**
-   * @summary Read Proposals
-   */
-  const readProposalsResearcherProposalsGet = (
-    params?: ReadProposalsResearcherProposalsGetParams
-  ) => {
-    return api<ProposalResponse[]>({
-      url: `/researcher/proposals/`,
-      method: 'GET',
-      params,
-    });
-  };
-  return {
-    getProjectResearcherProjectsGet,
-    getReportsResearcherReportsProjectIdGet,
-    getSingleReportsResearcherSingleReportReportIdGet,
-    getAllReportsResearcherAllReportsGet,
-    editAllocateResearcherAllocatesAllocateIdPut,
-    getAllocatesResearcherAllocatesGet,
-    singleAllocateResearcherSingleAllocateAllocateIdGet,
-    editAcceptingProjectResearcherProjectsProjectIdPut,
-    editProposalAndCreateProjectResearcherProposalProposalIdPut,
-    readProposalsResearcherProposalsGet,
-  };
-};
-export type GetProjectResearcherProjectsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getResearcher>['getProjectResearcherProjectsGet']
-    >
-  >
->;
-export type GetReportsResearcherReportsProjectIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getResearcher
-      >['getReportsResearcherReportsProjectIdGet']
-    >
-  >
->;
-export type GetSingleReportsResearcherSingleReportReportIdGetResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getResearcher
-        >['getSingleReportsResearcherSingleReportReportIdGet']
-      >
-    >
-  >;
-export type GetAllReportsResearcherAllReportsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getResearcher>['getAllReportsResearcherAllReportsGet']
-    >
-  >
->;
-export type EditAllocateResearcherAllocatesAllocateIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getResearcher
-      >['editAllocateResearcherAllocatesAllocateIdPut']
-    >
-  >
->;
-export type GetAllocatesResearcherAllocatesGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getResearcher>['getAllocatesResearcherAllocatesGet']
-    >
-  >
->;
-export type SingleAllocateResearcherSingleAllocateAllocateIdGetResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getResearcher
-        >['singleAllocateResearcherSingleAllocateAllocateIdGet']
-      >
-    >
-  >;
-export type EditAcceptingProjectResearcherProjectsProjectIdPutResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getResearcher
-        >['editAcceptingProjectResearcherProjectsProjectIdPut']
-      >
-    >
-  >;
-export type EditProposalAndCreateProjectResearcherProposalProposalIdPutResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getResearcher
-        >['editProposalAndCreateProjectResearcherProposalProposalIdPut']
-      >
-    >
-  >;
-export type ReadProposalsResearcherProposalsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getResearcher>['readProposalsResearcherProposalsGet']
-    >
-  >
->;
+ * @summary Read Proposals
+ */
+const readProposalsResearcherProposalsGet = (
+    params?: ReadProposalsResearcherProposalsGetParams,
+ ) => {
+      return api<ProposalResponse[]>(
+      {url: `/researcher/proposals/`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Read Proposals
+ */
+const readProposalsResearcherAddMasterPost = (
+    masterRequest: MasterRequest,
+ ) => {
+      return api<MasterResponse>(
+      {url: `/researcher/add-master/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: masterRequest
+    },
+      );
+    }
+  /**
+ * @summary Read Masters
+ */
+const readMastersResearcherMastersGet = (
+    params?: ReadMastersResearcherMastersGetParams,
+ ) => {
+      return api<MasterResponse[]>(
+      {url: `/researcher/masters/`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Update Master
+ */
+const updateMasterResearcherUpdateMasterMasterIdPut = (
+    masterId: number,
+    masterRequest: MasterRequest,
+ ) => {
+      return api<MasterResponse>(
+      {url: `/researcher/update-master/${masterId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: masterRequest
+    },
+      );
+    }
+  return {getProjectResearcherProjectsGet,getReportsResearcherReportsProjectIdGet,getSingleReportsResearcherSingleReportReportIdGet,getAllReportsResearcherAllReportsGet,editAllocateResearcherAllocatesAllocateIdPut,getAllocatesResearcherAllocatesGet,singleAllocateResearcherSingleAllocateAllocateIdGet,editAcceptingProjectResearcherProjectsProjectIdPut,editProposalAndCreateProjectResearcherProposalProposalIdPut,readProposalsResearcherProposalsGet,readProposalsResearcherAddMasterPost,readMastersResearcherMastersGet,updateMasterResearcherUpdateMasterMasterIdPut}};
+export type GetProjectResearcherProjectsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['getProjectResearcherProjectsGet']>>>
+export type GetReportsResearcherReportsProjectIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['getReportsResearcherReportsProjectIdGet']>>>
+export type GetSingleReportsResearcherSingleReportReportIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['getSingleReportsResearcherSingleReportReportIdGet']>>>
+export type GetAllReportsResearcherAllReportsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['getAllReportsResearcherAllReportsGet']>>>
+export type EditAllocateResearcherAllocatesAllocateIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['editAllocateResearcherAllocatesAllocateIdPut']>>>
+export type GetAllocatesResearcherAllocatesGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['getAllocatesResearcherAllocatesGet']>>>
+export type SingleAllocateResearcherSingleAllocateAllocateIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['singleAllocateResearcherSingleAllocateAllocateIdGet']>>>
+export type EditAcceptingProjectResearcherProjectsProjectIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['editAcceptingProjectResearcherProjectsProjectIdPut']>>>
+export type EditProposalAndCreateProjectResearcherProposalProposalIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['editProposalAndCreateProjectResearcherProposalProposalIdPut']>>>
+export type ReadProposalsResearcherProposalsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['readProposalsResearcherProposalsGet']>>>
+export type ReadProposalsResearcherAddMasterPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['readProposalsResearcherAddMasterPost']>>>
+export type ReadMastersResearcherMastersGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['readMastersResearcherMastersGet']>>>
+export type UpdateMasterResearcherUpdateMasterMasterIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getResearcher>['updateMasterResearcherUpdateMasterMasterIdPut']>>>

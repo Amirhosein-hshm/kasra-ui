@@ -1,3 +1,5 @@
+'use client';
+
 import { useDebounced } from '@/lib/utils/hooks/useDebounce';
 import { useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';

@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import { useMeStore } from '@/lib/stores/me.stores';
 import ProfileFormSkeleton from './profile-skeleton';
+import translator from '@/lib/helpers/translator';
 
 export default function ProfileForm() {
   const birthDate = useMeStore((s) => s.user?.birth);
@@ -13,14 +14,6 @@ export default function ProfileForm() {
   const username = useMeStore((s) => s.user?.username);
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
   const loading = useMeStore((s) => s.loading);
-
-  const roles = {
-    1: 'کارگزار کسری',
-    2: 'کاشف',
-    3: 'کاربر عادی',
-    4: 'ناظر',
-    5: 'امور محققین',
-  };
 
   return loading ? (
     <ProfileFormSkeleton />
@@ -38,7 +31,7 @@ export default function ProfileForm() {
           </div>
           <div className="bg-card px-2 py-1 rounded-sm">
             <span>نقش: </span>
-            <span>{roles[userTypeId!]}</span>
+            <span>{translator(String(userTypeId!), 'roles')}</span>
           </div>
           <div>
             <span>آدرس: </span>

@@ -1,4 +1,3 @@
-// ui/components/sidebar/sidebar.tsx
 'use client';
 
 import {

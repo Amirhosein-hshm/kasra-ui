@@ -12,11 +12,11 @@ export interface ProjectResponse {
   id: number;
   creatorId: number;
   createdAt: string;
+  state: string;
   startAt: string;
   endAt: string;
   title: string;
   master?: ProjectResponseMaster;
-  state: string;
   proposal: ProposalResponse;
   supervisor: UserInfoLimitedResponse;
   user: UserInfoLimitedResponse;

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { PATHS } from './lib/constants/PATHS';
 
 const protectedRoutes = [
@@ -32,7 +32,13 @@ export const ROLE_ACCESS: Record<RoleId, string[]> = {
     '/projects',
   ],
   4: ['/dashboard', '/dashboard/proposals', '/dashboard/projects', '/profile'],
-  5: ['/dashboard', '/profile', '/dashboard/projects', '/dashboard/reports'],
+  5: [
+    '/dashboard',
+    '/profile',
+    '/dashboard/projects',
+    '/dashboard/reports',
+    '/users',
+  ],
   6: ['/dashboard', '/profile', '/users'],
 };
 

@@ -1,5 +1,3 @@
-// src/lib/hooks/researcher.ts
-import { getResearcher } from '@/lib/services';
 import {
   keepPreviousData,
   useMutation,
@@ -20,6 +18,7 @@ import type {
   ProposalResponse,
   ResearcherProjectUpdate,
 } from 'lib/types';
+import { getResearcher } from '../services/researcher/researcher';
 
 export const researcherQueryKeys = {
   projects: (params?: GetProjectResearcherProjectsGetParams) =>

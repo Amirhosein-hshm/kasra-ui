@@ -40,14 +40,22 @@ export function useTablePagination() {
     [pageIndex, pageSize, info]
   );
 
+  const total = 30;
+  const pageCount = Math.ceil(total / pageSize);
+
+  const setPageSize = () => {};
+
   return {
     searchParams,
     router,
     pageIndex,
     setPageIndex,
+    setPageSize,
     info,
     setInfo,
     queryParams,
     pageSize,
+    pageCount,
+    total,
   };
 }
