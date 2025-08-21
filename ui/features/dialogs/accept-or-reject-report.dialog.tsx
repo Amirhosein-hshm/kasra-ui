@@ -160,7 +160,7 @@ export default function AcceptOrRejectReportDialog({
                   />
                   {progressPercent && progressPercent![0] == 100 && (
                     <>
-                      <label>تاریخ برکذاری کمیسیون</label>
+                      <label>تاریخ برگذاری کمیسیون</label>
                       <PersianDatePicker
                         onChange={(date) => {
                           form.setValue(

@@ -105,7 +105,7 @@ export function AssignSupervisorToProposalSidebar({
               onUploadComplete={onUploadComplete}
               title="بارگذاری فایل برای کمیسیون"
             />
-            <label>تاریخ برکذاری کمیسیون: </label>
+            <label>تاریخ برگذاری کمیسیون: </label>
             <PersianDatePicker
               initialValue={explorerForm.watch('startAt')}
               onChange={(date) => {
