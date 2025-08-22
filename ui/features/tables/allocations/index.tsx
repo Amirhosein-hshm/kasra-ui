@@ -169,6 +169,7 @@ export default function AllocatesTable({
       >
         {`این موضوع را برای این پروژه ''${selected?.rfp.info}'' تایید میکنید؟`}
       </Modal>
+
       <Modal
         open={isOpenConfirmeAllocate}
         onOpenChange={handleCloseConfrimeAllocate}

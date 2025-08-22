@@ -35,15 +35,11 @@ export default function MastersTable({
   const [masterToUpdate, setMasterToUpdate] = useState<MasterResponse | null>(
     null
   );
-  const [masterToDelete, setMasterToDelete] = useState<MasterResponse | null>(
-    null
-  );
 
   const [isOpenMasterSidebar, setIsOpenMasterSidebar] = useState(false);
   function handleMasterSidebarOpenChange(state) {
     if (!state) {
       // Clean up state on closing sidebar
-      setMasterToDelete(null);
       setMasterToUpdate(null);
     }
     setIsOpenMasterSidebar(state);
@@ -52,10 +48,6 @@ export default function MastersTable({
   const MastersTableColumns = getMasterTableColumns({
     onEdit: (item) => {
       setMasterToUpdate(item);
-      setIsOpenMasterSidebar(true);
-    },
-    onDelete: (item) => {
-      setMasterToDelete(item);
       setIsOpenMasterSidebar(true);
     },
   });

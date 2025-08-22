@@ -15,7 +15,6 @@ const dropdownMenuItemClassname = 'cursor-pointer';
 
 interface ColumnOptions {
   onEdit?: (allocate: MasterResponse) => void;
-  onDelete?: (allocate: MasterResponse) => void;
 }
 
 export function getMasterTableColumns(
@@ -45,12 +44,6 @@ export function getMasterTableColumns(
                 className={dropdownMenuItemClassname}
               >
                 <Edit color="var(--color-blue-primary)" /> ویرایش
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => options?.onDelete?.(user)}
-                className={dropdownMenuItemClassname}
-              >
-                <Trash color="var(--color-red-primary)" /> حذف
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
