@@ -1,9 +1,9 @@
-import { UserFormData } from '@/ui/forms/add-user.validation';
+import { AddUserFormData } from '@/ui/forms/add-user.validation';
 import { UserInfoResponse } from '../types';
 
 export function convertUserInfoResponseToUserFormData(
   input: UserInfoResponse
-): Omit<UserFormData, 'password'> {
+): Omit<AddUserFormData, 'password'> {
   return {
     active: input?.active ?? false,
     address: input?.address ?? '',

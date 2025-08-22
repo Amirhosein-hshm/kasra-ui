@@ -67,3 +67,30 @@ export function useAdminAddUser(
     ...options,
   });
 }
+
+export function useAdminUpdateUser(
+  options?: Partial<
+    UseMutationOptions<
+      UserInfoResponse,
+      Error,
+      { userId: number; userAddRequest: Omit<UserAddRequest, 'password'> }
+    >
+  >
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input) => {
+      const res = await getAdmin().updateUserAdminUpdateUserUserIdPut(
+        input.userId,
+        input.userAddRequest
+      );
+      return res.data;
+    },
+    onSuccess: (data, variables, context) => {
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}

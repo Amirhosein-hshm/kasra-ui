@@ -7,6 +7,7 @@ import { getUserTableColumns } from './columns';
 import { UserDetailsSideBar } from './components/UserDetailSidebar';
 import { Button } from '@/ui/components/button';
 import { AddUserSidebar } from './components/AddUserSidebar';
+import { EditUserSidebar } from './components/UpdateUserSidebar';
 
 interface Props {
   data: UserInfoResponse[];
@@ -36,12 +37,16 @@ export default function UsersTable({
   const [selected, setSelected] = useState<UserInfoResponse | null>(null);
 
   const [isOpenUserDetails, setIsOpenUserDetails] = useState(false);
-  const [isOpenAddUser, setIsOpenAddUser] = useState(false);
+  const [isOpenUserSidebar, setIsOpenUserSidebar] = useState(false);
 
   const usersTableColumns = getUserTableColumns({
-    onViewAndEdit: (item) => {
+    onView: (item) => {
       setSelected(item);
       setIsOpenUserDetails(true);
+    },
+    onEdit(user) {
+      setSelected(user);
+      setIsOpenUserSidebar(true);
     },
   });
 
@@ -62,7 +67,13 @@ export default function UsersTable({
         isFetching={isFetching}
         loading={isInitialLoading}
         headerAppendix={
-          <Button className="ml-2" onClick={() => setIsOpenAddUser(true)}>
+          <Button
+            className="ml-2"
+            onClick={() => {
+              setSelected(null);
+              setIsOpenUserSidebar(true);
+            }}
+          >
             افزودن کاربر
           </Button>
         }
@@ -75,8 +86,14 @@ export default function UsersTable({
       />
 
       <AddUserSidebar
-        open={isOpenAddUser}
-        onOpenChange={(state) => setIsOpenAddUser(state)}
+        open={isOpenUserSidebar}
+        onOpenChange={(state) => setIsOpenUserSidebar(state)}
+      />
+
+      <EditUserSidebar
+        open={isOpenUserSidebar}
+        onOpenChange={(state) => setIsOpenUserSidebar(state)}
+        userToUpdate={selected ?? undefined}
       />
     </>
   );

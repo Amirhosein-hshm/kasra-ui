@@ -1,8 +1,7 @@
 import z from 'zod';
 
-export const addUserFormSchema = z.object({
+export const editUserFormSchema = z.object({
   username: z.string().min(3, 'نام کاربری باید حداقل ۳ کاراکتر باشد'),
-  password: z.string().min(6, 'رمز عبور باید حداقل ۶ کاراکتر باشد'),
   user_type_id: z.number({ message: 'لطفا نوع کاربر را انتخاب کنید' }),
   fname: z.string().min(1, 'نام اجباری است'),
   lname: z.string().min(1, 'نام خانوادگی اجباری است'),
@@ -14,11 +13,10 @@ export const addUserFormSchema = z.object({
   active: z.boolean(),
 });
 
-export type AddUserFormData = z.infer<typeof addUserFormSchema>;
+export type EditUserFormData = z.infer<typeof editUserFormSchema>;
 
-export const addUserFormDefaultValues: AddUserFormData = {
+export const editUserFormDefaultValues: EditUserFormData = {
   username: '',
-  password: '',
   user_type_id: 0,
   fname: '',
   lname: '',

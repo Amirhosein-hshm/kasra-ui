@@ -80,7 +80,7 @@ export const FileUpload = ({
     multiple: false,
     accept: { 'application/pdf': ['.pdf'] },
     onDrop: handleNewFiles,
-    onDropRejected: () => alert('فقط فایل PDF مجاز است.'),
+    onDropRejected: () => toast.error('فقط فایل PDF مجاز است.'),
     noClick: true,
   });
 

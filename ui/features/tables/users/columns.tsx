@@ -7,17 +7,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
-import { Eye, MoreHorizontal } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal } from 'lucide-react';
 
 const dropdownMenuItemClassname = 'cursor-pointer';
 
 interface ColumnOptions {
-  onViewAndEdit?: (allocate: UserInfoResponse) => void;
+  onView?: (allocate: UserInfoResponse) => void;
+  onEdit?: (user: UserInfoResponse) => void;
   onDelete?: (allocate: UserInfoResponse) => void;
 }
 
@@ -62,10 +61,16 @@ export function getUserTableColumns(
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={() => options?.onViewAndEdit?.(user)}
+                onClick={() => options?.onView?.(user)}
                 className={dropdownMenuItemClassname}
               >
                 <Eye /> مشاهده
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => options?.onEdit?.(user)}
+                className={dropdownMenuItemClassname}
+              >
+                <Edit color="var(--color-blue-primary)" /> ویرایش
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

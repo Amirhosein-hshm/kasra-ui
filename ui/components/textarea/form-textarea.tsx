@@ -1,4 +1,3 @@
-// components/textarea/textarea.tsx
 import { useFormContext } from 'react-hook-form';
 
 interface FormTextareaProps {

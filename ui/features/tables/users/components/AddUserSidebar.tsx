@@ -4,30 +4,25 @@ import Spinner from '@/ui/common/spinner';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import AddUserForm from '@/ui/forms/add-user.form';
 import {
-  UserFormData,
-  userFormDefaultValues,
-  userFormSchema,
+  AddUserFormData,
+  addUserFormDefaultValues,
+  addUserFormSchema,
 } from '@/ui/forms/add-user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 interface AddUserSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  userToUpdate?: UserInfoResponse;
 }
 
-export function AddUserSidebar({
-  open,
-  onOpenChange,
-  userToUpdate,
-}: AddUserSidebarProps) {
+export function AddUserSidebar({ open, onOpenChange }: AddUserSidebarProps) {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
-    resolver: zodResolver(userFormSchema),
-    defaultValues: userFormDefaultValues,
+    resolver: zodResolver(addUserFormSchema),
+    defaultValues: addUserFormDefaultValues,
   });
 
   const adminUserRolesQuery = useAdminUserRoles();
@@ -36,7 +31,7 @@ export function AddUserSidebar({
 
   const adminAddUserMutation = useAdminAddUser();
 
-  const handleSubmit = async (data: UserFormData) => {
+  const handleSubmit = async (data: AddUserFormData) => {
     setIsLoading(true);
     try {
       await adminAddUserMutation.mutateAsync({
@@ -45,11 +40,12 @@ export function AddUserSidebar({
         userTypeId: data.user_type_id,
         birth: data.birth.split('T')[0],
       });
-      toast.success('کابر با موفقیت افزوده شد');
+
+      toast.success(`کابر با موفقیت افزوده شد`);
       onOpenChange(false);
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
-      alert('خطایی در ارسال فرم رخ داد.');
+      toast.error('خطایی رخ داد');
     } finally {
       setIsLoading(false);
     }
@@ -67,7 +63,6 @@ export function AddUserSidebar({
       >
         {rolesAreReady ? (
           <AddUserForm
-            userToUpdate={userToUpdate}
             userRoles={userRoles}
             onSubmit={handleSubmit}
             isPending={isLoading}

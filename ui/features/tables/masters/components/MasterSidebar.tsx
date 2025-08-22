@@ -54,7 +54,7 @@ export function MasterSidebar({
       form.reset();
     } catch (error) {
       console.error('خطا در ارسال فرم:', error);
-      alert('خطایی رخ داد.');
+      toast.error('خطایی رخ داد.');
     } finally {
       setIsLoading(false);
     }

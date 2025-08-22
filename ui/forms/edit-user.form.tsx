@@ -1,6 +1,6 @@
 'use client';
 
-import { UserRoleResponse } from '@/lib/types';
+import { UserInfoResponse, UserRoleResponse } from '@/lib/types';
 import { Button } from '@/ui/components/button';
 import { FileUpload } from '@/ui/components/file-upload';
 import { Input } from '@/ui/components/input';
@@ -16,16 +16,18 @@ import {
 import { useFormContext } from 'react-hook-form';
 import { DateObject } from 'react-multi-date-picker';
 import { PersianDatePicker } from '../components/date-picker/date-picker';
-import { AddUserFormData } from './add-user.validation';
+import { EditUserFormData } from './edit-user.validation';
+import { FormFileUpload } from '../features/form-fields/form-file-upload';
 
 interface Props {
+  userToUpdate?: UserInfoResponse;
   userRoles: UserRoleResponse[];
-  onSubmit: (data: AddUserFormData) => Promise<void>;
+  onSubmit: (data: EditUserFormData) => Promise<void>;
   isPending: boolean;
 }
 
 export default function AddUserForm({ onSubmit, isPending, userRoles }: Props) {
-  const form = useFormContext<AddUserFormData>();
+  const form = useFormContext<EditUserFormData>();
 
   return (
     <form
@@ -44,22 +46,6 @@ export default function AddUserForm({ onSubmit, isPending, userRoles }: Props) {
           {form.formState.errors.username && (
             <p className="text-red-500 text-sm">
               {form.formState.errors.username.message}
-            </p>
-          )}
-        </div>
-
-        {/* رمز عبور */}
-        <div className="grid gap-1.5">
-          <Label htmlFor="password">رمز عبور</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="رمز عبور خود را وارد کنید"
-            {...form.register('password')}
-          />
-          {form.formState.errors.password && (
-            <p className="text-red-500 text-sm">
-              {form.formState.errors.password.message}
             </p>
           )}
         </div>
@@ -155,12 +141,7 @@ export default function AddUserForm({ onSubmit, isPending, userRoles }: Props) {
 
         {/* آپلود رزومه */}
         <div className="grid gap-1.5">
-          <Label>آپلود رزومه</Label>
-          <FileUpload
-            onUploadComplete={(val: any) =>
-              form.setValue('resume_file_id', val.id)
-            }
-          />
+          <FormFileUpload name="resume_file_id" title={'آپلود رزومه'} />
         </div>
 
         {/* آدرس */}
