@@ -41,7 +41,7 @@ export function getProjectsTableColumns(
       header: 'پروپوزال',
     },
     {
-      header: 'سرپرست',
+      header: 'ناظر',
       cell: ({ row }) => {
         return (
           <div className="hover:underline">
