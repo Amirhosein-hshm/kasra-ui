@@ -8,6 +8,7 @@ import { UserDetailsSideBar } from './components/UserDetailSidebar';
 import { Button } from '@/ui/components/button';
 import { AddUserSidebar } from './components/AddUserSidebar';
 import { EditUserSidebar } from './components/UpdateUserSidebar';
+import DeleteUserModal from '../../modals/delete-user.modal';
 
 interface Props {
   data: UserInfoResponse[];
@@ -38,15 +39,20 @@ export default function UsersTable({
 
   const [isOpenUserDetails, setIsOpenUserDetails] = useState(false);
   const [isOpenUserSidebar, setIsOpenUserSidebar] = useState(false);
+  const [isOpenDeleteUserModal, setIsOpenDeleteUserModal] = useState(false);
 
   const usersTableColumns = getUserTableColumns({
-    onView: (item) => {
-      setSelected(item);
+    onView: (user) => {
+      setSelected(user);
       setIsOpenUserDetails(true);
     },
     onEdit(user) {
       setSelected(user);
       setIsOpenUserSidebar(true);
+    },
+    onDelete(user) {
+      setSelected(user);
+      setIsOpenDeleteUserModal(true);
     },
   });
 
@@ -94,6 +100,12 @@ export default function UsersTable({
         open={isOpenUserSidebar}
         onOpenChange={(state) => setIsOpenUserSidebar(state)}
         userToUpdate={selected ?? undefined}
+      />
+
+      <DeleteUserModal
+        userToDelete={selected ?? undefined}
+        open={isOpenDeleteUserModal}
+        onOpenChange={(state) => setIsOpenDeleteUserModal(state)}
       />
     </>
   );

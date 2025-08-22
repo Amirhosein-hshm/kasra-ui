@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
-import { Edit, Eye, MoreHorizontal } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Trash } from 'lucide-react';
 
 const dropdownMenuItemClassname = 'cursor-pointer';
 
@@ -71,6 +71,12 @@ export function getUserTableColumns(
                 className={dropdownMenuItemClassname}
               >
                 <Edit color="var(--color-blue-primary)" /> ویرایش
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => options?.onDelete?.(user)}
+                className={dropdownMenuItemClassname}
+              >
+                <Trash color="var(--color-red-primary)" /> حذف
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

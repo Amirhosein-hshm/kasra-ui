@@ -94,3 +94,25 @@ export function useAdminUpdateUser(
     ...options,
   });
 }
+
+export function useAdminDeleteUser(
+  options?: Partial<
+    UseMutationOptions<UserInfoResponse, Error, { userId: number }>
+  >
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input) => {
+      const res = await getAdmin().updateUserAdminDeleteUserUserIdDelete(
+        input.userId
+      );
+      return res.data;
+    },
+    onSuccess: (data, variables, context) => {
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}
