@@ -21,7 +21,6 @@ import type {
   ResearcherProjectUpdate,
 } from 'lib/types';
 import { getResearcher } from '../services/researcher/researcher';
-import { GetMastersExplorerMastersGetResult } from '../services1/explorer/explorer';
 
 export const researcherQueryKeys = {
   projects: (params?: GetProjectResearcherProjectsGetParams) =>
@@ -286,6 +285,32 @@ export function useResearcherAddMaster(
       const res = await getResearcher().readProposalsResearcherAddMasterPost(
         input
       );
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, vars, ctx);
+    },
+    ...options,
+  });
+}
+
+export function useResearcherUpdateMaster(
+  options?: UseMutationOptions<
+    MasterResponse,
+    Error,
+    { masterId: number; input: MasterRequest }
+  >
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ masterId, input }) => {
+      const res =
+        await getResearcher().updateMasterResearcherUpdateMasterMasterIdPut(
+          masterId,
+          input
+        );
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {

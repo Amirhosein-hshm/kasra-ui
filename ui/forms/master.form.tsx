@@ -1,6 +1,5 @@
 'use client';
 
-import { MasterResponse } from '@/lib/types';
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
 import { useFormContext } from 'react-hook-form';

@@ -5,7 +5,7 @@ import { Button } from '@/ui/components/button';
 import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
 import { getMasterTableColumns } from './columns';
-import { AddMasterSidebar } from './components/MasterSidebar';
+import { MasterSidebar } from './components/MasterSidebar';
 
 interface Props {
   data: MasterResponse[];
@@ -32,16 +32,31 @@ export default function MastersTable({
   isFetching,
   isInitialLoading,
 }: Props) {
-  const [selected, setSelected] = useState<MasterResponse | null>(null);
+  const [masterToUpdate, setMasterToUpdate] = useState<MasterResponse | null>(
+    null
+  );
+  const [masterToDelete, setMasterToDelete] = useState<MasterResponse | null>(
+    null
+  );
 
-  const [isOpenAddMasterSidebar, setIsOpenAddMasterSidebar] = useState(false);
+  const [isOpenMasterSidebar, setIsOpenMasterSidebar] = useState(false);
+  function handleMasterSidebarOpenChange(state) {
+    if (!state) {
+      // Clean up state on closing sidebar
+      setMasterToDelete(null);
+      setMasterToUpdate(null);
+    }
+    setIsOpenMasterSidebar(state);
+  }
 
   const MastersTableColumns = getMasterTableColumns({
     onEdit: (item) => {
-      setSelected(item);
+      setMasterToUpdate(item);
+      setIsOpenMasterSidebar(true);
     },
     onDelete: (item) => {
-      setSelected(item);
+      setMasterToDelete(item);
+      setIsOpenMasterSidebar(true);
     },
   });
 
@@ -62,18 +77,16 @@ export default function MastersTable({
         isFetching={isFetching}
         loading={isInitialLoading}
         headerAppendix={
-          <Button
-            className="ml-2"
-            onClick={() => setIsOpenAddMasterSidebar(true)}
-          >
+          <Button className="ml-2" onClick={handleMasterSidebarOpenChange}>
             افزودن استاد راهنما
           </Button>
         }
       />
 
-      <AddMasterSidebar
-        open={isOpenAddMasterSidebar}
-        onOpenChange={(state) => setIsOpenAddMasterSidebar(state)}
+      <MasterSidebar
+        open={isOpenMasterSidebar}
+        onOpenChange={handleMasterSidebarOpenChange}
+        selected={masterToUpdate}
       />
     </>
   );
