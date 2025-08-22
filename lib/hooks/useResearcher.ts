@@ -14,11 +14,14 @@ import type {
   GetAllReportsResearcherAllReportsGetParams,
   GetProjectResearcherProjectsGetParams,
   GetReportsResearcherReportsProjectIdGetParams,
+  MasterRequest,
+  MasterResponse,
   ProjectResponse,
   ProposalResponse,
   ResearcherProjectUpdate,
 } from 'lib/types';
 import { getResearcher } from '../services/researcher/researcher';
+import { GetMastersExplorerMastersGetResult } from '../services1/explorer/explorer';
 
 export const researcherQueryKeys = {
   projects: (params?: GetProjectResearcherProjectsGetParams) =>
@@ -38,6 +41,8 @@ export const researcherQueryKeys = {
   // Proposals (for edit/create project)
   proposal: (proposalId?: number) =>
     ['researcher', 'proposal', proposalId] as const,
+  masters: (params?: GetAllocatesResearcherAllocatesGetParams) =>
+    ['researcher', 'masters', params] as const,
 };
 
 export function useResearcherProjects(
@@ -265,6 +270,44 @@ export function useResearcherProposals(
       const res = await getResearcher().readProposalsResearcherProposalsGet(
         params
       );
+      return res.data;
+    },
+    ...options,
+  });
+}
+
+export function useResearcherAddMaster(
+  options?: UseMutationOptions<MasterResponse, Error, MasterRequest>
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input) => {
+      const res = await getResearcher().readProposalsResearcherAddMasterPost(
+        input
+      );
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, vars, ctx);
+    },
+    ...options,
+  });
+}
+
+export function useResearcherMasters(
+  params?: {
+    skip?: number;
+    limit?: number;
+  },
+  options?: Partial<UseQueryOptions<MasterResponse[], Error>>
+) {
+  return useQuery({
+    placeholderData: keepPreviousData,
+    queryKey: researcherQueryKeys.masters(params),
+    queryFn: async () => {
+      const res = await getResearcher().readMastersResearcherMastersGet(params);
       return res.data;
     },
     ...options,
