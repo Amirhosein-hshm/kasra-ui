@@ -36,7 +36,13 @@ export default function DashboardPage() {
       title: 'کاربران',
       src: '/backgrounds/users.png',
       action: PATHS.dashboard.users.root,
-      permissions: [5, 6],
+      permissions: [6],
+    },
+    {
+      title: 'اساتید راهنما',
+      src: '/backgrounds/users.png',
+      action: PATHS.dashboard.masters.root,
+      permissions: [5],
     },
   ];
   const allowedCards = cards.filter((item) =>

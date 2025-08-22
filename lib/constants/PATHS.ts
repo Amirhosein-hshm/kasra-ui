@@ -38,5 +38,8 @@ export const PATHS = {
     users: {
       root: '/dashboard/users',
     },
+    masters: {
+      root: '/dashboard/masters',
+    },
   },
 };

@@ -19,6 +19,7 @@ const dictionary = {
     upload: 'بارگذاری',
     allocates: 'تخصیص ها',
     users: 'کاربران',
+    masters: 'اساتید راهنما',
   },
   roles: {
     '1': 'کارگزار کسری',
