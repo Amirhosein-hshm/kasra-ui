@@ -74,7 +74,8 @@ export default function SingleProjectPage(props: Props) {
       id: item.id,
       state: item.state,
       project: item.project?.title,
-      percentage: item.acceptedPercent ?? 0,
+      acceptedPercent: item.acceptedPercent ?? 0,
+      anouncedPercent: item.anouncedPercent ?? 0,
     })) ?? [];
 
   const isLoading =

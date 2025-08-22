@@ -53,8 +53,12 @@ export function getReportsTableColumns(
       header: 'وضعیت',
     },
     {
-      accessorKey: 'percentage',
-      header: 'درصد تایید',
+      accessorKey: 'acceptedPercent',
+      header: 'درصد تایید شده ناظر',
+    },
+    {
+      accessorKey: 'anouncedPercent',
+      header: 'درصد اعلامی مجری',
     },
     {
       accessorKey: 'project',

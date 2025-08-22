@@ -1,12 +1,12 @@
 'use client';
 
 import { ProjectResponse } from '@/lib/types';
-import { Checkbox } from '@/ui/components/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 
-import { ArrowUpDown, CheckIcon, Eye, MoreHorizontal } from 'lucide-react';
+import { CheckIcon, Eye, MoreHorizontal } from 'lucide-react';
 
 import { PATHS } from '@/lib/constants/PATHS';
+import { UserType } from '@/lib/types/UserType.enum';
 import { Button } from '@/ui/components/button';
 import {
   DropdownMenu,
@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
 import Link from 'next/link';
-import { UserType } from '@/lib/types/UserType.enum';
 
 const dropdownMenuItemClassname = 'justify-end cursor-pointer';
 
@@ -48,6 +47,16 @@ export function getProjectsTableColumns(
             {row.original?.supervisor?.fname +
               ' ' +
               row.original?.supervisor?.lname}
+          </div>
+        );
+      },
+    },
+    {
+      header: 'مجری',
+      cell: ({ row }) => {
+        return (
+          <div className="hover:underline">
+            {row.original?.user?.fname + ' ' + row.original?.user?.lname}
           </div>
         );
       },

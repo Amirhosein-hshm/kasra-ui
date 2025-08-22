@@ -123,7 +123,7 @@ const getProposalTableFiles = (userRoleId: number) => {
       header: 'عنوان',
     },
     {
-      accessorKey: 'masterNameAndFamily',
+      accessorKey: 'master.name',
       header: 'استاد راهنما',
     },
     {
@@ -133,10 +133,6 @@ const getProposalTableFiles = (userRoleId: number) => {
     {
       accessorKey: 'state',
       header: 'وضعیت',
-    },
-    {
-      accessorKey: 'rfp.rfpField.title',
-      header: 'دسته بندی',
     },
   ];
   if (userRoleId === 1) {
