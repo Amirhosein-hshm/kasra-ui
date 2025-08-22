@@ -1,6 +1,7 @@
 'use client';
 
 import { useMeStore } from '@/lib/stores/me.stores';
+import { UserType } from '@/lib/types/UserType.enum';
 import { Button } from '@/ui/components/button';
 import {
   DropdownMenu,
@@ -12,13 +13,21 @@ import {
 } from '@/ui/components/dropdown-menu';
 import { ColumnDef } from '@tanstack/react-table';
 import { ProposalResponse } from 'lib/types/proposalResponse';
-import { Check, Edit, Eye, MoreHorizontal, UserPenIcon } from 'lucide-react';
+import {
+  Check,
+  Edit,
+  Eye,
+  MoreHorizontal,
+  Recycle,
+  UserPenIcon,
+} from 'lucide-react';
 
 interface ColumnOptions {
   onOpenConfirmProposal?: (proposal: ProposalResponse) => void;
   onOpenProposalDetail?: (proposal: ProposalResponse) => void;
   onEditProposal?: (proposal: ProposalResponse) => void;
   onOpenAssignProposal?: (proposal: ProposalResponse) => void;
+  onRequestEditProposal?: (proposal: ProposalResponse) => void;
 }
 const dropdownMenuItemClassname = 'cursor-pointer';
 
@@ -79,12 +88,24 @@ export function getProposalsTableColumns(
                 )}
 
               {userRoleId === 3 &&
-                (proposalState?.pendingToFill as string) == proposal.state && (
+                ((proposalState?.pendingToFill as string) == proposal.state ||
+                  (proposalState?.edit as string) == proposal.state) && (
                   <DropdownMenuItem
                     onClick={() => options?.onEditProposal?.(proposal)}
                     className={dropdownMenuItemClassname}
                   >
-                    <Edit /> تکمیل پروپوزال
+                    <Edit color="var(--color-blue-primary)" /> تکمیل پروپوزال
+                  </DropdownMenuItem>
+                )}
+
+              {userRoleId === UserType.Explorer &&
+                row.original.state === 'در انتظار تایید کاشف' && (
+                  <DropdownMenuItem
+                    onClick={() => options?.onRequestEditProposal?.(proposal)}
+                    className={dropdownMenuItemClassname}
+                  >
+                    <Recycle color="var(--color-indigo-primary)" /> درخواست
+                    اصلاح
                   </DropdownMenuItem>
                 )}
             </DropdownMenuContent>

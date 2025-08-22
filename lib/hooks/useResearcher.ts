@@ -246,7 +246,7 @@ export function useEditProposalAndCreateProject(
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {
-      qc.invalidateQueries({ queryKey: ['researcher', 'projects'] });
+      qc.invalidateQueries();
       options?.onSuccess?.(data, vars, ctx);
     },
     ...options,

@@ -182,7 +182,7 @@ export function useExplorerProposals(
 }
 
 /** Edit Proposal */
-export function useEditExplorerProposal(
+export function useAcceptExplorerProposal(
   options?: UseMutationOptions<
     ProposalResponse,
     Error,
@@ -193,15 +193,42 @@ export function useEditExplorerProposal(
 
   return useMutation({
     mutationFn: async ({ proposalId, payload }) => {
-      const res = await getExplorer().editProposalExplorerProposalProposalIdPut(
-        proposalId,
-        payload
-      );
+      const res =
+        await getExplorer().editProposalExplorerAcceptProposalProposalIdPut(
+          proposalId,
+          payload
+        );
       return res.data;
     },
     onSuccess: (data, vars, ctx) => {
-      // تازه‌سازی لیست پروپوزال‌ها
-      qc.invalidateQueries({ queryKey: ['explorer', 'proposals'] });
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, vars, ctx);
+    },
+    ...options,
+  });
+}
+
+/** Edit Proposal */
+export function useEditRequestExplorerProposal(
+  options?: UseMutationOptions<
+    ProposalResponse,
+    Error,
+    { proposalId: number; comment: string }
+  >
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ proposalId, comment }) => {
+      const res =
+        await getExplorer().editProposalAndCreateProjectExplorerEditProposalProposalIdPut(
+          proposalId,
+          { comment }
+        );
+      return res.data;
+    },
+    onSuccess: (data, vars, ctx) => {
+      qc.invalidateQueries();
       options?.onSuccess?.(data, vars, ctx);
     },
     ...options,

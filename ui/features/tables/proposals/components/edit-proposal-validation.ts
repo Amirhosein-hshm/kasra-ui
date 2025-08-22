@@ -88,6 +88,11 @@ export const proposalUpdateSchema = z.object({
       invalid_type_error: 'ریسک‌های پروژه باید رشته باشد',
     })
     .min(1, { message: 'ریسک‌های پروژه نمی‌تواند خالی باشد' }),
+  fileId: z
+    .number({
+      required_error: 'بارگذاری فایل الزامی است',
+    })
+    .min(1, { message: 'بارگذاری فایل الزامی است' }),
 });
 
 export type ProposalUpdateFormValues = z.infer<typeof proposalUpdateSchema>;

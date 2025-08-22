@@ -6,6 +6,7 @@
  */
 import type {
   AllocateResponse,
+  EditProposalAndCreateProjectExplorerEditProposalProposalIdPutParams,
   ExplorerCreateUpdateRFP,
   ExplorerUpdateAllocate,
   ExplorerUpdateProposal,
@@ -17,247 +18,185 @@ import type {
   ReadProposalsExplorerProposalsGetParams,
   ReadRfpFieldsExplorerRfpFieldsGetParams,
   SearchRfpsEndpointExplorerRfpsGetParams,
-  UserInfoResponse,
+  UserInfoResponse
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-export const getExplorer = () => {
+
+
+  export const getExplorer = () => {
+/**
+ * @summary Read Rfp Fields
+ */
+const readRfpFieldsExplorerRfpFieldsGet = (
+    params?: ReadRfpFieldsExplorerRfpFieldsGetParams,
+ ) => {
+      return api<RFPFieldResponse[]>(
+      {url: `/explorer/rfp-fields/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Read Rfp Fields
-   */
-  const readRfpFieldsExplorerRfpFieldsGet = (
-    params?: ReadRfpFieldsExplorerRfpFieldsGetParams
-  ) => {
-    return api<RFPFieldResponse[]>({
-      url: `/explorer/rfp-fields/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Search Rfps Endpoint
+ */
+const searchRfpsEndpointExplorerRfpsGet = (
+    params?: SearchRfpsEndpointExplorerRfpsGetParams,
+ ) => {
+      return api<RFPResponse[]>(
+      {url: `/explorer/rfps/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Search Rfps Endpoint
-   */
-  const searchRfpsEndpointExplorerRfpsGet = (
-    params?: SearchRfpsEndpointExplorerRfpsGetParams
-  ) => {
-    return api<RFPResponse[]>({
-      url: `/explorer/rfps/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Add Rfp
+ */
+const addRfpExplorerRfpsPost = (
+    explorerCreateUpdateRFP: ExplorerCreateUpdateRFP,
+ ) => {
+      return api<RFPResponse>(
+      {url: `/explorer/rfps/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: explorerCreateUpdateRFP
+    },
+      );
+    }
   /**
-   * @summary Add Rfp
-   */
-  const addRfpExplorerRfpsPost = (
-    explorerCreateUpdateRFP: ExplorerCreateUpdateRFP
-  ) => {
-    return api<RFPResponse>({
-      url: `/explorer/rfps/`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: explorerCreateUpdateRFP,
-    });
-  };
-  /**
-   * @summary Search Rfps
-   */
-  const searchRfpsExplorerSingleRfpRfpIdGet = (rfpId: number) => {
-    return api<RFPResponse>({
-      url: `/explorer/single-rfp/${rfpId}`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Edit Rfp
-   */
-  const editRfpExplorerRfpsRfpIdPut = (
+ * @summary Search Rfps
+ */
+const searchRfpsExplorerSingleRfpRfpIdGet = (
     rfpId: number,
-    explorerCreateUpdateRFP: ExplorerCreateUpdateRFP
-  ) => {
-    return api<RFPResponse>({
-      url: `/explorer/rfps/${rfpId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: explorerCreateUpdateRFP,
-    });
-  };
+ ) => {
+      return api<RFPResponse>(
+      {url: `/explorer/single-rfp/${rfpId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Read Users Supervisor
-   */
-  const readUsersSupervisorExplorerUsersSupervisorGet = () => {
-    return api<UserInfoResponse[]>({
-      url: `/explorer/users-supervisor/`,
-      method: 'GET',
-    });
-  };
+ * @summary Edit Rfp
+ */
+const editRfpExplorerRfpsRfpIdPut = (
+    rfpId: number,
+    explorerCreateUpdateRFP: ExplorerCreateUpdateRFP,
+ ) => {
+      return api<RFPResponse>(
+      {url: `/explorer/rfps/${rfpId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: explorerCreateUpdateRFP
+    },
+      );
+    }
   /**
-   * @summary Read Proposals
-   */
-  const readProposalsExplorerProposalsGet = (
-    params?: ReadProposalsExplorerProposalsGetParams
-  ) => {
-    return api<ProposalResponse[]>({
-      url: `/explorer/proposals/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Read Users Supervisor
+ */
+const readUsersSupervisorExplorerUsersSupervisorGet = (
+    
+ ) => {
+      return api<UserInfoResponse[]>(
+      {url: `/explorer/users-supervisor/`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Edit Proposal
-   */
-  const editProposalExplorerProposalProposalIdPut = (
+ * @summary Read Proposals
+ */
+const readProposalsExplorerProposalsGet = (
+    params?: ReadProposalsExplorerProposalsGetParams,
+ ) => {
+      return api<ProposalResponse[]>(
+      {url: `/explorer/proposals/`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Edit Proposal
+ */
+const editProposalExplorerAcceptProposalProposalIdPut = (
     proposalId: number,
-    explorerUpdateProposal: ExplorerUpdateProposal
-  ) => {
-    return api<ProposalResponse>({
-      url: `/explorer/proposal/${proposalId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: explorerUpdateProposal,
-    });
-  };
+    explorerUpdateProposal: ExplorerUpdateProposal,
+ ) => {
+      return api<ProposalResponse>(
+      {url: `/explorer/accept-proposal/${proposalId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: explorerUpdateProposal
+    },
+      );
+    }
   /**
-   * @summary Edit Allocate
-   */
-  const editAllocateExplorerAllocatesAllocateIdPut = (
+ * @summary Edit Proposal And Create Project
+ */
+const editProposalAndCreateProjectExplorerEditProposalProposalIdPut = (
+    proposalId: number,
+    params: EditProposalAndCreateProjectExplorerEditProposalProposalIdPutParams,
+ ) => {
+      return api<ProposalResponse>(
+      {url: `/explorer/edit-proposal/${proposalId}`, method: 'PUT',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Edit Allocate
+ */
+const editAllocateExplorerAllocatesAllocateIdPut = (
     allocateId: number,
-    explorerUpdateAllocate: ExplorerUpdateAllocate
-  ) => {
-    return api<AllocateResponse>({
-      url: `/explorer/allocates/${allocateId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: explorerUpdateAllocate,
-    });
-  };
+    explorerUpdateAllocate: ExplorerUpdateAllocate,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/explorer/allocates/${allocateId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: explorerUpdateAllocate
+    },
+      );
+    }
   /**
-   * @summary Get Allocates
-   */
-  const getAllocatesExplorerAllocatesGet = (
-    params?: GetAllocatesExplorerAllocatesGetParams
-  ) => {
-    return api<AllocateResponse[]>({
-      url: `/explorer/allocates/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Get Allocates
+ */
+const getAllocatesExplorerAllocatesGet = (
+    params?: GetAllocatesExplorerAllocatesGetParams,
+ ) => {
+      return api<AllocateResponse[]>(
+      {url: `/explorer/allocates/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Single Allocate
-   */
-  const singleAllocateExplorerSingleAllocateAllocateIdGet = (
-    allocateId: number
-  ) => {
-    return api<AllocateResponse>({
-      url: `/explorer/single-allocate/${allocateId}`,
-      method: 'GET',
-    });
-  };
+ * @summary Single Allocate
+ */
+const singleAllocateExplorerSingleAllocateAllocateIdGet = (
+    allocateId: number,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/explorer/single-allocate/${allocateId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Get Masters
-   */
-  const getMastersExplorerMastersGet = () => {
-    return api<MasterResponse[]>({ url: `/explorer/masters`, method: 'GET' });
-  };
-  return {
-    readRfpFieldsExplorerRfpFieldsGet,
-    searchRfpsEndpointExplorerRfpsGet,
-    addRfpExplorerRfpsPost,
-    searchRfpsExplorerSingleRfpRfpIdGet,
-    editRfpExplorerRfpsRfpIdPut,
-    readUsersSupervisorExplorerUsersSupervisorGet,
-    readProposalsExplorerProposalsGet,
-    editProposalExplorerProposalProposalIdPut,
-    editAllocateExplorerAllocatesAllocateIdPut,
-    getAllocatesExplorerAllocatesGet,
-    singleAllocateExplorerSingleAllocateAllocateIdGet,
-    getMastersExplorerMastersGet,
-  };
-};
-export type ReadRfpFieldsExplorerRfpFieldsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getExplorer>['readRfpFieldsExplorerRfpFieldsGet']
-    >
-  >
->;
-export type SearchRfpsEndpointExplorerRfpsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getExplorer>['searchRfpsEndpointExplorerRfpsGet']
-    >
-  >
->;
-export type AddRfpExplorerRfpsPostResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>
->;
-export type SearchRfpsExplorerSingleRfpRfpIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getExplorer>['searchRfpsExplorerSingleRfpRfpIdGet']
-    >
-  >
->;
-export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getExplorer>['editRfpExplorerRfpsRfpIdPut']>
-  >
->;
-export type ReadUsersSupervisorExplorerUsersSupervisorGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getExplorer
-      >['readUsersSupervisorExplorerUsersSupervisorGet']
-    >
-  >
->;
-export type ReadProposalsExplorerProposalsGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getExplorer>['readProposalsExplorerProposalsGet']
-    >
-  >
->;
-export type EditProposalExplorerProposalProposalIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getExplorer
-      >['editProposalExplorerProposalProposalIdPut']
-    >
-  >
->;
-export type EditAllocateExplorerAllocatesAllocateIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getExplorer
-      >['editAllocateExplorerAllocatesAllocateIdPut']
-    >
-  >
->;
-export type GetAllocatesExplorerAllocatesGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getExplorer>['getAllocatesExplorerAllocatesGet']
-    >
-  >
->;
-export type SingleAllocateExplorerSingleAllocateAllocateIdGetResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getExplorer
-        >['singleAllocateExplorerSingleAllocateAllocateIdGet']
-      >
-    >
-  >;
-export type GetMastersExplorerMastersGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getExplorer>['getMastersExplorerMastersGet']>
-  >
->;
+ * @summary Get Masters
+ */
+const getMastersExplorerMastersGet = (
+    
+ ) => {
+      return api<MasterResponse[]>(
+      {url: `/explorer/masters`, method: 'GET'
+    },
+      );
+    }
+  return {readRfpFieldsExplorerRfpFieldsGet,searchRfpsEndpointExplorerRfpsGet,addRfpExplorerRfpsPost,searchRfpsExplorerSingleRfpRfpIdGet,editRfpExplorerRfpsRfpIdPut,readUsersSupervisorExplorerUsersSupervisorGet,readProposalsExplorerProposalsGet,editProposalExplorerAcceptProposalProposalIdPut,editProposalAndCreateProjectExplorerEditProposalProposalIdPut,editAllocateExplorerAllocatesAllocateIdPut,getAllocatesExplorerAllocatesGet,singleAllocateExplorerSingleAllocateAllocateIdGet,getMastersExplorerMastersGet}};
+export type ReadRfpFieldsExplorerRfpFieldsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['readRfpFieldsExplorerRfpFieldsGet']>>>
+export type SearchRfpsEndpointExplorerRfpsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['searchRfpsEndpointExplorerRfpsGet']>>>
+export type AddRfpExplorerRfpsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['addRfpExplorerRfpsPost']>>>
+export type SearchRfpsExplorerSingleRfpRfpIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['searchRfpsExplorerSingleRfpRfpIdGet']>>>
+export type EditRfpExplorerRfpsRfpIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['editRfpExplorerRfpsRfpIdPut']>>>
+export type ReadUsersSupervisorExplorerUsersSupervisorGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['readUsersSupervisorExplorerUsersSupervisorGet']>>>
+export type ReadProposalsExplorerProposalsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['readProposalsExplorerProposalsGet']>>>
+export type EditProposalExplorerAcceptProposalProposalIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['editProposalExplorerAcceptProposalProposalIdPut']>>>
+export type EditProposalAndCreateProjectExplorerEditProposalProposalIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['editProposalAndCreateProjectExplorerEditProposalProposalIdPut']>>>
+export type EditAllocateExplorerAllocatesAllocateIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['editAllocateExplorerAllocatesAllocateIdPut']>>>
+export type GetAllocatesExplorerAllocatesGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['getAllocatesExplorerAllocatesGet']>>>
+export type SingleAllocateExplorerSingleAllocateAllocateIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['singleAllocateExplorerSingleAllocateAllocateIdGet']>>>
+export type GetMastersExplorerMastersGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getExplorer>['getMastersExplorerMastersGet']>>>

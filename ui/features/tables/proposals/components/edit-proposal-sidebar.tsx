@@ -1,12 +1,14 @@
 import { useEditUserProposal, useUserProposal } from '@/lib/hooks';
 import { ProposalResponse } from '@/lib/types';
+import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
 import { FileUpload } from '@/ui/components/file-upload';
+import { FormInput } from '@/ui/components/input/input'; // Add this import
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import FileDownloadLink from '@/ui/features/file-download/FileDownloadLink';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconX } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import {
@@ -14,8 +16,6 @@ import {
   proposalUpdateSchema,
 } from './edit-proposal-validation';
 import { EditProposalSidebarSkeleton } from './loading/EditProposalSidebarSkeleto';
-import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
-import { FormInput } from '@/ui/components/input/input'; // Add this import
 
 interface ProposalSidebarProps {
   open: boolean;
@@ -31,9 +31,6 @@ export function EditProposalSideBar({
   const form = useForm<ProposalUpdateFormValues>({
     resolver: zodResolver(proposalUpdateSchema),
   });
-
-  const [disableUpdate, setDisableUpdate] = useState(false);
-  const [fileId, setFileId] = useState<number | null>(null);
 
   const { data, isLoading } = useUserProposal(selected?.id ?? 0, {
     enabled: !!selected?.id,
@@ -59,15 +56,11 @@ export function EditProposalSideBar({
         projectInnovation: data.projectInnovation || '',
         projectRisks: data.projectRisks || '',
       });
-      if (data.fileId) {
-        setFileId(data.fileId);
-        setDisableUpdate(true);
-      }
     }
   }, [data, form]);
 
   const removeExistingFile = () => {
-    if (!disableUpdate) setFileId(null);
+    form.setValue('fileId', -1);
   };
 
   const { mutateAsync, isPending } = useEditUserProposal();
@@ -75,8 +68,7 @@ export function EditProposalSideBar({
   const queryClient = useQueryClient();
 
   const onSubmit = async (formData: ProposalUpdateFormValues) => {
-    if (disableUpdate) return;
-    if (!fileId) {
+    if (formData.fileId < 0) {
       toast.error('بارگذاری فایل پروپوزال اجباری است');
       return;
     }
@@ -87,7 +79,6 @@ export function EditProposalSideBar({
           ...formData,
           startAt: formData.startAt.toISOString(),
           endAt: formData.endAt.toISOString(),
-          fileId,
         },
       });
       onOpenChange(false);
@@ -101,12 +92,11 @@ export function EditProposalSideBar({
 
   const handleUploadComplete = (val: any) => {
     toast.success('فایل با موفقیت بارگذاری شد');
-    setFileId(val.id);
+    form.setValue('fileId', val.id);
   };
 
   useEffect(() => {
     form.reset();
-    setFileId(null);
   }, [selected, form]);
 
   return (
@@ -131,10 +121,8 @@ export function EditProposalSideBar({
                 <PersianDatePicker
                   initialValue={form.watch('startAt')}
                   onChange={(date) => {
-                    if (disableUpdate) return;
                     form.setValue('startAt', date.toDate());
                   }}
-                  disabled={disableUpdate}
                 />
               </div>
             </div>
@@ -148,18 +136,17 @@ export function EditProposalSideBar({
                 <PersianDatePicker
                   initialValue={form.watch('endAt')}
                   onChange={(date) => {
-                    if (disableUpdate) return;
                     form.setValue('endAt', date.toDate());
                   }}
-                  disabled={disableUpdate}
                 />
               </div>
             </div>
 
             {/* File Upload Section */}
-            {fileId ? (
+            {/* FIXME: update form */}
+            {form.watch('fileId') ? (
               <div className="relative mt-2 p-3 bg-gray-50 dark:bg-neutral-900 rounded-md">
-                <FileDownloadLink id={fileId!} />
+                <FileDownloadLink id={form.watch('fileId')} />
                 <button
                   type="button"
                   onClick={removeExistingFile}
@@ -181,27 +168,18 @@ export function EditProposalSideBar({
               name="applicantName"
               label="نام و نام خانوادگی مجری"
               placeholder="نام کامل مجری را وارد کنید"
-              inputOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
               name="contactNumber"
               label="شماره تماس"
               placeholder="شماره تماس را وارد کنید"
-              inputOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
               name="education"
               label="تحصیلات"
               placeholder="مدرک تحصیلی را وارد کنید"
-              inputOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -210,9 +188,6 @@ export function EditProposalSideBar({
               label="تخصص‌"
               placeholder="تخصص‌های مرتبط را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             {/* Project Details */}
@@ -220,9 +195,6 @@ export function EditProposalSideBar({
               name="projectDuration"
               label="مدت‌زمان و نفرساعت اجرای پروژه"
               placeholder="مدت زمان اجرای پروژه را وارد کنید"
-              inputOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -231,9 +203,6 @@ export function EditProposalSideBar({
               label="اهداف پروژه"
               placeholder="اهداف اصلی پروژه را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -242,9 +211,6 @@ export function EditProposalSideBar({
               label="اهمیت پروژه"
               placeholder="اهمیت و ضرورت اجرای پروژه را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             {/* Technical Information */}
@@ -254,9 +220,6 @@ export function EditProposalSideBar({
               label="جزئیات و روش های فنی انجام پروژه"
               placeholder="جزئیات فنی پروژه را وارد کنید"
               rows={3}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -265,9 +228,6 @@ export function EditProposalSideBar({
               label="ويژگي‌هاي اصلي و مشخصات عمومی و فني محصول پروژه"
               placeholder="ویژگی‌ها و مشخصات فنی محصول را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -276,9 +236,6 @@ export function EditProposalSideBar({
               label="سوابق پژوهش‌ها و محصولات مشابه موجود در سطح کشور و دنیا"
               placeholder="محصولات مشابه موجود را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             {/* Project Outcomes */}
@@ -288,9 +245,6 @@ export function EditProposalSideBar({
               label="دستاوردهای هر گام از پروژه"
               placeholder="دستاوردهای مورد انتظار از پروژه را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -299,9 +253,6 @@ export function EditProposalSideBar({
               label="نوآوری پروژه"
               placeholder="نوآوری‌های پروژه را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
 
             <FormInput
@@ -310,9 +261,6 @@ export function EditProposalSideBar({
               label="ریسک‌ها و گلوگاه‌هاي احتمالی در اجرای پروژه"
               placeholder="ریسک‌های احتمالی و راه‌حل‌های آن را وارد کنید"
               rows={2}
-              textareaOptions={{
-                disabled: disableUpdate,
-              }}
             />
           </form>
         ) : (

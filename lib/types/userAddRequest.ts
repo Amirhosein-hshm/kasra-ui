@@ -4,13 +4,14 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { UserAddRequestPassword } from './userAddRequestPassword';
 import type { UserAddRequestResumeFileId } from './userAddRequestResumeFileId';
 import type { UserAddRequestAddress } from './userAddRequestAddress';
 import type { UserAddRequestPhone } from './userAddRequestPhone';
 
 export interface UserAddRequest {
   username: string;
-  password: string;
+  password?: UserAddRequestPassword;
   userTypeId: number;
   fname: string;
   lname: string;

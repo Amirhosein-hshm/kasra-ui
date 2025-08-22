@@ -2,18 +2,15 @@
 
 import { useMeStore } from '@/lib/stores/me.stores';
 import { ProposalResponse } from '@/lib/types';
+import { UserType } from '@/lib/types/UserType.enum';
 import DataTable from '@/ui/components/data-table/index';
 import { useState } from 'react';
+import AcceptProposalModal from '../../modals/accept-proposal.modal';
 import { getProposalsTableColumns } from './columns';
+import { AssignSupervisorToProposalSidebar } from './components/assign-supervisor-to-proposal-sidebar';
 import { EditProposalSideBar } from './components/edit-proposal-sidebar';
 import { ProposalDetailSideBar } from './components/proposal-detail';
-import Modal from '@/ui/components/modal/modal';
-import { UserType } from '@/lib/types/UserType.enum';
-import { useQueryClient } from '@tanstack/react-query';
-import { useEditProposalAndCreateProject } from '@/lib/hooks';
-import { toast } from 'sonner';
-import { Button } from '@/ui/components/button';
-import { AssignSupervisorToProposalSidebar } from './components/assign-supervisor-to-proposal-sidebar';
+import RequestEditProposalModal from '../../modals/request-edit-proposal.modal';
 
 interface Props {
   data: ProposalResponse[];
@@ -42,35 +39,12 @@ export default function ProposalsTable({
 }: Props) {
   const userTypeId = useMeStore((s) => s.user?.userTypeId);
   const isResearcher = userTypeId === UserType.Researcher;
-
-  const queryClient = useQueryClient();
+  const isExplorer = userTypeId === UserType.Explorer;
 
   const [isOpenAssignSupervisor, setIsOpenAssignSupervisor] = useState(false);
-
-  const {
-    mutateAsync: editProposalAndCreateProject,
-    isPending: editProposalAndCreateProjectIsPending,
-  } = useEditProposalAndCreateProject();
-  const handleSubmitEditProposalAndCreateProject = async (accept: boolean) => {
-    if (!isResearcher || !selected) return;
-    editProposalAndCreateProject({
-      proposalId: selected.id,
-      accept,
-    })
-      .then(() => {
-        toast.success(`پروپوزال ${accept ? 'تایید' : 'رد'} شد`);
-        handleCloseConfirmProposal();
-        queryClient.invalidateQueries();
-      })
-      .catch(() => {
-        toast.error('تایید پروپوزال موفقیت آمیز نبود');
-      });
-  };
+  const [isOpenEditRequestModal, setIsOpenEditRequestModal] = useState(false);
 
   const [isOpenConfirmProposal, setIsOpenConfirmProposal] = useState(false);
-  const handleCloseConfirmProposal = () => {
-    setIsOpenConfirmProposal(false);
-  };
 
   const [openProposalDetail, setOpenProposalDetail] = useState(false);
   const [openEditProposal, setOpenEditProposal] = useState(false);
@@ -93,6 +67,10 @@ export default function ProposalsTable({
     onOpenAssignProposal(item) {
       setSelected(item);
       setIsOpenAssignSupervisor(true);
+    },
+    onRequestEditProposal(proposal) {
+      setSelected(proposal);
+      setIsOpenEditRequestModal(true);
     },
   });
 
@@ -132,35 +110,17 @@ export default function ProposalsTable({
         selected={selected!}
       />
 
-      <Modal
-        open={isOpenConfirmProposal}
-        onOpenChange={handleCloseConfirmProposal}
-        title={`تایید پروپوزال ${selected?.id}`}
-        size="xl"
-        disableOutsideClose
-        showDefaultFooter={false}
-        customFooter={
-          <div className="flex w-full gap-2 justify-end">
-            <Button
-              className="w-20"
-              loading={editProposalAndCreateProjectIsPending}
-              variant="outline"
-              onClick={() => handleSubmitEditProposalAndCreateProject(false)}
-            >
-              رد
-            </Button>
-            <Button
-              className="w-20"
-              loading={editProposalAndCreateProjectIsPending}
-              onClick={() => handleSubmitEditProposalAndCreateProject(true)}
-            >
-              تایید
-            </Button>
-          </div>
-        }
-      >
-        این پروپوزال را تایید میکنید؟
-      </Modal>
+      <AcceptProposalModal
+        open={isResearcher && !!selected && isOpenConfirmProposal}
+        onOpenChange={(state) => setIsOpenConfirmProposal(state)}
+        proposalToAccept={selected}
+      />
+
+      <RequestEditProposalModal
+        open={isExplorer && !!selected && isOpenEditRequestModal}
+        onOpenChange={(state) => setIsOpenEditRequestModal(state)}
+        proposalToEdit={selected}
+      />
     </>
   );
 }

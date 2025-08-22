@@ -1,5 +1,5 @@
 import {
-  useEditExplorerProposal,
+  useAcceptExplorerProposal,
   useExplorerUsersSupervisor,
   useUserProposal,
 } from '@/lib/hooks';
@@ -50,7 +50,7 @@ export function AssignSupervisorToProposalSidebar({
     setFileId(val.id);
   };
 
-  const { mutateAsync, isPending } = useEditExplorerProposal();
+  const { mutateAsync, isPending } = useAcceptExplorerProposal();
   const handleSubmitExplorerForm = explorerForm.handleSubmit(
     ({ supervisorId, startAt, comment }) => {
       if (selected)
