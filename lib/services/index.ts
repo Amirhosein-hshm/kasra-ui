@@ -1,4 +1,4 @@
-export { getAuthentication } from './authentication';
+export { getAuthentication } from './authentication_final';
 export * from './broker/broker';
 export * from './explorer/explorer';
 export * from './supervisor/supervisor';
