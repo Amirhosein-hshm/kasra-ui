@@ -6,15 +6,19 @@
  */
 import { api } from '../../axios/mutator';
 
-export const getSeed = () => {
-  /**
-   * @summary Add Proposal
-   */
-  const addProposalSeedSeedGet = () => {
-    return api<unknown>({ url: `/seed/seed/`, method: 'GET' });
-  };
-  return { addProposalSeedSeedGet };
-};
-export type AddProposalSeedSeedGetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getSeed>['addProposalSeedSeedGet']>>
->;
+
+
+  export const getSeed = () => {
+/**
+ * @summary Add Proposal
+ */
+const addProposalSeedSeedGet = (
+    
+ ) => {
+      return api<unknown>(
+      {url: `/seed/seed/`, method: 'GET'
+    },
+      );
+    }
+  return {addProposalSeedSeedGet}};
+export type AddProposalSeedSeedGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getSeed>['addProposalSeedSeedGet']>>>

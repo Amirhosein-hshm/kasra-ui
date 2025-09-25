@@ -5,7 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type EditReportSupervisorReportsReportIdPutParams = {
-fileId?: number;
-accept?: boolean;
-};
+export type ProjectResponsePrice = string | null;

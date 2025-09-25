@@ -5,98 +5,96 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
+  LogResponse,
+  ReadLogsAdminLogsGetParams,
   ReadUsersAdminUsersGetParams,
   UserAddRequest,
   UserInfoResponse,
-  UserRoleResponse,
+  UserRoleResponse
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-export const getAdmin = () => {
+
+
+  export const getAdmin = () => {
+/**
+ * @summary Read User Roles
+ */
+const readUserRolesAdminUserRolesGet = (
+    
+ ) => {
+      return api<UserRoleResponse[]>(
+      {url: `/admin/user-roles/`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Read User Roles
-   */
-  const readUserRolesAdminUserRolesGet = () => {
-    return api<UserRoleResponse[]>({
-      url: `/admin/user-roles/`,
-      method: 'GET',
-    });
-  };
+ * @summary Create User
+ */
+const createUserAdminAddUserPost = (
+    userAddRequest: UserAddRequest,
+ ) => {
+      return api<UserInfoResponse>(
+      {url: `/admin/add-user/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: userAddRequest
+    },
+      );
+    }
   /**
-   * @summary Create User
-   */
-  const createUserAdminAddUserPost = (userAddRequest: UserAddRequest) => {
-    return api<UserInfoResponse>({
-      url: `/admin/add-user/`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: userAddRequest,
-    });
-  };
-  /**
-   * @summary Update User
-   */
-  const updateUserAdminUpdateUserUserIdPut = (
+ * @summary Update User
+ */
+const updateUserAdminUpdateUserUserIdPut = (
     userId: number,
-    userUpdateRequest: Omit<UserAddRequest, 'password'>
-  ) => {
-    return api<UserInfoResponse>({
-      url: `/admin/update-user/${userId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: userUpdateRequest,
-    });
-  };
+    userAddRequest: UserAddRequest,
+ ) => {
+      return api<UserInfoResponse>(
+      {url: `/admin/update-user/${userId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: userAddRequest
+    },
+      );
+    }
   /**
-   * @summary Update User
-   */
-  const updateUserAdminDeleteUserUserIdDelete = (userId: number) => {
-    return api<UserInfoResponse>({
-      url: `/admin/delete-user/${userId}`,
-      method: 'DELETE',
-    });
-  };
+ * @summary Update User
+ */
+const updateUserAdminDeleteUserUserIdDelete = (
+    userId: number,
+ ) => {
+      return api<UserInfoResponse>(
+      {url: `/admin/delete-user/${userId}`, method: 'DELETE'
+    },
+      );
+    }
   /**
-   * @summary Read Users
-   */
-  const readUsersAdminUsersGet = (params?: ReadUsersAdminUsersGetParams) => {
-    return api<UserInfoResponse[]>({
-      url: `/admin/users/`,
-      method: 'GET',
-      params,
-    });
-  };
-  return {
-    readUserRolesAdminUserRolesGet,
-    createUserAdminAddUserPost,
-    updateUserAdminUpdateUserUserIdPut,
-    updateUserAdminDeleteUserUserIdDelete,
-    readUsersAdminUsersGet,
-  };
-};
-export type ReadUserRolesAdminUserRolesGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getAdmin>['readUserRolesAdminUserRolesGet']>
-  >
->;
-export type CreateUserAdminAddUserPostResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getAdmin>['createUserAdminAddUserPost']>>
->;
-export type UpdateUserAdminUpdateUserUserIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getAdmin>['updateUserAdminUpdateUserUserIdPut']
-    >
-  >
->;
-export type UpdateUserAdminDeleteUserUserIdDeleteResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getAdmin>['updateUserAdminDeleteUserUserIdDelete']
-    >
-  >
->;
-export type ReadUsersAdminUsersGetResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getAdmin>['readUsersAdminUsersGet']>>
->;
+ * @summary Read Users
+ */
+const readUsersAdminUsersGet = (
+    params?: ReadUsersAdminUsersGetParams,
+ ) => {
+      return api<UserInfoResponse[]>(
+      {url: `/admin/users/`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Read Logs
+ */
+const readLogsAdminLogsGet = (
+    params?: ReadLogsAdminLogsGetParams,
+ ) => {
+      return api<LogResponse[]>(
+      {url: `/admin/logs/`, method: 'GET',
+        params
+    },
+      );
+    }
+  return {readUserRolesAdminUserRolesGet,createUserAdminAddUserPost,updateUserAdminUpdateUserUserIdPut,updateUserAdminDeleteUserUserIdDelete,readUsersAdminUsersGet,readLogsAdminLogsGet}};
+export type ReadUserRolesAdminUserRolesGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAdmin>['readUserRolesAdminUserRolesGet']>>>
+export type CreateUserAdminAddUserPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAdmin>['createUserAdminAddUserPost']>>>
+export type UpdateUserAdminUpdateUserUserIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAdmin>['updateUserAdminUpdateUserUserIdPut']>>>
+export type UpdateUserAdminDeleteUserUserIdDeleteResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAdmin>['updateUserAdminDeleteUserUserIdDelete']>>>
+export type ReadUsersAdminUsersGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAdmin>['readUsersAdminUsersGet']>>>
+export type ReadLogsAdminLogsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAdmin>['readLogsAdminLogsGet']>>>

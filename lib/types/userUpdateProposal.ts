@@ -4,6 +4,7 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
+import type { UserUpdateProposalPrice } from './userUpdateProposalPrice';
 import type { UserUpdateProposalApplicantName } from './userUpdateProposalApplicantName';
 import type { UserUpdateProposalContactNumber } from './userUpdateProposalContactNumber';
 import type { UserUpdateProposalEducation } from './userUpdateProposalEducation';
@@ -22,6 +23,7 @@ export interface UserUpdateProposal {
   fileId: number;
   startAt: string;
   endAt: string;
+  price?: UserUpdateProposalPrice;
   applicantName?: UserUpdateProposalApplicantName;
   contactNumber?: UserUpdateProposalContactNumber;
   education?: UserUpdateProposalEducation;

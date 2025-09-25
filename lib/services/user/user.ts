@@ -13,212 +13,152 @@ import type {
   ReadProposalsUsersProposalsGetParams,
   ReportRequest,
   ReportResponse,
-  UserUpdateProposal,
+  UserUpdateProposal
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-export const getUser = () => {
-  /**
-   * @summary Read Proposal
-   */
-  const readProposalUsersSingleProposalProposalIdGet = (proposalId: number) => {
-    return api<ProposalResponse>({
-      url: `/users/single-proposal/${proposalId}`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Read Projects
-   */
-  const readProjectsUsersProjectsGet = (
-    params?: ReadProjectsUsersProjectsGetParams
-  ) => {
-    return api<ProjectResponse[]>({
-      url: `/users/projects/`,
-      method: 'GET',
-      params,
-    });
-  };
-  /**
-   * @summary Read Projects Single
-   */
-  const readProjectsSingleUsersProjectsProjectIdGet = (projectId: number) => {
-    return api<ProjectResponse>({
-      url: `/users/projects/${projectId}`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Read Reports By Project Id
-   */
-  const readReportsByProjectIdUsersReportsByProjectProjectIdGet = (
-    projectId: number
-  ) => {
-    return api<ReportResponse[]>({
-      url: `/users/reports-by-project/${projectId}`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Add Report
-   */
-  const addReportUsersReportsPost = (reportRequest: ReportRequest) => {
-    return api<ReportResponse>({
-      url: `/users/reports/`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: reportRequest,
-    });
-  };
-  /**
-   * @summary Read Report
-   */
-  const readReportUsersReportsReportIdGet = (reportId: number) => {
-    return api<ReportResponse>({
-      url: `/users/reports/${reportId}`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Edit Proposal
-   */
-  const editProposalUsersProposalsProposalIdPut = (
+
+
+  export const getUser = () => {
+/**
+ * @summary Read Proposal
+ */
+const readProposalUsersSingleProposalProposalIdGet = (
     proposalId: number,
-    userUpdateProposal: UserUpdateProposal
-  ) => {
-    return api<ProposalResponse>({
-      url: `/users/proposals/${proposalId}`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: userUpdateProposal,
-    });
-  };
+ ) => {
+      return api<ProposalResponse>(
+      {url: `/users/single-proposal/${proposalId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Read Proposals
-   */
-  const readProposalsUsersProposalsGet = (
-    params?: ReadProposalsUsersProposalsGetParams
-  ) => {
-    return api<ProposalResponse[]>({
-      url: `/users/proposals/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Read Projects
+ */
+const readProjectsUsersProjectsGet = (
+    params?: ReadProjectsUsersProjectsGetParams,
+ ) => {
+      return api<ProjectResponse[]>(
+      {url: `/users/projects/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Get Allocates
-   */
-  const getAllocatesUsersAllocatesGet = (
-    params?: GetAllocatesUsersAllocatesGetParams
-  ) => {
-    return api<AllocateResponse[]>({
-      url: `/users/allocates/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Read Projects Single
+ */
+const readProjectsSingleUsersProjectsProjectIdGet = (
+    projectId: number,
+ ) => {
+      return api<ProjectResponse>(
+      {url: `/users/projects/${projectId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Single Allocate
-   */
-  const singleAllocateUsersSingleAllocateAllocateIdGet = (
-    allocateId: number
-  ) => {
-    return api<AllocateResponse>({
-      url: `/users/single-allocate/${allocateId}`,
-      method: 'GET',
-    });
-  };
+ * @summary Read Reports By Project Id
+ */
+const readReportsByProjectIdUsersReportsByProjectProjectIdGet = (
+    projectId: number,
+ ) => {
+      return api<ReportResponse[]>(
+      {url: `/users/reports-by-project/${projectId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Edit Allocate
-   */
-  const editAllocateUsersAllocatesAllocateIdPut = (allocateId: number) => {
-    return api<AllocateResponse>({
-      url: `/users/allocates/${allocateId}`,
-      method: 'PUT',
-    });
-  };
-  return {
-    readProposalUsersSingleProposalProposalIdGet,
-    readProjectsUsersProjectsGet,
-    readProjectsSingleUsersProjectsProjectIdGet,
-    readReportsByProjectIdUsersReportsByProjectProjectIdGet,
-    addReportUsersReportsPost,
-    readReportUsersReportsReportIdGet,
-    editProposalUsersProposalsProposalIdPut,
-    readProposalsUsersProposalsGet,
-    getAllocatesUsersAllocatesGet,
-    singleAllocateUsersSingleAllocateAllocateIdGet,
-    editAllocateUsersAllocatesAllocateIdPut,
-  };
-};
-export type ReadProposalUsersSingleProposalProposalIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getUser>['readProposalUsersSingleProposalProposalIdGet']
-    >
-  >
->;
-export type ReadProjectsUsersProjectsGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getUser>['readProjectsUsersProjectsGet']>
-  >
->;
-export type ReadProjectsSingleUsersProjectsProjectIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getUser>['readProjectsSingleUsersProjectsProjectIdGet']
-    >
-  >
->;
-export type ReadReportsByProjectIdUsersReportsByProjectProjectIdGetResult =
-  NonNullable<
-    Awaited<
-      ReturnType<
-        ReturnType<
-          typeof getUser
-        >['readReportsByProjectIdUsersReportsByProjectProjectIdGet']
-      >
-    >
-  >;
-export type AddReportUsersReportsPostResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getUser>['addReportUsersReportsPost']>>
->;
-export type ReadReportUsersReportsReportIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getUser>['readReportUsersReportsReportIdGet']>
-  >
->;
-export type EditProposalUsersProposalsProposalIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getUser>['editProposalUsersProposalsProposalIdPut']
-    >
-  >
->;
-export type ReadProposalsUsersProposalsGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getUser>['readProposalsUsersProposalsGet']>
-  >
->;
-export type GetAllocatesUsersAllocatesGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getUser>['getAllocatesUsersAllocatesGet']>
-  >
->;
-export type SingleAllocateUsersSingleAllocateAllocateIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getUser
-      >['singleAllocateUsersSingleAllocateAllocateIdGet']
-    >
-  >
->;
-export type EditAllocateUsersAllocatesAllocateIdPutResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getUser>['editAllocateUsersAllocatesAllocateIdPut']
-    >
-  >
->;
+ * @summary Add Report
+ */
+const addReportUsersReportsPost = (
+    reportRequest: ReportRequest,
+ ) => {
+      return api<ReportResponse>(
+      {url: `/users/reports/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: reportRequest
+    },
+      );
+    }
+  /**
+ * @summary Read Report
+ */
+const readReportUsersReportsReportIdGet = (
+    reportId: number,
+ ) => {
+      return api<ReportResponse>(
+      {url: `/users/reports/${reportId}`, method: 'GET'
+    },
+      );
+    }
+  /**
+ * @summary Edit Proposal
+ */
+const editProposalUsersProposalsProposalIdPut = (
+    proposalId: number,
+    userUpdateProposal: UserUpdateProposal,
+ ) => {
+      return api<ProposalResponse>(
+      {url: `/users/proposals/${proposalId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: userUpdateProposal
+    },
+      );
+    }
+  /**
+ * @summary Read Proposals
+ */
+const readProposalsUsersProposalsGet = (
+    params?: ReadProposalsUsersProposalsGetParams,
+ ) => {
+      return api<ProposalResponse[]>(
+      {url: `/users/proposals/`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Get Allocates
+ */
+const getAllocatesUsersAllocatesGet = (
+    params?: GetAllocatesUsersAllocatesGetParams,
+ ) => {
+      return api<AllocateResponse[]>(
+      {url: `/users/allocates/`, method: 'GET',
+        params
+    },
+      );
+    }
+  /**
+ * @summary Single Allocate
+ */
+const singleAllocateUsersSingleAllocateAllocateIdGet = (
+    allocateId: number,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/users/single-allocate/${allocateId}`, method: 'GET'
+    },
+      );
+    }
+  /**
+ * @summary Edit Allocate
+ */
+const editAllocateUsersAllocatesAllocateIdPut = (
+    allocateId: number,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/users/allocates/${allocateId}`, method: 'PUT'
+    },
+      );
+    }
+  return {readProposalUsersSingleProposalProposalIdGet,readProjectsUsersProjectsGet,readProjectsSingleUsersProjectsProjectIdGet,readReportsByProjectIdUsersReportsByProjectProjectIdGet,addReportUsersReportsPost,readReportUsersReportsReportIdGet,editProposalUsersProposalsProposalIdPut,readProposalsUsersProposalsGet,getAllocatesUsersAllocatesGet,singleAllocateUsersSingleAllocateAllocateIdGet,editAllocateUsersAllocatesAllocateIdPut}};
+export type ReadProposalUsersSingleProposalProposalIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readProposalUsersSingleProposalProposalIdGet']>>>
+export type ReadProjectsUsersProjectsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readProjectsUsersProjectsGet']>>>
+export type ReadProjectsSingleUsersProjectsProjectIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readProjectsSingleUsersProjectsProjectIdGet']>>>
+export type ReadReportsByProjectIdUsersReportsByProjectProjectIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readReportsByProjectIdUsersReportsByProjectProjectIdGet']>>>
+export type AddReportUsersReportsPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['addReportUsersReportsPost']>>>
+export type ReadReportUsersReportsReportIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readReportUsersReportsReportIdGet']>>>
+export type EditProposalUsersProposalsProposalIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['editProposalUsersProposalsProposalIdPut']>>>
+export type ReadProposalsUsersProposalsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['readProposalsUsersProposalsGet']>>>
+export type GetAllocatesUsersAllocatesGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['getAllocatesUsersAllocatesGet']>>>
+export type SingleAllocateUsersSingleAllocateAllocateIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['singleAllocateUsersSingleAllocateAllocateIdGet']>>>
+export type EditAllocateUsersAllocatesAllocateIdPutResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getUser>['editAllocateUsersAllocatesAllocateIdPut']>>>

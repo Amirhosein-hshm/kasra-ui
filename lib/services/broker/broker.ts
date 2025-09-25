@@ -10,113 +10,88 @@ import type {
   GetAllocatesBrokerAllocatesGetParams,
   RFPResponse,
   SearchRfpsEndpointBrokerRfpsGetParams,
-  UserInfoResponse,
+  UserInfoResponse
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-export const getBroker = () => {
+
+
+  export const getBroker = () => {
+/**
+ * @summary Search Rfps Endpoint
+ */
+const searchRfpsEndpointBrokerRfpsGet = (
+    params?: SearchRfpsEndpointBrokerRfpsGetParams,
+ ) => {
+      return api<RFPResponse[]>(
+      {url: `/broker/rfps/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Search Rfps Endpoint
-   */
-  const searchRfpsEndpointBrokerRfpsGet = (
-    params?: SearchRfpsEndpointBrokerRfpsGetParams
-  ) => {
-    return api<RFPResponse[]>({ url: `/broker/rfps/`, method: 'GET', params });
-  };
+ * @summary Search Rfps
+ */
+const searchRfpsBrokerSingleRfpRfpIdGet = (
+    rfpId: number,
+ ) => {
+      return api<RFPResponse>(
+      {url: `/broker/single-rfp/${rfpId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Search Rfps
-   */
-  const searchRfpsBrokerSingleRfpRfpIdGet = (rfpId: number) => {
-    return api<RFPResponse>({
-      url: `/broker/single-rfp/${rfpId}`,
-      method: 'GET',
-    });
-  };
+ * @summary Add Allocate
+ */
+const addAllocateBrokerAllocatesPost = (
+    brokerCreateAllocate: BrokerCreateAllocate,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/broker/allocates/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: brokerCreateAllocate
+    },
+      );
+    }
   /**
-   * @summary Add Allocate
-   */
-  const addAllocateBrokerAllocatesPost = (
-    brokerCreateAllocate: BrokerCreateAllocate
-  ) => {
-    return api<AllocateResponse>({
-      url: `/broker/allocates/`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: brokerCreateAllocate,
-    });
-  };
+ * @summary Get Allocates
+ */
+const getAllocatesBrokerAllocatesGet = (
+    params?: GetAllocatesBrokerAllocatesGetParams,
+ ) => {
+      return api<AllocateResponse[]>(
+      {url: `/broker/allocates/`, method: 'GET',
+        params
+    },
+      );
+    }
   /**
-   * @summary Get Allocates
-   */
-  const getAllocatesBrokerAllocatesGet = (
-    params?: GetAllocatesBrokerAllocatesGetParams
-  ) => {
-    return api<AllocateResponse[]>({
-      url: `/broker/allocates/`,
-      method: 'GET',
-      params,
-    });
-  };
+ * @summary Single Allocate
+ */
+const singleAllocateBrokerSingleAllocateAllocateIdGet = (
+    allocateId: number,
+ ) => {
+      return api<AllocateResponse>(
+      {url: `/broker/single-allocate/${allocateId}`, method: 'GET'
+    },
+      );
+    }
   /**
-   * @summary Single Allocate
-   */
-  const singleAllocateBrokerSingleAllocateAllocateIdGet = (
-    allocateId: number
-  ) => {
-    return api<AllocateResponse>({
-      url: `/broker/single-allocate/${allocateId}`,
-      method: 'GET',
-    });
-  };
-  /**
-   * @summary Read Users Master
-   */
-  const readUsersMasterBrokerUsersGet = () => {
-    return api<UserInfoResponse[]>({ url: `/broker/users/`, method: 'GET' });
-  };
-  return {
-    searchRfpsEndpointBrokerRfpsGet,
-    searchRfpsBrokerSingleRfpRfpIdGet,
-    addAllocateBrokerAllocatesPost,
-    getAllocatesBrokerAllocatesGet,
-    singleAllocateBrokerSingleAllocateAllocateIdGet,
-    readUsersMasterBrokerUsersGet,
-  };
-};
-export type SearchRfpsEndpointBrokerRfpsGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getBroker>['searchRfpsEndpointBrokerRfpsGet']>
-  >
->;
-export type SearchRfpsBrokerSingleRfpRfpIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<typeof getBroker>['searchRfpsBrokerSingleRfpRfpIdGet']
-    >
-  >
->;
-export type AddAllocateBrokerAllocatesPostResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getBroker>['addAllocateBrokerAllocatesPost']>
-  >
->;
-export type GetAllocatesBrokerAllocatesGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getBroker>['getAllocatesBrokerAllocatesGet']>
-  >
->;
-export type SingleAllocateBrokerSingleAllocateAllocateIdGetResult = NonNullable<
-  Awaited<
-    ReturnType<
-      ReturnType<
-        typeof getBroker
-      >['singleAllocateBrokerSingleAllocateAllocateIdGet']
-    >
-  >
->;
-export type ReadUsersMasterBrokerUsersGetResult = NonNullable<
-  Awaited<
-    ReturnType<ReturnType<typeof getBroker>['readUsersMasterBrokerUsersGet']>
-  >
->;
+ * @summary Read Users Master
+ */
+const readUsersMasterBrokerUsersGet = (
+    
+ ) => {
+      return api<UserInfoResponse[]>(
+      {url: `/broker/users/`, method: 'GET'
+    },
+      );
+    }
+  return {searchRfpsEndpointBrokerRfpsGet,searchRfpsBrokerSingleRfpRfpIdGet,addAllocateBrokerAllocatesPost,getAllocatesBrokerAllocatesGet,singleAllocateBrokerSingleAllocateAllocateIdGet,readUsersMasterBrokerUsersGet}};
+export type SearchRfpsEndpointBrokerRfpsGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['searchRfpsEndpointBrokerRfpsGet']>>>
+export type SearchRfpsBrokerSingleRfpRfpIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['searchRfpsBrokerSingleRfpRfpIdGet']>>>
+export type AddAllocateBrokerAllocatesPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['addAllocateBrokerAllocatesPost']>>>
+export type GetAllocatesBrokerAllocatesGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['getAllocatesBrokerAllocatesGet']>>>
+export type SingleAllocateBrokerSingleAllocateAllocateIdGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['singleAllocateBrokerSingleAllocateAllocateIdGet']>>>
+export type ReadUsersMasterBrokerUsersGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getBroker>['readUsersMasterBrokerUsersGet']>>>

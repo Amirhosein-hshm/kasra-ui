@@ -5,7 +5,7 @@ export default defineConfig({
   kasra: {
     input: process.env.OPENAPI_JSON_URL,
     output: {
-      target: './lib/services1/kasra.api.ts',
+      target: './lib/services/kasra.api.ts',
       schemas: './lib/types/',
       client: 'axios',
       mode: 'tags-split',

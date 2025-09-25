@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ProjectResponseMaster } from './projectResponseMaster';
+import type { ProjectResponsePrice } from './projectResponsePrice';
 import type { ProposalResponse } from './proposalResponse';
 import type { UserInfoLimitedResponse } from './userInfoLimitedResponse';
 
@@ -17,6 +18,7 @@ export interface ProjectResponse {
   endAt: string;
   title: string;
   master?: ProjectResponseMaster;
+  price?: ProjectResponsePrice;
   proposal: ProposalResponse;
   supervisor: UserInfoLimitedResponse;
   user: UserInfoLimitedResponse;
