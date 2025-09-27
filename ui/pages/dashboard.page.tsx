@@ -36,11 +36,11 @@ export default function DashboardPage() {
       title: 'کاربران',
       src: '/backgrounds/users.png',
       action: PATHS.dashboard.users.root,
-      permissions: [6],
+      permissions: [5],
     },
     {
       title: 'اساتید راهنما',
-      src: '/backgrounds/users.png',
+      src: '/backgrounds/masters.png',
       action: PATHS.dashboard.masters.root,
       permissions: [5],
     },

@@ -9,7 +9,7 @@ import UsersTable from '@/ui/features/tables/users';
 export default function UsersPage() {
   const me = useMeStore();
   const userTypeId = me?.user?.userTypeId;
-  const isAdmin = userTypeId === UserType.Admin;
+  const isResearcher = userTypeId === UserType.Researcher;
 
   const {
     info,
@@ -23,7 +23,7 @@ export default function UsersPage() {
   } = useTablePagination();
 
   const adminUsersInfoQuery = useAdminUsersInfo(queryParams, {
-    enabled: isAdmin,
+    enabled: isResearcher,
   });
 
   const data = adminUsersInfoQuery.data;

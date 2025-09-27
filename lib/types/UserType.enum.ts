@@ -4,5 +4,4 @@ export enum UserType {
   User = 3,
   Supervisor = 4,
   Researcher = 5,
-  Admin = 6,
 }
