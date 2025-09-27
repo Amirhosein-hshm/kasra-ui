@@ -20,6 +20,7 @@ const dictionary = {
     allocates: 'تخصیص ها',
     users: 'کاربران',
     masters: 'اساتید راهنما',
+    notifications: 'اعلان ها',
   },
   roles: {
     '1': 'کارگزار کسری',
