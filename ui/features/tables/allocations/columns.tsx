@@ -84,34 +84,38 @@ export function getAllocateTableColumns(
                 <Eye /> مشاهده
               </DropdownMenuItem>
 
-              {userTypeId === 3 &&
-                (allocateState?.pendingToSpecifyTitle as string) ==
-                  allocate.state && (
-                  <DropdownMenuItem
-                    onClick={() => options?.onOpenAddProjectTitle?.(allocate)}
-                    className={dropdownMenuItemClassname}
-                  >
-                    <Edit /> تایید ساخت پروژه
-                  </DropdownMenuItem>
-                )}
+              {userTypeId === 3 ||
+                (userTypeId === 5 &&
+                  (allocateState?.pendingToSpecifyTitle as string) ==
+                    allocate.state && (
+                    <DropdownMenuItem
+                      onClick={() => options?.onOpenAddProjectTitle?.(allocate)}
+                      className={dropdownMenuItemClassname}
+                    >
+                      <Edit /> تایید ساخت پروژه
+                    </DropdownMenuItem>
+                  ))}
 
-              {userTypeId === 5 && (
+              {userTypeId === 5 && row.original.state === 'در انتطار تایید' && (
                 <DropdownMenuItem
                   onClick={() => options?.onOpenConfrimeAllocate?.(allocate)}
                   className={dropdownMenuItemClassname}
                 >
-                  <CheckCheck /> تایید موضوع
+                  <CheckCheck />
                 </DropdownMenuItem>
               )}
 
-              {userTypeId === 2 && (
-                <DropdownMenuItem
-                  onClick={() => options?.onOpenAddMasterToAllocate?.(allocate)}
-                  className={dropdownMenuItemClassname}
-                >
-                  <UserPlus /> انتخاب استاد راهنما
-                </DropdownMenuItem>
-              )}
+              {userTypeId === 5 &&
+                row.original.state === 'در انتظار انتخاب استاد راهنما' && (
+                  <DropdownMenuItem
+                    onClick={() =>
+                      options?.onOpenAddMasterToAllocate?.(allocate)
+                    }
+                    className={dropdownMenuItemClassname}
+                  >
+                    <UserPlus /> انتخاب استاد راهنما
+                  </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

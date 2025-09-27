@@ -76,16 +76,17 @@ export function getProposalsTableColumns(
                   </DropdownMenuItem>
                 )}
 
-              {userRoleId === 2 &&
-                (proposalState?.pendingToExplorerAccept as string) ==
-                  proposal.state && (
-                  <DropdownMenuItem
-                    onClick={() => options?.onOpenAssignProposal?.(proposal)}
-                    className={dropdownMenuItemClassname}
-                  >
-                    <UserPenIcon /> تعیین ناظر
-                  </DropdownMenuItem>
-                )}
+              {userRoleId === 2 ||
+                (userRoleId === 5 &&
+                  (proposalState?.pendingToExplorerAccept as string) ==
+                    proposal.state && (
+                    <DropdownMenuItem
+                      onClick={() => options?.onOpenAssignProposal?.(proposal)}
+                      className={dropdownMenuItemClassname}
+                    >
+                      <UserPenIcon /> تعیین ناظر
+                    </DropdownMenuItem>
+                  ))}
 
               {userRoleId === 3 &&
                 ((proposalState?.pendingToFill as string) == proposal.state ||

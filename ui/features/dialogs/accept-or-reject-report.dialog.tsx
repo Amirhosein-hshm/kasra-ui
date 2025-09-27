@@ -1,4 +1,5 @@
 import { useEditSupervisorReport } from '@/lib/hooks';
+import { Badge } from '@/ui/components/badge';
 import { Button } from '@/ui/components/button';
 import { PersianDatePicker } from '@/ui/components/date-picker/date-picker';
 import {
@@ -10,13 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/ui/components/dialog';
+import { FileUpload } from '@/ui/components/file-upload';
 import { Label } from '@/ui/components/label';
-import { Slider } from '@/ui/components/slider';
 import { Textarea } from '@/ui/components/textarea/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { PropsWithChildren, use, useEffect, useRef, useState } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { PropsWithChildren, useRef, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
@@ -43,12 +44,11 @@ export default function AcceptOrRejectReportDialog({
   announcedPercentage,
   acceptedPercentage,
 }: Props) {
-  console.log(acceptedPercentage);
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
   const [mode, setMode] = useState<'approve' | 'reject'>();
 
-  const [progressPercent, setProgressPercent] = useState<number[]>();
   const [isPending, setIsPending] = useState(false);
+  const [fileId, setFileId] = useState<number>();
   const updateReport = useEditSupervisorReport();
 
   const queryClient = useQueryClient();
@@ -65,10 +65,6 @@ export default function AcceptOrRejectReportDialog({
   });
 
   const handleSubmit = form.handleSubmit((data) => {
-    if (data.progress[0] === 100 && !data.startAt) {
-      data.startAt = new Date().toISOString();
-    }
-
     setIsPending(true);
     updateReport
       .mutateAsync({
@@ -80,6 +76,7 @@ export default function AcceptOrRejectReportDialog({
         },
         params: {
           accept: mode === 'approve',
+          fileId,
         },
       })
       .then(() => {
@@ -132,33 +129,19 @@ export default function AcceptOrRejectReportDialog({
               {mode === 'approve' && (
                 <div className="grid gap-3">
                   <Label htmlFor="progress">
-                    <span>درصد پیشرفت: {form.watch('progress')[0]}%</span>
+                    <span>
+                      <strong>درصد پیشرفت:</strong>{' '}
+                      <Badge>
+                        <strong>{form.watch('progress')[0]}%</strong>
+                      </Badge>
+                    </span>
                     {(form?.formState?.errors?.progress as any)?.map((item) => (
                       <ErrorMessage key={item?.message}>
                         {item?.message}
                       </ErrorMessage>
                     ))}
                   </Label>
-                  <Controller
-                    control={form.control}
-                    rules={{
-                      required: true,
-                    }}
-                    name="progress"
-                    render={({ field }) => (
-                      <Slider
-                        defaultValue={field.value}
-                        min={0}
-                        max={100}
-                        step={1}
-                        onValueChange={(values) => {
-                          setProgressPercent(values);
-                          field.onChange(values);
-                        }}
-                      />
-                    )}
-                  />
-                  {progressPercent && progressPercent![0] == 100 && (
+                  {announcedPercentage == 100 && (
                     <>
                       <label>تاریخ برگذاری کمیسیون</label>
                       <PersianDatePicker
@@ -190,6 +173,14 @@ export default function AcceptOrRejectReportDialog({
                   {...form.register('comment', { required: true })}
                 />
               </div>
+
+              <FileUpload
+                title="پیوست گزارش"
+                onUploadComplete={(val: any) => {
+                  const fileId = val?.data?.id;
+                  if (fileId) setFileId(fileId);
+                }}
+              />
             </div>
 
             <DialogFooter className="sm:justify-start">

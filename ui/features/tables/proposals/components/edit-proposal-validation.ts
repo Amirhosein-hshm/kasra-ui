@@ -93,6 +93,11 @@ export const proposalUpdateSchema = z.object({
       required_error: 'بارگذاری فایل الزامی است',
     })
     .min(1, { message: 'بارگذاری فایل الزامی است' }),
+  price: z
+    .string({
+      required_error: 'هزینه انجام کار الزامی است',
+    })
+    .min(1, { message: 'هزینه انجام کار باید بیشتر از ۱ باشد' }),
 });
 
 export type ProposalUpdateFormValues = z.infer<typeof proposalUpdateSchema>;

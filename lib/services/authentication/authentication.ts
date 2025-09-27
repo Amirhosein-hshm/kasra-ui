@@ -5,82 +5,58 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
-  BodyLoginTokenPost,
   NotificationResponse,
   RefreshTokenRefreshTokenPostParams,
   Token,
-  UserMeInfoResponse
+  UserMeInfoResponse,
 } from '../../types';
 
 import { api } from '../../axios/mutator';
 
-
-
-  export const getAuthentication = () => {
-/**
- * @summary Login
- */
-const loginTokenPost = (
-    bodyLoginTokenPost: BodyLoginTokenPost,
- ) => {const formUrlEncoded = new URLSearchParams();
-if(bodyLoginTokenPost.grant_type !== undefined && bodyLoginTokenPost.grant_type !== null) {
- formUrlEncoded.append(`grant_type`, bodyLoginTokenPost.grant_type)
- }
-formUrlEncoded.append(`username`, bodyLoginTokenPost.username)
-formUrlEncoded.append(`password`, bodyLoginTokenPost.password)
-if(bodyLoginTokenPost.scope !== undefined) {
- formUrlEncoded.append(`scope`, bodyLoginTokenPost.scope)
- }
-if(bodyLoginTokenPost.client_id !== undefined && bodyLoginTokenPost.client_id !== null) {
- formUrlEncoded.append(`client_id`, bodyLoginTokenPost.client_id)
- }
-if(bodyLoginTokenPost.client_secret !== undefined && bodyLoginTokenPost.client_secret !== null) {
- formUrlEncoded.append(`client_secret`, bodyLoginTokenPost.client_secret)
- }
-
-      return api<Token>(
-      {url: `/token`, method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded', },
-       data: formUrlEncoded
-    },
-      );
-    }
+export const getAuthentication = () => {
   /**
- * @summary Refresh Token
- */
-const refreshTokenRefreshTokenPost = (
-    params: RefreshTokenRefreshTokenPostParams,
- ) => {
-      return api<Token>(
-      {url: `/refresh-token`, method: 'POST',
-        params
-    },
-      );
-    }
+   * @summary Login
+   */
   /**
- * @summary Read Users Me
- */
-const readUsersMeUsersMeGet = (
-    
- ) => {
-      return api<UserMeInfoResponse>(
-      {url: `/users/me`, method: 'GET'
-    },
-      );
-    }
+   * @summary Refresh Token
+   */
+  const refreshTokenRefreshTokenPost = (
+    params: RefreshTokenRefreshTokenPostParams
+  ) => {
+    return api<Token>({ url: `/refresh-token`, method: 'POST', params });
+  };
   /**
- * @summary Read Users Me
- */
-const readUsersMeNotifMeGet = (
-    
- ) => {
-      return api<NotificationResponse[]>(
-      {url: `/notif/me`, method: 'GET'
-    },
-      );
-    }
-  return {loginTokenPost,refreshTokenRefreshTokenPost,readUsersMeUsersMeGet,readUsersMeNotifMeGet}};
-export type LoginTokenPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAuthentication>['loginTokenPost']>>>
-export type RefreshTokenRefreshTokenPostResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAuthentication>['refreshTokenRefreshTokenPost']>>>
-export type ReadUsersMeUsersMeGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAuthentication>['readUsersMeUsersMeGet']>>>
-export type ReadUsersMeNotifMeGetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getAuthentication>['readUsersMeNotifMeGet']>>>
+   * @summary Read Users Me
+   */
+  const readUsersMeUsersMeGet = () => {
+    return api<UserMeInfoResponse>({ url: `/users/me`, method: 'GET' });
+  };
+  /**
+   * @summary Read Users Me
+   */
+  const readUsersMeNotifMeGet = () => {
+    return api<NotificationResponse[]>({ url: `/notif/me`, method: 'GET' });
+  };
+  return {
+    refreshTokenRefreshTokenPost,
+    readUsersMeUsersMeGet,
+    readUsersMeNotifMeGet,
+  };
+};
+export type RefreshTokenRefreshTokenPostResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getAuthentication>['refreshTokenRefreshTokenPost']
+    >
+  >
+>;
+export type ReadUsersMeUsersMeGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getAuthentication>['readUsersMeUsersMeGet']>
+  >
+>;
+export type ReadUsersMeNotifMeGetResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getAuthentication>['readUsersMeNotifMeGet']>
+  >
+>;

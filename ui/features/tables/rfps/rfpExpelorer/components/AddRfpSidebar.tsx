@@ -62,8 +62,12 @@ export function AddRFPSidebar({ open, onOpenChange }: RFPSidebarProps) {
       });
       form.reset();
       toast.success('RFP با موفقیت ایجاد شد');
-    } catch (e) {
-      toast.error('خطا در ایجاد RFP');
+    } catch (e: any) {
+      if (e?.response?.data?.detail === 'RFP already exists') {
+        toast.error('عنوان RFP تکراری است');
+      } else {
+        toast.error('خطا در ایجاد RFP');
+      }
     }
   };
 

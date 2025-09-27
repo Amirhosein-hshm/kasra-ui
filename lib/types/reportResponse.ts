@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ReportResponseAcceptedPercent } from './reportResponseAcceptedPercent';
+import type { ReportResponseSupervisorFileId } from './reportResponseSupervisorFileId';
 import type { ProjectResponse } from './projectResponse';
 
 export interface ReportResponse {
@@ -20,5 +21,6 @@ export interface ReportResponse {
   filePdfId: number;
   fileDocxId: number;
   filePptxId: number;
+  supervisorFileId?: ReportResponseSupervisorFileId;
   project: ProjectResponse;
 }

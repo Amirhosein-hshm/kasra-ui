@@ -30,7 +30,7 @@ export default function DashboardPage() {
       title: 'RFP ها',
       src: '/backgrounds/rfps.jpg',
       action: PATHS.dashboard.rfps.root,
-      permissions: [1, 2],
+      permissions: [1, 2, 5],
     },
     {
       title: 'کاربران',

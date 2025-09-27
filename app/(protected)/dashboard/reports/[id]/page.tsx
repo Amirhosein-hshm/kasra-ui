@@ -48,6 +48,7 @@ export default function Page() {
         announcedPercentage={data?.anouncedPercent}
         lastAcceptedPercentage={userLastReportAcceptedProgress ?? 0}
         acceptedPercentage={data?.acceptedPercent ?? 0}
+        supervisorFileId={data?.supervisorFileId ?? -1}
       />
     );
 

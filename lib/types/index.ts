@@ -147,6 +147,7 @@ export * from './reportFileResponse';
 export * from './reportRequest';
 export * from './reportResponse';
 export * from './reportResponseAcceptedPercent';
+export * from './reportResponseSupervisorFileId';
 export * from './reportUpdate';
 export * from './reportUpdateCommissionDateTime';
 export * from './researcherProjectUpdate';

@@ -47,7 +47,10 @@ export function AssignSupervisorToProposalSidebar({
 
   const onUploadComplete = (val: any) => {
     toast.success('فایل با موفقیت بارگذاری شد');
-    setFileId(val.id);
+    const fileId = val?.data?.id;
+    if (fileId) {
+      setFileId(fileId);
+    }
   };
 
   const { mutateAsync, isPending } = useAcceptExplorerProposal();

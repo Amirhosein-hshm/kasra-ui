@@ -120,8 +120,12 @@ export function EditRFPSidebar({
       toast.success('RFP با موفقیت به‌روزرسانی شد');
       handleClose();
       queryClient.invalidateQueries({ queryKey: ['explorerRfps'] });
-    } catch {
-      toast.error('خطا در ویرایش RFP');
+    } catch (e: any) {
+      if (e?.response?.data?.detail === 'RFP already exists') {
+        toast.error('عنوان RFP تکراری است');
+      } else {
+        toast.error('خطا در ویرایش RFP');
+      }
     }
   };
 

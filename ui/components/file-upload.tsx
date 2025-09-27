@@ -34,14 +34,14 @@ export const FileUpload = ({
 
   const startUpload = async (file: File, index: number) => {
     try {
-      const result = await getFile().uploadFileWithProgress(
-        { file },
-        {
-          onProgress: (pct) =>
-            setUploads((prev) =>
-              prev.map((u, i) => (i === index ? { ...u, progress: pct } : u))
-            ),
-        }
+      const result = await getFile().uploadFileFileUploadPost(
+        { file }
+        // {
+        //   onProgress: (pct) =>
+        //     setUploads((prev) =>
+        //       prev.map((u, i) => (i === index ? { ...u, progress: pct } : u))
+        //     ),
+        // }
       );
       setUploads((prev) =>
         prev.map((u, i) =>
@@ -66,7 +66,7 @@ export const FileUpload = ({
 
     const newItems: UploadItem[] = acceptedFiles.map((file) => ({
       file,
-      progress: 0,
+      progress: 100,
       status: 'uploading',
     }));
     setUploads((prev) => [...prev, ...newItems]);
@@ -160,7 +160,7 @@ export const FileUpload = ({
                       d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                     />
                   </svg>
-                  <span className="text-white mt-2">{u.progress}%</span>
+                  {/* TODO: <span className="text-white mt-2">{u.progress}%</span> */}
                 </div>
               )}
 

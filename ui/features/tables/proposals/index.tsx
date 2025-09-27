@@ -117,7 +117,7 @@ export default function ProposalsTable({
       />
 
       <RequestEditProposalModal
-        open={isExplorer && !!selected && isOpenEditRequestModal}
+        open={!!selected && isOpenEditRequestModal}
         onOpenChange={(state) => setIsOpenEditRequestModal(state)}
         proposalToEdit={selected}
       />

@@ -14,7 +14,7 @@ import {
 } from '@/ui/components/dialog';
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
-import { Slider } from '@/ui/components/slider';
+import { RadioGroup, RadioGroupItem } from '@/ui/components/radio-group';
 import { Textarea } from '@/ui/components/textarea/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,12 +25,7 @@ import * as z from 'zod';
 
 const getFormSchema = (min: number = 1) =>
   z.object({
-    progress: z.tuple([
-      z
-        .number()
-        .min(min, `درصد پیشرفت باید بیشتر از ${min} باشد`)
-        .max(100, 'درصد پیشرفت باید کمتر مساوی از ۱۰۰ باشد'),
-    ]),
+    progress: z.union([z.literal('30'), z.literal('60'), z.literal('100')]),
     description: z.string().min(1, 'توضیحات الزامی است'),
     wordFile: z.any().refine((file) => file.length > 0, 'فایل Word الزامی است'),
     pdfFile: z.any().refine((file) => file.length > 0, 'فایل PDF الزامی است'),
@@ -63,7 +58,7 @@ export function UploadReportDialog({
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      progress: [alreadyAcceptedProgress],
+      progress: Number(alreadyAcceptedProgress) as any,
       description: '',
       wordFile: undefined,
       pdfFile: undefined,
@@ -108,7 +103,7 @@ export function UploadReportDialog({
             filePptxId: ids.powerpoint,
             comment: '',
             title: data.description,
-            anouncedPercent: data.progress[0],
+            anouncedPercent: Number(data.progress),
             projectId,
           })
           .then(() => {
@@ -129,7 +124,7 @@ export function UploadReportDialog({
       });
   });
 
-  console.log(alreadyAcceptedProgress);
+  console.log(form.formState);
   return (
     <FormProvider {...form}>
       <Dialog>
@@ -147,11 +142,11 @@ export function UploadReportDialog({
               <div className="grid gap-3">
                 <Label htmlFor="progress">
                   <span>درصد پیشرفت: {form.watch('progress')[0]}%</span>
-                  {(form?.formState?.errors?.progress as any)?.map((item) => (
+                  {/* {(form?.formState?.errors?.progress as any)?.map((item) => (
                     <ErrorMessage key={item?.message}>
                       {item?.message}
                     </ErrorMessage>
-                  ))}
+                  ))} */}
                 </Label>
                 <Controller
                   control={form.control}
@@ -159,14 +154,32 @@ export function UploadReportDialog({
                     required: true,
                   }}
                   name="progress"
-                  render={({ field }) => (
-                    <Slider
-                      defaultValue={field.value}
-                      min={0}
-                      max={100}
-                      step={1}
-                      onValueChange={field.onChange}
-                    />
+                  render={({ field: { onChange, value } }) => (
+                    <RadioGroup
+                      defaultValue={String(value[0] ?? 30)}
+                      onChange={(e) => onChange((e.target as any).value)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem
+                          value="30"
+                          id="r1"
+                          disabled={alreadyAcceptedProgress > 30}
+                        />
+                        <Label htmlFor="r1">۳۰٪</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem
+                          value="60"
+                          id="r2"
+                          disabled={alreadyAcceptedProgress > 60}
+                        />
+                        <Label htmlFor="r2">۶۰٪</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="100" id="r3" />
+                        <Label htmlFor="r3">۱۰۰٪</Label>
+                      </div>
+                    </RadioGroup>
                   )}
                 />
               </div>

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 export default function LoginPage() {
   return (
-    <div>
+    <div className="w-screen h-screen bg-[url('/backgrounds/login.png')] bg-cover">
       <div
         className={clsx(
           'fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]',

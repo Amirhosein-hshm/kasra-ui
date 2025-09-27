@@ -77,6 +77,7 @@ export function EditProposalSideBar({
         proposalId: selected?.id ?? 0,
         data: {
           ...formData,
+          price: formData.price.toString(),
           startAt: formData.startAt.toISOString(),
           endAt: formData.endAt.toISOString(),
         },
@@ -92,13 +93,15 @@ export function EditProposalSideBar({
 
   const handleUploadComplete = (val: any) => {
     toast.success('فایل با موفقیت بارگذاری شد');
-    form.setValue('fileId', val.id);
+    const fileId = val?.data?.id;
+    if (fileId) form.setValue('fileId', fileId);
   };
 
   useEffect(() => {
     form.reset();
   }, [selected, form]);
 
+  console.log(form.formState);
   return (
     <FormProvider {...form}>
       <Sidebar
@@ -164,6 +167,34 @@ export function EditProposalSideBar({
             )}
 
             {/* Applicant Information */}
+            <FormInput
+              name="price"
+              label="هزینه انجام کار (ریال)"
+              placeholder="هزینه انجام کار را وارد کنید"
+              inputOptions={{
+                type: 'text',
+                pattern: '[0-9]*',
+                onKeyDown: (e) => {
+                  if (
+                    !/^[0-9]$/.test(e.key) &&
+                    e.key !== 'Backspace' &&
+                    e.key !== 'Delete' &&
+                    e.key !== 'ArrowLeft' &&
+                    e.key !== 'ArrowRight' &&
+                    e.key !== 'Tab'
+                  ) {
+                    e.preventDefault();
+                  }
+                },
+                onPaste: (e) => {
+                  const pasted = e.clipboardData.getData('text');
+                  if (!/^\d*$/.test(pasted)) {
+                    e.preventDefault();
+                  }
+                },
+              }}
+            />
+
             <FormInput
               name="applicantName"
               label="نام و نام خانوادگی مجری"

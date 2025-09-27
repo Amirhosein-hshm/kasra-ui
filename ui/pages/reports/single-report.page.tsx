@@ -17,6 +17,7 @@ interface Props {
   announcedPercentage: number;
   lastAcceptedPercentage: number;
   acceptedPercentage: number;
+  supervisorFileId: number;
 }
 
 export default function SingleReportPage({
@@ -24,6 +25,7 @@ export default function SingleReportPage({
   reportID,
   projectID,
   fileIDs,
+  supervisorFileId,
   comment,
   announcedPercentage,
   lastAcceptedPercentage,
@@ -73,6 +75,9 @@ export default function SingleReportPage({
         <FileDownload id={fileIDs.powerpoint}>
           بارگیری فایل powerpoint
         </FileDownload>
+        {supervisorFileId >= 0 && (
+          <FileDownload id={supervisorFileId}>فایل پیوست ناظر</FileDownload>
+        )}
       </div>
 
       {isSupervisor && state === 'در انتظار تایید' && (
