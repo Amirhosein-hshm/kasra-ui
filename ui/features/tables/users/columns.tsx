@@ -9,15 +9,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/ui/components/dropdown-menu';
+import {
+  IconLock,
+  IconPassword,
+  IconPasswordFingerprint,
+  IconPasswordUser,
+} from '@tabler/icons-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Edit, Eye, MoreHorizontal, Trash } from 'lucide-react';
 
 const dropdownMenuItemClassname = 'cursor-pointer';
 
 interface ColumnOptions {
-  onView?: (allocate: UserInfoResponse) => void;
+  onView?: (user: UserInfoResponse) => void;
   onEdit?: (user: UserInfoResponse) => void;
-  onDelete?: (allocate: UserInfoResponse) => void;
+  onDelete?: (user: UserInfoResponse) => void;
+  onChangePassword?: (user: UserInfoResponse) => void;
 }
 
 export function getUserTableColumns(
@@ -71,6 +78,12 @@ export function getUserTableColumns(
                 className={dropdownMenuItemClassname}
               >
                 <Edit color="var(--color-blue-primary)" /> ویرایش
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => options?.onChangePassword?.(user)}
+                className={dropdownMenuItemClassname}
+              >
+                <IconLock color="var(--color-emerald-primary)" /> تغییر رمزعبور
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => options?.onDelete?.(user)}

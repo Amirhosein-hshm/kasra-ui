@@ -9,6 +9,7 @@ import { Button } from '@/ui/components/button';
 import { AddUserSidebar } from './components/AddUserSidebar';
 import { EditUserSidebar } from './components/UpdateUserSidebar';
 import DeleteUserModal from '../../modals/delete-user.modal';
+import { ChangePasswordSidebar } from './components/ChangePasswordSidebar';
 
 interface Props {
   data: UserInfoResponse[];
@@ -40,6 +41,8 @@ export default function UsersTable({
   const [isOpenUserDetails, setIsOpenUserDetails] = useState(false);
   const [isOpenUserSidebar, setIsOpenUserSidebar] = useState(false);
   const [isOpenDeleteUserModal, setIsOpenDeleteUserModal] = useState(false);
+  const [isOpenChangePasswordModal, setIsOpenChangePasswordModal] =
+    useState(false);
 
   const usersTableColumns = getUserTableColumns({
     onView: (user) => {
@@ -53,6 +56,10 @@ export default function UsersTable({
     onDelete(user) {
       setSelected(user);
       setIsOpenDeleteUserModal(true);
+    },
+    onChangePassword(user) {
+      setSelected(user);
+      setIsOpenChangePasswordModal(true);
     },
   });
 
@@ -99,6 +106,12 @@ export default function UsersTable({
       <EditUserSidebar
         open={isOpenUserSidebar}
         onOpenChange={(state) => setIsOpenUserSidebar(state)}
+        userToUpdate={selected ?? undefined}
+      />
+
+      <ChangePasswordSidebar
+        open={isOpenChangePasswordModal}
+        onOpenChange={(state) => setIsOpenChangePasswordModal(state)}
         userToUpdate={selected ?? undefined}
       />
 

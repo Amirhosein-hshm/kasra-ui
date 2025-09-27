@@ -12,6 +12,7 @@ import {
   UserInfoResponse,
   UserRoleResponse,
 } from '../types';
+import { getResearcher } from '../services';
 
 export const adminQueryKeys = {
   info: (params?: ReadUsersAdminUsersGetParams) =>
@@ -84,6 +85,33 @@ export function useAdminUpdateUser(
       const res = await getAdmin().updateUserAdminUpdateUserUserIdPut(
         input.userId,
         input.userAddRequest
+      );
+      return res.data;
+    },
+    onSuccess: (data, variables, context) => {
+      qc.invalidateQueries();
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}
+
+export function useChangePassword(
+  options?: Partial<
+    UseMutationOptions<
+      UserInfoResponse,
+      Error,
+      { userId: number; password: string }
+    >
+  >
+) {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input) => {
+      const res = await getResearcher().changePasswordResearcherUserUserIdPut(
+        input.userId,
+        { newPassword: input.password }
       );
       return res.data;
     },
