@@ -4,7 +4,7 @@ import { useUserNotifications } from '@/lib/hooks';
 
 export default function NotificationsPage() {
   const { data } = useUserNotifications();
-  const notifs = data.map((notif) => (
+  const notifs = data?.map((notif) => (
     <div className="w-full h-10 p-2 rounded-lg flex justify-between items-center bg-amber-100">
       <span className="overflow-hidden wrap-normal line-clamp-1 text-ellipsis">
         {notif.title}
