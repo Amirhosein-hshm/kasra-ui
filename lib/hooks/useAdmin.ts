@@ -5,6 +5,7 @@ import {
   useQueryClient,
   UseQueryOptions,
 } from '@tanstack/react-query';
+import { getResearcher } from '../services';
 import { getAdmin } from '../services/admin/admin';
 import {
   ReadUsersAdminUsersGetParams,
@@ -12,7 +13,6 @@ import {
   UserInfoResponse,
   UserRoleResponse,
 } from '../types';
-import { getResearcher } from '../services';
 
 export const adminQueryKeys = {
   info: (params?: ReadUsersAdminUsersGetParams) =>

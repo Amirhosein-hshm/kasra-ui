@@ -1,5 +1,4 @@
 import { useAdminAddUser, useAdminUserRoles } from '@/lib/hooks/useAdmin';
-import { UserInfoResponse } from '@/lib/types';
 import Spinner from '@/ui/common/spinner';
 import { Sidebar } from '@/ui/components/sidebar/sidebar';
 import AddUserForm from '@/ui/forms/add-user.form';
@@ -9,7 +8,7 @@ import {
   addUserFormSchema,
 } from '@/ui/forms/add-user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
