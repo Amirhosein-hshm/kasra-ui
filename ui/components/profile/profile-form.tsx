@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/components/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/components/avatar';
 import { Button } from '@/ui/components/button';
@@ -11,11 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/components/tabs';
 import { useMeStore } from '@/lib/stores/me.stores';
 import translator from '@/lib/helpers/translator';
 
-interface ProfileFormProps {
-  className?: string;
-}
-
-export default function ProfileForm({ className }: ProfileFormProps) {
+export default function ProfileForm() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     fname: '',
@@ -31,17 +27,19 @@ export default function ProfileForm({ className }: ProfileFormProps) {
   const loading = useMeStore((s) => s.loading);
 
   // Initialize form data when user data is loaded
-  if (user && !isEditing) {
-    setFormData({
-      fname: user.fname || '',
-      lname: user.lname || '',
-      fatherName: user.fatherName || '',
-      username: user.username || '',
-      phone: user.phone || '',
-      address: user.address || '',
-      birth: user.birth || '',
-    });
-  }
+  useEffect(() => {
+    if (user && !isEditing) {
+      setFormData({
+        fname: user.fname || '',
+        lname: user.lname || '',
+        fatherName: user.fatherName || '',
+        username: user.username || '',
+        phone: user.phone || '',
+        address: user.address || '',
+        birth: user.birth || '',
+      });
+    }
+  }, [user, isEditing]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
@@ -78,7 +76,7 @@ export default function ProfileForm({ className }: ProfileFormProps) {
 
   if (loading) {
     return (
-      <div className={`container mx-auto py-8 px-4 max-w-4xl ${className}`}>
+      <div className={`container mx-auto py-8 px-4 max-w-4xl`}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1">
             <Card>
@@ -113,7 +111,7 @@ export default function ProfileForm({ className }: ProfileFormProps) {
 
   if (!user) {
     return (
-      <div className={`container mx-auto py-8 px-4 max-w-4xl ${className}`}>
+      <div className={`container mx-auto py-8 px-4 max-w-4xl`}>
         <Card>
           <CardContent className="py-12 text-center">
             <p className="text-lg text-muted-foreground">
@@ -126,12 +124,11 @@ export default function ProfileForm({ className }: ProfileFormProps) {
   }
 
   return (
-    <div className={`container mx-auto py-8 px-4 max-w-4xl ${className}`}>
+    <div className={`container mx-auto py-8 px-4 max-w-4xl`}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Profile Card */}
         <div className="lg:col-span-1">
           <Card className="overflow-hidden">
-            <div className="bg-gradient-to-r from-primary to-secondary h-24" />
             <CardContent className="pt-6">
               <div className="flex flex-col items-center space-y-4">
                 <Avatar className="h-24 w-24 border-4 border-background">
@@ -160,21 +157,21 @@ export default function ProfileForm({ className }: ProfileFormProps) {
         {/* Profile Details Card with Tabs */}
         <div className="lg:col-span-2">
           <Tabs defaultValue="profile" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            {/*<TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="profile">پروفایل</TabsTrigger>
               <TabsTrigger value="security">امنیت</TabsTrigger>
-            </TabsList>
+            </TabsList>*/}
             <TabsContent value="profile">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>اطلاعات پروفایل</CardTitle>
-                  <Button
+                  {/*<Button
                     variant="outline"
                     size="sm"
                     onClick={handleEditToggle}
                   >
                     {isEditing ? 'لغو' : 'ویرایش'}
-                  </Button>
+                  </Button>*/}
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">

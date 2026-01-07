@@ -3,13 +3,13 @@ import { NextResponse } from 'next/server';
 import { PATHS } from './lib/constants/PATHS';
 
 const protectedRoutes = [
-  // '/dashboard',
-  // '/profile',
-  // '/settings',
-  // '/projects',
-  // '/proposals',
-  // '/reports',
-  // '/rfps',
+  '/dashboard',
+  '/profile',
+  '/settings',
+  '/projects',
+  '/proposals',
+  '/reports',
+  '/rfps',
 ];
 
 const publicRoutes = [
