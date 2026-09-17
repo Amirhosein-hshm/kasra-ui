@@ -1,8 +1,12 @@
 'use client';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-export function useTablePagination() {
+interface Props {
+  initialQueries?: Record<string, string>;
+}
+
+export function useTablePagination(props?: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -19,6 +23,9 @@ export function useTablePagination() {
   const pageSize = 10;
   const [pageIndex, setPageIndex] = useState(pageFromUrl - 1);
   const [info, setInfo] = useState(infoFromUrl);
+  const [additionalQueries, setAdditionalQueries] = useState<
+    Record<string, string>
+  >(props?.initialQueries ?? {});
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -28,8 +35,12 @@ export function useTablePagination() {
     } else {
       params.delete('info');
     }
+    Object.entries(additionalQueries).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+
     router.replace(`?${params.toString()}`);
-  }, [pageIndex, info, router, searchParams]);
+  }, [pageIndex, info, router, searchParams, additionalQueries]);
 
   const queryParams = useMemo(
     () => ({
@@ -57,5 +68,7 @@ export function useTablePagination() {
     pageSize,
     pageCount,
     total,
+    additionalQueries,
+    setAdditionalQueries,
   };
 }

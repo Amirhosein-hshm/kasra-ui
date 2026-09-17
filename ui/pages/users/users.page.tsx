@@ -17,14 +17,19 @@ export default function UsersPage() {
     pageIndex,
     pageSize,
     queryParams,
+    additionalQueries,
     setInfo,
     setPageIndex,
     setPageSize,
-  } = useTablePagination();
+    setAdditionalQueries,
+  } = useTablePagination({ initialQueries: { active: 'true' } });
 
-  const adminUsersInfoQuery = useAdminUsersInfo(queryParams, {
-    enabled: isResearcher,
-  });
+  const adminUsersInfoQuery = useAdminUsersInfo(
+    { ...queryParams, ...additionalQueries },
+    {
+      enabled: isResearcher,
+    }
+  );
 
   const data = adminUsersInfoQuery.data;
 
@@ -44,6 +49,10 @@ export default function UsersPage() {
       setSearch={setInfo}
       isFetching={isFetching}
       isInitialLoading={isLoading}
+      activeUserMode={additionalQueries['active']}
+      setActiveUserMode={(active) =>
+        setAdditionalQueries({ ...additionalQueries, active })
+      }
     />
   );
 }

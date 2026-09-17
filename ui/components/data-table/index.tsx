@@ -2,16 +2,16 @@
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-  SortingState,
-  getSortedRowModel,
-  ColumnFiltersState,
   getFilteredRowModel,
-  VisibilityState,
+  getPaginationRowModel,
+  getSortedRowModel,
   PaginationState,
+  SortingState,
+  useReactTable,
+  VisibilityState,
 } from '@tanstack/react-table';
 
 import { Input } from '@/ui/components/input';
@@ -26,11 +26,10 @@ import {
   TableRow,
 } from '@/ui/components/table';
 import { ReactNode, useState } from 'react';
-import { Button } from '@/ui/components/button';
 
-import styles from './data-table-styles.module.css';
 import clsx from 'clsx';
 import { TableSkeleton } from '../loadings/table-loading';
+import styles from './data-table-styles.module.css';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -119,9 +118,9 @@ export default function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex justify-between py-4 max-lg:flex-col max-lg:gap-2">
+      <div className="flex justify-between py-4 gap-2 max-lg:flex-col max-lg:gap-2">
         {setSearch && (
-          <div className="w-full flex gap-2 items-center">
+          <div className="w-fit min-w-40 flex gap-2 items-center">
             <Input
               placeholder="جستجو در نام‌ها..."
               value={search ?? ''}

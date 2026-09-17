@@ -1,15 +1,16 @@
 'use client';
 
 import { UserInfoResponse } from '@/lib/types';
-import DataTable from '@/ui/components/data-table/index';
-import { useState } from 'react';
-import { getUserTableColumns } from './columns';
-import { UserDetailsSideBar } from './components/UserDetailSidebar';
 import { Button } from '@/ui/components/button';
-import { AddUserSidebar } from './components/AddUserSidebar';
-import { EditUserSidebar } from './components/UpdateUserSidebar';
+import DataTable from '@/ui/components/data-table/index';
+import { RadioGroup, RadioInput } from '@/ui/components/radio-group';
+import { useState } from 'react';
 import DeleteUserModal from '../../modals/delete-user.modal';
+import { getUserTableColumns } from './columns';
+import { AddUserSidebar } from './components/AddUserSidebar';
 import { ChangePasswordSidebar } from './components/ChangePasswordSidebar';
+import { EditUserSidebar } from './components/UpdateUserSidebar';
+import { UserDetailsSideBar } from './components/UserDetailSidebar';
 
 interface Props {
   data: UserInfoResponse[];
@@ -22,6 +23,8 @@ interface Props {
   setSearch: (v: string) => void;
   isFetching: boolean;
   isInitialLoading: boolean;
+  activeUserMode: string;
+  setActiveUserMode: (mode: string) => void;
 }
 
 export default function UsersTable({
@@ -35,11 +38,14 @@ export default function UsersTable({
   setSearch,
   isFetching,
   isInitialLoading,
+  activeUserMode,
+  setActiveUserMode,
 }: Props) {
   const [selected, setSelected] = useState<UserInfoResponse | null>(null);
 
   const [isOpenUserDetails, setIsOpenUserDetails] = useState(false);
-  const [isOpenUserSidebar, setIsOpenUserSidebar] = useState(false);
+  const [isOpenEditUserSidebar, setIsOpenEditUserSidebar] = useState(false);
+  const [isOpenAddUserSidebar, setIsOpenAddUserSidebar] = useState(false);
   const [isOpenDeleteUserModal, setIsOpenDeleteUserModal] = useState(false);
   const [isOpenChangePasswordModal, setIsOpenChangePasswordModal] =
     useState(false);
@@ -51,7 +57,7 @@ export default function UsersTable({
     },
     onEdit(user) {
       setSelected(user);
-      setIsOpenUserSidebar(true);
+      setIsOpenEditUserSidebar(true);
     },
     onDelete(user) {
       setSelected(user);
@@ -80,15 +86,14 @@ export default function UsersTable({
         isFetching={isFetching}
         loading={isInitialLoading}
         headerAppendix={
-          <Button
-            className="ml-2"
-            onClick={() => {
+          <UsersTableHeaderAppendix
+            onClickAddButton={() => {
               setSelected(null);
-              setIsOpenUserSidebar(true);
+              setIsOpenAddUserSidebar(true);
             }}
-          >
-            افزودن کاربر
-          </Button>
+            userActiveMode={activeUserMode}
+            setActiveUserMode={setActiveUserMode}
+          />
         }
       />
 
@@ -99,13 +104,13 @@ export default function UsersTable({
       />
 
       <AddUserSidebar
-        open={isOpenUserSidebar}
-        onOpenChange={(state) => setIsOpenUserSidebar(state)}
+        open={isOpenAddUserSidebar}
+        onOpenChange={(state) => setIsOpenAddUserSidebar(state)}
       />
 
       <EditUserSidebar
-        open={isOpenUserSidebar}
-        onOpenChange={(state) => setIsOpenUserSidebar(state)}
+        open={isOpenEditUserSidebar}
+        onOpenChange={(state) => setIsOpenEditUserSidebar(state)}
         userToUpdate={selected ?? undefined}
       />
 
@@ -121,5 +126,36 @@ export default function UsersTable({
         onOpenChange={(state) => setIsOpenDeleteUserModal(state)}
       />
     </>
+  );
+}
+
+function UsersTableHeaderAppendix({
+  onClickAddButton,
+  userActiveMode,
+  setActiveUserMode,
+}: {
+  onClickAddButton: () => void;
+  userActiveMode: string;
+  setActiveUserMode: (mode: string) => void;
+}) {
+  return (
+    <div className="w-full flex items-center justify-between">
+      <div className="flex items-center gap-1">
+        <strong>وضعیت کاربر: </strong>
+        <RadioGroup
+          defaultValue="active"
+          value={userActiveMode}
+          onValueChange={setActiveUserMode}
+          className="flex"
+        >
+          <RadioInput id="active" value="true" label="فعال" />
+          <RadioInput id="inactive" value="false" label="غیرفعال" />
+        </RadioGroup>
+      </div>
+
+      <Button className="ml-2" onClick={onClickAddButton}>
+        افزودن کاربر
+      </Button>
+    </div>
   );
 }

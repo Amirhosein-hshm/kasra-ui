@@ -2,7 +2,6 @@
 
 import { UserInfoResponse, UserRoleResponse } from '@/lib/types';
 import { Button } from '@/ui/components/button';
-import { FileUpload } from '@/ui/components/file-upload';
 import { Input } from '@/ui/components/input';
 import { Label } from '@/ui/components/label';
 import {
@@ -16,8 +15,8 @@ import {
 import { useFormContext } from 'react-hook-form';
 import { DateObject } from 'react-multi-date-picker';
 import { PersianDatePicker } from '../components/date-picker/date-picker';
-import { EditUserFormData } from './edit-user.validation';
 import { FormFileUpload } from '../features/form-fields/form-file-upload';
+import { EditUserFormData } from './edit-user.validation';
 
 interface Props {
   userToUpdate?: UserInfoResponse;
@@ -26,7 +25,11 @@ interface Props {
   isPending: boolean;
 }
 
-export default function AddUserForm({ onSubmit, isPending, userRoles }: Props) {
+export default function EditUserForm({
+  onSubmit,
+  isPending,
+  userRoles,
+}: Props) {
   const form = useFormContext<EditUserFormData>();
 
   return (
@@ -190,7 +193,7 @@ export default function AddUserForm({ onSubmit, isPending, userRoles }: Props) {
       </div>
 
       <Button type="submit" className="w-full mt-6" loading={isPending}>
-        ثبت نام
+        ویرایش
       </Button>
     </form>
   );
